@@ -119,9 +119,10 @@
   section, .section {
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 30px 0;
+    padding: 10px 0;
     scroll-margin-top: 85px;
     overflow: clip;
+    margin-bottom: 20px;
   }
 
   .heading_style4.center h2::after {
@@ -498,9 +499,8 @@
     margin-top: -12px;
   }
 
-  body, h1, h2, h3, h4, h5, h6 {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 700;
+  body{
+    font-family: sans-serif;
   }
 
   .sras-inner {
@@ -533,8 +533,36 @@
     margin-bottom: .625rem;
   }
 
-  /*  */
-  
+  .stats .stats-item span {
+    font-size: 2.25rem;
+    display: block;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .stats .stats-item {
+    padding: 15px 30px 15px;
+    width: 100%;
+    margin-top: -20px;
+    color: #ffffff;
+  }
+
+  .stats .stats-item p {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .mb-4 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .text-light {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
+  }
 </style>
 
 
@@ -604,7 +632,6 @@
       <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
         <img width="190" height="70" src="<?php echo base_url($folder."coating_show.png");?>" alt="<?php echo base_url($nick_name);?>">
       </a>
-
       <nav id="navmenu" class="navmenu">
         <ul>
           <li class="dropdown"><a href="#"><span>Home</span></a>
@@ -654,10 +681,10 @@
     <section id="event_date" class="portfolio section">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4">
-            <h5>03-05 JUNE 2026 at  Jakarta International Convention Center</h5>
+          <div class="col-lg-4 mt-3">
+            <h5><b>03-05 JUNE 2026 at  Jakarta International Convention Center</b></h5>
           </div>
-          <div class="col-lg-8" style="text-align: right;">
+          <div class="col-lg-8 mt-3" style="text-align: right;">
             <button type="button" class="btn btn-warning">BOOK A STAND</button>
             <button type="button" class="btn btn-warning">FLOOR PLAN</button>
           </div>
@@ -676,8 +703,8 @@
           </p>
           <p>
             <h3 style="margin:0; font-weight: 400;">
-                Don’t miss the opportunity to promote your products internationally, regionally and locally at
-                affordable costs.
+              Don’t miss the opportunity to promote your products internationally, regionally and locally at
+              affordable costs.
             </h3>
           </p>
           </div>
@@ -687,61 +714,121 @@
                 EMPOWERING INDUSTRIES
               </span>
             </p>
-            <p><img src="https://coatingshow.com/welcome-banner.png" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="50%" height="300px"></p>
+            <p><img src="https://coatingshow.com/welcome-banner.png" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="auto" height="300px"></p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="features section">
-    <div class="container mw-lg d-none d-sm-block" style="position :absolute;left:0;right:0;z-index:9;margin-top:-5vh">
-        <div class="position-relative p-3 mb-4 z-3 rounded shadow bg-white service-feature mt-5 mt-lg-0" style="background:#5B9D0A !important">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="sras-inner">
-                            <div class="counting-wrapper">
-                                <div class="counting">200</div>
-                            </div>
-                            <p> Paint Companies in Indonesia </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="sras-inner">
-                            <div class="counting-wrapper">
-                                <div class="counting"> 34 </div>
-                            </div>
-                            <p> Multi National / Regional Brands </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="sras-inner">
-                            <div class="counting-wrapper">
-                                <div class="counting"> 92 </div>
-                            </div>
-                            <p> National Brands </p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="sras-inner">
-                            <div class="counting-wrapper">
-                                <div class="counting"> 74 </div>
-                            </div>
-                            <p> Small / Medium Manufacturers </p>
-                        </div>
-                    </div>
-                </div>
-
+    <section id="stats" class="stats section dark-background">
+      <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100" style="background: #5B9D0A !important;">
+        <div class="row gy-4">
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
+              <p> Paint Companies in Indonesia </p>
             </div>
-
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
+              <p> Multi National / Regional Brands </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
+              <p> National Brands </p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
+              <p> Small / Medium Manufacturers </p>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
+
+    <section id="event_date" class="portfolio section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <p><h3><b>Coating Show</b></h3></p>
+            <p class="mb-4" style="font-size: 20px;text-align: justify;font-weight:300">
+              Coating Show aims to bring together professionals, stakeholders, and enthusiasts from the industries to explore the latest innovations, technologies, and trends. This event will serve as a platform for networking, knowledge exchange and business opportunities within the coatings industries.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="event_date" class="portfolio section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Pigments</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Resins</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Additives</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Production <br> Machines</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Laboratory Testing <br> Equipments</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Packaging <br> Suppliers/Producers</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Paint <br> Manufactures</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Equipments</h4>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Contractors</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background-image: url('<?php echo base_url();?>Website/assets/img/bg-cta.jpg');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
+      <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
+          <h2 class="text-white text-center" style="text-transform: uppercase">
+              Become An Exhibitor!
+          </h2>
+          <h5 class="text-white text-center"><b>Don’t miss the opportunity to promote your products internationally,
+                  regionally and locally<br>at affordable costs.</b></h5>
+          <h4 class="text-center text-white mt-3" style="letter-spacing: 10px">
+              03-05 JUNE 2026 <br>
+              JAKARTA INTERNATIONAL CONVENTION CENTER
+              </h4><h4>
+                  <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
+                  <a href="https://coatingshow.com/book-a-stand" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Book a
+                          Stand</b></a>
+        </h4></div>
+    </section>
+
+    <section class="mx-auto book-stand mb-4" style="border-radius: 0px;width: 100%;z-index: 10;position: relative;background: url('<?php echo base_url();?>Website/assets/img/bg-regist2.jpg'); background-position: center; background-size: cover;">
+        <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
+            <h2 class="text-white text-center">
+                VISIT Coating Show !
+            </h2>
+            <p class="text-center text-white"><b>Register now and explore hundreds of brands in one single place.</b></p>
+            <h4 class="text-center text-white">FREE ADMISSION</h4>
+            <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
+        </div>
     </section>
 
     <section id="product" class="portfolio section">
-      <div class="container section-title heading_style4 center" data-aos="fade-up">
-        <span class="description-title">Our Products and Services</span>
-        <h2>Our <span>Products</span> and <span>Services</span></h2>
+      <div class="container section-title heading_style4 center" style="font-weight: 700;">
+        <h3><b>SUPPORTED BY</b></h3>
       </div>
       <div class="container">
         <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
