@@ -26,11 +26,11 @@ class Userlogin extends CI_Controller {
     $insert = $this->M_Userlogin->tambah($nama,$username,$password,$status);
     if($insert == true){
       $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
-      //redirect('Userlogin');         
+      redirect('Userlogin');         
     }
     else{
       $this->session->set_flashdata('tidak', 'Data Failed to Save.');
-      //redirect('Userlogin');
+      redirect('Userlogin');
     }   
 	}
 

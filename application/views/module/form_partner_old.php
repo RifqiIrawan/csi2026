@@ -57,38 +57,6 @@
                 </script>';
     }
 ?>
-<style type="text/css">
-  .icn{
-    margin-left: -7px;
-    color:black;
-  }
-  .bw{
-    width: 25px;
-  }
-  .btn-edit-icn{
-    background: #00d25b;
-  }
-
-  .btn-hapus-icn{
-    background:#F70D1A;
-    margin-left:0px;
-  }
-
-  .edit-btn{        
-    min-height: 35px;
-  }
-  .btn-admin, .btn-group-lg > .btn, .fc .btn-group-lg > 
-  button, .ajax-upload-dragdrop .btn-group-lg > .ajax-file-upload
-  , .swal2-modal .swal2-buttonswrapper .btn-group-lg > .swal2-styled
-  , .wizard > .actions .btn-group-lg > a {      
-    padding: 0.65rem 0.65rem;
-    background: #00d25b;
-  }
-
-  .modal-body img {
-    object-fit: contain;
-  }
-</style>
 
 <script type="text/javascript">  
   $(document).ready(function() {
@@ -101,16 +69,17 @@
     $('#close_admin').on('click', function() {   
       window.location.reload()
     });  
+
     $(".modal").on("hidden.bs.modal", function() {      
       window.location.reload()
     });
   });
 
-  function ubah(kode,nama,status,posisi){
+  function ubah(kode,nama,urut,url,status){
     $("#kode").val(kode);
     $("#nama").val(nama);
-    $("#posisi").val(posisi);
-    // $("#ket").val(ket);
+    $("#urut").val(urut);
+    $("#url").val(url);
 
     if(status.length === 0){
       var status = "P";
@@ -125,7 +94,7 @@
     var kode = kode;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Form/hapus_event",
+        url: "<?php echo base_url()?>Form/hapus_partner",
         type: 'post',
         data: {'kode' : kode},
         success: function (data) {
@@ -138,7 +107,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "form_partner";
             });
           }else{
             swal({
@@ -148,7 +117,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "form_partner";
             });
           }
         },
@@ -185,7 +154,7 @@
 
   function show_image(file,folder){
     var pic = folder+""+file;
-    var img = $('<img />', {src : pic}).css("height","200px");
+    var img = $('<img />', {src : pic}).css("width","auto","height","200px","text-align","center");
     img.appendTo('#get_image');
     $("#mdl_img").modal('show');
   }
@@ -194,22 +163,22 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Event</b></h4>
+    <h4 class="page-title"><b>Logo</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From event</li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page">Partner</li> -->
     </ol>
     </nav>
   </div>
     <div class="row ">
       <div class="col-lg-12">
         <div class="car">
-          <div class="card-body btop">                    
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
-            </button>
-          </div>
+            <div class="card-body btop">                    
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
+                <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+              </button>
+            </div>
         </div>
         <div class="card">
           <div class="card-body">
@@ -219,17 +188,17 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title Name</th>
+                    <th>Link/URL</th>
                     <th>Position</th>
                     <th>Upload</th>
                     <th>Status</th>
                     <th>Action</th>
-                    <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_event as $row) {
+                    foreach ($data_partner as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -241,19 +210,19 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
                         echo "<td align=\"center\">".$row->urut."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
-                                ,'".$row->status."','".$row->position."');\">
+                                ,'".$row->urut."','".$row->url."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"hapus('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
-                              </td>";   
-                        echo "<td align=\"center\">".$row->description."</td>";    
+                              </td>";       
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -270,9 +239,9 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/tambah_event" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Form/tambah_partner" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Event </h4>
+          <h4 class="modal-title">Add Data Logo </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -288,8 +257,8 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" Placeholder="Entry Position Image" required>
+            <label class="form-label">Link/URL</label>
+            <input type="text" class="form-control" name="url" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -303,10 +272,6 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="keterangan" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -321,9 +286,9 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/ubah_event" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Form/ubah_partner" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Event </h4>
+          <h4 class="modal-title">Update Data Logo </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -340,8 +305,12 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" id="posisi" required>
+            <label class="form-label">Link/URL</label>
+            <input type="text" class="form-control" name="url" id="url" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="urut" id="urut" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -355,10 +324,6 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="keterangan_edit" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -370,7 +335,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="mdl_img">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -380,7 +344,8 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-12 text-center" id="get_image"></div>
+          <div class="col-lg-12 text-center" id="get_image">
+          </div>
         </div>         
       </div>
     </div>

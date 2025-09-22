@@ -330,9 +330,10 @@ class Form extends CI_Controller {
     $data["data_company"] = $this->M_Form->get_company();
     $this->template->load('Admin/role','module/form_company',$data);
   }
+	
   public function tambah_company(){   
-    $file = $_FILES;
-    $folder = './assets/images/upload/company/';
+   // $file = $_FILES;
+    //$folder = './assets/images/upload/company/';
     $nama = $this->input->post("nama");
     $status = $this->input->post("status");
     $keterangan = $this->input->post("keterangan");    
@@ -345,7 +346,7 @@ class Form extends CI_Controller {
       $number = $row->new_id;
     }
 
-    // $files = count($_FILES['file']['name']);
+   // $files = count($_FILES['file']['name']);
     // for($i = 0; $i < $files; $i++){           
 		// 	$_FILES['file']['name']= $file['file']['name'][$i];
 		// 	$_FILES['file']['type']= $file['file']['type'][$i];
@@ -373,11 +374,13 @@ class Form extends CI_Controller {
 		// 		$this->image_lib->clear();
 		// 	}
 		// }
-
-    $config['file_name'] = "";
-    $folder = "";
+	  
+	 $config['file_name'] = "";
+	 $folder = "";
+	  
     
     $insert = $this->M_Form->tambah_company($nama,$config['file_name'],$folder,$number,$status,$keterangan);
+	  
     if($insert == true){
       $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
       redirect('form_company');         
@@ -387,15 +390,16 @@ class Form extends CI_Controller {
       redirect('form_company');
     } 
   }
+	
   public function ubah_company(){   
-   // $file = $_FILES;
+    //$file = $_FILES;
     $kode = $this->input->post("kode");
     $nama = $this->input->post("nama");
     $urut = $this->input->post("urut");
     $status = $this->input->post("status");       
     $keterangan = $this->input->post("keterangan_edit");    
     
-    // $files = count($_FILES['file']['name']);
+     // $files = count($_FILES['file']['name']);
     // $sql = $this->db->query(" SELECT * from company
     //                           where id = '".$kode."'
     //                         ");
@@ -439,7 +443,8 @@ class Form extends CI_Controller {
 		// 		$this->image_lib->clear();
 		// 	}
 		// }    
-    $config['file_name'] = "";
+	  
+	 $config['file_name'] = "";
     $ubah = $this->M_Form->ubah_company($kode,$nama,$config['file_name'],$urut,$status,$keterangan);
 
     if($ubah == true){
@@ -466,8 +471,8 @@ class Form extends CI_Controller {
       echo "Gagal";
     }   
   }
-
-  public function company_image(){
+	
+	public function company_image(){
     $data["folder"] = $this->input->get("folder");
     $this->load->view("module/show_image_multiple",$data);
   }
@@ -571,13 +576,10 @@ class Form extends CI_Controller {
       $r = $sql->row();	      
       $folder = $r->folder_name;
       unlink("".$r->folder_name."".$r->file_name."");
-      
-      $exp = explode(".",$_FILES['file']['name']);
-      $exp = $exp;	
 
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-      $config['file_name']     		=  md5(date("Ymdhis")).".".$exp[1];
+      $config['file_name']     		=  $r->file_name;
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -596,7 +598,7 @@ class Form extends CI_Controller {
         // $this->image_lib->clear();
         // $nama_file = $config['file_name'];
         // $nama_keterangan = $nama[$i];
-        $ubah = $this->M_Form->ubah_partner($kode,$nama,$config['file_name'],$urut,$url,$status);
+        $ubah = $this->M_Form->ubah_partner($kode,$nama,$urut,$url,$status);
       }      
     }
 
@@ -632,61 +634,13 @@ class Form extends CI_Controller {
     }
     $data["data_customer"] = $this->M_Form->get_customer();
     $this->template->load('Admin/role','module/form_customer',$data);
-    // if($this->session->userdata('id_user') == NULL){
-    //   redirect('Login');
-    // }
-    // $data["data_customer"] = $this->M_Form->get_customer();
-    // $this->template->load('Admin/role','module/form_customer',$data);
   }
   public function tambah_customer(){   
-    $file = $_FILES;
-    $folder = './assets/images/upload/customer/';
+    $kategori = $this->input->post("kategori");
     $nama = $this->input->post("nama");
-    $url = $this->input->post("url");
-    $status = $this->input->post("status");
-       
-    $get_kode = $this->M_Form->get_kode_customer();    
-    $row = $get_kode->row();      
-    if(empty($row->new_id)){
-      $number = $row->new_id + 1;
-    }else{
-      $number = $row->new_id;
-    }
-
-    //$file = count($_FILES['file']['name']);
-    //for($i = 0; $i < $file; $i++){  
-    $_FILES['file']['name'];
-    $_FILES['file']['type'];
-    $_FILES['file']['tmp_name'];
-    $_FILES['file']['error'];
-    $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
-      $exp = explode(".",$_FILES['file']['name']);
-      $exp = $exp;	
-      $config['upload_path']          = $folder;
-      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-      $config['file_name']     		= "Customer".$number.".".$exp[1];
-      $this->load->library('upload', $config);
-      $this->upload->initialize($config);	
-      if (!$this->upload->do_upload('file')) {
-          $error = array('error' => $this->upload->display_errors());
-      } else {
-        // menambil nilai value yang di upload  
-        $config2['image_library'] = 'gd2';
-        $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
-        $config2 ['create_thumb'] = false;
-        // $config2['width']         = 900;
-        // $config2['height']       = 900;		
-        $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);
-        // $this->image_lib->resize();
-        // $this->image_lib->clear();
-        // $nama_file = $config['file_name'];
-        // $nama_keterangan = $nama[$i];
-        $insert = $this->M_Form->tambah_customer($nama,$config['file_name'],$folder,$number,$url,$status);        
-      }      
-    }
+    $services = $this->input->post("services");
+    $status = $this->input->post("status");     
+    $insert = $this->M_Form->tambah_customer($kategori,$nama,$services,$status);
 
     if($insert == true){
       $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
@@ -696,75 +650,14 @@ class Form extends CI_Controller {
       $this->session->set_flashdata('tidak', 'Data Failed to Save.');
       redirect('form_customer');
     }   
-
-    // $kategori = $this->input->post("kategori");
-    // $nama = $this->input->post("nama");
-    // $services = $this->input->post("services");
-    // $status = $this->input->post("status");     
-    // $insert = $this->M_Form->tambah_customer($kategori,$nama,$services,$status);
-
-    // if($insert == true){
-    //   $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
-    //   redirect('form_customer');         
-    // }
-    // else{
-    //   $this->session->set_flashdata('tidak', 'Data Failed to Save.');
-    //   redirect('form_customer');
-    // }   
-
-
   }
-  public function ubah_customer(){ 
-    $file = $_FILES;
+  public function ubah_customer(){   
     $kode = $this->input->post("kode");
+    $kategori = $this->input->post("kategori");
     $nama = $this->input->post("nama");
-    $urut = $this->input->post("urut");
-    $url = $this->input->post("url"); 
-    $status = $this->input->post("status");       
-    
-    //$file = count($_FILES['file']['name']);
-    //for($i = 0; $i < $file; $i++){  
-    $_FILES['file']['name'];
-    $_FILES['file']['type'];
-    $_FILES['file']['tmp_name'];
-    $_FILES['file']['error'];
-    $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
-      $sql = $this->db->query(" SELECT * from customer
-                              where id = '".$kode."'
-                            ");
-      $r = $sql->row();	      
-      $folder = $r->folder_name;
-      unlink("".$r->folder_name."".$r->file_name."");
-
-      $exp = explode(".",$_FILES['file']['name']);
-      $exp = $exp;	
-
-      $config['upload_path']          = $folder;
-      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-      $config['file_name']     		=  md5(date("Ymdhis")).".".$exp[1];
-      $this->load->library('upload', $config);
-      $this->upload->initialize($config);	
-      if (!$this->upload->do_upload('file')) {
-        $error = array('error' => $this->upload->display_errors());
-      } else {
-        // menambil nilai value yang di upload  
-        $config2['image_library'] = 'gd2';
-        $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
-        $config2 ['create_thumb'] = false;
-        // $config2['width']         = 900;
-        // $config2['height']       = 900;		
-        $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);
-        // $this->image_lib->resize();
-        // $this->image_lib->clear();
-        // $nama_file = $config['file_name'];
-        // $nama_keterangan = $nama[$i];
-        $ubah = $this->M_Form->ubah_customer($kode,$nama,$config['file_name'],$urut,$url,$status);
-      }      
-    }
-
+    $services = $this->input->post("services");
+    $status = $this->input->post("status");     
+    $ubah = $this->M_Form->ubah_customer($kode,$kategori,$nama,$services,$status);
     if($ubah == true){
       $this->session->set_flashdata('ubah', 'Data Saved Successfully.');
       redirect('form_customer');         
@@ -772,29 +665,10 @@ class Form extends CI_Controller {
     else{
       $this->session->set_flashdata('tidak_ubah', 'Data Failed to Save.');
       redirect('form_customer');
-    }     
-    // $kode = $this->input->post("kode");
-    // $kategori = $this->input->post("kategori");
-    // $nama = $this->input->post("nama");
-    // $services = $this->input->post("services");
-    // $status = $this->input->post("status");     
-    // $ubah = $this->M_Form->ubah_customer($kode,$kategori,$nama,$services,$status);
-    // if($ubah == true){
-    //   $this->session->set_flashdata('ubah', 'Data Saved Successfully.');
-    //   redirect('form_customer');         
-    // }
-    // else{
-    //   $this->session->set_flashdata('tidak_ubah', 'Data Failed to Save.');
-    //   redirect('form_customer');
-    // }   
+    }   
   }
   public function hapus_customer(){
     $kode = $this->input->post("kode");
-    $sql = $this->db->query(" SELECT * from customer
-                              where id = '".$kode."'
-                            ");
-    $r = $sql->row();	      
-    unlink("".$r->folder_name."".$r->file_name."");      
     $cek_data = $this->M_Form->hapus_customer($kode);
     if($cek_data == TRUE){           
       echo "OK";     
@@ -802,18 +676,9 @@ class Form extends CI_Controller {
     else{
       echo "Gagal";
     }   
-
-    // $kode = $this->input->post("kode");
-    // $cek_data = $this->M_Form->hapus_customer($kode);
-    // if($cek_data == TRUE){           
-    //   echo "OK";     
-    // }
-    // else{
-    //   echo "Gagal";
-    // }   
   }
 
-  //controller sosmed
+  //controller customer
   public function Form_Sosmed(){    
     if($this->session->userdata('id_user') == NULL){
       redirect('Login');
@@ -1316,79 +1181,69 @@ class Form extends CI_Controller {
     }   
   }
 
- 
-	 public function export_excel(){
-		error_reporting(0);
-		  date_default_timezone_set("Asia/Bangkok");
-		require APPPATH."../assets/vendors/PHPExcel-1.8/Classes/PHPExcel.php";
-		require APPPATH."../assets/vendors/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php";
-		$a = 2;			
-		$BStyle = array(
-			'borders' => array(
-			'outline' => array(
-				'style' => PHPExcel_Style_Border::BORDER_THIN
-			)
-			)
-		);
-		$BStyle2 = array(
-			'borders' => array(
-				'outline' => array(
-					'style' => PHPExcel_Style_Border::BORDER_THIN
-				)
-			),
-			'alignment' => array(
-				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-			)
-		);
+  public function export_excel(){
+    error_reporting(0);
+	  date_default_timezone_set("Asia/Bangkok");
+    require APPPATH."../assets/vendors/PHPExcel-1.8/Classes/PHPExcel.php";
+    require APPPATH."../assets/vendors/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php";
+    $a = 2;			
+    $BStyle = array(
+        'borders' => array(
+        'outline' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THIN
+        )
+        )
+    );
+    $BStyle2 = array(
+        'borders' => array(
+            'outline' => array(
+                'style' => PHPExcel_Style_Border::BORDER_THIN
+            )
+        ),
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
 
-		$BStyle3 = array(
-			'borders' => array(
-				'outline' => array(
-					'style' => PHPExcel_Style_Border::BORDER_THIN
-				)
-			),
-			'alignment' => array(
-				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-			)
-		);
-		$textFormat='@';
+    $BStyle3 = array(
+        'borders' => array(
+            'outline' => array(
+                'style' => PHPExcel_Style_Border::BORDER_THIN
+            )
+        ),
+        'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+        )
+    );
+    $textFormat='@';
 
-		$phpExcel = new PHPExcel;
-		$phpExcel->getDefaultStyle()->getFont()->setName('Times New Roman');	
-		$sheet = $phpExcel ->getActiveSheet();
-		$sheet->setTitle('Export Submit Form.xls');
-		$sheet ->getCell('A1')->setValue('No.')->getStyle('A1')->applyFromArray($BStyle2);
-		$sheet ->getCell('B1')->setValue('Name')->getStyle('B1')->applyFromArray($BStyle2);
-		$sheet ->getCell('C1')->setValue('Phone')->getStyle('C1')->applyFromArray($BStyle2);
-		$sheet ->getCell('D1')->setValue('Company')->getStyle('D1')->applyFromArray($BStyle2);
-		$sheet ->getCell('E1')->setValue('Position')->getStyle('E1')->applyFromArray($BStyle2);
-		$sheet ->getCell('F1')->setValue('Email')->getStyle('F1')->applyFromArray($BStyle2);
-		$sheet ->getCell('G1')->setValue('Subject')->getStyle('G1')->applyFromArray($BStyle2);
-		$sheet ->getCell('H1')->setValue('Message')->getStyle('H1')->applyFromArray($BStyle2);
-		$sheet ->getStyle('A1:H1')->getFont()->setBold(true)->setSize(12);
-		$num = 1;
-		$data = $this->M_Form->contact_us();
-		foreach($data as $row) {	
-		  $sheet ->getCell('A'.$a)->setValue($num)->getStyle('A'.$a)->applyFromArray($BStyle2);
-		  $sheet ->getCell('B'.$a)->setValue(ucwords(strtolower($row->name)))->getStyle('B'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $sheet ->getCell('C'.$a)->setValue(ucwords(strtolower($row->hp)))->getStyle('C'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $sheet ->getCell('D'.$a)->setValue(ucwords(strtolower($row->company)))->getStyle('D'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $sheet ->getCell('E'.$a)->setValue(ucwords(strtolower($row->position)))->getStyle('E'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $sheet ->getCell('F'.$a)->setValue($row->email)->getStyle('F'.$a)->applyFromArray($BStyle);
-		  $sheet ->getCell('G'.$a)->setValue(ucwords(strtolower($row->subject)))->getStyle('G'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $sheet ->getCell('H'.$a)->setValue($row->message)->getStyle('H'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
-		  $num++;
-		  $a++;
-		}	
+    $phpExcel = new PHPExcel;
+    $phpExcel->getDefaultStyle()->getFont()->setName('Times New Roman');	
+    $sheet = $phpExcel ->getActiveSheet();
+    $sheet->setTitle('Export Submit Form.xls');
+    $sheet ->getCell('A1')->setValue('No.')->getStyle('A1')->applyFromArray($BStyle2);
+    $sheet ->getCell('B1')->setValue('Name')->getStyle('B1')->applyFromArray($BStyle2);
+    $sheet ->getCell('C1')->setValue('Email')->getStyle('C1')->applyFromArray($BStyle2);
+    $sheet ->getCell('D1')->setValue('Subject')->getStyle('D1')->applyFromArray($BStyle2);
+    $sheet ->getCell('E1')->setValue('Message')->getStyle('E1')->applyFromArray($BStyle2);
+    $sheet ->getStyle('A1:E1')->getFont()->setBold(true)->setSize(12);
+    $num = 1;
+    $data = $this->M_Form->contact_us();
+    foreach($data as $row) {	
+      $sheet ->getCell('A'.$a)->setValue($num)->getStyle('A'.$a)->applyFromArray($BStyle2);
+      $sheet ->getCell('B'.$a)->setValue(ucwords(strtolower($row->name)))->getStyle('B'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
+      $sheet ->getCell('C'.$a)->setValue($row->email)->getStyle('C'.$a)->applyFromArray($BStyle);
+      $sheet ->getCell('D'.$a)->setValue(ucwords(strtolower($row->subject)))->getStyle('D'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
+      $sheet ->getCell('E'.$a)->setValue($row->message)->getStyle('E'.$a)->applyFromArray($BStyle)->getNumberFormat()->setFormatCode($textFormat);
+      $num++;
+      $a++;
+    }	
 
     $sheet->getColumnDimension('A')->setAutoSize(true);
     $sheet->getColumnDimension('B')->setAutoSize(true);
     $sheet->getColumnDimension('C')->setAutoSize(true);
     $sheet->getColumnDimension('D')->setAutoSize(true);
-    $sheet->getColumnDimension('E')->setAutoSize(true);
-    $sheet->getColumnDimension('F')->setAutoSize(true);
-    $sheet->getColumnDimension('G')->setAutoSize(true);
-    $sheet->getColumnDimension('H')->setAutoSize(true);   
+    $sheet->getColumnDimension('E')->setAutoSize(true);   
     $filename = "Export Submit Form.xls";
     header('Content-Type: application/vnd.ms-excel');
     header('Content-Disposition: attachment;filename="'.$filename.'"');

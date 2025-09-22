@@ -62,13 +62,11 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Coating Show</title>
+  <title><?php echo $company_name?></title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
-  <!-- Favicons -->
-  <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="icon">
-  <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="logo_csi">
+  <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="icon">
+  <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="logo_title">
   <link href="<?php echo base_url();?>Website/assets/css/maps.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -77,9 +75,9 @@
   <link href="<?php echo base_url();?>Website/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/css/main.css" rel="stylesheet">  
   <script src="<?php echo base_url();?>Website/assets/js/sweetalert.min.js"></script>
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/font-icons.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/animate.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/font-icons.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/animate.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/magnific-popup.css" type="text/css">
 </head>
 
 <style>
@@ -143,12 +141,11 @@
       font-family: Poppins, sans-serif;
     }
     .header {
-        color: #000;
-        background-color: #ffffff;
-        padding: 15px 0;
-        transition: all 0.5s;
-        z-index: 997;
-        border-bottom: 1px solid gainsboro;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, .95);
+      padding: 15px 0;
+      transition: all 0.5s;
+      z-index: 997;
     }
 
     .header .logo img {
@@ -165,11 +162,11 @@
 
     @media (min-width: 1200px) {
       .navmenu a, .navmenu a:focus {
-        color: #000;
-        padding: 15px 15px;
+        color: #ffffff;
+        padding: 15px 20px;
         font-size: 15px;
         font-family: var(--nav-font);
-        font-weight: 700;
+        font-weight: 500;
         text-transform: uppercase;
         display: flex;
         align-items: center;
@@ -211,15 +208,15 @@
       position: relative;
     }
     
-    .section-title { 
-      font-size: 1.75rem;
-      font-weight: 700;
+    .section-title h2 { 
+      font-size: 46px;
+      font-weight: 600;
       text-transform: capitalize;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       padding-bottom: 0;
       position: relative;
       z-index: 2;
-      color: #000;
+      color: #1c9356;
     }
 
     .heading_style4.center h2::after {
@@ -412,25 +409,10 @@
     }
 
     .stats .stats-item span {
-        font-size: 2.25rem;
-        display: block;
-        color: #ffffff;
-        font-weight: 700;
-    }
-
-    .stats .stats-item p {
-      color: #fff;
-      padding: 0;
-      margin: 0;
-      font-family: var(--heading-font);
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .stats .stats-item {
-      padding: 30px;
-      width: 100%;
-      border-bottom: 1px solid #fff;
+      font-size: 48px;
+      display: block;
+      color: #1c9356;
+      font-weight: 700;
     }
 
     .contact3 ul {
@@ -651,11 +633,6 @@
       padding: 30px 0;
       scroll-margin-top: 85px;
       overflow: clip;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      color: #000;
-      font-weight: 700;
     }
 </style>
 
@@ -1112,59 +1089,63 @@
  </style>
 
 <body class="index-page">
-    <header id="header" class="header d-flex align-items-center sticky-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-        <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
-            <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
-        </a>
-        <nav id="navmenu" class="navmenu">
-            <ul>
-            <li class="dropdown"><a href="#"><span>Home</span></a>
-                <ul>
-                <li><a href="#about">Exhibiting</a></li>
-                <li><a href="#partners">Visiting</a></li>
-                </ul>
-            </li>
-            <li><a href="#product">Exhibiting</a></li>
-            <li><a href="#product">Visiting</a></li>
-            <li><a href="#product">Information</a></li>
-            <li><a href="#product">Contact</a></li>
-            <li><a href="#product">News Upadate </a></li>
-            </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-        </div>
-    </header>
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
+        <img width="215" height="50" src="<?php echo base_url($folder."".$logo);?>" alt="<?php echo base_url($nick_name);?>">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li class="dropdown"><a href="#"><span>Home</span></a>
+            <!-- <ul>
+              <li><a href="#about">Company Profile</a></li>
+              <li><a href="#partners">Partners</a></li>
+            </ul> -->
+          </li>
+          <li><a href="#product">Products and Services</a></li>
+          <li><a href="#event">Events</a></li> 
+          <li><a href="#news">News Update</a></li> 
+          <li><a href="#contact">Contact Us</a></li> 
+          <!--<li><a href="#about">Company Profile</a></li>
+          <li><a href="#services">Products and Services</a></li>
+          <li><a href="#customer">Customer</a></li>
+          <li><a href="#contact">Contact Us</a></li>          -->
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
 
   <main class="main">
-        <!-- <section id="hero" class="hero section dark-background">
-        <div id="hero-carousel" class="carousel slide carousel-fade active" data-bs-ride="carousel" data-bs-interval="5000">     
-            <?php foreach($data_slide as $row){ 
-            $file = $row->folder_name."".$row->file_name;
-            $img = "".$file."";
+    <section id="hero" class="hero section dark-background">
+      <div id="hero-carousel" class="carousel slide carousel-fade active" data-bs-ride="carousel" data-bs-interval="5000">     
+        <?php foreach($data_slide as $row){ 
+          $file = $row->folder_name."".$row->file_name;
+          $img = "".$file."";
 
-            if($row->urut == 1){
-                $act = "active";
-            }else{            
-                $act = "";
-            }
-            ?> 
-            <div class="carousel-item <?php echo $act; ?>">
-            <img src="<?php echo base_url($img); ?>">
-            </div>
-            <?php } ?>        
-            <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-            </a>
-            <ol class="carousel-indicators"></ol>
+          if($row->urut == 1){
+            $act = "active";
+          }else{            
+            $act = "";
+          }
+        ?> 
+        <div class="carousel-item <?php echo $act; ?>">
+          <img src="<?php echo base_url($img); ?>">
         </div>
-        </section> -->
+        <?php } ?>        
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+        <ol class="carousel-indicators"></ol>
+      </div>
+    </section>
 
     <!-- <section id="partners" class="portfolio section">
-      <div class="container section-title heading_style4 center" >
+      <div class="container section-title heading_style4 center" data-aos="fade-up">
         <span class="description-title">Our Partners</span>
         <h2>Our <span>Partners</span></h2>
       </div>
@@ -1230,175 +1211,267 @@
       ?>    
     </section><br><br><br> -->
 
-    <section id="event_date" class="portfolio section">
+    <section id="about" class="portfolio section">
+      <?php 
+        $n = 1;
+        foreach($data_slide3 as $row3){ 
+        $file3 = $row3->folder_name."".$row3->file_name;
+        $img3 = "".$file3."";
+
+        $explode = explode(" ",$row3->nama);
+        $exp = $explode;
+
+        if($n > 1){
+          $style = 'style = "margin-top:-60px;"';
+        }else{
+          $style = "";
+        }
+      ?> 
+      <div class="col-xl-12 d-flex flex-column justify-content-center container section-title center" data-aos="fade-up">
+        <h2><?php echo $exp[0]." ".$exp[1];?></h2>
+        <div class="mt-5" style="text-align: left;margin-left:15px">
+          <?php echo $row3->description; ?>
+        </div>        
+      </div>
+        
       <div class="container">
-        <div class="row">
-          <div class="col-lg-4 mt-3">
-            <h5><b>03-05 JUNE 2026 at  Jakarta International Convention Center</b></h5>
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+          <div class="row gy-4 isotope-container">
+            <?php 
+              foreach($data_slide2 as $row2){ 
+                $file2 = $row2->folder_name."".$row2->file_name;
+                $img2 = "".$file2."";
+            ?> 
+            <div class="col-lg-3 col-md-1 portfolio-item isotope-item filter-app">
+              <div class="portfolio-content h-100">
+                <a href="<?php echo $row2->url ?>" class="stretched-link" target="_blank"></a>
+                <img src="<?php echo base_url($img2); ?>" class="img-fluid con_partner img-partner" alt="">
+                <p class="text-center mt-3"><?php echo $row2->nama?></p>
+              </div>
+            </div>
+            <?php } ?>
           </div>
-          <div class="col-lg-8 mt-3" style="text-align: right;">
-            <button type="button" class="btn btn-warning">BOOK A STAND</button>
-            <button type="button" class="btn btn-warning">FLOOR PLAN</button>
+        </div>                
+      </div>
+      <?php
+        $n++; 
+        } 
+      ?>  
+    </section>
+
+    <section id="product" class="portfolio section">
+      <div class="container section-title center" data-aos="fade-up">
+        <div style=" font-size: 46px;
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                    padding-bottom: 0;
+                    position: relative;
+                    z-index: 2;
+                    color: #1c9356;">Our Products and Services</div>
+        <!-- <h2>Our Products and Services</h2> -->
+      </div>
+      <div class="container">
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+          <?php 
+            foreach($data_slide4 as $row4){ 
+              $file4 = $row4->folder_name."".$row4->file_name;
+              $img4 = "".$file4."";
+              $explode4 = explode(".",$row4->file_name);
+              $exp4 = $explode4;
+          ?> 
+          <div class="row gy-4 isotope-container" data-aos-delay="200">
+            <div class="col-lg-2 col-md-3 portfolio-item isotope-item filter-app">
+              <div class="portfolio-content h-100">
+                <?php if($exp4[1] == "pdf"){?>                  
+                  <iframe class="responsive" src="<?php echo $file4."#toolbar=0&navpanes=0&scrollbar=0'frameBorder='0'scrolling='none'";?>"  frameborder="0" allowfullscreen="" webkitallowfullscreen=""></iframe>
+                  <!-- <embed src="<?php echo $file4?>" type="application/pdf" class="img-fluid responsive"> -->
+                  <!-- <object width="400" type="application/pdf" data="<?php echo $file4?>?#zoom=85&scrollbar=0&toolbar=0&navpanes=0"></object> -->
+                <?php }else{ ?>                
+                  <img src="<?php echo base_url($img4); ?>" class="img-fluid img-product" alt="">
+                <?php } ?>
+                <div class="portfolio-info">
+                  <h4><?php echo $row4->nama?></h4>
+                  <!-- <p>Chem Cleaner Brochure</p> -->
+                  <a href="<?php echo base_url($img4); ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                  <!-- <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a> -->
+                </div>
+              </div>
+            </div>
+            <?php } ?>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="partners" class="portfolio section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-5">
-          <p>
-            <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">WELCOME TO
-              Coating Show
-            </span>
-          </p>
-          <p>
-            <h3 style="margin:0; font-weight: 400;">
-              Don’t miss the opportunity to promote your products internationally, regionally and locally at
-              affordable costs.
-            </h3>
-          </p>
-          </div>
-          <div class="col-lg-7" style="text-align:center">
-            <p>
-              <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">WELCOME TO
-                EMPOWERING INDUSTRIES
-              </span>
-            </p>
-            <p><img src="https://coatingshow.com/welcome-banner.png" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="auto" height="300px"></p>
-          </div>
-        </div>
+    <section id="event" class="team section">
+      <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+        <!-- <div class="description-title">Event</div> -->
+        <h2>Event</h2>
       </div>
-    </section>
-
-    <section id="stats" class="stats section dark-background">
-      <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #5B9D0A !important;">
+      <div class="container">             
         <div class="row">
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
-              <p> Paint Companies in Indonesia </p>
+          <?php 
+            foreach($data_event as $row5){
+              $id5 = $row5->id; 
+              $file5 = $row5->folder_name."".$row5->file_name;
+              $img5 = "".$file5."";
+          ?> 
+          <div class="col-lg-4 col-md-6 d-flex aos-init aos-animate" data-aos-delay="100">
+            <div class="member">
+              <img src="<?php echo base_url($img5); ?>" class="img-fluid img-event " alt="">
+              <div class="member-content max-lines3">
+                <h4><a href="<?php echo base_url("event/event_update/".$id5);?>" class=""><?php echo $row5->nama?></a></h4>
+                <p class="konten_text">
+                  <!-- Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut -->
+                  <?php echo $row5->description?>
+                </p>
+              </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
-              <p> Multi National / Regional Brands </p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
-              <p> National Brands </p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
-              <p> Small / Medium Manufacturers </p>
-            </div>
-          </div>
-        </div>
+          <?php } ?>
+        </div>        
       </div>
     </section>
 
-    <section id="event_date" class="portfolio section">
+    <section id="news" class="services section">
+      <div class="container section-title center" data-aos="fade-up">
+        <!-- <div class="description-title">News Update</span> -->
+        <h2>News Update</h2>
+      </div>
       <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <p><h3><b>Coating Show</b></h3></p>
-            <p class="mb-4" style="font-size: 20px;text-align: justify;font-weight:300">
-              Coating Show aims to bring together professionals, stakeholders, and enthusiasts from the industries to explore the latest innovations, technologies, and trends. This event will serve as a platform for networking, knowledge exchange and business opportunities within the coatings industries.
-            </p>
-          </div>
+        <div class="row gy-4">
+          <?php 
+            foreach($data_news as $row6){ 
+              $id6 = $row6->id;
+              $file6 = $row6->folder_name."".$row6->file_name;
+              $img6 = "".$file6."";
+          ?> 
+          <div class="col-md-6 aos-init">
+            <div class="service-item d-flex position-relative h-100">
+              <i class="bi bi-globe icon flex-shrink-0"></i>
+              <div class="max-lines2">
+                <h4 class="title"><a href="<?php echo base_url("news/info_news/".$id6);?>" title="Info News"><?php echo ucwords($row6->nama)?></a></h4>
+                <p class="description max-lines"><?php echo $row6->description?></p>
+              </div>
+            </div>
+          </div>    
+          <?php } ?>     
         </div>
       </div>
-    </section>
-
-    <section id="event_date" class="portfolio section">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Pigments</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Resins</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Additives</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Production <br> Machines</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Laboratory Testing <br> Equipments</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Packaging <br> Suppliers/Producers</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Paint <br> Manufactures</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Equipments</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Contractors</h4>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section style="background-image: url('<?php echo base_url();?>Website/assets/img/bg-cta.jpg');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
-      <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
-          <h2 class="text-white text-center" style="text-transform: uppercase">
-              Become An Exhibitor!
-          </h2>
-          <h5 class="text-white text-center"><b>Don’t miss the opportunity to promote your products internationally,
-                  regionally and locally<br>at affordable costs.</b></h5>
-          <h4 class="text-center text-white mt-3" style="letter-spacing: 10px">
-              03-05 JUNE 2026 <br>
-              JAKARTA INTERNATIONAL CONVENTION CENTER
-              </h4><h4>
-                  <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
-                  <a href="https://coatingshow.com/book-a-stand" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Book a
-                          Stand</b></a>
-        </h4></div>
-    </section>
-
-    <section class="mx-auto book-stand mb-4" style="border-radius: 0px;width: 100%;z-index: 10;position: relative;background: url('<?php echo base_url();?>Website/assets/img/bg-regist2.jpg'); background-position: center; background-size: cover;">
-        <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
-            <h2 class="text-white text-center">
-                VISIT Coating Show !
-            </h2>
-            <p class="text-center text-white"><b>Register now and explore hundreds of brands in one single place.</b></p>
-            <h4 class="text-center text-white">FREE ADMISSION</h4>
-            <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
-        </div>
-    </section>
+    </section> 
 
     <section id="customer" class="faq section">
-      <div class="container section-title center" >
+      <div class="container section-title center" data-aos="fade-up">
         <!-- <div class="description-title">Our Customer</div> -->
-        <h3>SUPPORTED BY</h3>
+        <h2>Our Customer</h2>
       </div>
 
       <div class="container">
         <div class="row justify-content-left">
           <div class="col-lg-12">
+            <!-- <div class="faq-container">
+              <div class="faq-item" data-aos-delay="200">
+                <h3>Domestic Customer</h3>
+                <div class="faq-content">
+                  <div style="min-height:10px"><hr>
+                    <table class="table table-bordered">
+                      <thead class="table-active">
+                        <tr>
+                          <th width="5%">NO</th>
+                          <th>CUSTOMER</th>
+                          <th>GOODS / SERVICE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          $nt = 1;
+                          foreach($tbl_dom as $r_tbl){
+                            echo "<tr>
+                                    <td align=\"center\">".$nt."</td>
+                                    <td>".$r_tbl->nama."</td>
+                                    <td>".$r_tbl->services."</td>
+                                  </tr>";
+                            $nt++;
+                          }
+                        ?>
+											</tbody>
+                    </table>
+                  </div>                 
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div>
+
+              <div class="faq-item" data-aos-delay="300">
+                <h3>Overseas Customer</h3>
+                <div class="faq-content">
+                  <div style="min-height:10px"><hr>
+                    <table class="table table-bordered">
+                      <thead class="table-active">
+                        <tr>
+                          <th>NO</th>
+                          <th>CUSTOMER</th>
+                          <th>GOODS / SERVICE</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          $nt2 = 1;
+                          foreach($tbl_over as $r_tbl2){
+                            echo "<tr>
+                                    <td align=\"center\">".$nt2."</td>
+                                    <td>".$r_tbl2->nama."</td>
+                                    <td>".$r_tbl2->services."</td>
+                                  </tr>";
+                            $nt2++;
+                          }
+                        ?>
+										  </tbody>
+                    </table>
+                  </div>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div>
+            </div> -->
+
+            <!-- <div class="container">
+              <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+                <div class="row gy-4 isotope-container">
+                  <?php 
+                    foreach($data_slide5 as $row5){ 
+                      $file5 = $row5->folder_name."".$row5->file_name;
+                      $img5 = "".$file5."";
+                  ?> 
+                  <div class="col-lg-3 col-md-1 portfolio-item isotope-item filter-app">
+                    <div class="portfolio-content h-100">
+                      <a href="<?php echo $row5->url ?>" class="stretched-link" target="_blank"></a>
+                      <img src="<?php echo base_url($img5); ?>" class="img-fluid con_partner img-partner" alt="">
+                      <p class="text-center mt-3"><?php echo $row5->nama?></p>
+                    </div>
+                  </div>
+
+                 
+                  <?php } ?>
+                </div>
+              </div>                
+            </div> -->
 
             <div class="container">
               <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
+                      // foreach($data_slide4 as $row4){ 
+                      //   $file4 = $row4->folder_name."".$row4->file_name;
+                      //   $img4 = "".$file4."";
+                      //   $explode4 = explode(".",$row4->file_name);
+                      //   $exp4 = $explode4;
+
                       foreach($data_slide5 as $row5){ 
                         $file5 = $row5->folder_name."".$row5->file_name;
                         $img5 = "".$file5."";
                     ?> 
                       
-                    <div class="owl-item">
+                    <div class="owl-item cloned">
                       <div class="oc-item" style="text-align:center">
                         <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
                           <img src="<?php echo base_url($img5); ?>" class="day rowsel" width="10%" title="Supported" alt="Supported">
@@ -1426,8 +1499,9 @@
 
     
 
-    <!-- <section id="contact" class="contact section">
-      <div class="container section-title center" >
+    <section id="contact" class="contact section">
+      <div class="container section-title center" data-aos="fade-up">
+        <!-- <div class="description-title">Contact Us</span> -->
         <h2>Contact Us</h2>
       </div>
       
@@ -1476,10 +1550,10 @@
           </div>          
         </div>
       </div>
-    </section> -->
+    </section>
   </main>
 
-  <footer  class="footer dark-background mt-3">
+  <footer id="footer" class="footer dark-background">
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 footer-about">
@@ -1579,6 +1653,10 @@
   });  
 </script>
 
-<script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
-<script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
+<script src="https://coatingshow.com/js/plugins.min.js"></script>
+<script src="https://coatingshow.com/js/functions.js"></script>
+
+<script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
+<script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </html>

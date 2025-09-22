@@ -4,14 +4,15 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PT. Kelie Chemical Word</title>
+    <title>Coating Show</title>
+
+    <!-- Favicons -->
+    <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="icon">
+    <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="logo_csi">
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/css/vendor.bundle.base.css">
     
-    <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="icon">
-    <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="logo_title">
-    <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/jvectormap/jquery-jvectormap.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -181,11 +182,11 @@
     }
 
     .sidebar .sidebar-brand-wrapper .sidebar-brand img {
-        width: calc(244px - 120px);
-        max-width: 18%;
-        height: 36px;
-        margin: 5px 5px 10px;
-        vertical-align: middle;
+      width: calc(244px - 120px);
+      max-width: 100%;
+      height: 45px;
+      margin: 20px 10px 10px;
+      vertical-align: middle;
     }
 
     .border-left {
@@ -764,8 +765,12 @@
   
   <script type="text/javascript">
     $(document).ready(function() {
-      CKEDITOR.replace( 'keterangan' );
-      CKEDITOR.replace( 'keterangan_edit' );
+      CKEDITOR.replace( 'description' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
+      CKEDITOR.replace( 'description_edit' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
       $('#master_data').on("click", function() { 
       });
 

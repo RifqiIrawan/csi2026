@@ -17,8 +17,9 @@ class Dashboard extends CI_Controller {
     $data["data_slide2"] = $this->M_Login->get_slide2();
     $data["data_slide3"] = $this->M_Login->get_slide3();
     $data["data_slide4"] = $this->M_Login->get_slide4();
-    $data["tbl_dom"] = $this->M_Login->tbl_domestic();
-    $data["tbl_over"] = $this->M_Login->tbl_overseas();
+    $data["data_slide5"] = $this->M_Login->get_slide5();
+    // $data["tbl_dom"] = $this->M_Login->tbl_domestic();
+    // $data["tbl_over"] = $this->M_Login->tbl_overseas();
     $data["data_sosmed"] = $this->M_Login->get_sosmed();
     $data["data_event"] = $this->M_Login->get_event();
     $data["data_news"] = $this->M_Login->get_news();
@@ -94,21 +95,21 @@ class Dashboard extends CI_Controller {
   }
 
   public function submit_form(){
+$this->load->helper('url');
     $name = $this->input->post('name');
 		$email = $this->input->post('email');	
+    $hp = $this->input->post('hp');
+    $company = $this->input->post('company');
+    $position = $this->input->post('position');
     $subject = $this->input->post('subject');
 		$message = $this->input->post('message');	
     
-    $cek = $this->M_Login->submit_form($name,$email,$subject,$message); 
-    if($cek == true){
-      $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
-      redirect('dashboard');         
+    $this->M_Login->submit_form($name,$email,$hp,$company,$position,$subject,$message); 
+    if ($this->db->insert_id()) {
+      echo "<script>alert('Data Saved Successfully');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
+    } else {
+      echo "<script>alert('Data Failed to Save');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
     }
-    else{
-      $this->session->set_flashdata('tidak', 'Data Failed to Save.');
-      redirect('dashboard');
-    }   
-    //echo $name." / ".$email." / ".$subject." / ".$message;
   }
 
   public function reset(){      
