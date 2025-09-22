@@ -156,9 +156,10 @@ class M_Form extends CI_Model{
     return $insert;
   }
     
-  function ubah_partner($kode,$nama,$urut,$url,$status){
+  function ubah_partner($kode,$nama,$file_name,$urut,$url,$status){
     $ubah = $this->db->query(" UPDATE partner SET 
-                                  nama = '".$nama."'
+                                  nama = '".$nama."'  
+                                  ,file_name = '".$file_name."'                                
                                   ,urut = '".$urut."' 
                                   ,url = '".$url."' 
                                   ,status = '".$status."'
@@ -175,27 +176,56 @@ class M_Form extends CI_Model{
   }
 
    //customer
+
+  function get_kode_customer(){
+    $query = $this->db->query(" SELECT max(urut)+1 as new_id 
+                                FROM customer 
+                        ");  
+    return $query;
+  }  
   function get_customer(){
     $hasil = $this->db->query("SELECT * from customer
                               order by id asc"); 
     return $hasil->result();
   }
 
-  function tambah_customer($kategori,$nama,$services,$status){
+  // function tambah_customer($kategori,$nama,$services,$status){
+  function tambah_customer($nama,$file,$folder,$number,$url,$status){
     $insert = $this->db->query("INSERT INTO 
-                                customer(nama,services,kategori,datecreated,createdby,status) 
+                                customer(nama,file_name,folder_name,urut,url,datecreated,createdby,status) 
                                 Values
-                                ('".$nama."','".$services."','".$kategori."',CURRENT_TIME()
-                                ,'".$this->session->userdata('id_user')."','".$status."')
+                                ('".$nama."','".$file."','".$folder."','".$number."','".$url."'
+                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
+                                ,'".$status."')
                             ");
     return $insert;
+    // $insert = $this->db->query("INSERT INTO 
+    //                             customer(nama,services,kategori,datecreated,createdby,status) 
+    //                             Values
+    //                             ('".$nama."','".$services."','".$kategori."',CURRENT_TIME()
+    //                             ,'".$this->session->userdata('id_user')."','".$status."')
+    //                         ");
+    // return $insert;
   }
     
-  function ubah_customer($kode,$kategori,$nama,$services,$status){
+  // function ubah_customer($kode,$kategori,$nama,$services,$status){ 
+    //   $ubah = $this->db->query(" UPDATE customer SET 
+    //                                 nama = '".$nama."'
+    //                                 ,services = '".$services."'
+    //                                 ,kategori = '".$kategori."'
+    //                                 ,status = '".$status."'
+    //                                 ,dateupdate = CURRENT_TIME()
+    //                             WHERE id = '".$kode."'
+    //                     ");
+    //   return $ubah;
+  //}
+
+  function ubah_customer($kode,$nama,$file_name,$urut,$url,$status){
     $ubah = $this->db->query(" UPDATE customer SET 
                                   nama = '".$nama."'
-                                  ,services = '".$services."'
-                                  ,kategori = '".$kategori."'
+                                  ,file_name = '".$file_name."'
+                                  ,urut = '".$urut."' 
+                                  ,url = '".$url."' 
                                   ,status = '".$status."'
                                   ,dateupdate = CURRENT_TIME()
                               WHERE id = '".$kode."'

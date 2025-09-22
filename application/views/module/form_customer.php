@@ -69,16 +69,17 @@
     $('#close_admin').on('click', function() {   
       window.location.reload()
     });  
+
     $(".modal").on("hidden.bs.modal", function() {      
       window.location.reload()
     });
   });
 
-  function ubah(kode,nama,services,kategori,status){
+  function ubah(kode,nama,urut,url,status){
     $("#kode").val(kode);
     $("#nama").val(nama);
-    $("#services").val(services);
-    $("#kategori").val(kategori);
+    $("#urut").val(urut);
+    $("#url").val(url);
 
     if(status.length === 0){
       var status = "P";
@@ -153,37 +154,37 @@
 
   function show_image(file,folder){
     var pic = folder+""+file;
-    var img = $('<img />', {src : pic}).css("width","900px","height","400px");
+    var img = $('<img />', {src : pic}).css("height","200px","text-align","center");
     img.appendTo('#get_image');
     $("#mdl_img").modal('show');
   }
-
-  function export_customer(){    
-    window.location.href="<?php echo base_url()?>Form/export_customer";
-  }   
+  
 </script>
+
+<style>
+  .modal-body img {
+    object-fit: contain;
+  }
+</style>
 
 <div class="content-wrapper">
   <div class="page-header">
     <h4 class="page-title"><b>Customer</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From Customer</li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page">Partner</li> -->
     </ol>
     </nav>
   </div>
     <div class="row ">
       <div class="col-lg-12">
         <div class="car">
-          <div class="card-body btop">                    
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
-            </button>
-            <button type="button" class="btn btn-success btn-lg" id="download" title="Download Excel" onclick="export_customer()">
-              <i class="mdi mdi-file-excel"></i> Export Excel 
-            </button>
-          </div>
+            <div class="card-body btop">                    
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
+                <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+              </button>
+            </div>
         </div>
         <div class="card">
           <div class="card-body">
@@ -192,9 +193,10 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Company Name</th>
-                    <th>Goods / Services</th>
-                    <th>Category</th>
+                    <th>Title Name</th>
+                    <th>Link/URL</th>
+                    <th>Position</th>
+                    <th>Upload</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -210,25 +212,17 @@
                         case 'P':
                           $stat="Passive";
                         break; 
-                      }//end switch     
-                      
-                      switch ($row->kategori) {
-                        case '1':
-                          $kategori="Domestic Customer";
-                        break; 
-                        case '2':
-                          $kategori="Overseas Customer";
-                        break; 
-                      }//end switch     
+                      }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".$row->nama."</td>";
-                        echo "<td align=\"\">".ucwords($row->services)."</td>";
-                        echo "<td align=\"\">".$kategori."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
+                        echo "<td align=\"center\">".$row->urut."</td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
-                                ,'".$row->services."','".$row->kategori."','".$row->status."');\">
+                                ,'".$row->urut."','".$row->url."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"hapus('".$row->id."')\">
@@ -258,20 +252,19 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Category Customer</label>
-              <select class="form-control" name="kategori" required>
-                <option value="">- - Choose Category - -</option>
-                <option value="1">Domestic Customer</option>
-                <option value="2">Overseas Customer</option>
-              </select>
+            <label class="form-label">Title Name</label>
+            <input type="text" class="form-control" name="nama" Placeholder="Entry Title Name" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Customer Name</label>
-            <input type="text" class="form-control" name="nama" Placeholder="Entry Customer Name" required>
+            <label>File upload</label>
+            <input type="file" name="img[]" class="file-upload-default">
+            <div class="input-group col-xs-12">
+              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Goods / Services</label>
-            <input type="text" class="form-control" name="services" Placeholder="Entry Goods / Services" style="text-transform:capitalize" required>
+            <label class="form-label">Link/URL</label>
+            <input type="text" class="form-control" name="url" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -306,21 +299,24 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Category Customer</label>
-              <input type="hidden" class="form-control" name="kode" id="kode" required>
-              <select class="form-control" name="kategori" id="kategori" required>
-                <option value="">- - Choose Category - -</option>
-                <option value="1">Domestic Customer</option>
-                <option value="2">Overseas Customer</option>
-              </select>
+            <label class="form-label">Title Name</label>
+            <input type="hidden" class="form-control" name="kode" id="kode">
+            <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Customer Name</label>
-            <input type="text" class="form-control" name="nama" id="nama" required>
+            <label>File upload</label>
+            <input type="file" name="img[]" class="file-upload-default">
+            <div class="input-group col-xs-12">
+              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+            </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Goods / Services</label>
-            <input type="text" class="form-control" name="services" id="services" style="text-transform:capitalize" required>
+            <label class="form-label">Link/URL</label>
+            <input type="text" class="form-control" name="url" id="url" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="urut" id="urut" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -345,33 +341,19 @@
   </div>
 </div>
 
-<div class="modal fade" id="mdl_admin">
-  <div class="modal-dialog ">
+<div class="modal fade" id="mdl_img">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>userlogin/tambah_admin" id="frm_group">
-        <div class="modal-customer">
-          <h4 class="modal-title">Tambah Data Administrator </h4>
-           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Nama Administrator</label>
-            <input type="text" class="form-control" name="nama" Placeholder="Input Nama" required>
+      <div class="modal-header">
+        <h4 class="modal-title">Show Image </h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 text-center" id="get_image">
           </div>
-          <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="email" class="form-control" name="username" Placeholder="Username" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" Placeholder="Password" required>
-          </div>          
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-primary edit-btn"  value="Simpan" name="Tambah"> 
-          <input type="button" class="btn btn-danger edit-btn" id="close_admin" value="Batal" name="close">        
-        </div>
-      </form>
+        </div>         
+      </div>
     </div>
   </div>
 </div>

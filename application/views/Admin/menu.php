@@ -1,7 +1,7 @@
     <nav class="sidebar sidebar-offcanvas" id="get_menu">
       <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
         <span class="sidebar-brand brand-logo">
-          <img class="img-xs rounded-circle " src="<?php echo base_url();?>Website/assets/img/logo_title.png" alt="" id="post_logo"><b>KelieChem</b>
+          <img class="img-xs rounded-circle " src="<?php echo base_url();?>Website/assets/img/logo-2.png" alt="" id="post_logo">
         </span>
       </div>
       <ul class="nav">
@@ -91,7 +91,7 @@
             <span class="menu-title">Dashboard</span>
           </a>
         </li>        -->
-        <li class="nav-item menu-items">
+        <!-- <li class="nav-item menu-items">
           <a class="nav-link" href="<?php echo site_url('form_company');?>">
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
@@ -107,7 +107,7 @@
             </span>
             <span class="menu-title">Header</span>
           </a>
-        </li>      
+        </li>       -->
         
         <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#acc" aria-expanded="false" aria-controls="acc">
@@ -120,17 +120,18 @@
           <div class="collapse" id="acc">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Company Profile</a></li>       
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('form_partner');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Partner</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('form_partner');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Logo</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Menu</a></li>
             </ul>
           </div>
         </li>
 
-        <li class="nav-item menu-items">
+        <!-- <li class="nav-item menu-items">
           <a class="nav-link" href="<?php echo site_url('form_product');?>">
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
             </span>
-            <span class="menu-title">Product and Services</span>
+            <span class="menu-title">Products and Services</span>
           </a>
         </li>
 
@@ -159,23 +160,14 @@
             </span>
             <span class="menu-title">Customer</span>
           </a>
-        </li>      
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('contact_us');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Contact Us</span>
-          </a>
-        </li>
+        </li> 
 
         <li class="nav-item menu-items">
           <a class="nav-link" href="<?php echo site_url('userlogin');?>">
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
             </span>
-            <span class="menu-title">Account Admin</span>
+            <span class="menu-title">User Account</span>
           </a>
         </li>
 
@@ -184,7 +176,16 @@
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
             </span>
-            <span class="menu-title">Sosmed</span>
+            <span class="menu-title">Sos-Med</span>
+          </a>
+        </li>     
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('contact_us');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Visitor Emails</span>
           </a>
         </li>
 
@@ -193,9 +194,9 @@
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
             </span>
-            <span class="menu-title">Visitor</span>
+            <span class="menu-title">Visitor List</span>
           </a>
-        </li>
+        </li> -->
 
         <!-- <li class="nav-item menu-items">
           <a class="nav-link" href="<?php echo site_url('form_partner');?>">

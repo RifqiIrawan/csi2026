@@ -183,17 +183,42 @@
   }
 
   function show_image(file,folder){
-    var pic = folder+""+file;
-    var img = $('<img />', {src : pic}).css("height","200px");
-    img.appendTo('#get_image');
-    $("#mdl_img").modal('show');
+    // var pic = folder+""+file;
+    // var img = $('<img />', {src : pic}).css("height","200px");
+    // img.appendTo('#get_image');
+    // $("#mdl_img").modal('show');
+    var folder = folder;
+
+    // $.ajax({
+    //   url : folder,
+    //   success: function (data) {
+    //     $(data).find("a").attr("href", function (i, val) {
+    //       if( val.match(/\.(jpe?g|png|gif)$/) ) { 
+    //         //$("body").append( "<img src='"+ folder + val +"'>" );
+    //         console.log(val);            
+    //         var pic = folder+""+val;
+    //         var img = $('<img />', {src : pic}).css("height","200px");
+    //         img.appendTo('#get_image').css("margin", "0px 10px");
+    //       } 
+    //     });
+    //     $("#mdl_img").modal('show');
+    //   }
+    // });
+    
+
+    var w = 850;
+    var h = 500;
+    var left = Number((screen.width/2)-(w/2));
+    var tops = Number((screen.height/2)-(h/2));
+    window.open("<?php base_url()?>Form/company_image?folder="+folder, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+tops+', left='+left);
+
   }
   
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>About</b></h4>
+    <h4 class="page-title"><b>Company</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -219,7 +244,7 @@
                     <th width="1%">No</th>
                     <th>Title Name</th>
                     <th>Position</th>
-                    <th>Upload</th>
+                    <!-- <th>Upload</th> -->
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -240,7 +265,7 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
                         echo "<td align=\"center\">".$row->urut."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
+                        // echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
@@ -277,13 +302,13 @@
             <label class="form-label">Title Name</label>
             <input type="text" class="form-control" name="nama" Placeholder="Entry Title Name" style="text-transform:capitalize" required>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
+              <input type="file" class="form-control file-upload-info" name="file[]" id="file" onchange="return validasiEkstensi()" multiple required>
             </div>
-          </div>
+          </div> -->
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -325,13 +350,13 @@
             <input type="hidden" class="form-control" name="kode" id="kode">
             <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+              <input type="file" class="form-control file-upload-info" name="file[]" id="file2" onchange="return validasiEkstensi2()" multiple required>
             </div>
-          </div>
+          </div> -->
           <div class="form-group">
             <label class="form-label">Position</label>
             <input type="number" class="form-control" name="urut" id="urut" required>

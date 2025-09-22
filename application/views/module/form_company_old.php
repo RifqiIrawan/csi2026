@@ -106,11 +106,10 @@
     });
   });
 
-  function ubah(kode,nama,status,posisi){
+  function ubah(kode,nama,urut,status){
     $("#kode").val(kode);
     $("#nama").val(nama);
-    $("#posisi").val(posisi);
-    // $("#ket").val(ket);
+    $("#urut").val(urut);
 
     if(status.length === 0){
       var status = "P";
@@ -125,7 +124,7 @@
     var kode = kode;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Form/hapus_event",
+        url: "<?php echo base_url()?>Form/hapus_company",
         type: 'post',
         data: {'kode' : kode},
         success: function (data) {
@@ -138,7 +137,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "form_company";
             });
           }else{
             swal({
@@ -148,7 +147,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "form_company";
             });
           }
         },
@@ -184,21 +183,46 @@
   }
 
   function show_image(file,folder){
-    var pic = folder+""+file;
-    var img = $('<img />', {src : pic}).css("height","200px");
-    img.appendTo('#get_image');
-    $("#mdl_img").modal('show');
+    // var pic = folder+""+file;
+    // var img = $('<img />', {src : pic}).css("height","200px");
+    // img.appendTo('#get_image');
+    // $("#mdl_img").modal('show');
+    var folder = folder;
+	 //alert(folder);
+
+    //$.ajax({
+    //  url : folder,
+    //  success: function (data) {
+     //   $(data).find("a").attr("href", function (i, val) {
+     //     if( val.match(/\.(jpe?g|png|gif)$/) ) { 
+            //$("body").append( "<img src='"+ folder + val +"'>" );
+     //       var pic = folder+""+val;
+     //       console.log(pic);            
+     //       var img = $('<img />', {src : pic}).css("height","200px");
+     //       img.appendTo('#get_image').css("margin", "0px 10px");
+     //     } 
+     //   });
+     //   $("#mdl_img").modal('show');
+     // }
+    //});
+	  
+	  
+	 var w = 850;
+    var h = 500;
+    var left = Number((screen.width/2)-(w/2));
+    var tops = Number((screen.height/2)-(h/2));
+    window.open("<?php base_url()?>Form/company_image?folder="+folder, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+tops+', left='+left);
   }
   
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Event</b></h4>
+    <h4 class="page-title"><b>Company</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From event</li> -->
+        <li class="breadcrumb-item active" aria-current="page">From Company</li> -->
     </ol>
     </nav>
   </div>
@@ -220,16 +244,15 @@
                     <th width="1%">No</th>
                     <th>Title Name</th>
                     <th>Position</th>
-                    <th>Upload</th>
+                    <!--<th>Upload</th> -->
                     <th>Status</th>
                     <th>Action</th>
-                    <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_event as $row) {
+                    foreach ($data_company as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -242,18 +265,17 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
                         echo "<td align=\"center\">".$row->urut."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
+                        //echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
-                                ,'".$row->status."','".$row->position."');\">
+                                ,'".$row->urut."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"hapus('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
-                              </td>";   
-                        echo "<td align=\"center\">".$row->description."</td>";    
+                              </td>";       
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -270,9 +292,9 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/tambah_event" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Form/tambah_company" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Event </h4>
+          <h4 class="modal-title">Add Data Company </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -280,17 +302,13 @@
             <label class="form-label">Title Name</label>
             <input type="text" class="form-control" name="nama" Placeholder="Entry Title Name" style="text-transform:capitalize" required>
           </div>
-          <div class="form-group">
+          <!--<div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
+              <input type="file" class="form-control file-upload-info" name="file[]" id="file" onchange="return validasiEkstensi()" multiple required>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" Placeholder="Entry Position Image" required>
-          </div>
+          </div>-->
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -321,9 +339,9 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/ubah_event" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Form/ubah_company" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Event </h4>
+          <h4 class="modal-title">Update Data Company </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -332,16 +350,16 @@
             <input type="hidden" class="form-control" name="kode" id="kode">
             <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
           </div>
-          <div class="form-group">
+           <!--<div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+              <input type="file" class="form-control file-upload-info" name="file[]" id="file2" onchange="return validasiEkstensi2()" multiple required>
             </div>
-          </div>
+          </div>-->
           <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" id="posisi" required>
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="urut" id="urut" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -356,10 +374,10 @@
               </label>             
             </div>
           </div>    
-          <div class="form-group">
+           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="keterangan_edit" rows="9"></textarea>
-          </div>      
+            <textarea class="form-control" name="keterangan_edit" id="ket" rows="9"></textarea>
+          </div>    
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 

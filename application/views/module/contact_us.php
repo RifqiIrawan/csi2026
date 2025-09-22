@@ -100,7 +100,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"> <b>Contact Us</b> </h4>
+    <h4 class="page-title"> <b>Visitor Email</b> </h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -124,6 +124,9 @@
                   <th width="1%">No</th>
                   <th width="20%">Name</th>
                   <th width="15%">Email</th>
+                  <th width="15%">Mobile</th>
+                  <th width="15%">Company</th>
+                  <th width="15%">Position</th>
                   <th width="15%">Subject</th>
                   <th>Message</th>
                   <!-- <th width="15%">Action</th> -->
@@ -137,6 +140,9 @@
                       echo "<td align=\"center\">".$no."</td>";
                       echo "<td>".$row->name."</td>";
                       echo "<td>".$row->email."</td>";
+                      echo "<td>".$row->hp."</td>";
+                      echo "<td>".$row->company."</td>";
+                      echo "<td>".$row->position."</td>";
                       echo "<td>".ucwords(strtolower($row->subject))."</td>";
                       echo "<td>".ucwords(strtolower($row->message))."</td>";
                     $no++;

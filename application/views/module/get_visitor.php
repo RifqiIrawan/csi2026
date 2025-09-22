@@ -61,7 +61,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"> <b>Visitor Website</b> </h4>
+    <h4 class="page-title"> <b>Visitor List</b> </h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>

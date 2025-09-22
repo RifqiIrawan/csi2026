@@ -4,20 +4,20 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PT. Kelie Chemical Word</title>
+    <title>Coating Show</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
-    <!-- End layout styles -->
-    <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="icon">
-    <link href="<?php echo base_url();?>Website/assets/img/logo_title.png" rel="logo_title">
+    <!-- Favicons -->
+    <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="icon">
+    <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="logo_title">
   </head>
   <style>
     .auth.login-bg {
       background: #fff;
-      background-size: cover;
-      background-image: url('<?php echo base_url();?>Website/assets/img/slide1.jpg');
+      /* background-size: cover; */
+      /* background-image: url('<?php echo base_url();?>Website/assets/img/slide1.jpg'); */
     }
 
     .card {
@@ -30,6 +30,12 @@
       background-clip: border-box;
       border-radius: 0.25rem;
       color: #000;
+      border: 1px solid transparent;
+    }
+
+    .card .card-body + .card-body {
+      padding-top: 0rem;
+      margin-top: -40px;
     }
 
     .text-left {
@@ -123,6 +129,11 @@
     ::-ms-input-placeholder { /* Edge 12 -18 */
       color: red;
     }
+
+    .ml-auto, .list-wrapper .remove, .mx-auto {
+      margin-left: auto !important;
+      top: -4rem;
+    }
   </style>
   <body>
     <div class="container-scroller">
@@ -130,8 +141,11 @@
         <div class="row w-100 m-0">
           <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
             <div class="card col-lg-4 mx-auto">
-              <div class="card-body px-5 py-5">
-                <h3 class="card-title text-left mb-3">Login Admin</h3>
+              <div class="card-body text-center">
+                <img height="250" src="<?php echo base_url();?>Website/assets/img/logo_csi.png">              
+              </div>
+              <div class="card-body">
+                <!-- <h3 class="card-title text-left mb-3">Login Admin</h3> -->
                 <form action="<?php echo base_url(); ?>cek_login" method="post">
                   <div class="form-group">
                     <label>Username</label>

@@ -1,5 +1,5 @@
 <?php 
-  if($this->session->flashdata('simpan')){
+  if($this->session->flashdata('save')){
     echo '<script type="text/javascript">
             $(document).ready(function(){
               swal({
@@ -13,7 +13,7 @@
             });
           </script>';
   }
-  if($this->session->flashdata('tidak')){
+  if($this->session->flashdata('not_save')){
     echo    '<script type="text/javascript">
                 $(document).ready(function(){
                     swal({
@@ -28,12 +28,12 @@
             </script>';
     }
 
-    if($this->session->flashdata('ubah')){
+    if($this->session->flashdata('update')){
         echo    '<script type="text/javascript">
                     $(document).ready(function(){
                       swal({
                         title: "Update Success",
-                        text: "Data Successfully Updated.",
+                        text: "Update Data Successfully.",
                         icon: "info",
                         timer: 3000,
                         button: true
@@ -42,12 +42,12 @@
                     });
                 </script>';
       }
-    if($this->session->flashdata('tidak_ubah')){
+    if($this->session->flashdata('not_update')){
       echo    '<script type="text/javascript">
                   $(document).ready(function(){
                     swal({
                         title: "Update Failed",
-                        text: "Data Failed to Update.",
+                        text: "Update Data Failed.",
                         icon: "error",
                         timer: 3000,
                         button: true
@@ -104,51 +104,54 @@
     $(".modal").on("hidden.bs.modal", function() {      
       window.location.reload()
     });
+    
+	CKEDITOR.replace('description_edit');
   });
 
-  function ubah(kode,nama,status,posisi){
-    $("#kode").val(kode);
-    $("#nama").val(nama);
-    $("#posisi").val(posisi);
+  function upd(code,name,status,description){
+    $("#code").val(code);
+    $("#name").val(name);
+    var desc = description;
+    CKEDITOR.instances.description.setData(desc);
     // $("#ket").val(ket);
 
-    if(status.length === 0){
-      var status = "P";
-    }else{      
-      var status='#'+status;
-    }
+    // if(status.length === 0){
+    //   var status = "P";
+    // }else{      
+       var status='#'+status;
+    // }
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
   
-  function hapus(kode){
-    var kode = kode;
+  function del(code){
+    var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Form/hapus_event",
+        url: "<?php echo base_url()?>Home/delete_menu",
         type: 'post',
-        data: {'kode' : kode},
+        data: {'code' : code},
         success: function (data) {
-          console.log(data);
+        //   console.log(data);
           if(data === "OK"){
             swal({
                 title: "Delete Success",
-                text: "Data Deleted Successfully.",
+                text: "Delete Data Successfully.",
                 icon: "success",
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "Menu";
             });
           }else{
             swal({
                 title: "Delete Failed",
-                text: "Data Failed to be Deleted.",
+                text: "Delete Data Failed.",
                 icon: "error",
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_event";
+              window.location = "Menu";
             });
           }
         },
@@ -157,48 +160,18 @@
         }
       });
     }else{
-      alert(kode + " Data Failed to be Deleted.");
+      alert(code + " Data Failed to be Deleted.");
     }
-  }
-
-  function validasiEkstensi(){
-    var inputFile = document.getElementById('file');
-    var pathFile = inputFile.value;
-    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.JPG|\.JPEG|\.PNG)$/i;
-    if(!ekstensiOk.exec(pathFile)){
-        alert('Sorry, only format image JPG, JPEG, PNG');
-        inputFile.value = '';
-        return false;
-    }
-  }
-
-  function validasiEkstensi2(){
-    var inputFile = document.getElementById('file2');
-    var pathFile = inputFile.value;
-    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.JPG|\.JPEG|\.PNG)$/i;
-    if(!ekstensiOk.exec(pathFile)){
-        alert('Sorry, only format image JPG, JPEG, PNG');
-        inputFile.value = '';
-        return false;
-    }
-  }
-
-  function show_image(file,folder){
-    var pic = folder+""+file;
-    var img = $('<img />', {src : pic}).css("height","200px");
-    img.appendTo('#get_image');
-    $("#mdl_img").modal('show');
-  }
-  
+  }  
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Event</b></h4>
+    <h4 class="page-title"><b>Menu</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From event</li> -->
+        <li class="breadcrumb-item active" aria-current="page">From news</li> -->
     </ol>
     </nav>
   </div>
@@ -207,7 +180,7 @@
         <div class="car">
           <div class="card-body btop">                    
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+              <i class="mdi mdi-account-plus"></i> Add Menu &nbsp;
             </button>
           </div>
         </div>
@@ -218,18 +191,16 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Title Name</th>
-                    <th>Position</th>
-                    <th>Upload</th>
+                    <th>Menu Name</th>
                     <th>Status</th>
-                    <th>Action</th>
                     <th>Description</th>
+                    <th width="15%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_event as $row) {
+                    foreach ($data_menu as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -240,20 +211,17 @@
                       }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
-                        echo "<td align=\"center\">".$row->urut."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
-                        echo "<td align=\"center\">".$stat."</td>";    
+                        echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";  
+                        echo "<td align=\"center\">".$row->description."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
-                                ,'".$row->status."','".$row->position."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"hapus('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
-                        echo "<td align=\"center\">".$row->description."</td>";    
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -270,27 +238,16 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/tambah_event" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_menu" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Event </h4>
+          <h4 class="modal-title">Add Menu </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Title Name</label>
-            <input type="text" class="form-control" name="nama" Placeholder="Entry Title Name" style="text-transform:capitalize" required>
-          </div>
-          <div class="form-group">
-            <label>File upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
-            <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" Placeholder="Entry Position Image" required>
-          </div>
+            <label class="form-label">Menu Name</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Menu Name" style="text-transform:capitalize" required>
+          </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -303,10 +260,10 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>
+          </div>       
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="keterangan" rows="9"></textarea>
+            <textarea class="form-control" name="description" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -321,27 +278,16 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/ubah_event" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_menu" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Event </h4>
+          <h4 class="modal-title">Update Data News </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Title Name</label>
-            <input type="hidden" class="form-control" name="kode" id="kode">
-            <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
-          </div>
-          <div class="form-group">
-            <label>File upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
-            <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Position Image</label>
-            <input type="number" class="form-control" name="posisi" id="posisi" required>
+            <input type="hidden" class="form-control" name="code" id="code">
+            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -358,7 +304,7 @@
           </div>    
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="keterangan_edit" rows="9"></textarea>
+            <textarea class="form-control" name="description_edit" id="description" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
