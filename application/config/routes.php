@@ -76,7 +76,7 @@ $route['form_event'] = 'Form/Form_Event';
 $route['form_news'] = 'Form/Form_News';
 $route['news/info_news/(:any)'] = 'Dashboard/index/$1';
 $route['event/event_update/(:any)'] = 'Dashboard/index/$1';
-
+$route['visiting/(:any)'] 	= 'Visiting/$1';
 
 
 
