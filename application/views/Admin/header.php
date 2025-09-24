@@ -765,10 +765,24 @@
   
   <script type="text/javascript">
     $(document).ready(function() {
-      CKEDITOR.replace( 'description' , {
+      CKEDITOR.replace( 'descriptions' , {
         customConfig : '/custom/ckeditor_config.js'
       });
-      CKEDITOR.replace( 'description_edit' , {
+      CKEDITOR.replace( 'descriptions_edit' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
+
+      CKEDITOR.replace( 'descriptions1' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
+      CKEDITOR.replace( 'descriptions1_edit' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
+
+      CKEDITOR.replace( 'descriptions2' , {
+        customConfig : '/custom/ckeditor_config.js'
+      });
+      CKEDITOR.replace( 'descriptions2_edit' , {
         customConfig : '/custom/ckeditor_config.js'
       });
       $('#master_data').on("click", function() { 

@@ -1,5 +1,5 @@
 <?php 
-  if($this->session->flashdata('simpan')){
+  if($this->session->flashdata('save')){
     echo '<script type="text/javascript">
             $(document).ready(function(){
               swal({
@@ -13,7 +13,7 @@
             });
           </script>';
   }
-  if($this->session->flashdata('tidak')){
+  if($this->session->flashdata('not_save')){
     echo    '<script type="text/javascript">
                 $(document).ready(function(){
                     swal({
@@ -28,12 +28,12 @@
             </script>';
     }
 
-    if($this->session->flashdata('ubah')){
+    if($this->session->flashdata('update')){
         echo    '<script type="text/javascript">
                     $(document).ready(function(){
                       swal({
                         title: "Update Success",
-                        text: "Data Successfully Updated.",
+                        text: "Update Data Successfully.",
                         icon: "info",
                         timer: 3000,
                         button: true
@@ -42,12 +42,12 @@
                     });
                 </script>';
       }
-    if($this->session->flashdata('tidak_ubah')){
+    if($this->session->flashdata('not_update')){
       echo    '<script type="text/javascript">
                   $(document).ready(function(){
                     swal({
                         title: "Update Failed",
-                        text: "Data Failed to Update.",
+                        text: "Update Data Failed.",
                         icon: "error",
                         timer: 3000,
                         button: true
@@ -84,10 +84,6 @@
     padding: 0.65rem 0.65rem;
     background: #00d25b;
   }
-
-  .modal-body img {
-    object-fit: contain;
-  }
 </style>
 
 <script type="text/javascript">  
@@ -101,13 +97,14 @@
     $('#close_admin').on('click', function() {   
       window.location.reload()
     });  
+
     $(".modal").on("hidden.bs.modal", function() {      
       window.location.reload()
     });
   });
 
-  function update(kode,nama,urut,status){
-    $("#kode").val(kode);
+  function update(code,nama,urut,status){
+    $("#code").val(code);
     $("#nama").val(nama);
     $("#urut").val(urut);
 
@@ -120,13 +117,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(kode){
-    var kode = kode;
+  function del(code){
+    var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>home/delete_profile",
+        url: "<?php echo base_url()?>Home/delete_profile",
         type: 'post',
-        data: {'kode' : kode},
+        data: {'code' : code},
         success: function (data) {
           console.log(data);
           if(data === "OK"){
@@ -137,7 +134,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_company";
+              window.location = "Profile";
             });
           }else{
             swal({
@@ -147,7 +144,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "form_company";
+              window.location = "Profile";
             });
           }
         },
@@ -156,7 +153,7 @@
         }
       });
     }else{
-      alert(kode + " Data Failed to be Deleted.");
+      alert(code + " Data Failed to be Deleted.");
     }
   }
 
@@ -183,57 +180,32 @@
   }
 
   function show_image(file,folder){
-    // var pic = folder+""+file;
-    // var img = $('<img />', {src : pic}).css("height","200px");
-    // img.appendTo('#get_image');
-    // $("#mdl_img").modal('show');
-    var folder = folder;
-
-    // $.ajax({
-    //   url : folder,
-    //   success: function (data) {
-    //     $(data).find("a").attr("href", function (i, val) {
-    //       if( val.match(/\.(jpe?g|png|gif)$/) ) { 
-    //         //$("body").append( "<img src='"+ folder + val +"'>" );
-    //         console.log(val);            
-    //         var pic = folder+""+val;
-    //         var img = $('<img />', {src : pic}).css("height","200px");
-    //         img.appendTo('#get_image').css("margin", "0px 10px");
-    //       } 
-    //     });
-    //     $("#mdl_img").modal('show');
-    //   }
-    // });
-    
-
-    var w = 850;
-    var h = 500;
-    var left = Number((screen.width/2)-(w/2));
-    var tops = Number((screen.height/2)-(h/2));
-    window.open("<?php base_url()?>Form/company_image?folder="+folder, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+tops+', left='+left);
-
+    var pic = folder+""+file;
+    var img = $('<img />', {src : pic}).css("width","auto","height","200px","text-align","center");
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
   }
   
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Company</b></h4>
+    <h4 class="page-title"><b>Profile</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From Company</li> -->
+        <li class="breadcrumb-item active" aria-current="page">Profile</li> -->
     </ol>
     </nav>
   </div>
     <div class="row ">
       <div class="col-lg-12">
         <div class="car">
-          <div class="card-body btop">                    
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
-            </button>
-          </div>
+            <div class="card-body btop">                    
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
+                <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+              </button>
+            </div>
         </div>
         <div class="card">
           <div class="card-body">
@@ -242,17 +214,23 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Title Name</th>
-                    <th>Position</th>
-                    <!-- <th>Upload</th> -->
+                    <th>Company Name</th>
+                    <th>Nick Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Fax</th>
+                    <th>Website</th>
+                    <th>Location</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <!-- <th>Logo</th>-->
+                    <th>Action</th> 
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_company as $row) {
+                    foreach ($data_profile as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -263,13 +241,17 @@
                       }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->nama))."</td>";
-                        echo "<td align=\"center\">".$row->urut."</td>";
-                        // echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
+                        echo "<td align=\"\">".$row->company_name."</td>";
+                        echo "<td align=\"center\">".$row->nick_name."</td>";
+                        echo "<td align=\"center\">".$row->address."</td>";
+                        echo "<td align=\"center\">".$row->phone."</td>";
+                        echo "<td align=\"center\">".$row->email."</td>";
+                        echo "<td align=\"center\">".$row->fax."</td>";
+                        echo "<td align=\"center\">".$row->website."</td>";
+                        echo "<td align=\"center\">".$row->gmaps."</td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->nama."'
-                                ,'".$row->urut."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update();\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -292,23 +274,51 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_company" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_profile" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Company </h4>
+          <h4 class="modal-title">Add Data Profile </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Title Name</label>
-            <input type="text" class="form-control" name="nama" Placeholder="Entry Title Name" style="text-transform:capitalize" required>
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-control" name="company" Placeholder="Entry Company Name" required>
           </div>
-          <!-- <div class="form-group">
-            <label>File upload</label>
+          <div class="form-group">
+            <label>Logo</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file[]" id="file" onchange="return validasiEkstensi()" multiple required>
+              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
             </div>
-          </div> -->
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nick Name</label>
+            <input type="text" class="form-control" name="nick" Placeholder="Entry Nick Name" style="text-transform:capitalize" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <textarea class="form-control" name="address" rows="6" Placeholder="Entry Address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" name="phone" Placeholder="Entry Phone" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fax</label>
+            <input type="text" class="form-control" name="fax" Placeholder="Entry Fax" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" Placeholder="Entry Email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Website</label>
+            <input type="text" class="form-control" name="website" Placeholder="Entry Website" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Maps</label>
+            <input type="text" class="form-control" name="maps" Placeholder="Entry Maps" required>
+          </div>
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -321,10 +331,6 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="keterangan" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -339,24 +345,24 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_company" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_profile" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Company </h4>
+          <h4 class="modal-title">Update Data Profile </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Title Name</label>
-            <input type="hidden" class="form-control" name="kode" id="kode">
+            <input type="text" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
           </div>
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file[]" id="file2" onchange="return validasiEkstensi2()" multiple required>
+              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
             </div>
-          </div> -->
+          </div>
           <div class="form-group">
             <label class="form-label">Position</label>
             <input type="number" class="form-control" name="urut" id="urut" required>
@@ -373,11 +379,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
-           <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="keterangan_edit" id="ket" rows="9"></textarea>
-          </div>    
+          </div>      
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
@@ -387,7 +389,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="modal fade" id="mdl_img">
   <div class="modal-dialog modal-lg">

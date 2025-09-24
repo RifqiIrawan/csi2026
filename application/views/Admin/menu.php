@@ -119,9 +119,13 @@
           </a>
           <div class="collapse" id="acc">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Company Profile</a></li>       
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('form_partner');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Logo</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Menu</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Date_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Date Event</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Content 1</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Event_Value');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Event Value</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Profile</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Product');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Product</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Support');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Support</a></li>
             </ul>
           </div>
         </li>

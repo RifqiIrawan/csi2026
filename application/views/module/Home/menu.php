@@ -104,15 +104,13 @@
     $(".modal").on("hidden.bs.modal", function() {      
       window.location.reload()
     });
-    
-	CKEDITOR.replace('description_edit');
   });
 
   function upd(code,name,status,description){
     $("#code").val(code);
     $("#name").val(name);
     var desc = description;
-    CKEDITOR.instances.description.setData(desc);
+    CKEDITOR.instances.descriptions.setData(desc);
     // $("#ket").val(ket);
 
     // if(status.length === 0){
@@ -263,7 +261,7 @@
           </div>       
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="description" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -304,7 +302,7 @@
           </div>    
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="description_edit" id="description" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">

@@ -1,6 +1,6 @@
           <footer class="footer">
             <div class="d-sm-flex justify-content-center">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block text-center"><b>Copyright © <?php echo date("Y")?> PT. Kelie Chemical World. All Right Reserved</b></span>
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block text-center"><b>Copyright © <?php echo date("Y")?> PT.Warna Karya Gemilang. All Right Reserved</b></span>
               <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> <b>Versi 1.0</b></span> -->
             </div>
           </footer>
