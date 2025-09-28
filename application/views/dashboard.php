@@ -648,7 +648,7 @@
     section, .section {
       color: var(--default-color);
       background-color: var(--background-color);
-      padding: 30px 0;
+      padding: 15px 0;
       scroll-margin-top: 85px;
       overflow: clip;
     }
@@ -1384,7 +1384,7 @@
         <h3>SUPPORTED BY</h3>
       </div>
 
-      <div class="container">
+      <div class="container mb-3">
         <div class="row justify-content-left">
           <div class="col-lg-12">
 

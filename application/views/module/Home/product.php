@@ -126,7 +126,7 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_menu",
+        url: "<?php echo base_url()?>Home/delete_product",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
@@ -139,7 +139,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Product";
             });
           }else{
             swal({
@@ -149,7 +149,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Product";
             });
           }
         },
@@ -165,7 +165,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Menu</b></h4>
+    <h4 class="page-title"><b>Product</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -178,7 +178,7 @@
         <div class="car">
           <div class="card-body btop">                    
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Menu &nbsp;
+              <i class="mdi mdi-account-plus"></i> Add Product &nbsp;
             </button>
           </div>
         </div>
@@ -189,7 +189,7 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Menu Name</th>
+                    <th>Product Name</th>
                     <th>Status</th>
                     <th>Description</th>
                     <th width="15%">Action</th>
@@ -198,7 +198,7 @@
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_menu as $row) {
+                    foreach ($data_product as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -236,15 +236,15 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_menu" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_product" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Menu </h4>
+          <h4 class="modal-title">Add Product </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Menu Name" style="text-transform:capitalize" required>
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry product Name" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -276,14 +276,14 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_menu" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_product" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Menu </h4>
+          <h4 class="modal-title">Update Data News </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
+            <label class="form-label">Product Name</label>
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
           </div>

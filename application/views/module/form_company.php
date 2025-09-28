@@ -106,7 +106,7 @@
     });
   });
 
-  function ubah(kode,nama,urut,status){
+  function update(kode,nama,urut,status){
     $("#kode").val(kode);
     $("#nama").val(nama);
     $("#urut").val(urut);
@@ -120,11 +120,11 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function hapus(kode){
+  function del(kode){
     var kode = kode;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Form/hapus_company",
+        url: "<?php echo base_url()?>home/delete_profile",
         type: 'post',
         data: {'kode' : kode},
         success: function (data) {
@@ -268,11 +268,11 @@
                         // echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"ubah('".$row->id."','".$row->nama."'
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->nama."'
                                 ,'".$row->urut."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"hapus('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";       
@@ -292,7 +292,7 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/tambah_company" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_company" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
           <h4 class="modal-title">Add Data Company </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
@@ -339,7 +339,7 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Form/ubah_company" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_company" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
           <h4 class="modal-title">Update Data Company </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>

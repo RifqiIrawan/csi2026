@@ -103,8 +103,8 @@
     });
   });
 
-  function ubah(kode,nama,urut,status){
-    $("#kode").val(kode);
+  function ubah(code,nama,urut,status){
+    $("#code").val(code);
     $("#nama").val(nama);
     $("#urut").val(urut);
 
@@ -117,13 +117,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function hapus(kode){
-    var kode = kode;
+  function hapus(code){
+    var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
         url: "<?php echo base_url()?>Form/hapus_product",
         type: 'post',
-        data: {'kode' : kode},
+        data: {'code' : code},
         success: function (data) {
           console.log(data);
           if(data === "OK"){
@@ -153,7 +153,7 @@
         }
       });
     }else{
-      alert(kode + " Data Failed to be Deleted.");
+      alert(code + " Data Failed to be Deleted.");
     }
   }
 
@@ -353,7 +353,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Title Name</label>
-            <input type="text" class="form-control" name="kode" id="kode">
+            <input type="text" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
