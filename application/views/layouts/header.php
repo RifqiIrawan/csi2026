@@ -33,7 +33,7 @@
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
             <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
-            <img width="190" height="70" src="<?php echo base_url($folder."coating_show.png");?>" alt="<?php echo base_url($nick_name);?>">
+            <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
             </a>
             <nav id="navmenu" class="navmenu">
             <ul>
@@ -41,6 +41,13 @@
                 <ul>
                     <li><a href="<?php echo base_url("dashboard#about");?>">Exhibiting</a></li>
                     <li><a href="<?php echo base_url("dashboard#partners");?>">Visiting</a></li>
+                </ul>
+                </li>
+                <li class="dropdown"><a href="#"><span>EXHIBITING</span></a>
+                <ul>
+                    <li><a href="<?php echo base_url("exhibiting");?>">WHY EXHIBIT</a></li>
+                    <li><a href="<?php echo base_url("exhibiting/exhibitor-list");?>">EXHIBITOR LIST</a></li>
+                    <li><a href="<?php echo base_url("exhibiting/exhibitor-visa");?>">EXHIBITOR VISA</a></li>
                 </ul>
                 </li>
                 <li class="dropdown"><a href="#"><span>Visiting</span></a>

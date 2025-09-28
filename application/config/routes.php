@@ -61,6 +61,9 @@ $route['get_visitor'] = 'Dashboard/visitor';
 $route['logout'] = 'Dashboard/logout';
 
 //route menu
+$route['exhibiting/(:any)'] 	= 'Exhibiting/index/$1';
+$route['exhibiting/(:any)/(:any)'] 	= 'Exhibiting/index/$1/$2';
+
 $route['form_header'] = 'Form/Form_Header';
 $route['form_product'] = 'Form/Form_Product';
 $route['form_company'] = 'Form/Form_Company';
@@ -77,6 +80,7 @@ $route['form_news'] = 'Form/Form_News';
 $route['news/info_news/(:any)'] = 'Dashboard/index/$1';
 $route['event/event_update/(:any)'] = 'Dashboard/index/$1';
 $route['visiting/(:any)'] 	= 'Visiting/$1';
+
 
 
 
