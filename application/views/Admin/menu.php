@@ -126,6 +126,8 @@
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Profile</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Product');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Product</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Support');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Support</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Book_Stand');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Book A Stand</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Floor_Plan');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Floor Plan</a></li>
             </ul>
           </div>
         </li>

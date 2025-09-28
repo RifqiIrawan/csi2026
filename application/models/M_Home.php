@@ -245,4 +245,34 @@ class M_Home extends CI_Model
                       ");
     return $delete;
   }
+
+  // for menu
+  function get_book_stand(){
+    $res = $this->db->query("SELECT * from book_stand
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_book_stand($name,$status,$description,$description2,$file_name){
+    $insert = $this->db->query("INSERT INTO 
+                                        book_stand(title,status,description,description2,file_name) 
+                                        Values
+                                        ('".$name."','".$status."','".$description."','".$description2."','".$file_name."')
+                            ");
+    return $insert;
+  }
+    
+  function update_book_stand($code,$name,$status,$description){
+    $update = $this->db->query(" UPDATE book_stand SET name = '".$name."',status = '".$status."'
+                            ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_book_stand($code){
+    $delete = $this->db->query(" DELETE FROM book_stand WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
 }

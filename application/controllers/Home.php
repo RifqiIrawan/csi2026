@@ -588,4 +588,84 @@ class Home extends CI_Controller {
     }   
   }
 
+
+  //Book_Stand
+  public function Book_Stand(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_book_stand"] = $this->M_Home->get_book_stand();
+    $this->template->load('Admin/role','module/Home/book_stand',$data);
+  }
+
+  public function add_book_stand(){
+    $file = $_FILES;
+    $folder = './assets/images/upload/book_stand/';
+    $name = $this->input->post("name");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions1");
+    $description2 = $this->input->post("descriptions2");  
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= $_FILES['file']['name'];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);
+        $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
+      }      
+    }   
+
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Book_Stand');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Book_Stand');
+    } 
+  }
+
+  public function update_book_stand(){
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions_edit");            
+    $insert = $this->M_Home->update_book_stand($code,$name,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Book_Stand');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Book_Stand');
+    } 
+  }
+
+  public function delete_book_stand(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_book_stand($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
 }
