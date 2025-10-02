@@ -1495,9 +1495,7 @@
           </div>
         </div>
       </div>
-    </section>
-
-    
+    </section>    
 
     <section id="contact" class="contact section">
       <div class="container section-title center" data-aos="fade-up">

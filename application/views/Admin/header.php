@@ -791,6 +791,10 @@
       $('#acc').on("click", function() { 
       });
 
+      $('#test').on("click", function() { 
+        $("#test").attr("collapse");
+      });
+
       $('#upd').on("click", function() { 
       });
 

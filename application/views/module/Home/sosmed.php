@@ -57,39 +57,6 @@
                 </script>';
     }
 ?>
-<style type="text/css">
-  .icn{
-    margin-left: -7px;
-    color:black;
-  }
-  .bw{
-    width: 25px;
-  }
-  .btn-edit-icn{
-    background: #00d25b;
-  }
-
-  .btn-hapus-icn{
-    background:#F70D1A;
-    margin-left:0px;
-  }
-
-  .edit-btn{        
-    min-height: 35px;
-  }
-  .btn-admin, .btn-group-lg > .btn, .fc .btn-group-lg > 
-  button, .ajax-upload-dragdrop .btn-group-lg > .ajax-file-upload
-  , .swal2-modal .swal2-buttonswrapper .btn-group-lg > .swal2-styled
-  , .wizard > .actions .btn-group-lg > a {      
-    padding: 0.65rem 0.65rem;
-    background: #00d25b;
-  }
-
-  .modal-body img {
-    object-fit: contain;
-  }
-</style>
-
 <script type="text/javascript">  
   $(document).ready(function() {
     $('#close').on('click', function() {    
@@ -106,19 +73,17 @@
     });
   });
 
-  function upd(code,name,url,status,description){
+  function upd(code,name,icon,url,status){
     $("#code").val(code);
     $("#name").val(name);
+    $("#icon").val(icon);
     $("#url").val(url);
-    var desc = description;
-    CKEDITOR.instances.descriptions.setData(desc);
-    // $("#ket").val(ket);
 
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    if(status.length === 0){
+      var status = "P";
+    }else{      
+      var status='#'+status;
+    }
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -127,30 +92,30 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_menu",
+        url: "<?php echo base_url()?>Home/delete_sosmed",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
-        //   console.log(data);
+          //console.log(data);
           if(data === "OK"){
             swal({
                 title: "Delete Success",
-                text: "Delete Data Successfully.",
+                text: "Data Deleted Successfully.",
                 icon: "success",
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Sosmed";
             });
           }else{
             swal({
                 title: "Delete Failed",
-                text: "Delete Data Failed.",
+                text: "Data Failed to be Deleted.",
                 icon: "error",
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Sosmed";
             });
           }
         },
@@ -161,27 +126,57 @@
     }else{
       alert(code + " Data Failed to be Deleted.");
     }
-  }  
+  }
+
+  function validasiEkstensi(){
+    var inputFile = document.getElementById('file');
+    var pathFile = inputFile.value;
+    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.JPG|\.JPEG|\.PNG)$/i;
+    if(!ekstensiOk.exec(pathFile)){
+        alert('Sorry, only format image JPG, JPEG, PNG');
+        inputFile.value = '';
+        return false;
+    }
+  }
+
+  function validasiEkstensi2(){
+    var inputFile = document.getElementById('file2');
+    var pathFile = inputFile.value;
+    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.JPG|\.JPEG|\.PNG)$/i;
+    if(!ekstensiOk.exec(pathFile)){
+        alert('Sorry, only format image JPG, JPEG, PNG');
+        inputFile.value = '';
+        return false;
+    }
+  }
+
+  function show_image(file,folder){
+    var pic = folder+""+file;
+    var img = $('<img />', {src : pic}).css("width","900px","height","400px");
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
+  
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Menu</b></h4>
+    <h4 class="page-title"><b>Sosial Media</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-        <li class="breadcrumb-item active" aria-current="page">From news</li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page"><b></b></li> -->
+        <!-- <li class="breadcrumb-item active" aria-current="page">Sosial Media</li> -->
     </ol>
     </nav>
   </div>
     <div class="row ">
       <div class="col-lg-12">
         <div class="car">
-          <div class="card-body btop">                    
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Menu &nbsp;
-            </button>
-          </div>
+            <div class="card-body btop">                    
+              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
+                <i class="mdi mdi-account-plus"></i> Add &nbsp;
+              </button>
+            </div>
         </div>
         <div class="card">
           <div class="card-body">
@@ -190,17 +185,17 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Menu Name</th>
-                    <th>Url/Controller</th>
-                    <th>Status</th>
-                    <th>Description</th>
-                    <th width="15%">Action</th>
+                    <th>Sosial Media</th>
+                    <th width="10%">Icon</th>
+                    <th>URL</th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_menu as $row) {
+                    foreach ($data_sosmed as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -208,21 +203,22 @@
                         case 'P':
                           $stat="Passive";
                         break; 
-                      }//end switch               
+                      }//end switch     
+                      
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
-                        echo "<td align=\"center\">".$stat."</td>";  
-                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"\">".ucwords($row->name)."</td>";
+                        echo "<td align=\"\">".$row->icon."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->icon."','".$row->url."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
-                              </td>";   
+                              </td>";       
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -239,20 +235,24 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_menu" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_sosmed" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Menu </h4>
+          <h4 class="modal-title">Add Data Sosial Media </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Menu Name" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Sosial Media</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Name Sosial Media" style="text-transform:capitalize" required>
+          </div>
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Icon</label>
+            <input type="text" class="form-control" name="icon" Placeholder="Entry Icon Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL</label>
+            <input type="text" class="form-control" name="url" Placeholder="Entry URL" required>
+          </div>
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -265,10 +265,6 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>       
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -283,21 +279,25 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_menu" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_sosmed" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Menu </h4>
+          <h4 class="modal-title">Update Data Sosial Media </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body">          
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
+            <label class="form-label">Sosial Media</label>
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
-          </div>  
+          </div>
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" id="url" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Icon Name</label>
+            <input type="text" class="form-control" name="icon" id="icon" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">URL</label>
+            <input type="text" class="form-control" name="url" id="url" required>
+          </div>
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -310,10 +310,6 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -325,19 +321,33 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="mdl_admin">
+  <div class="modal-dialog ">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Show Image </h4>
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-12 text-center" id="get_image"></div>
-        </div>         
-      </div>
+      <form method="post" action="<?php echo base_url(); ?>userlogin/tambah_admin" id="frm_group">
+        <div class="modal-customer">
+          <h4 class="modal-title">Tambah Data Administrator </h4>
+           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">name Administrator</label>
+            <input type="text" class="form-control" name="name" Placeholder="Input name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="email" class="form-control" name="username" Placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" Placeholder="Password" required>
+          </div>          
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary edit-btn"  value="Simpan" name="Tambah"> 
+          <input type="button" class="btn btn-danger edit-btn" id="close_admin" value="Batal" name="close">        
+        </div>
+      </form>
     </div>
   </div>
 </div>

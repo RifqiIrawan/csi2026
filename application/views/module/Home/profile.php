@@ -282,7 +282,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Company Name</label>
-            <input type="text" class="form-control" name="company" Placeholder="Entry Company Name" required>
+            <input type="text" class="form-control" name="company" Placeholder="Entry Company Name" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
             <label>Logo</label>
@@ -294,6 +294,11 @@
           <div class="form-group">
             <label class="form-label">Nick Name</label>
             <input type="text" class="form-control" name="nick" Placeholder="Entry Nick Name" style="text-transform:capitalize" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Vision</label>
+            <textarea class="form-control" name="descriptions" rows="6" Placeholder="Entry Vision" required></textarea>
           </div>
           <div class="form-group">
             <label class="form-label">Address</label>

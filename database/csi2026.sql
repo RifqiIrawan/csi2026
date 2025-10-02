@@ -1,8 +1,28 @@
 # Host: localhost  (Version: 5.5.5-10.1.36-MariaDB)
-# Date: 2025-09-24 23:05:06
+# Date: 2025-10-02 23:36:57
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES latin1 */;
+
+#
+# Structure for table "book_stand"
+#
+
+CREATE TABLE `book_stand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text,
+  `description2` text,
+  `file_name` varchar(255) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Data for table "book_stand"
+#
+
+REPLACE INTO `book_stand` VALUES (1,'sadsad','<p>adssad</p>\r\n','<p>asdasd</p>\r\n','spec.png','A');
 
 #
 # Structure for table "company"
@@ -31,6 +51,26 @@ CREATE TABLE `company` (
 #
 
 REPLACE INTO `company` VALUES (1,'About Us','253ac002b47f0577a1fd45434f471def.jpg','./assets/images/upload/company/',1,'<p>qqqq</p>\r\n','2025-03-18 09:55:08',NULL,NULL,NULL,NULL,'5','A','2025-03-18 10:43:50');
+
+#
+# Structure for table "contact"
+#
+
+CREATE TABLE `contact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `position` varchar(255) DEFAULT NULL,
+  `hp` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Data for table "contact"
+#
+
+REPLACE INTO `contact` VALUES (1,'wwerew423424','ewrewrewr','324324324','developer@argomanunggalgroup.com','A');
 
 #
 # Structure for table "content"
@@ -66,7 +106,7 @@ CREATE TABLE `content1` (
 # Data for table "content1"
 #
 
-REPLACE INTO `content1` VALUES (1,'asdsadsad','<p>asdsad</p>\r\n','adsadsa','08f606ffd4907f888f0796160ad2bd81.jpg','A');
+REPLACE INTO `content1` VALUES (1,'WELCOME TO Coating Show','Don’t miss the opportunity to promote your products internationally, regionally and locally at affordable costs.\r\n','<span>WELCOME TO EMPOWERING INDUSTRIES</span>','08f606ffd4907f888f0796160ad2bd81.jpg','A');
 
 #
 # Structure for table "customer"
@@ -132,13 +172,13 @@ CREATE TABLE `event` (
   `createdby` varchar(255) DEFAULT NULL,
   `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 #
 # Data for table "event"
 #
 
-REPLACE INTO `event` VALUES (1,'03-05 JUNE 2026 at Jakarta International Convention Center','asdsada1','<p>asdsadada1</p>\r\n','993c249454a5bd5ad3730299aef47d67.jpeg','adadada2','<p>asdsadasd</p>\r\n','558dab34fe60026a2ce18e643b8f2fe2.jpeg','A','2025-09-22 23:25:17','5',NULL),(2,'sadsadsa','sadsadsad','<p>asdsada</p>\r\n','de899aa19444462cfa798b9810b5465e.jpg','13ad','<p>asdasdsa</p>\r\n','832dd1585c4aba11c993af61f35dd3d9.png','A','2025-09-22 23:26:54','5',NULL);
+REPLACE INTO `event` VALUES (3,'03-05 JUNE 2026 At Jakarta International Convention Center','Become An Exhibitor!','<p style=\"margin-bootom:0rem;font-size:18px;font-family: Montserrat, sans-serif\">Don&rsquo;t miss the opportunity to promote your products internationally, regionally and locally</p>\r\n\r\n<p style=\"margin-bootom:0rem;font-size:18px;font-family: Montserrat, sans-serif\">at affordable costs.</p>\r\n\r\n<p style=\"margin-bootom:0rem; font-size:1.25rem;font-family: Montserrat, sans-serif;line-height:normal;letter-spacing: 10px\">03-05 JUNE 2026</p>\r\n\r\n<p style=\"margin-bootom:0rem;font-size:1.313rem;font-family: Montserrat, sans-serif;line-height:normal;letter-spacing: 10px\">JAKARTA INTERNATIONAL CONVENTION CENTER</p>\r\n','ca5f30a66f02254d2ea021c2a03ccbe9.jpg','VISIT Coating Show !','<p style=\"margin-bootom:0rem;font-size:16px;font-family: Montserrat, sans-serif;text-align:center;color:white\">Register now and explore hundreds of brands in one single place.</p>\r\n\r\n<p style=\"margin-bootom:0rem;font-size:20px;font-family: Montserrat, sans-serif;text-align:center;color:white\">FREE ADMISSION</p>\r\n','ab338fd2ffc088ad7acb4df64c516bb6.jpg','A','2025-09-28 22:46:12','5',NULL);
 
 #
 # Structure for table "event_old"
@@ -171,17 +211,17 @@ REPLACE INTO `event_old` VALUES (8,'Asia Pasific Coatings Show','Image1.png','./
 
 CREATE TABLE `event_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `value` text,
+  `title` text,
+  `value` varchar(255) DEFAULT '',
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 #
 # Data for table "event_value"
 #
 
-REPLACE INTO `event_value` VALUES (1,'Paint Companies in Indonesia','232','A');
+REPLACE INTO `event_value` VALUES (1,'Paint Companies in Indonesia','200','A'),(2,'Multi National / Regional Brands','34','A'),(3,'National Brands','92','A'),(4,'Small / Medium Manufacturers','74','A');
 
 #
 # Structure for table "login"
@@ -213,16 +253,41 @@ REPLACE INTO `login` VALUES (1,'Joy','Joy','25f9e794323b453885f5181f1b624d0b','A
 CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 #
 # Data for table "menu"
 #
 
-REPLACE INTO `menu` VALUES (2,'Pigments','A','asdsa'),(3,'Resins','A','sdsad');
+REPLACE INTO `menu` VALUES (1,'Home',NULL,'A',NULL),(2,'Exhibiting',NULL,'A',NULL),(3,'Visiting',NULL,'A',NULL),(4,'Information',NULL,'A',NULL),(5,'Contact',NULL,'A',NULL),(6,'News Upadate ',NULL,'A',NULL);
+
+#
+# Structure for table "partner"
+#
+
+CREATE TABLE `partner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) DEFAULT NULL,
+  `file_name` varchar(100) DEFAULT NULL,
+  `folder_name` varchar(100) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `urut` int(10) DEFAULT NULL,
+  `datecreated` datetime DEFAULT NULL,
+  `createdby` varchar(255) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `dateupdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Data for table "partner"
+#
+
+REPLACE INTO `partner` VALUES (2,'Quartz Business Media','Partner1.jpg','./assets/images/upload/partner/','https://www.quartzltd.com/',1,'2025-01-19 04:30:37','1','A','2025-02-05 00:43:32'),(3,'Westrade Group LTd','Partner2.jpg','./assets/images/upload/partner/','https://www.westrade.co.uk/',2,'2025-01-19 04:30:59','1','A',NULL),(4,'DMG Events','Partner3.jpg','./assets/images/upload/partner/','https://www.dmgevents.com/',3,'2025-01-19 04:31:11','1','A',NULL);
 
 #
 # Structure for table "product"
@@ -230,40 +295,18 @@ REPLACE INTO `menu` VALUES (2,'Pigments','A','asdsa'),(3,'Resins','A','sdsad');
 
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
+  `name` text,
   `status` varchar(1) DEFAULT NULL,
   `description` text,
+  `urut` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 #
 # Data for table "product"
 #
 
-REPLACE INTO `product` VALUES (1,'qweqwe','A','wqe');
-
-#
-# Structure for table "product_old"
-#
-
-CREATE TABLE `product_old` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(100) DEFAULT NULL,
-  `file_name` varchar(100) DEFAULT NULL,
-  `folder_name` varchar(100) DEFAULT NULL,
-  `urut` int(10) DEFAULT NULL,
-  `datecreated` datetime DEFAULT NULL,
-  `createdby` varchar(255) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `dateupdate` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
-#
-# Data for table "product_old"
-#
-
-REPLACE INTO `product_old` VALUES (1,'Chem Cleaner Brochure','c4d772a0a0343a043afbd1b113382bb6.pdf','./assets/images/upload/product/',1,'2025-01-19 04:06:04','1','A','2025-03-10 23:20:03'),(2,'Patented phospate brine brochure upon request','Product2.jpg','./assets/images/upload/product/',2,'2025-01-19 04:06:27','1','A',NULL),(3,'Chem Cleaner CC72','Product3.png','./assets/images/upload/product/',3,'2025-01-19 04:08:41','1','A',NULL),(4,'W T P M A','Product4.jpg','./assets/images/upload/product/',4,'2025-01-19 04:12:13','1','A',NULL),(5,'A P C S','Product5.jpg','./assets/images/upload/product/',5,'2025-01-19 04:14:02','1','A',NULL),(6,'glassman','Product6.jpg','./assets/images/upload/product/',6,'2025-01-19 04:15:45','1','A',NULL),(8,'Disinfectant ChemCleaner CC41','Product7.jpg','./assets/images/upload/product/',7,'2025-03-07 16:21:52','6','A',NULL),(9,'Hand Sanitizer ChemCleaner CC41S refil @ 1 Liter','Product8.jpg','./assets/images/upload/product/',8,'2025-03-07 16:22:55','6','A',NULL),(10,'Hand Sanitizer ChemCleaner CC41S Spray 100ml','d5c4aaf48d8d13b5fe721c4865e8466a.jpeg','./assets/images/upload/product/',9,'2025-03-07 16:23:33','6','A','2025-03-07 16:45:41'),(11,'Hand Sanitizer ChemCleaner CC41S Pump 1 Liter','304949405e33569b22ddc0d79ae14237.jpeg','./assets/images/upload/product/',10,'2025-03-07 16:24:08','6','A','2025-03-07 16:46:32'),(12,'V&B Care Fogging Disinfectant Xtra Lavender 1 Liter ','e675e1ef31c246233b6e81e701dfaff1.jpg','./assets/images/upload/product/',11,'2025-03-07 16:24:52','6','A','2025-03-07 16:40:30'),(13,'V&B Care Fogging Disinfectant 1 Liter ','46928a1d00607a26b3c9c829cfc4cab1.jpg','./assets/images/upload/product/',12,'2025-03-07 16:25:27','6','A','2025-03-07 16:40:53'),(14,'V&B Care Disinfectant Refil 5 Liter','a7636d15c11b4a19a451c8d10a472cbe.jpg','./assets/images/upload/product/',13,'2025-03-07 16:26:00','6','A','2025-03-07 16:41:15'),(15,'V&B Care Disinfectant pump 500 ml','55693f2d1c7484350d82d6a0fb826814.jpg','./assets/images/upload/product/',14,'2025-03-07 16:26:40','6','A','2025-03-07 16:42:16'),(16,'Electric Fogging Machine','df246b08e0d4e902f9741b5fb6721519.jpg','./assets/images/upload/product/',15,'2025-03-07 16:27:03','6','A','2025-03-07 16:44:07'),(17,'Nano Disinfectant Sprayer','9e2f431ca4d4c6ce0432c194a813a943.jpeg','./assets/images/upload/product/',16,'2025-03-07 16:28:27','6','A','2025-03-07 16:43:26'),(18,'Thermal Mist Fog Sprayer','cb6612136850e95234fae603d9d69b8a.jpg','./assets/images/upload/product/',17,'2025-03-07 16:30:19','6','A','2025-03-07 16:43:50'),(23,'32424','Product18.pdf','./assets/images/upload/product/',18,'2025-03-10 23:14:11','5','A',NULL);
+REPLACE INTO `product` VALUES (1,'Pigments','A',NULL,1),(2,'Resins','A',NULL,2),(3,'Additives','A',NULL,3),(4,'Production<br>Machines','A',NULL,4),(5,'Laboratory Testing Equipments','A',NULL,5),(6,'Packaging Suppliers/Producers','A',NULL,6),(7,'Paint<br>Manufactures','A',NULL,7),(8,'Painting<br>Equipments','A',NULL,8),(9,'Painting<br>Contractors','A',NULL,9);
 
 #
 # Structure for table "profile"
@@ -272,6 +315,7 @@ REPLACE INTO `product_old` VALUES (1,'Chem Cleaner Brochure','c4d772a0a0343a043a
 CREATE TABLE `profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company_name` varchar(255) DEFAULT NULL,
+  `vision` text,
   `logo` varchar(255) DEFAULT NULL,
   `folder` varchar(255) DEFAULT NULL,
   `nick_name` varchar(255) DEFAULT NULL,
@@ -292,6 +336,65 @@ CREATE TABLE `profile` (
 # Data for table "profile"
 #
 
+REPLACE INTO `profile` VALUES (2,'coating show','<p><span style=\"font-size:20px;text-align: justify;\">Coating Show aims to bring together professionals, stakeholders, and enthusiasts from the industries to explore the latest innovations, technologies, and trends. This event will serve as a platform for networking, knowledge exchange and business opportunities within the coatings industries.</span></p>\r\n<p style=\"font-size: 20px;text-align: justify;\">The show is an international show attended by business operators and visitors of related industries globally, regionally and locally. The multinational, regional and local exhibitors shall have the opportunity to directly meeting their clients and products’ end users.</p>','logo_com2.png','./assets/images/upload/profile/','coating show indonesia','asdsad','asdsad','213213','123213','developer@argomanunggalgroup.com','adasd','A','2025-10-02 22:04:47','5',NULL);
+
+#
+# Structure for table "quick_link"
+#
+
+CREATE TABLE `quick_link` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Data for table "quick_link"
+#
+
+
+#
+# Structure for table "sosmed"
+#
+
+CREATE TABLE `sosmed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `datecreated` datetime DEFAULT NULL,
+  `createdby` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+#
+# Data for table "sosmed"
+#
+
+REPLACE INTO `sosmed` VALUES (1,'youtube','youtube','-','P','2025-02-02 00:52:06','5'),(2,'instagram','instagram','-','A','2025-02-02 00:52:37','5'),(3,'fb','facebook','-','A','2025-02-02 00:53:55','5'),(4,'twitter','twitter','-','P','2025-02-02 00:54:07','5'),(5,'tiktok','tiktok','-','P','2025-02-02 21:54:37','5'),(6,'Linkedin','linkedin','-','A','2025-02-18 10:38:16','6');
+
+#
+# Structure for table "submenu"
+#
+
+CREATE TABLE `submenu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_id` varchar(255) DEFAULT NULL,
+  `sub_name` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+#
+# Data for table "submenu"
+#
+
+REPLACE INTO `submenu` VALUES (1,'2','Why Exhibit',NULL,'A',NULL),(2,'2','Exhibitor List',NULL,'A',NULL),(3,'2','Exhibitor Visa',NULL,'A',NULL);
 
 #
 # Structure for table "support"
@@ -309,10 +412,10 @@ CREATE TABLE `support` (
   `status` varchar(1) DEFAULT NULL,
   `dateupdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 #
 # Data for table "support"
 #
 
-REPLACE INTO `support` VALUES (2,'Quartz Business Media','Partner1.jpg','./assets/images/upload/support/','https://www.quartzltd.com/',1,'2025-01-19 04:30:37','1','A','2025-02-05 00:43:32'),(3,'Westrade Group LTd1','2c560a382b08b1ea76746f914978d364.jpg','./assets/images/upload/support/','https://www.westrade.co.uk/',2,'2025-01-19 04:30:59','1','A','2025-09-24 23:04:20');
+REPLACE INTO `support` VALUES (2,'Quartz Business Media','Partner1.jpg','./assets/images/upload/support/','https://www.quartzltd.com/',1,'2025-01-19 04:30:37','1','A','2025-02-05 00:43:32'),(3,'Westrade Group LTd1','Support3.jpg','./assets/images/upload/support/','https://www.westrade.co.uk/',2,'2025-01-19 04:30:59','1','A','2025-09-24 23:04:20');

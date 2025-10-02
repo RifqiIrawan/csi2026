@@ -21,9 +21,10 @@ class Home extends CI_Controller {
 
   public function add_menu(){
       $name = $this->input->post("name");
+      $url = $this->input->post("url");
       $status = $this->input->post("status");
-      $description = $this->input->post("descriptions");            
-      $insert = $this->M_Home->add_menu($name,$status,$description);
+      $description = $this->input->post("descriptions1");            
+      $insert = $this->M_Home->add_menu($name,$url,$status,$description);
       if($insert == true){
         $this->session->set_flashdata('save', 'Data Saved Successfully.');
         redirect('Home/Menu');         
@@ -37,9 +38,10 @@ class Home extends CI_Controller {
   public function update_menu(){
       $code = $this->input->post("code");
       $name = $this->input->post("name");
+      $url = $this->input->post("url");
       $status = $this->input->post("status");
       $description = $this->input->post("descriptions_edit");            
-      $insert = $this->M_Home->update_menu($code,$name,$status,$description);
+      $insert = $this->M_Home->update_menu($code,$name,$url,$status,$description);
       if($insert == true){
         $this->session->set_flashdata('update', 'Update Data Successfully.');
         redirect('Home/Menu');         
@@ -298,8 +300,9 @@ class Home extends CI_Controller {
 
   public function add_profile(){   
     $file = $_FILES;
-    $folder = './assets/images/upload/logo/';
+    $folder = './assets/images/upload/profile/';
     $company = $this->input->post("company");
+    $vision = $this->input->post("descriptions");
     $nick = $this->input->post("nick");
     $address = $this->input->post("address");
     $maps = $this->input->post("maps");
@@ -348,18 +351,18 @@ class Home extends CI_Controller {
         // $this->image_lib->clear();
         // $name_file = $config['file_name'];
         // $name_keterangan = $name[$i];
-        $insert = $this->M_Home->add_profile($company,$config['file_name'],$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status);        
+        $insert = $this->M_Home->add_profile($company,$vision,$config['file_name'],$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status);        
       }      
     }
 
     //$insert = $this->M_Home->tambah_profile($name,$icon,$url,$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
-      redirect('Profile');         
+      redirect('Home/Profile');         
     }
     else{
       $this->session->set_flashdata('not_save', 'Data Failed to Save.');
-      redirect('Profile');
+      redirect('Home/Profile');
     }   
   }
 
@@ -372,11 +375,11 @@ class Home extends CI_Controller {
     $update = $this->M_Home->update_profile($code,$name,$icon,$url,$status);
     if($update == true){
       $this->session->set_flashdata('update', 'Data Saved Successfully.');
-      redirect('Profile');         
+      redirect('Home/Profile');         
     }
     else{
       $this->session->set_flashdata('not_update', 'Data Failed to Save.');
-      redirect('Profile');
+      redirect('Home/Profile');
     }   
   }
 
@@ -475,7 +478,7 @@ class Home extends CI_Controller {
       $exp = $exp;	
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-      $config['file_name']     		= "Support".$number.".".$exp[1];
+      $config['file_name']     		= "support".$number.".".$exp[1];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -567,7 +570,7 @@ class Home extends CI_Controller {
       redirect('Home/Support');         
     }
     else{
-      $this->session->set_flashdata('not_update', 'Data Failed to Save.');
+      $this->session->set_flashdata('not_update', 'Data Failed to Update.');
       redirect('Home/Support');
     }   
   }
@@ -661,6 +664,167 @@ class Home extends CI_Controller {
   public function delete_book_stand(){
     $code = $this->input->post("code");
     $cek_data = $this->M_Home->delete_book_stand($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  //controller sosmed
+  public function Sosmed(){    
+    if($this->session->userdata('id_user') == NULL){
+      redirect('Login');
+    }
+    $data["data_sosmed"] = $this->M_Home->get_sosmed();
+    $this->template->load('Admin/role','module/Home/sosmed',$data);
+  }
+
+  public function add_sosmed(){   
+    $name = $this->input->post("name");
+    $icon = $this->input->post("icon");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");     
+    $insert = $this->M_Home->add_sosmed($name,$icon,$url,$status);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Sosmed');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Sosmed');
+    }   
+  }
+
+  public function update_sosmed(){   
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $icon = $this->input->post("icon");
+    $url = $this->input->post("url");  
+    $status = $this->input->post("status");     
+    $ubah = $this->M_Home->update_sosmed($code,$name,$icon,$url,$status);
+    if($ubah == true){
+      $this->session->set_flashdata('update', 'Data Saved Successfully.');
+      redirect('Home/sosmed');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'UpdateData Failed.');
+      redirect('Home/sosmed');
+    }   
+  }
+
+  public function delete_sosmed(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_sosmed($code);
+    if($cek_data == TRUE){           
+      echo "OK";     
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  // contact
+  public function Contact(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_contact"] = $this->M_Home->get_contact();
+    $this->template->load('Admin/role','module/Home/contact',$data);
+  }
+
+  public function add_contact(){
+    $name = $this->input->post("name");
+    $position = $this->input->post("position");
+    $hp = $this->input->post("hp");
+    $email = $this->input->post("email");
+    $status = $this->input->post("status");            
+    $insert = $this->M_Home->add_contact($name,$position,$hp,$email,$status);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Contact');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Contact');
+    } 
+  }
+
+  public function update_contact(){
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $position = $this->input->post("position");
+    $hp = $this->input->post("hp");
+    $email = $this->input->post("email");
+    $status = $this->input->post("status");      
+    $status = $this->input->post("status");           
+    $insert = $this->M_Home->update_contact($code,$name,$position,$hp,$email,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Contact');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Contact');
+    } 
+  }
+
+  public function delete_contact(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_contact($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  
+  // quick_link
+  public function Quick_link(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_quick_link"] = $this->M_Home->get_quick_link();
+    $this->template->load('Admin/role','module/Home/quick_link',$data);
+  }
+
+  public function add_quick_link(){
+    $title = $this->input->post("title");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");            
+    $insert = $this->M_Home->add_quick_link($title,$url,$status);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Quick_link');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Quick_link');
+    } 
+  }
+
+  public function update_quick_link(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $url = $this->input->post("url");         
+    $status = $this->input->post("status");           
+    $insert = $this->M_Home->update_quick_link($code,$title,$url,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Quick_link');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Quick_link');
+    } 
+  }
+
+  public function delete_quick_link(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_quick_link($code);
     if ($this->db->affected_rows()) {
       echo "OK";
     }
