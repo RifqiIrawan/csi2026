@@ -368,4 +368,92 @@ class M_Home extends CI_Model
     return $delete;
   }
 
+
+  // for Link Event Management
+  function get_link_event(){
+    $res = $this->db->query("SELECT * from link_event
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_link_event($title,$url,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        link_event(title,url,status) 
+                                        Values
+                                        ('".$title."','".$url."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_link_event($code,$title,$url,$status){
+    $update = $this->db->query(" UPDATE link_event SET title = '".$title."',url = '".$url."',status = '".$status."'
+                                WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_link_event($code){
+    $delete = $this->db->query(" DELETE FROM link_event WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for Floor Plan
+  function get_floor_plan(){
+    $res = $this->db->query("SELECT * from floor_plan
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_floor_plan($title,$file,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        floor_plan(title,file_upload,status) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_floor_plan($code,$title,$file,$status){
+    $update = $this->db->query(" UPDATE floor_plan SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_floor_plan($code){
+    $delete = $this->db->query(" DELETE FROM floor_plan WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for Carousel
+  function get_carousel(){
+    $res = $this->db->query("SELECT * from carousel
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_carousel($title,$file,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        carousel(title,file_upload,status,description) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_carousel($code,$title,$file,$status,$description){
+    $update = $this->db->query(" UPDATE carousel SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                  ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_carousel($code){
+    $delete = $this->db->query(" DELETE FROM carousel WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
 }

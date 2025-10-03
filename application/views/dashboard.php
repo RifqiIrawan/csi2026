@@ -83,6 +83,16 @@
 </head>
 
 <style>
+    .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      --bs-gutter-x: 2rem;
+      --bs-gutter-y: 0;
+      width: 100%;
+      padding-right: calc(var(--bs-gutter-x) * .5);
+      padding-left: calc(var(--bs-gutter-x) * .5);
+      margin-right: auto;
+      margin-left: auto;
+      color: #000;
+    }
     .media-carousel 
     {
       margin-bottom: 0;

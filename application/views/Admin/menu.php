@@ -135,6 +135,7 @@
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organizer</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sponsors');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sponsors</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sosmed');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sosmed</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Link_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Link Event (EMS)</a></li> 
 
             </ul>
           </div>

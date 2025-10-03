@@ -729,7 +729,7 @@
 
     .icn{
       margin-left: -7px;
-      color:white;
+      color:black;
     }
     .bw{
       width: 25px;

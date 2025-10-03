@@ -106,12 +106,10 @@
     });
   });
 
-  function upd(code,name,status,description,description2){
+  function upd(code,title,url,status){
     $("#code").val(code);
-    $("#name").val(name);
-    var desc = description;
-    CKEDITOR.instances.descriptions1.setData(desc);
-    CKEDITOR.instances.descriptions2.setData(description2);
+    $("#title").val(title);
+    $("#url").val(url);
     // $("#ket").val(ket);
 
     // if(status.length === 0){
@@ -127,7 +125,7 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_book_stand",
+        url: "<?php echo base_url()?>Home/delete_link_event",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
@@ -140,7 +138,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Book_Stand";
+              window.location = "Link_Event";
             });
           }else{
             swal({
@@ -150,7 +148,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Book_Stand";
+              window.location = "Link_Event";
             });
           }
         },
@@ -166,7 +164,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Book Stand</b></h4>
+    <h4 class="page-title"><b>Link Event Management (EMS)</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -191,10 +189,7 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title</th>
-                    <!-- <th>Text Header</th>
-                    <th>Text Footer</th> -->
-                    <th>Image</th>
-                    <th>File</th>
+                    <th>Url</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -202,7 +197,7 @@
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_book_stand as $row) {
+                    foreach ($data_link_event as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -214,13 +209,10 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        // echo "<td align=\"center\">".$row->description."</td>";   
-                        // echo "<td align=\"center\">".$row->description2."</td>";   
-                        echo "<td align=\"center\">".$stat."</td>";     
-                        echo "<td align=\"center\">".$stat."</td>";     
-                        echo "<td align=\"center\">".$stat."</td>";     
+                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."')\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->url."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -243,32 +235,20 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_book_stand" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_link_event" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Book Stand </h4>
+          <h4 class="modal-title">Add Link Event </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Title</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry book_stand Name" style="text-transform:capitalize" required>
-          </div>                  
-          <div class="form-group">
-            <label>Text Before Image</label>
-            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
-          </div>      
-          <div class="form-group">
-            <label>Text After Image</label>
-            <textarea class="form-control" name="descriptions2" rows="9"></textarea>
+            <input type="text" class="form-control" name="title" Placeholder="Entry Title" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label>Upload Image</label>
-            <input type="file" name="file" class="form-control">
-          </div>     
-          <div class="form-group">
-            <label>Upload File For Download</label>
-            <input type="file" name="file2" class="form-control">
-          </div>     
+            <label class="form-label">Url</label>
+            <input type="text" class="form-control" name="url" Placeholder="Entry Url" required>
+          </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -281,7 +261,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
+          </div>     
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn" value="Submit" name="Tambah"> 
@@ -295,43 +275,35 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_book_stand" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_link_event" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Book Stand </h4>
+          <h4 class="modal-title">Update Data Link Event </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <div class="form-group">
-                <label class="form-label">Title</label>
-                <input type="hidden" class="form-control" name="code" id="code">
-                <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
-            </div>   
-            <div class="form-group">
-                <label>Text Before Image</label>
-                <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
-            </div> 
-            <div class="form-group">
-                <label>Text After Image</label>
-                <textarea class="form-control" name="descriptions2_edit" name="descriptions2" rows="9"></textarea>
-            </div>   
           <div class="form-group">
-            <label>Upload Image</label>
-            <input type="file" name="file" class="form-control">
-          </div>   
-            <div class="form-group">
-                <label class="form-label">Status</label>
-                <div class="custom-controls-stacked">
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="status" value="A" id="A">
-                        <span class="custom-control-label">Active</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="status" value="P" id="P">
-                        <span class="custom-control-label">Passive</span>
-                    </label>             
-                </div>
-            </div>     
-        </div>            
+            <label class="form-label">Title</label>
+            <input type="hidden" class="form-control" name="code" id="code">
+            <input type="text" class="form-control" name="title" id="title" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Url</label>
+            <input type="text" class="form-control" name="url" id="url" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="custom-controls-stacked">
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="A" id="A">
+                <span class="custom-control-label">Active</span>
+              </label>
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="P" id="P">
+                <span class="custom-control-label">Passive</span>
+              </label>             
+            </div>
+          </div>    
+        </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
           <input type="button" class="btn btn-danger edit-btn" id="close_edit" value="Cancel" name="close">        
