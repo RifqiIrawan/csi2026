@@ -71,4 +71,266 @@ class M_Exhibiting extends CI_Model{
         // echo $this->db->last_query();
         return $query->result();
     }
+
+    public function why_exhibit_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+		$userid = $this->session->userdata('userid');
+		$user   = $this->session->userdata('username');
+		$type   = $this->session->userdata('usertype');
+		$nik    = $this->session->userdata('nik');
+		
+
+		// if ($this->input->post('order')) {
+		// 	$sortCount = sizeof($this->input->post('order'));
+		// 	for ($i = 0; $i <pre $sortCount; $i++) {
+		// 		if ($i > 0) {
+		// 			$orderq .= ",";
+		// 		}
+		// 		$orderq .= $this->input->post('columns')[$this->input->post('order')[$i]['column']]['data'] 
+		// 					. " " . $this->input->post('order')[$i]['dir'];
+		// 	}
+		// }
+
+		// $where .= "WHERE csi_contents.content_year = 'banner' AND csi_contents.content_year = 2026 ";
+		
+		// if ( $search !== "" ) {
+		// 	$where .= " where id = ? OR start_date LIKE ? OR end_date LIKE ? OR nama_karyawan LIKE ? ";
+		// 	array_push($qWhere, $search, "%".$search."%", "%".$search."%", "%".$search."%");
+		// }
+		
+		// $q = "SELECT csi_contentsid
+		// 	, csi_contents.menu_id
+		// 	, csi_contents.content_year
+		// 	, csi_contents.content_type
+		// 	, csi_contents.title
+		// 	, csi_contents.subtitle
+		// 	, csi_contents.body_text
+		// 	FROM csi_contents 
+		// 	LEFT JOIN csi_content_media on csi_contents.id = csi_content_media.content_id
+		// 	$where 
+		// 	ORDER BY $orderq LIMIT $limit OFFSET $start";
+		
+		// $query 	= $this->db>query($q, $qWhere);
+
+        $this->db->select('
+            csi_content_media.id as id,
+            csi_contents.menu_id,
+            csi_contents.content_year,
+            csi_contents.content_type,
+            csi_contents.title,
+            csi_contents.subtitle,
+            csi_contents.body_text,
+            csi_content_media.file_path
+        ');
+        $this->db->from('csi_contents');
+        $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
+        // where conditions
+        $this->db->where('csi_contents.content_type', 'banner');
+        $this->db->where('csi_contents.content_year', 2026);
+        $this->db->where('csi_content_media.media_type', 'image');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    => $i,
+				"id" 		    => $row->id,
+				"content_year" 	=> $row->content_year,
+				"title" 		=> $row->title,
+				"subtitle" 		=> $row->subtitle,
+				"file_path"	  	=> $row->file_path,
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
+
+    public function insert($tablename, $data)
+    {
+        return $this->db->insert($tablename, $data);
+    }
+
+    public function get($tablename, $where = [])
+    {
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+        $query = $this->db->get($tablename);
+
+        return $query;
+    }
+    /*
+        1. Ambil semua data
+        $data['all'] = $this->YourModel->getData('banners');
+
+        2. Ambil 1 data berdasarkan kondisi
+        $data['one'] = $this->YourModel->getData('banners', [
+            'where'  => ['id' => 5],
+            'single' => true
+        ]);
+
+        3. Ambil data dengan kolom tertentu + urutkan
+        $data['list'] = $this->YourModel->getData('banners', [
+            'select'   => 'id, title, status',
+            'where'    => ['status' => 'active'],
+            'order_by' => ['created_at', 'DESC'],
+            'limit'    => 10
+        ]);
+
+    */
+    public function getData($tablename, $options = [])
+    {
+        // Select
+        if (!empty($options['select'])) {
+            $this->db->select($options['select']);
+        } else {
+            $this->db->select('*'); // default ambil semua
+        }
+
+        // Where
+        if (!empty($options['where'])) {
+            $this->db->where($options['where']);
+        }
+
+        // Order By
+        if (!empty($options['order_by'])) {
+            $this->db->order_by($options['order_by'][0], $options['order_by'][1]); 
+            // contoh: ['created_at','DESC']
+        }
+
+        // Limit
+        if (!empty($options['limit'])) {
+            if (is_array($options['limit'])) {
+                $this->db->limit($options['limit'][0], $options['limit'][1]); 
+                // contoh: ['10','20'] -> limit 10 offset 20
+            } else {
+                $this->db->limit($options['limit']);
+            }
+        }
+
+        $query = $this->db->get($tablename);
+
+        // Return row atau result
+        if (!empty($options['single']) && $options['single'] === true) {
+            return $query->row_array(); // hanya satu row
+        }
+
+        return $query->result_array(); // banyak row
+    }
+    /*
+        1. Simple get
+        $result = $this->M_Model->get('users', ['status' => 1]);
+
+        2. With join
+        $result = $this->M_Model->get(
+            'users u',
+            ['u.status' => 1],
+            [['profiles p', 'p.user_id = u.id', 'left']],
+            'u.id, u.name, p.address',
+            ['u.id' => 'DESC']
+        );
+    */
+    public function fetchData($tablename, $where = [], $join = [], $select = '*', $order = [])
+    {
+        // Select fields
+        $this->db->select($select);
+        $this->db->from($tablename);
+
+        // Where condition
+        if (!empty($where)) {
+            $this->db->where($where);
+        }
+
+        // Joins: $join = [['table2', 'table2.id = table1.id_table2', 'left']]
+        if (!empty($join)) {
+            foreach ($join as $j) {
+                $type = isset($j[2]) ? $j[2] : ''; // default inner join
+                $this->db->join($j[0], $j[1], $type);
+            }
+        }
+
+        // Order By: $order = ['field_name' => 'ASC/DESC']
+        if (!empty($order)) {
+            foreach ($order as $field => $dir) {
+                $this->db->order_by($field, $dir);
+            }
+        }
+
+        return $this->db->get();
+    }
+
+
+
 }

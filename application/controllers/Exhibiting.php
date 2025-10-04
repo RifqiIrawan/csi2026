@@ -9,6 +9,7 @@ class Exhibiting extends CI_Controller {
         $this->load->model('M_Login');   
         $this->load->model('M_Form');
         $this->load->model('M_Exhibiting');
+        $this->load->library('upload');
     }
 
     public function index($submenu = null, $id = null){
@@ -22,6 +23,24 @@ class Exhibiting extends CI_Controller {
                 break;
             case "exhibitor-visa":
                 $this->exhibitor_visa();
+                break;
+            case "why-exhibit-settings":
+                $this->why_exhibit_settings();
+                break;
+            case "exhibitor-list-settings":
+                $this->exhibitor_list_settings();
+                break;
+            case "why-exhibit-datatable":
+                echo $this->M_Exhibiting->why_exhibit_datatable();
+                break;
+            case "why-exhibit-banner-add":
+                $this->banner_add_data();
+                break;
+            case "why-exhibit-banner-get-data":
+                $this->why_exhibit_banner_get_data($id);
+                break;
+            case "why-exhibit-banner-update":
+                $this->why_exhibit_banner_update();
                 break;
             default:
                 $this->whyexhibit_index();
@@ -319,5 +338,250 @@ class Exhibiting extends CI_Controller {
         $this->load->view('module/exhibiting/exhibitorvisa',$data);
         $this->load->view('layouts/footer', $data);
 	}
+
+    public function why_exhibit_settings(){
+        if($this->session->userdata('id_user') == NULL){
+            redirect('Login');
+        }        
+        
+        $this->template->load('Admin/role','module/settings/exhibiting/why_exhibit',$data);
+    }
+
+    public function exhibitor_list_settings(){
+        echo "Hellow World";
+        if($this->session->userdata('id_user') == NULL){
+            redirect('Login');
+        }        
+        
+        $this->template->load('Admin/role','module/settings/exhibiting/exhibitor_list',$data);
+    }
+
+    public function banner_add_data(){
+        
+        // Ambil input form
+        // print_r($_FILES);
+        // print_r($this->input->post());
+        // die();
+        /*
+        Array
+            (
+                [bannerimage] => Array
+                    (
+                        [name] => Sample Page - Coating Show Image.png
+                        [type] => image/png
+                        [tmp_name] => C:\xampp\tmp\phpF543.tmp
+                        [error] => 0
+                        [size] => 2193849
+                    )
+
+            )
+            Array
+            (
+                [bannertitle] => Banner Title
+                [bannersubtitle] => Banner Subtitle
+                [bannerlink] => 
+                [bannerStatus] => active
+            )
+        */
+        $title      = $this->input->post('bannertitle');
+        $subtitle   = $this->input->post('bannersubtitle');
+        $link       = $this->input->post('bannerlink');
+        $status     = $this->input->post('bannerStatus');
+
+        $menu_id = 7;
+        $content_year = 2026;
+        $created_date = date('Y-m-d H:i:s');
+        $created_by = 'sysadmin';
+        $content_type = 'banner';
+        $body_text = '';
+        $content_id = 0;
+
+        // Konfigurasi upload gambar
+        // assets/uploads/why_exhibit/banner.jpg
+        // $config['upload_path']   = './uploads/why_exhibit/'; // pastikan folder ini dibuat
+        // print_r(FCPATH);
+        $file_path = 'assets/uploads/why_exhibit/';
+        $config['upload_path'] = FCPATH . $file_path; // FCPATH = path ke public root CI
+
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 2048; // 2MB
+        // $config['max_size']      = 4096; // 4MB
+        $config['encrypt_name']  = TRUE; // supaya nama unik
+
+        $this->upload->initialize($config);
+
+        if (!empty($_FILES['bannerimage']['name'])) {
+            if ($this->upload->do_upload('bannerimage')) {
+                $uploadData = $this->upload->data();
+                $image = $uploadData['file_name'];
+            } else {
+                // echo $this->upload->display_errors();
+                // return;
+                $this->flashdata_set([
+                    'error' => $this->upload->display_errors()
+                ]);
+                redirect('exhibiting/why-exhibit-settings');
+            }
+        }
+
+        // echo "<pre> image:";
+		// print_r($image);
+		// echo "</pre>";
+        // Prepare the data array
+        // $data = [
+        //     'menu_id'       => $menu_id,      // replace $menu_id with your variable
+        //     'content_year'  => $content_year, // replace $content_year with your variable
+        //     'content_type'  => $content_type, // replace $content_type with your variable
+        //     'title'         => $title,        // replace $title with your variable
+        //     'subtitle'      => $subtitle,     // replace $subtitle with your variable
+        //     'body_text'     => $body_text,    // replace $body_text with your variable
+        //     'created_date'  => $created_date, // usually date('Y-m-d H:i:s')
+        //     'created_by'    => $created_by,   // your user id or name
+        //     'modified_date' => $created_date,// usually date('Y-m-d H:i:s')
+        //     'modified_by'   => $created_by   // your user id or name
+        // ];
+
+        // $sort_order = 1;
+        // $is_main = 1;
+
+        // $dataMedia = [
+        //     'id'              => $id,             // replace with actual id or leave null if auto-increment
+        //     'content_id'      => $content_id,     // the related content ID
+        //     'media_type'      => 'image',     // e.g., 'image', 'video', etc.
+        //     'file_path'       => $file_path . $image,      // path on server
+        //     'sort_order'      => $sort_order,     // integer
+        //     'is_main'         => $is_main,        // 0 or 1
+        //     'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')
+        //     'created_by'      => $created_by,     // user id or name
+        //     'modified_date'   => $created_date,  // usually date('Y-m-d H:i:s')
+        //     'modified_by'     => $created_by     // user id or name
+        // ];
+
+        // print_r($data);
+        // print_r($dataMedia);
+        // die();
+
+        try {
+            // Start transaction
+            $this->db->trans_begin();
+
+           // Prepare the data array
+            $data = [
+                'menu_id'       => $menu_id,      // replace $menu_id with your variable
+                'content_year'  => $content_year, // replace $content_year with your variable
+                'content_type'  => $content_type, // replace $content_type with your variable
+                'title'         => $title,        // replace $title with your variable
+                'subtitle'      => $subtitle,     // replace $subtitle with your variable
+                'body_text'     => $body_text,    // replace $body_text with your variable
+                'created_date'  => $created_date, // usually date('Y-m-d H:i:s')
+                'created_by'    => $created_by,   // your user id or name
+                'modified_date' => $created_date,// usually date('Y-m-d H:i:s')
+                'modified_by'   => $created_by   // your user id or name
+            ];
+
+            $this->db->insert('csi_contents', $data);
+            $content_id = $this->db->insert_id();
+
+            $sort_order = 1;
+            $is_main = 1;
+
+            $dataMedia = [
+                'content_id'      => $content_id,     // the related content ID
+                'media_type'      => 'image',     // e.g., 'image', 'video', etc.
+                'file_path'       => $file_path . $image,      // path on server
+                'sort_order'      => $sort_order,     // integer
+                'is_main'         => $is_main,        // 0 or 1
+                'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')
+                'created_by'      => $created_by,     // user id or name
+                'modified_date'   => $created_date,  // usually date('Y-m-d H:i:s')
+                'modified_by'     => $created_by     // user id or name
+            ];
+
+            // print_r($data);
+            // print_r($dataMedia);
+            // die();
+
+            // Simpan ke DB lewat model
+            $this->db->insert('csi_content_media', $dataMedia);
+
+            // Cek transaction
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception('Database insert failed.');
+            } else {
+                $this->db->trans_commit();
+            }
+
+            // Jika sukses
+            $this->flashdata_set([
+                'success' => 'Banner berhasil disimpan.'
+            ]);
+            redirect('exhibiting/why-exhibit-settings');
+
+        } catch (Exception $e) {
+            // Jika ada error
+            log_message('error', 'Banner save error: ' . $e->getMessage());
+            $this->flashdata_set([
+                'error' => 'Terjadi kesalahan saat menyimpan banner.'
+            ]);
+            redirect('exhibiting/why-exhibit-settings');
+        }
+    }
+
+    public function why_exhibit_banner_get_data($id){
+
+        $IDBanner = (int) $id;
+        // $activeBanners = $this->M_Exhibiting->get('csi_contents', [
+        //     'id' => $IDBanner
+        // ])->row_array();
+
+        $activeBanners = $this->M_Exhibiting->fetchData(
+            'csi_contents c',
+            ['c.id' => $IDBanner],
+            [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
+            'c.id, c.content_year, c.content_type, c.title, c.subtitle, c.status, cm.file_path as image, cm.url_path as link',
+            ['c.id' => 'DESC']
+        )->row_array();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeBanners['image'])) {
+            $activeBanners['image'] = base_url($activeBanners['image']);
+        }
+        // echo "<pre> activeBanners:";
+		// print_r($activeBanners);
+		// echo "</pre>";
+
+        // die();
+
+        if ($activeBanners) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeBanners));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    protected function flashdata_set(array $new_flashdata)
+    {
+        // 1️⃣ Reset all existing flashdata
+        $all_flash = $this->session->flashdata();
+        if (!empty($all_flash)) {
+            foreach ($all_flash as $key => $val) {
+                $this->session->unset_userdata($key);
+            }
+        }
+
+        // 2️⃣ Set new flashdata
+        foreach ($new_flashdata as $type => $msg) {
+            $this->session->set_flashdata($type, $msg);
+        }
+    }
     
 }
