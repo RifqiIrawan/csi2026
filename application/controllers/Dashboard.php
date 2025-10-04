@@ -11,41 +11,15 @@ class Dashboard extends CI_Controller {
   }
 
 	public function index(){    
-    $uri = $this->uri->segment(2);
-    $url = $this->uri->segment(3);
-    $data["data_slide"] = $this->M_Login->get_slide();
-    $data["data_slide2"] = $this->M_Login->get_slide2();
-    $data["data_slide3"] = $this->M_Login->get_slide3();
-    $data["data_slide4"] = $this->M_Login->get_slide4();
-    $data["data_slide5"] = $this->M_Login->get_slide5();
-    // $data["tbl_dom"] = $this->M_Login->tbl_domestic();
-    // $data["tbl_over"] = $this->M_Login->tbl_overseas();
-    $data["data_sosmed"] = $this->M_Login->get_sosmed();
-    $data["data_event"] = $this->M_Login->get_event();
-    $data["data_news"] = $this->M_Login->get_news();
-    $data["data_news_detail"] = $this->M_Login->get_news_detail($url);
-    $data["data_event_update"] = $this->M_Login->get_event_update($url);
-    $data_profile = $this->M_Form->get_profile_dashboard();
-    $r = $data_profile->row();
-
-    $data["company_name"] = $r->company_name;
-    $data["logo"] = $r->logo;
-    $data["folder"] = $r->folder;
-    $data["nick_name"] = $r->nick_name;
-    $data["address"] = $r->address;
-    $data["gmaps"] = $r->gmaps;
-    $data["phone"] = $r->phone;
-    $data["fax"] = $r->fax;
-    $data["email"] = $r->email;
-    $data["website"] = $r->website;
-    if(empty($uri)){      
-      $this->load->view('dashboard',$data);
-    }else if($uri == "info_news"){      
-      $this->load->view('module/info_news',$data);
-    }
-    else if($uri == "event_update"){      
-      $this->load->view('module/event_update',$data);
-    }    
+    $data["data_menu"] = $this->M_Login->get_menu();
+    $data["data_event"] = $this->M_Login->get_event()->row();
+    $data["data_product"] = $this->M_Login->get_product();
+    $data["data_event_value"] = $this->M_Login->get_event_value();
+    $data["data_support"] = $this->M_Login->get_support();
+    $data["data_content1"] = $this->M_Login->get_content1()->row();
+    $data["data_profile"] = $this->M_Login->get_profile()->row();
+    // print_r($data["data_event"]);die();
+    $this->load->view('dashboard',$data);
 	}
 
   public function Login(){   
@@ -80,13 +54,13 @@ class Dashboard extends CI_Controller {
     $this->template->load('Admin/role','module/home_admin');
 	}
 
-  public function visitor(){
-    if($this->session->userdata('id_user') == NULL){
-      redirect('Login');
-    }
-    $data["data_visitor"] = $this->M_Login->get_visitor();
-    $this->template->load('Admin/role','module/get_visitor',$data);
-  }
+  // public function visitor(){
+  //   if($this->session->userdata('id_user') == NULL){
+  //     redirect('Login');
+  //   }
+  //   $data["data_visitor"] = $this->M_Login->get_visitor();
+  //   $this->template->load('Admin/role','module/get_visitor',$data);
+  // }
 
   public function logout(){
     $this->load->library('session');	
@@ -94,23 +68,23 @@ class Dashboard extends CI_Controller {
     redirect('login');
   }
 
-  public function submit_form(){
-$this->load->helper('url');
-    $name = $this->input->post('name');
-		$email = $this->input->post('email');	
-    $hp = $this->input->post('hp');
-    $company = $this->input->post('company');
-    $position = $this->input->post('position');
-    $subject = $this->input->post('subject');
-		$message = $this->input->post('message');	
+  // public function submit_form(){
+  //   $this->load->helper('url');
+  //   $name = $this->input->post('name');
+	// 	$email = $this->input->post('email');	
+  //   $hp = $this->input->post('hp');
+  //   $company = $this->input->post('company');
+  //   $position = $this->input->post('position');
+  //   $subject = $this->input->post('subject');
+	// 	$message = $this->input->post('message');	
     
-    $this->M_Login->submit_form($name,$email,$hp,$company,$position,$subject,$message); 
-    if ($this->db->insert_id()) {
-      echo "<script>alert('Data Saved Successfully');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
-    } else {
-      echo "<script>alert('Data Failed to Save');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
-    }
-  }
+  //   $this->M_Login->submit_form($name,$email,$hp,$company,$position,$subject,$message); 
+  //   if ($this->db->insert_id()) {
+  //     echo "<script>alert('Data Saved Successfully');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
+  //   } else {
+  //     echo "<script>alert('Data Failed to Save');window.location.href = '".$_SERVER['HTTP_REFERER']."'</script>";
+  //   }
+  // }
 
   public function reset(){      
     $this->load->view('reset');
@@ -129,9 +103,4 @@ $this->load->helper('url');
       echo "<script type=\"text/javascript\">alert(\"Sorry, username doesn't exist in database\");window.location.href=\"login\"</script>";
     }
 	}
-
-  // public function info_news(){      
-  //   echo $this->uri->segment(2);
-    
-	// }
 }

@@ -191,8 +191,10 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title</th>
-                    <th>Text 1</th>
-                    <th>Text 2</th>
+                    <!-- <th>Text Header</th>
+                    <th>Text Footer</th> -->
+                    <th>Image</th>
+                    <th>File</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -212,11 +214,13 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        echo "<td align=\"center\">".$row->description."</td>";   
-                        echo "<td align=\"center\">".$row->description2."</td>";   
+                        // echo "<td align=\"center\">".$row->description."</td>";   
+                        // echo "<td align=\"center\">".$row->description2."</td>";   
+                        echo "<td align=\"center\">".$stat."</td>";     
+                        echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."','".preg_replace('/\r\n|\r|\n/', '',$row->description2)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."')\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -260,6 +264,10 @@
           <div class="form-group">
             <label>Upload Image</label>
             <input type="file" name="file" class="form-control">
+          </div>     
+          <div class="form-group">
+            <label>Upload File For Download</label>
+            <input type="file" name="file2" class="form-control">
           </div>     
           <div class="form-group">
             <label class="form-label">Status</label>

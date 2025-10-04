@@ -128,6 +128,15 @@
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Support');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Support</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Book_Stand');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Book A Stand</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Floor_Plan');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Floor Plan</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Carousel');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Carousel</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Quick_Link');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Quick Link</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Highlights');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Video Highlights</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organizer</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sponsors');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sponsors</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sosmed');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sosmed</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Link_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Link Event (EMS)</a></li> 
+
             </ul>
           </div>
         </li>

@@ -9,17 +9,17 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_menu($name,$status,$description){
+  function add_menu($name,$url,$status,$description){
     $insert = $this->db->query("INSERT INTO 
-                                        menu(name,status,description) 
+                                        menu(name,url,status,description) 
                                         Values
-                                        ('".$name."','".$status."','".$description."')
+                                        ('".$name."','".$url."','".$status."','".$description."')
                             ");
     return $insert;
   }
     
-  function update_menu($code,$name,$status,$description){
-    $update = $this->db->query(" UPDATE menu SET name = '".$name."',status = '".$status."'
+  function update_menu($code,$name,$url,$status,$description){
+    $update = $this->db->query(" UPDATE menu SET name = '".$name."',url = '".$url."',status = '".$status."'
                             ,description = '".$description."' WHERE id = '".$code."'
                       ");
     return $update;
@@ -142,12 +142,12 @@ class M_Home extends CI_Model
     return $res;
   }
 
-  function add_profile($company,$file,$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status){
+  function add_profile($company,$vision,$file,$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status){
     $insert = $this->db->query("INSERT INTO 
-                                profile(company_name,logo,folder,nick_name,address
+                                profile(company_name,vision,logo,folder,nick_name,address
                                         ,gmaps,phone,fax,email,website,datecreated,createdby,status) 
                                 Values
-                                ('".$company."','".$file."','".$folder."','".$nick."'
+                                ('".$company."','".$vision."','".$file."','".$folder."','".$nick."'
                                 ,'".$address."','".$maps."','".$phone."'
                                 ,'".$fax."','".$email."','".$website."',CURRENT_TIME()
                                 ,'".$this->session->userdata('id_user')."'
@@ -175,8 +175,8 @@ class M_Home extends CI_Model
 
   //product
   function get_product(){
-    $res = $this->db->query("SELECT * from menu
-                              order by id asc"); 
+    $res = $this->db->query("SELECT * from product
+                              order by urut asc"); 
     return $res->result();
   }
 
@@ -271,6 +271,187 @@ class M_Home extends CI_Model
   
   function delete_book_stand($code){
     $delete = $this->db->query(" DELETE FROM book_stand WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  //sosmed
+  function get_sosmed(){
+    $hasil = $this->db->query("SELECT * from sosmed
+                              order by id asc"); 
+    return $hasil->result();
+  }
+
+  function add_sosmed($name,$icon,$url,$status){
+    $res = $this->db->query("INSERT INTO 
+                                sosmed(name,icon,url,datecreated,createdby,status) 
+                                Values
+                                ('".$name."','".$icon."','".$url."',CURRENT_TIME(),'".$this->session->userdata('id_user')."'
+                                ,'".$status."')
+                            ");
+    return $res;
+  }
+    
+  function update_sosmed($kode,$name,$icon,$url,$status){
+    $res = $this->db->query(" UPDATE sosmed SET 
+                                      name = '".$name."'
+                                      ,icon = '".$icon."'
+                                      ,url = '".$url."'
+                                      ,status = '".$status."'
+                              WHERE id = '".$kode."'
+                      ");
+    return $res;
+  }
+
+  function delete_sosmed($kode){
+    $res = $this->db->query(" DELETE FROM sosmed WHERE id = '".$kode."'
+                      ");
+    return $res;
+  }
+
+  //contact
+  function get_contact(){
+    $res = $this->db->query("SELECT * from contact
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_contact($name,$position,$hp,$email,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        contact(name,position,hp,email,status) 
+                                        Values
+                                        ('".$name."','".$position."','".$hp."','".$email."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_contact($code,$name,$position,$hp,$email,$status){
+    $update = $this->db->query(" UPDATE contact SET name = '".$name."',position = '".$position."'
+                                ,hp = '".$hp."',email = '".$email."'
+                                ,status = '".$status."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_contact($code){
+    $delete = $this->db->query(" DELETE FROM contact WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // quick link
+  function get_quick_link(){
+    $res = $this->db->query("SELECT * from quick_link
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_quick_link($title,$url,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        quick_link(title,url,status) 
+                                        Values
+                                        ('".$title."','".$url."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_quick_link($code,$title,$url,$status){
+    $update = $this->db->query(" UPDATE quick_link SET title = '".$title."',url = '".$url."'
+                                ,status = '".$status."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_quick_link($code){
+    $delete = $this->db->query(" DELETE FROM quick_link WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+
+  // for Link Event Management
+  function get_link_event(){
+    $res = $this->db->query("SELECT * from link_event
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_link_event($title,$url,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        link_event(title,url,status) 
+                                        Values
+                                        ('".$title."','".$url."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_link_event($code,$title,$url,$status){
+    $update = $this->db->query(" UPDATE link_event SET title = '".$title."',url = '".$url."',status = '".$status."'
+                                WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_link_event($code){
+    $delete = $this->db->query(" DELETE FROM link_event WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for Floor Plan
+  function get_floor_plan(){
+    $res = $this->db->query("SELECT * from floor_plan
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_floor_plan($title,$file,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        floor_plan(title,file_upload,status) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_floor_plan($code,$title,$file,$status){
+    $update = $this->db->query(" UPDATE floor_plan SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_floor_plan($code){
+    $delete = $this->db->query(" DELETE FROM floor_plan WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for Carousel
+  function get_carousel(){
+    $res = $this->db->query("SELECT * from carousel
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_carousel($title,$file,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        carousel(title,file_upload,status,description) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_carousel($code,$title,$file,$status,$description){
+    $update = $this->db->query(" UPDATE carousel SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                  ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_carousel($code){
+    $delete = $this->db->query(" DELETE FROM carousel WHERE id = '".$code."'
                       ");
     return $delete;
   }

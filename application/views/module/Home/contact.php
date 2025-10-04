@@ -106,19 +106,13 @@
     });
   });
 
-  function upd(code,name,url,status,description){
+  function upd(code,name,position,hp,email,status){
     $("#code").val(code);
     $("#name").val(name);
-    $("#url").val(url);
-    var desc = description;
-    CKEDITOR.instances.descriptions.setData(desc);
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    $("#position").val(position);
+    $("#hp").val(hp);
+    $("#email").val(email);
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -127,7 +121,7 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_menu",
+        url: "<?php echo base_url()?>Home/delete_Contact",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
@@ -140,7 +134,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Contact";
             });
           }else{
             swal({
@@ -150,7 +144,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Contact";
             });
           }
         },
@@ -166,7 +160,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Menu</b></h4>
+    <h4 class="page-title"><b>Contact</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -179,7 +173,7 @@
         <div class="car">
           <div class="card-body btop">                    
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Menu &nbsp;
+              <i class="mdi mdi-account-plus"></i> Add Contact &nbsp;
             </button>
           </div>
         </div>
@@ -190,17 +184,18 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Menu Name</th>
-                    <th>Url/Controller</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Telephone</th>
+                    <th>Email</th>
                     <th>Status</th>
-                    <th>Description</th>
                     <th width="15%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_menu as $row) {
+                    foreach ($data_contact as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -212,11 +207,12 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
-                        echo "<td align=\"center\">".$stat."</td>";  
-                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"\">".ucwords(strtolower($row->position))."</td>";
+                        echo "<td align=\"\">".$row->hp."</td>";
+                        echo "<td align=\"\">".$row->email."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->position."','".$row->hp."','".$row->email."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -239,19 +235,27 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_menu" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_Contact" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Menu </h4>
+          <h4 class="modal-title">Add Contact </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Menu Name" style="text-transform:capitalize" required>
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Name" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
+            <label class="form-label">Position</label>
+            <input type="text" class="form-control" name="position" Placeholder="Entry Position" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Telephone</label>
+            <input type="number" class="form-control" name="hp" Placeholder="Entry Telephone" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" Placeholder="Entry Email"required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -265,11 +269,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>       
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
-          </div>      
+          </div>    
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn" value="Submit" name="Tambah"> 
@@ -283,20 +283,28 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_menu" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_Contact" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Menu </h4>
+          <h4 class="modal-title">Update Data Contact </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
+            <label class="form-label"> Name</label>
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="text" class="form-control" name="position" id="position" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" id="url" style="text-transform:capitalize" required>
+            <label class="form-label">Telephone</label>
+            <input type="number" class="form-control" name="hp" id="hp" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -310,11 +318,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
-          </div>      
+          </div>     
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 

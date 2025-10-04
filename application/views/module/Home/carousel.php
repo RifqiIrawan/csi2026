@@ -106,10 +106,10 @@
     });
   });
 
-  function upd(code,name,url,status,description){
+  function upd(code,title,file,status,description){
     $("#code").val(code);
-    $("#name").val(name);
-    $("#url").val(url);
+    $("#title").val(title);
+    $("#file_edit").val(file);
     var desc = description;
     CKEDITOR.instances.descriptions.setData(desc);
     // $("#ket").val(ket);
@@ -127,7 +127,7 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_menu",
+        url: "<?php echo base_url()?>Home/delete_carousel",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
@@ -140,7 +140,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Carousel";
             });
           }else{
             swal({
@@ -150,7 +150,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Menu";
+              window.location = "Carousel";
             });
           }
         },
@@ -166,7 +166,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Menu</b></h4>
+    <h4 class="page-title"><b>Carousel</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -179,7 +179,7 @@
         <div class="car">
           <div class="card-body btop">                    
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add Menu &nbsp;
+              <i class="mdi mdi-account-plus"></i> Add &nbsp;
             </button>
           </div>
         </div>
@@ -190,17 +190,17 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Menu Name</th>
-                    <th>Url/Controller</th>
-                    <th>Status</th>
+                    <th>Title</th>
+                    <th>File</th>
                     <th>Description</th>
+                    <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_menu as $row) {
+                    foreach ($data_carousel as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -211,12 +211,12 @@
                       }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-file-image\" style=\"font-size: 16px;cursor:pointer\"></td>";
+                        echo "<td align=\"center\">".$row->description."</td>";  
                         echo "<td align=\"center\">".$stat."</td>";  
-                        echo "<td align=\"center\">".$row->description."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->file_upload."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -239,19 +239,23 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_menu" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_carousel" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Menu </h4>
+          <h4 class="modal-title">Add Data Floor Plan </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Menu Name" style="text-transform:capitalize" required>
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" Placeholder="Entry Title" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
+            <label class="form-label">Upload File</label>
+            <input type="file" class="form-control" name="file" required>
+          </div>         
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -265,11 +269,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>       
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
-          </div>      
+          </div>    
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn" value="Submit" name="Tambah"> 
@@ -283,21 +283,25 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_menu" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_carousel" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Menu </h4>
+          <h4 class="modal-title">Update Data Floor Plan</h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Menu Name</label>
+            <label class="form-label">Title</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+            <input type="text" class="form-control" name="title" id="title" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label class="form-label">Url/Controller</label>
-            <input type="text" class="form-control" name="url" id="url" style="text-transform:capitalize" required>
+            <label class="form-label">Upload File</label>
+            <input type="file" class="form-control" name="url" required>
           </div>  
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
+          </div>      
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -310,11 +314,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>    
-          <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
-          </div>      
+          </div>
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 

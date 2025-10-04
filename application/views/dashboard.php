@@ -83,6 +83,16 @@
 </head>
 
 <style>
+    .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      --bs-gutter-x: 2rem;
+      --bs-gutter-y: 0;
+      width: 100%;
+      padding-right: calc(var(--bs-gutter-x) * .5);
+      padding-left: calc(var(--bs-gutter-x) * .5);
+      margin-right: auto;
+      margin-left: auto;
+      color: #000;
+    }
     .media-carousel 
     {
       margin-bottom: 0;
@@ -137,10 +147,30 @@
     }
 
     body {
-      color: var(--default-color);
-      background-color: var(--background-color);
-      font-family: var(--default-font);
-      font-family: Poppins, sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: normal;
+      color: #000;
+      margin: 0;
+      overflow-x: hidden
+    }
+
+    body,h1,h2,h3,h4,h5,h6 {
+      /* color: var(--default-color);
+      background-color: var(--background-color); */
+      /* font-family: var(--default-font);
+      font-family: Poppins, sans-serif; */
+      font-family: Montserrat, sans-serif;
+      line-height: normal      
+    }
+
+    p {
+      display: block;
+      margin: 0 0 15px;
+      font-weight: 400;
+      line-height: 1.75;
+      letter-spacing: normal;
+      word-break: break-word
     }
     .header {
         color: #000;
@@ -653,10 +683,10 @@
       overflow: clip;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    /* h1, h2, h3, h4, h5, h6 {
       color: #000;
       font-weight: 700;
-    }
+    } */
 </style>
 
 <style>
@@ -1109,6 +1139,14 @@
   .hero .carousel-item {    
     margin-top: -30px;
   }
+
+  .text-white {
+    --bs-text-opacity: 1;
+    color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+  }
+  .text-center {
+    text-align: center !important;
+  }
  </style>
 
 <body class="index-page">
@@ -1119,17 +1157,38 @@
         </a>
         <nav id="navmenu" class="navmenu">
             <ul>
-            <li class="dropdown"><a href="#"><span>Home</span></a>
+              <!-- <li class="dropdown"><a href="#"><span>Home</span></a>
                 <ul>
                 <li><a href="#about">Exhibiting</a></li>
                 <li><a href="#partners">Visiting</a></li>
                 </ul>
-            </li>
-            <li><a href="#product">Exhibiting</a></li>
-            <li><a href="#product">Visiting</a></li>
-            <li><a href="#product">Information</a></li>
-            <li><a href="#product">Contact</a></li>
-            <li><a href="#product">News Upadate </a></li>
+              </li>
+              <li><a href="#product">Exhibiting</a></li>
+              <li><a href="#product">Visiting</a></li>
+              <li><a href="#product">Information</a></li>
+              <li><a href="#product">Contact</a></li>
+              <li><a href="#product">News Upadate </a></li> -->
+              <?php
+                foreach($data_menu as $row){ 
+              ?>
+                <li class="dropdown"><a href="#"><span><?php echo $row->name?></span></a>
+                  <ul>
+                    <?php
+                      $submenu = $this->db->query("SELECT *
+                                                  FROM submenu
+                                                  where menu_id = '".$row->id."'
+                                              ")->result(); 
+                      foreach($submenu as $rw){
+                    ?>
+                      <li><a href=""><?php echo strtoupper($rw->sub_name)?></a></li>
+                    <?php
+                      }
+                    ?>
+                  </ul>
+                <?php
+                  }
+                ?>
+                </li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -1233,12 +1292,12 @@
     <section id="event_date" class="portfolio section">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 mt-3">
-            <h5><b>03-05 JUNE 2026 at  Jakarta International Convention Center</b></h5>
+          <div class="col-lg-4 mt-3" style="font-family: Montserrat, sans-serif;">
+            <h5><b><?php echo $data_event->name?></b></h5>
           </div>
           <div class="col-lg-8 mt-3" style="text-align: right;">
-            <button type="button" class="btn btn-warning">BOOK A STAND</button>
-            <button type="button" class="btn btn-warning">FLOOR PLAN</button>
+            <button type="button" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</button>
+            <button type="button" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</button>
           </div>
         </div>
       </div>
@@ -1249,24 +1308,23 @@
         <div class="row">
           <div class="col-lg-5">
           <p>
-            <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">WELCOME TO
-              Coating Show
+            <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">
+            <?php echo $data_content1->title?>
             </span>
           </p>
           <p>
-            <h3 style="margin:0; font-weight: 400;">
-              Don’t miss the opportunity to promote your products internationally, regionally and locally at
-              affordable costs.
+            <h3>
+              <?php echo $data_content1->description?>
             </h3>
           </p>
           </div>
           <div class="col-lg-7" style="text-align:center">
             <p>
-              <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">WELCOME TO
-                EMPOWERING INDUSTRIES
+              <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">
+                <?php echo $data_content1->image_title?>
               </span>
             </p>
-            <p><img src="https://coatingshow.com/welcome-banner.png" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="auto" height="300px"></p>
+            <p><img src="<?php echo base_url();?>assets/images/upload/content/<?php echo $data_content1->image?>" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="auto" height="300px"></p>
           </div>
         </div>
       </div>
@@ -1275,30 +1333,14 @@
     <section id="stats" class="stats section dark-background">
       <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #5B9D0A !important;">
         <div class="row">
+          <?php foreach($data_event_value as $row){?>
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
-              <p> Paint Companies in Indonesia </p>
+              <span data-purecounter-start="0" data-purecounter-end="<?php echo $row->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row->value;?></span>
+              <p> <?php echo $row->title;?> </p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
-              <p> Multi National / Regional Brands </p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="0" class="purecounter">1453</span>
-              <p> National Brands </p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="0" class="purecounter">32</span>
-              <p> Small / Medium Manufacturers </p>
-            </div>
-          </div>
+          <?php } ?>         
         </div>
       </div>
     </section>
@@ -1307,9 +1349,9 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <p><h3><b>Coating Show</b></h3></p>
-            <p class="mb-4" style="font-size: 20px;text-align: justify;font-weight:300">
-              Coating Show aims to bring together professionals, stakeholders, and enthusiasts from the industries to explore the latest innovations, technologies, and trends. This event will serve as a platform for networking, knowledge exchange and business opportunities within the coatings industries.
+            <p><h3><b><?php echo ucwords($data_profile->company_name)?></b></h3></p>
+            <p class="mb-4">
+              <?php echo $data_profile->vision?>
             </p>
           </div>
         </div>
@@ -1319,61 +1361,48 @@
     <section id="event_date" class="portfolio section">
       <div class="container">
         <div class="row">
+          <?php
+            foreach($data_product as $row){ 
+          ?>
           <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Pigments</h4>
+            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;"><?php echo $row->name?></h4>
           </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Resins</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;">Additives</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Production <br> Machines</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Laboratory Testing <br> Equipments</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Packaging <br> Suppliers/Producers</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Paint <br> Manufactures</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Equipments</h4>
-          </div>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px">Painting <br> Contractors</h4>
-          </div>
+          <?php } ?>
         </div>
       </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <button class="btn btn-success" style="min-width: 150px;min-height: 50px;font-weight: 700;font-size: 24px;margin-top:10px;color:white">Event</button>
+          </div>
+        </div>
+      </div><br>
     </section>
 
-    <section style="background-image: url('<?php echo base_url();?>Website/assets/img/bg-cta.jpg');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
+    <section style="background-image: url('<?php echo base_url();?>assets/images/upload/event/image1/<?php echo $data_event->image1?>');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
       <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
-          <h2 class="text-white text-center" style="text-transform: uppercase">
-              Become An Exhibitor!
-          </h2>
-          <h5 class="text-white text-center"><b>Don’t miss the opportunity to promote your products internationally,
-                  regionally and locally<br>at affordable costs.</b></h5>
-          <h4 class="text-center text-white mt-3" style="letter-spacing: 10px">
-              03-05 JUNE 2026 <br>
-              JAKARTA INTERNATIONAL CONVENTION CENTER
-              </h4><h4>
-                  <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
-                  <a href="https://coatingshow.com/book-a-stand" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Book a
-                          Stand</b></a>
-        </h4></div>
+        <h2 class="text-white text-center" style="text-transform: uppercase;font-size:2rem;;font-weight:800">
+          <?php echo $data_event->title1?>
+        </h2>
+        <h1 class="text-white text-center fw-bold">
+          <b><?php echo $data_event->description1?></b>
+        </h1>
+        <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
+        <a href="https://coatingshow.com/book-a-stand" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content">
+        <b>Book a Stand</b>
+        </a>
+      </div>
     </section>
 
     <section class="mx-auto book-stand mb-4" style="border-radius: 0px;width: 100%;z-index: 10;position: relative;background: url('<?php echo base_url();?>Website/assets/img/bg-regist2.jpg'); background-position: center; background-size: cover;">
         <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
             <h2 class="text-white text-center">
-                VISIT Coating Show !
+              <?php echo $data_event->title2?>
             </h2>
-            <p class="text-center text-white"><b>Register now and explore hundreds of brands in one single place.</b></p>
-            <h4 class="text-center text-white">FREE ADMISSION</h4>
+            <p class="text-center text-white">
+              <b><?php echo $data_event->description2?></b>
+            </p>          
             <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
         </div>
     </section>
@@ -1393,7 +1422,7 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_slide5 as $row5){ 
+                      foreach($data_support as $row5){ 
                         $file5 = $row5->folder_name."".$row5->file_name;
                         $img5 = "".$file5."";
                     ?> 
@@ -1401,7 +1430,7 @@
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
                         <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" width="10%" title="Supported" alt="Supported">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="Supported" alt="Supported">
                         </a>
                         <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
@@ -1535,7 +1564,7 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-    <p>Copyright © <?php echo date('Y');?> <?php echo $company_name?>. All Right Reserved.</p>
+    <p>Copyright © <?php echo date('Y');?> <?php echo ucwords($data_profile->nick_name)?>. All Right Reserved.</p>
     </div>
   </footer>
 

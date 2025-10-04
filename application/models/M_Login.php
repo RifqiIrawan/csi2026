@@ -10,131 +10,64 @@ class M_Login extends CI_Model{
       return $hasil;
   }
 
-  function get_visitor(){
-    $hasil = $this->db->query("SELECT *
-                                FROM visitor_ip
-                                ")->result(); 
-    return $hasil;
+  function get_menu(){
+    $res = $this->db->query("SELECT *
+                                FROM menu
+                            ")->result(); 
+    return $res;
   }
 
-  function get_slide(){
-    $hasil = $this->db->query("SELECT *
-                                FROM design_header
-                                where status = 'A' 
-                                order by urut
-                              ")->result(); 
-    return $hasil;
-  }
-
-  function get_slide2(){
-    $hasil = $this->db->query("SELECT *
-                                FROM partner
-                                where status = 'A' 
-                                order by urut
-                              ")->result(); 
-    return $hasil;
-  }
-
-  function get_slide3(){
-    $hasil = $this->db->query("SELECT *
-                                FROM company
+  function get_event(){
+    $res = $this->db->query("SELECT *
+                                FROM event
                                 where status = 'A'
-                                order by urut
-                              ")->result(); 
-    return $hasil;
+                              "); 
+    return $res;
   }
 
-  function get_slide4(){
-    $hasil = $this->db->query("SELECT *
+
+  function get_product(){
+    $res = $this->db->query("SELECT *
                                 FROM product
                                 where status = 'A' 
                                 order by urut
                               ")->result(); 
-    return $hasil;
+    return $res;
   }
 
-  function get_slide5(){
-    $hasil = $this->db->query("SELECT *
-                                FROM customer
-                                where status = 'A' 
-                                order by urut
-                              ")->result(); 
-    return $hasil;
-  }
-
-  function get_sosmed(){
-    $hasil = $this->db->query("SELECT *
-                                FROM sosmed
+  function get_event_value(){
+    $res = $this->db->query("SELECT *
+                                FROM event_value
                                 where status = 'A' 
                                 order by id
                               ")->result(); 
-    return $hasil;
+    return $res;
   }
 
-  function get_event(){
-    $hasil = $this->db->query("SELECT *
-                                FROM event
+  function get_content1(){
+    $res = $this->db->query("SELECT *
+                                FROM content1
                                 where status = 'A' 
-                                order by position
-                              ")->result(); 
-    return $hasil;
-  }
-
-  // function tbl_domestic(){
-  //   $hasil = $this->db->query("SELECT *
-  //                               FROM customer
-  //                               where status = 'A' 
-  //                               and kategori = '1'
-  //                               order by id
-  //                             ")->result(); 
-  //   return $hasil;
-  // }
-
-  // function tbl_overseas(){
-  //   $hasil = $this->db->query("SELECT *
-  //                               FROM customer
-  //                               where status = 'A' 
-  //                               and kategori = '2'
-  //                               order by id
-  //                             ")->result(); 
-  //   return $hasil;
-  // }
-
-  function submit_form($name,$email,$hp,$company,$position,$subject,$message){
-    $insert = $this->db->query("INSERT INTO 
-                                submit_form(name,hp,company,position,subject,email,message,datecreated) 
-                                Values
-                                ('".$name."','".$hp."','".$company."','".$position."','".$subject."','".$email."','".$message."',CURRENT_TIME())
-                            ");
-    return $insert;
-  }
-
-  function get_news(){
-    $hasil = $this->db->query("SELECT *
-                                FROM news
-                                where status = 'A' 
-                                order by position
-                              ")->result(); 
-    return $hasil;
-  }
-
-  function get_news_detail($url){
-    $hasil = $this->db->query("SELECT *
-                                FROM news
-                                where status = 'A' 
-                                and id = '".$url."'
-                                order by position
+                                order by id
                               "); 
-    return $hasil;
+    return $res;
   }
 
-  function get_event_update($url){
-    $hasil = $this->db->query("SELECT *
-                                FROM event
+  function get_support(){
+    $res = $this->db->query("SELECT *
+                              FROM support
+                              where status = 'A' 
+                              order by urut
+                            ")->result(); 
+    return $res;
+  }
+
+  function get_profile(){
+    $res = $this->db->query("SELECT *
+                                FROM profile
                                 where status = 'A' 
-                                and id = '".$url."'
-                                order by position
+                                order by id
                               "); 
-    return $hasil;
+    return $res;
   }
 }

@@ -729,7 +729,7 @@
 
     .icn{
       margin-left: -7px;
-      color:white;
+      color:black;
     }
     .bw{
       width: 25px;
@@ -789,6 +789,10 @@
       });
 
       $('#acc').on("click", function() { 
+      });
+
+      $('#test').on("click", function() { 
+        $("#test").attr("collapse");
       });
 
       $('#upd').on("click", function() { 
