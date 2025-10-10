@@ -516,11 +516,27 @@
             <?php endif; ?>
 
             <div style="text-align: center;">
-                <?php if (!empty($section3['subtitle'])): ?>
-                    <h3 style="font-weight: bold; margin: 40px auto; max-width: 800px;"><?= $section3['subtitle']; ?></h3>
+                <?php if (!empty($visainformation['subtitle'])): ?>
+                    <h3 style="font-weight: bold; margin: 40px auto; max-width: 800px;"><?= $visainformation['subtitle']; ?></h3>
                 <?php endif; ?>
 
-                <?= $section3['body_text']; ?>
+                <?= $visainformation['body_text']; ?>
+                <a class="btn primary-btn" 
+                    href="https://evisa.imigrasi.go.id/" 
+                    style="background-color: #4CAF50; 
+                            color: white; 
+                            padding: 12px 30px; 
+                            text-decoration: none; 
+                            font-weight: bold; 
+                            border-radius: 5px; 
+                            display: inline-block; 
+                            margin: 20px 0;" 
+                    target="_blank">
+                    Apply for Visa
+                </a>
+                <p style="margin-top: 15px;">
+                    <strong>The organizer is not responsible for those who enter the show with incorrect visas.</strong>
+                </p>
             </div>
 
         </div>

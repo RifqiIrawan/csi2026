@@ -170,6 +170,42 @@
           </a>
         </li>
 
+        <!-- Exhibiting Menu -->
+        <li class="nav-item menu-items">
+          <a class="nav-link" data-toggle="collapse" href="#exhibitingMenu" aria-expanded="false" aria-controls="exhibitingMenu" data-parent="#exhibitingMenu">
+            <span class="menu-icon">
+              <i class="mdi mdi-briefcase"></i>
+            </span>
+            <span class="menu-title">Exhibiting</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="exhibitingMenu" data-parent="#exhibitingMenu">
+            <ul class="nav flex-column sub-menu">
+
+              <!-- Why Exhibit with Sub Menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('exhibiting/why-exhibit-settings'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Why Exhibit
+                </a>
+              </li>
+
+              <!-- Other Exhibiting Pages -->
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('exhibiting/exhibitor-list-settings'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Exhibitor List
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('Home/About'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Exhibitor Visa
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
         <!-- <li class="nav-item menu-items">
           <a class="nav-link" href="<?php echo site_url('form_product');?>">
             <span class="menu-icon">

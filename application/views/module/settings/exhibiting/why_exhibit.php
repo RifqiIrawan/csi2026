@@ -7,122 +7,188 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
 <style>/* TAB STYLING */
-.main-panel{
-    padding-top: 50px !important
-}
-.custom-tabs {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-  border-bottom: 2px solid #dee2e6;
-  background: #f8f9fa;
-  padding: .5rem;
-  border-radius: .5rem .5rem 0 0;
-}
+  .main-panel{
+      padding-top: 50px !important
+  }
+  .custom-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    border-bottom: 2px solid #dee2e6;
+    background: #f8f9fa;
+    padding: .5rem;
+    border-radius: .5rem .5rem 0 0;
+  }
 
-.custom-tabs .nav-link {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  color: #495057;
-  border: none;
-  background: transparent;
-  padding: .5rem 1rem;
-  border-radius: .5rem;
-  transition: all 0.3s;
-  font-weight: 500;
-}
+  .custom-tabs .nav-link {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    color: #495057;
+    border: none;
+    background: transparent;
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
 
-.custom-tabs .nav-link i {
-  margin-right: 6px;
-}
+  .custom-tabs .nav-link i {
+    margin-right: 6px;
+  }
 
-.custom-tabs .nav-link:hover {
-  background: #e9ecef;
-  color: #0d6efd;
-}
+  .custom-tabs .nav-link:hover {
+    background: #e9ecef;
+    color: #0d6efd;
+  }
 
-.custom-tabs .nav-link.active {
-  background: #0d6efd;
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
+  .custom-tabs .nav-link.active {
+    background: #0d6efd;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
 
-/* CARD MODERN */
-.tab-card {
-  border: none;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: all 0.3s;
-}
+  /* CARD MODERN */
+  .tab-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+  }
 
-.tab-card:hover {
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-}
+  .tab-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  }
 
-/* FORM INPUT STYLING */
-.form-control, .form-check-input {
-  border-radius: .5rem;
-  box-shadow: none !important;
-}
+  /* FORM INPUT STYLING */
+  .form-control, .form-check-input {
+    border-radius: .5rem;
+    box-shadow: none !important;
+  }
 
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 .2rem rgba(13,110,253,.25) !important;
-}
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 .2rem rgba(13,110,253,.25) !important;
+  }
 
-.btn {
-  border-radius: .5rem;
-  padding: .5rem 1.2rem;
-  font-weight: 500;
-}
+  .btn {
+    border-radius: .5rem;
+    padding: .5rem 1.2rem;
+    font-weight: 500;
+  }
 
-.tab-content.mt-3 {
-  border: 0px !important;
-  padding: 0rem;
-}
+  .tab-content {
+    border: 0px !important;
+  }
 
-
-.banner-form { display: none; margin-top: 0px; }
-
-.content-banner { margin-top: 0px !important}
-
-.ellipsis {
-  max-width: 200px;    /* lebar kolom bisa disesuaikan */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  vertical-align: middle;
-}
+  .tab-content.mt-3 {
+    border: 0px !important;
+    padding: 0rem;
+  }
 
 
-/* Custom SweetAlert look */
-/* Rounded popup */
-.swal2-rounded {
-    border-radius: 15px !important;
-}
+  .banner-form { display: none; margin-top: 0px; }
 
-/* Title styling */
-.swal2-title-custom {
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    color: #333 !important;
-    margin-bottom: 15px !important;
-}
+  .content-banner { margin-top: 0px !important}
 
-/* Message text styling */
-.swal2-text-custom {
-    font-size: 25px !important;
-    line-height: 1.6 !important;
-    color: #444 !important;
-}
+  .ellipsis {
+    max-width: 200px;    /* lebar kolom bisa disesuaikan */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+  }
 
+
+  /* Custom SweetAlert look */
+  /* Rounded popup */
+  .swal2-rounded {
+      border-radius: 15px !important;
+  }
+
+  /* Title styling */
+  .swal2-title-custom {
+      font-size: 22px !important;
+      font-weight: 700 !important;
+      color: #333 !important;
+      margin-bottom: 15px !important;
+  }
+
+  /* Message text styling */
+  .swal2-text-custom {
+      font-size: 25px !important;
+      line-height: 1.6 !important;
+      color: #444 !important;
+  }
+  /* Pastikan title Swal berwarna hitam */
+  .swal2-title {
+    color: #000 !important;
+  }
+
+  .ck-editor__editable_inline {
+      min-height: 150px; /* set tinggi editor */
+  }
+
+  /* Data table css */
+  .container-fluid {
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+  }
+
+  /* Make DataTables full width */
+  #bannerTable_wrapper,
+  #bannerTable,
+  #section1Table_wrapper,
+  #section1Table,
+  #visainformationTable_wrapper,
+  #visainformationTable {
+      width: 100% !important;
+      box-sizing: border-box; /* ensures padding/border won't break full width */
+  }
+
+  /* Remove extra DataTables wrapper spacing */
+  .dataTables_wrapper {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100%; /* ensure wrapper fills container */
+      box-sizing: border-box;
+  }
 
 
 </style>
 </head>
 <body>
+
+<!-- CKEditor 5 Classic dari CDN -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+
+<script>
+
+  let sectionEditor, visainformationEditor;
+
+  // 2️⃣ Inisialisasi CKEditor
+  document.addEventListener('DOMContentLoaded', function () {
+    ClassicEditor
+      .create(document.querySelector('#editSection1Description'))
+      .then(editor => {
+        sectionEditor = editor;
+        console.log('CKEditor ready');
+      })
+      .catch(error => console.error(error));
+
+    ClassicEditor
+      .create(document.querySelector('#editVisaInformationDescription'))
+      .then(editor => {
+          visainformationEditor = editor;
+          console.log('Editor 2 ready');
+      })
+      .catch(error => console.error(error));
+  });
+
+</script>
+
+
 
 <?php 
   $currentYear = date('Y'); 
@@ -130,28 +196,8 @@
   $endYear     = $currentYear + 4; 
 ?>
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <div class="row">
-    <!-- Vertical Nav -->
-    <!-- <div class="col-md-3">
-      <ul class="nav nav-pills nav-vertical" id="formTabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="tab-banner" data-bs-toggle="tab" href="#content-banner" role="tab">
-            <i class="fa fa-list"></i> Banner
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="tab-content" data-bs-toggle="tab" href="#content-content" role="tab">
-            <i class="fa fa-tags"></i> Content
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
-            <i class="fa fa-ellipsis-h"></i> Visa Information
-          </a>
-        </li>
-      </ul>
-    </div> -->
     <ul class="nav custom-tabs" id="formTabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="tab-banner" data-bs-toggle="tab" href="#content-banner" role="tab">
@@ -182,7 +228,7 @@
                 <th>Title</th>
                 <th>Subtitle</th>
                 <th>Image</th>
-                <!-- <th>Status</th> -->
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -260,7 +306,7 @@
             <div class="card tab-card">
               <div class="card-body">
                 <h5 class="mb-3 text-primary">Edit Banner</h5>
-                <form action="<?= base_url('exhibiting/why-exhibit-banner-update') ?>" method="post" enctype="multipart/form-data">
+                <form id="editBannerForm" action="<?= base_url('exhibiting/why-exhibit-banner-update') ?>" method="post" enctype="multipart/form-data">
                   
                   <!-- Hidden field for Banner ID -->
                   <input type="hidden" name="id" id="editBannerId">
@@ -285,13 +331,22 @@
                     <textarea class="form-control" rows="4" name="bannersubtitle" id="editBannerSubtitle" placeholder="Enter banner subtitle"></textarea>
                   </div>
 
-                  <div class="mb-3">
+                  <!-- <div class="mb-3">
                     <label class="form-label">Banner Image</label>
                     <input type="file" class="form-control" name="bannerimage" accept="image/*">
                     <small class="form-text text-muted">Recommended size: 1200x400px</small>
                     <div class="mt-2">
                       <img id="editBannerPreview" src="" alt="Current Banner" class="img-thumbnail" style="max-height:120px; display:none;">
                     </div>
+                  </div> -->
+
+                  <div class="mb-3">
+                      <label class="form-label">Banner Image</label>
+                      <input type="file" class="form-control" name="image" id="editBannerImage" accept="image/*">
+                      <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                      <div class="mt-2">
+                          <img id="editBannerPreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                      </div>
                   </div>
 
                   <div class="mb-3">
@@ -315,45 +370,183 @@
 
 
         </div>
-
-        <!-- TAB 2: Content -->
+        
+        <!-- TAB 2: Section -->
         <div class="tab-pane fade" id="content-content" role="tabpanel">
-          <div class="card tab-card">
-            <div class="card-body">
-              <h5 class="mb-3 text-primary">Form 2 - Category</h5>
-              <form>
-                <div class="mb-3">
-                  <label class="form-label">Category Name</label>
-                  <input type="text" class="form-control" placeholder="Enter Category Name" required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Notes</label>
-                  <textarea class="form-control" rows="5"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary me-2">Submit</button>
-                <button type="reset" class="btn btn-outline-danger">Cancel</button>
-              </form>
+          <button id="addSection1Btn" class="btn btn-success mb-3">Add Section</button>
+
+          <!-- DataTable -->
+          <table id="section1Table" class="display table table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Year</th>
+                <!-- <th>Title</th> -->
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <!-- Section Add Form -->
+          <div id="section1FormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-success">Add Section</h5>
+                <form id="addSection1Form" action="<?= base_url('exhibiting/why-exhibit-section-add') ?>" method="post" enctype="multipart/form-data">
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Year</label>
+                    <select class="form-control" name="addsectionyear" id="addSection1Year" required>
+                      <option value="">-- Select Section Year --</option>
+                      <?php for($y = $startYear; $y <= $endYear; $y++): ?>
+                        <option value="<?= $y; ?>"><?= $y; ?></option>
+                      <?php endfor; ?>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="addsectiontitle" id="addSection1Title" placeholder="Enter Section Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Description</label>
+                    <textarea class="form-control" rows="4"
+                      name="addsectiondescription"
+                      id="addSection1Description"
+                      rows="4" 
+                      placeholder="Enter Section Description"></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="addsectionimage" id="addSection1Image" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="addSection1Preview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+
+                  <div class="mb-3 d-flex gap-3 align-items-center">
+                    <input type="radio" name="addsectionStatus" id="addSection1Active" value="active" checked>
+                    <label for="addSection1Active" class="mb-0">Active</label>
+                    <input type="radio" name="addsectionStatus" id="addSection1Inactive" value="inactive">
+                    <label for="addSection1Inactive" class="mb-0">Inactive</label>
+                  </div>
+
+                  <button type="submit" class="btn btn-success me-2">Add</button>
+                  <button type="button" id="backSection1Btn" class="btn btn-outline-danger">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Section Edit Form -->
+          <div id="section1EditFormContainer" class="section1-form d-none">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Edit Section</h5>
+                <form id="editSection1Form" action="<?= base_url('exhibiting/why-exhibit-section-update') ?>" method="post" enctype="multipart/form-data">
+
+                  <input type="hidden" name="id" id="editSection1Id">
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Year</label>
+                    <select class="form-control" name="sectionyear" id="editSection1Year" required>
+                      <option value="">-- Select Section Year --</option>
+                      <?php for($y = $startYear; $y <= $endYear; $y++): ?>
+                        <option value="<?= $y; ?>"><?= $y; ?></option>
+                      <?php endfor; ?>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="sectiontitle" id="editSection1Title" placeholder="Enter Section Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Description</label>
+                    <textarea class="form-control" rows="4"
+                      name="sectiondescription"
+                      id="editSection1Description"
+                      placeholder="Enter Section Description"></textarea>
+                  </div>
+
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="sectionimage" id="editSection1Image" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="editSection1Preview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+
+                  <div class="mb-3 d-flex gap-3 align-items-center">
+                    <input type="radio" name="sectionStatus" id="editSection1Active" value="active">
+                    <label for="editSection1Active" class="mb-0">Active</label>
+                    <input type="radio" name="sectionStatus" id="editSection1Inactive" value="inactive">
+                    <label for="editSection1Inactive" class="mb-0">Inactive</label>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelEditSection1Btn" class="btn btn-outline-danger">Cancel</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- TAB 3: Visa Information -->
         <div class="tab-pane fade" id="content-visainformation" role="tabpanel">
-          <div class="card tab-card">
-            <div class="card-body">
-              <h5 class="mb-3 text-primary">Form 3 - Visa Information</h5>
-              <form>
-                <div class="mb-3">
-                  <label class="form-label">Other Input</label>
-                  <input type="text" class="form-control" placeholder="Some value..." required>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Details</label>
-                  <textarea class="form-control" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary me-2">Submit</button>
-                <button type="reset" class="btn btn-outline-danger">Cancel</button>
-              </form>
+          <!-- DataTable -->
+          <table id="visainformationTable" class="display table table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          
+          <!-- Section Edit Form -->
+          <div id="visainformationEditFormContainer" class="visainformation-form d-none">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Edit Visa Information</h5>
+                <form id="editVisaInformationForm" action="<?= base_url('exhibiting/why-exhibit-visa-update') ?>" method="post" enctype="multipart/form-data">
+
+                  <input type="hidden" name="id" id="visainformationId">
+
+                  <div class="mb-3">
+                    <label class="form-label">Visa Information Title</label>
+                    <input type="text" class="form-control" name="visainformationtitle" id="visainformationTitle" placeholder="Enter Visa Information Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Visa Information Description</label>
+                    <textarea class="form-control" rows="4"
+                      name="visainformationdescription"
+                      id="editVisaInformationDescription"
+                      placeholder="Enter Visa Information Description"></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelvisainformationBtn" class="btn btn-outline-danger">Cancel</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -371,8 +564,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+  var base_url = "<?= base_url(); ?>";
+
   $(document).ready(function() {
-    var base_url = "<?= base_url(); ?>";
     var $bannerTableWrapper = $('#bannerTable_wrapper');
     var $bannerForm = $('#bannerFormContainer');
     var $addBannerBtn = $('#addBannerBtn');
@@ -395,15 +589,20 @@
             { data: "title" },
             { data: "subtitle" },
             { data: "file_path" },
+            { data: "status" },
             {
-                data: null,
-                orderable: false,
-                render: function(data, type, row) {
-                    return `
-                        <button class="btn btn-sm btn-primary editBanner" data-id="${row.id}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteBanner" data-id="${row.id}">Delete</button>
-                    `;
-                }
+              data: null,
+              orderable: false,
+              render: function (data, type, row) {
+                  return `
+                      <button class="btn btn-sm btn-primary editBanner" data-id="${row.id}" title="Edit">
+                          <i class="bi bi-pencil-square"></i>
+                      </button>
+                      <button class="btn btn-sm btn-danger deleteBanner" data-id="${row.id}" title="Delete">
+                          <i class="bi bi-trash"></i>
+                      </button>
+                  `;
+              }
             }
         ],
         columnDefs: [
@@ -496,15 +695,15 @@
     });
   });
 
-// Cancel button
-$("#cancelEditBannerBtn").click(function() {
-    $("#bannerEditFormContainer").addClass("d-none");
-    $("#bannerFormContainer").removeClass("d-none");
+  // Cancel button
+  $("#cancelEditBannerBtn").click(function() {
+      $("#bannerEditFormContainer").addClass("d-none");
+      $("#bannerFormContainer").removeClass("d-none");
 
-    // show table + button add
-    $('#bannerTable_wrapper').show();
-    $('#addBannerBtn').show();
-});
+      // show table + button add
+      $('#bannerTable_wrapper').show();
+      $('#addBannerBtn').show();
+  });
 
   
 
@@ -561,6 +760,483 @@ $("#cancelEditBannerBtn").click(function() {
     }
   ?>
 
+  // Preview image sebelum upload
+  $("#editBannerImage").on("change", function(){
+      const [file] = this.files;
+      if (file) {
+          $("#editBannerPreview").attr("src", URL.createObjectURL(file)).show();
+      }
+  });
+  
+  $('#editBannerForm').on('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: base_url + "exhibiting/why-exhibit-banner-update",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(res) {
+            if (res.success) {
+                Swal.fire("Success!", res.message, "success");
+
+                // hide edit form, show table & button add
+                $("#bannerEditFormContainer").hide();
+                $('#bannerTable_wrapper').show();
+                $('#addBannerBtn').show();
+
+                // reload datatable
+                $('#bannerTable').DataTable().ajax.reload();
+            } else {
+                Swal.fire("Error!", res.message, "error");
+            }
+        },
+        error: function() {
+            Swal.fire("Error!", "Terjadi kesalahan server.", "error");
+        }
+    });
+  });
+
+
+  $(document).on('click', '.deleteBanner', function() {
+    const id = $(this).data('id');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This banner will be permanently deleted!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: base_url + 'exhibiting/why-exhibit-banner-delete/' + id,
+                type: 'POST',
+                dataType: 'json',
+                success: function(res) {
+                    Swal.fire({
+                        icon: res.status,
+                        title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                        text: res.message
+                    });
+                    if (res.status === 'success') {
+                        // $('#bannerTable').DataTable().ajax.reload(null, false);
+                        bannerTable.ajax.reload(null, false); 
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'Failed to connect to server', 'error');
+                }
+            });
+        }
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+
+    var base_url = "<?= base_url(); ?>";
+
+    // SECTION VARIABLES
+    var $sectionTableWrapper = $('#section1Table_wrapper');
+    var $sectionFormContainer = $('#section1FormContainer');
+    var $addSectionBtn = $('#addSection1Btn');
+    var $backSectionBtn = $('#backSection1Btn');
+
+    // Hide form on load
+    $sectionFormContainer.addClass('d-none');
+
+    // Initialize Section DataTable
+    var sectionTable = $('#section1Table').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: base_url + "exhibiting/why-exhibit-section-datatable",
+            type: "POST"
+        },
+        dataType: 'json',
+        order: [[1, "asc"]],
+        columns: [
+            { data: "no" },
+            { data: "content_year" },
+            // { data: "title" },
+            { data: "subtitle" },
+            { data: "body_text" },
+            { data: "file_path" },
+            { data: "status" },
+            {
+                data: null,
+                orderable: false,
+                render: function(data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-primary editSection" data-id="${row.id}" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger deleteSection" data-id="${row.id}" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+                }
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 3, // Subtitle
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        return '<span class="ellipsis" title="'+data+'">'+data+'</span>';
+                    }
+                    return data;
+                }
+            }
+        ]
+    });
+    // Setelah DataTable siap, ambil wrapper-nya
+    $sectionTableWrapper = $('#section1Table_wrapper');
+
+   // === EVENT TOMBOL ADD SECTION ===
+  $addSectionBtn.on('click', function () {
+    $sectionTableWrapper.hide();
+    $addSectionBtn.hide();
+    $sectionFormContainer.removeClass('d-none').hide().fadeIn(200);
+  });
+
+      $backSectionBtn.on('click', function() {
+        $sectionFormContainer.slideUp(function() {
+            $sectionFormContainer.addClass('d-none');
+        });
+        $sectionTableWrapper.removeClass('d-none').hide().slideDown();
+        $addSectionBtn.show();
+    });
+
+    // ============ EDIT SECTION ============
+    $(document).on('click', '.editSection', function() {
+        let id = $(this).data('id');
+
+        $.getJSON(base_url + "exhibiting/why-exhibit-content-get-data/" + id, function(data) {
+            $("#editSection1Id").val(data.id);
+            $("#editSection1Year").val(data.content_year);
+            $("#editSection1Title").val(data.title);
+            // $("#editSection1Description").val(data.body_text);
+            // Dengan ini ✅
+            if (sectionEditor) {
+              sectionEditor.setData(data.body_text || '');
+            }
+
+            if (data.status === "active") {
+                $("#editSection1Active").prop("checked", true);
+            } else {
+                $("#editSection1Inactive").prop("checked", true);
+            }
+
+            if (data.image) {
+                $("#editSection1Preview").attr("src", data.image).show();
+            } else {
+                $("#editSection1Preview").hide();
+            }
+
+            // Show edit form
+            $("#section1FormContainer").addClass("d-none");
+            $("#section1EditFormContainer").removeClass("d-none");
+
+            // Hide table & add button
+            $('#section1Table_wrapper').hide();
+            $('#addSection1Btn').hide();
+        });
+    });
+
+    // Cancel Edit
+    $("#cancelEditSection1Btn").click(function() {
+        $("#section1EditFormContainer").addClass("d-none");
+        $("#section1FormContainer").removeClass("d-none");
+
+        $('#section1Table_wrapper').show();
+        $('#addSection1Btn').show();
+    });
+
+    // Image preview
+    $("#editSection1Image").on("change", function(){
+        const [file] = this.files;
+        if (file) {
+            $("#editSection1Preview").attr("src", URL.createObjectURL(file)).show();
+        }
+    });
+
+    // Submit Edit Form
+    $('#addSection1Form').on('submit', function(e) {
+        
+        e.preventDefault(); // <-- prevent default form submission
+        
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: base_url + "exhibiting/why-exhibit-section-add",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function(res) {
+              console.log("ANJING GOVERMENT",res);
+              // return false;
+                if (res.success) {
+
+                    Swal.fire("Success!", res.message, "success").then(() => {
+                        window.location.href = base_url + "exhibiting/why-exhibit-settings";
+                    });
+                    // $("#section1EditFormContainer").hide();
+                    // $('#section1Table_wrapper').show();
+                    // $('#addSection1Btn').show();
+
+                    // sectionTable.ajax.reload();
+                } else {
+                    Swal.fire("Error!", res.message, "error");
+                }
+            },
+            error: function(err) {
+                console.log("ERR ANJING GOVERMENT",err);
+                // return false;
+                Swal.fire("Error!", "Terjadi kesalahan server.", "error");
+            }
+        });
+    });
+
+    // Submit Edit Form
+    $('#editSection1Form').on('submit', function(e) {
+        e.preventDefault(); // <-- prevent default form submission
+        
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: base_url + "exhibiting/why-exhibit-section-update",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function(res) {
+              console.log("ANJING",res);
+              // return false;
+                if (res.success) {
+
+                    Swal.fire("Success!", res.message, "success").then(() => {
+                        window.location.href = base_url + "exhibiting/why-exhibit-settings";
+                    });
+                    // $("#section1EditFormContainer").hide();
+                    // $('#section1Table_wrapper').show();
+                    // $('#addSection1Btn').show();
+
+                    // sectionTable.ajax.reload();
+                } else {
+                    Swal.fire("Error!", res.message, "error");
+                }
+            },
+            error: function(err) {
+                console.log("ERR ANJING",err);
+                // return false;
+                Swal.fire("Error!", "Terjadi kesalahan server.", "error");
+            }
+        });
+    });
+
+    // Delete Section
+    $(document).on('click', '.deleteSection', function() {
+        const id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This section will be permanently deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: base_url + 'exhibiting/why-exhibit-section-delete/' + id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(res) {
+                        Swal.fire({
+                            icon: res.status,
+                            title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                            text: res.message
+                        });
+                        if (res.status === 'success') {
+                            sectionTable.ajax.reload(null, false);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'Failed to connect to server', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+  });
+</script>
+<script>
+  $(document).ready(function() {
+
+    var base_url = "<?= base_url(); ?>";
+
+    // SECTION VARIABLES
+    var $visainformationTableWrapper = $('#visainformationTable_wrapper');
+    var $visainformationFormContainer = $('#visainformationFormContainer');
+    var $addVisaInformationBtn = $('#visainformationBtn');
+    // var $backSectionBtn = $('#backSection1Btn');
+
+    // Hide form on load
+    $visainformationFormContainer.addClass('d-none');
+
+    // Initialize Section DataTable
+    var sectionTable = $('#visainformationTable').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: base_url + "exhibiting/why-exhibit-visa-datatable",
+            type: "POST"
+        },
+        dataType: 'json',
+        order: [[1, "asc"]],
+        columns: [
+            { data: "no"
+              , width: "5%"
+            },
+            { data: "subtitle"
+              , width: "10%"
+            },
+            { data: "body_text", className: "text-start", render: function(data) {
+                // optional truncate text
+                return data.length > 50 ? data.substr(0, 100) + '...' : data;
+            }},
+            {
+                data: null,
+                orderable: false,
+                render: function(data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-primary editVisaInformation" data-id="${row.id}" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    `;
+                }
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 3, // Subtitle
+                render: function(data, type, row) {
+                    if (type === 'display') {
+                        return '<span class="ellipsis" title="'+data+'">'+data+'</span>';
+                    }
+                    return data;
+                }
+            }
+        ]
+    });
+    // Setelah DataTable siap, ambil wrapper-nya
+    $visainformationTableWrapper = $('#visainformationTable_wrapper');
+    
+   // === EVENT TOMBOL ADD SECTION ===
+    $addVisaInformationBtn.on('click', function () {
+      $visainformationTableWrapper.hide();
+      $addVisaInformationBtn.hide();
+      $visainformationFormContainer.removeClass('d-none').hide().fadeIn(200);
+    });
+
+    // $backSectionBtn.on('click', function() {
+    //   $visainformationFormContainer.slideUp(function() {
+    //       $visainformationFormContainer.addClass('d-none');
+    //   });
+    //   $visainformationTableWrapper.removeClass('d-none').hide().slideDown();
+    //   $addVisaInformationBtn.show();
+    // });
+
+    // ============ EDIT VISA INFORMATION ============
+    $(document).on('click', '.editVisaInformation', function() {
+        let id = $(this).data('id');
+
+        $.getJSON(base_url + "exhibiting/why-exhibit-visa-get-data/" + id, function(data) {
+            $("#visainformationId").val(data.id);
+            $("#visainformationTitle").val(data.subtitle);
+            if (visainformationEditor) {
+              visainformationEditor.setData(data.body_text || '');
+            }
+
+            // Show edit form
+            $("#visainformationFormContainer").addClass("d-none");
+            $("#visainformationEditFormContainer").removeClass("d-none");
+
+            // Hide table & add button
+            $('#visainformationTable_wrapper').hide();
+            $('#visainformationBtn').hide();
+        });
+    });
+
+    // Cancel Edit
+    $("#cancelvisainformationBtn").click(function() {
+        $("#visainformationEditFormContainer").addClass("d-none");
+        $("#visainformationFormContainer").removeClass("d-none");
+
+        $('#visainformationTable_wrapper').show();
+        $('#visainformationBtn').show();
+    });
+
+    // Image preview
+    $("#editSection1Image").on("change", function(){
+        const [file] = this.files;
+        if (file) {
+            $("#editSection1Preview").attr("src", URL.createObjectURL(file)).show();
+        }
+    });
+
+    // Submit Edit Form
+    $('#editVisaInformationForm').on('submit', function(e) {
+        e.preventDefault(); // <-- prevent default form submission
+        
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: base_url + "exhibiting/why-exhibit-section-update",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function(res) {
+              console.log("ANJING",res);
+              // return false;
+                if (res.success) {
+
+                    Swal.fire("Success!", res.message, "success").then(() => {
+                        window.location.href = base_url + "exhibiting/why-exhibit-settings";
+                    });
+                    // $("#visainformationEditFormContainer").hide();
+                    // $('#visainformationTable_wrapper').show();
+                    // $('#visainformationBtn').show();
+
+                    // sectionTable.ajax.reload();
+                } else {
+                    Swal.fire("Error!", res.message, "error");
+                }
+            },
+            error: function(err) {
+                console.log("ERR ANJING",err);
+                // return false;
+                Swal.fire("Error!", "Terjadi kesalahan server.", "error");
+            }
+        });
+    });
+
+  });
 </script>
 
 </body>

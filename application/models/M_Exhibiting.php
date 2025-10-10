@@ -35,6 +35,8 @@ class M_Exhibiting extends CI_Model{
             $this->db->where('csi_contents.content_type', $params['content_type']);
         }
 
+        $this->db->where('csi_contents.status', 'active');
+
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -123,22 +125,24 @@ class M_Exhibiting extends CI_Model{
 		// 	ORDER BY $orderq LIMIT $limit OFFSET $start";
 		
 		// $query 	= $this->db>query($q, $qWhere);
-
+        
+            // -- csi_content_media.id as id,
         $this->db->select('
-            csi_content_media.id as id,
+            csi_contents.id,
             csi_contents.menu_id,
             csi_contents.content_year,
             csi_contents.content_type,
             csi_contents.title,
             csi_contents.subtitle,
             csi_contents.body_text,
+            csi_contents.status,
             csi_content_media.file_path
         ');
         $this->db->from('csi_contents');
         $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
         // where conditions
         $this->db->where('csi_contents.content_type', 'banner');
-        $this->db->where('csi_contents.content_year', 2026);
+        $this->db->where('csi_contents.menu_id', 7);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
         $this->db->limit($limit, $start);
@@ -185,6 +189,7 @@ class M_Exhibiting extends CI_Model{
 				"title" 		=> $row->title,
 				"subtitle" 		=> $row->subtitle,
 				"file_path"	  	=> $row->file_path,
+                "status"	  	=> $row->status,
 			);
 			array_push($obj , $data);
 			$i++;
@@ -331,6 +336,390 @@ class M_Exhibiting extends CI_Model{
         return $this->db->get();
     }
 
+    public function update($table, $where, $data)
+    {
+        if (empty($table) || empty($where) || empty($data)) {
+            return false; // safety check
+        }
 
+        $execute = $this->db->where($where)->update($table, $data);
+        // echo $this->db->last_query();
+        return $execute;
+    }
+
+    public function delete($table, $where)
+    {
+        // $table: nama tabel
+        // $where: array kondisi, misal ['id' => 5]
+        return $this->db->delete($table, $where);
+    }
+    
+    public function why_exhibit_section_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+		$userid = $this->session->userdata('userid');
+		$user   = $this->session->userdata('username');
+		$type   = $this->session->userdata('usertype');
+		$nik    = $this->session->userdata('nik');
+		
+
+		
+        
+        $this->db->select('
+            csi_contents.id,
+            csi_contents.menu_id,
+            csi_contents.content_year,
+            csi_contents.content_type,
+            csi_contents.title,
+            csi_contents.subtitle,
+            csi_contents.body_text,
+            csi_contents.status,
+            csi_content_media.file_path
+        ');
+        $this->db->from('csi_contents');
+        $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
+        // where conditions
+        $this->db->where('csi_contents.content_type', 'section');
+        $this->db->where('csi_contents.menu_id', 7);
+        // $this->db->where('csi_content_media.media_type', 'image');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    => $i,
+				"id" 		    => $row->id,
+				"content_year" 	=> $row->content_year,
+				// "title" 		=> $row->title,
+				"subtitle" 		=> $row->title,
+                "body_text"     => $row->body_text,
+				"file_path"	  	=> $row->file_path,
+                "status"	  	=> $row->status,
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
+
+    public function why_exhibit_visa_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+		$userid = $this->session->userdata('userid');
+		$user   = $this->session->userdata('username');
+		$type   = $this->session->userdata('usertype');
+		$nik    = $this->session->userdata('nik');
+		
+
+		
+        
+        $this->db->select('
+            csi_contents.id,
+            csi_contents.menu_id,
+            csi_contents.content_year,
+            csi_contents.content_type,
+            csi_contents.title,
+            csi_contents.subtitle,
+            csi_contents.body_text,
+            csi_contents.status,
+            csi_content_media.file_path
+        ');
+        $this->db->from('csi_contents');
+        $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
+        // where conditions
+        $this->db->where('csi_contents.content_type', 'visa-information');
+        $this->db->where('csi_contents.menu_id', 7);
+        // $this->db->where('csi_content_media.media_type', 'image');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    => $i,
+				"id" 		    => $row->id,
+				"content_year" 	=> $row->content_year,
+				// "title" 		=> $row->title,
+				"subtitle" 		=> $row->title,
+                "body_text"     => $row->body_text,
+				"file_path"	  	=> $row->file_path,
+                "status"	  	=> $row->status,
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
+    
+    public function exhibitor_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+		$userid = $this->session->userdata('userid');
+		$user   = $this->session->userdata('username');
+		$type   = $this->session->userdata('usertype');
+		$nik    = $this->session->userdata('nik');
+        
+        $this->db->select('
+            csi_contents.id,
+            csi_contents.menu_id,
+            csi_contents.content_year,
+            csi_contents.content_type,
+            csi_contents.title,
+            csi_contents.status,
+            csi_content_company_profile.id as company_profile_id,
+            csi_content_company_profile.company_name,
+            csi_content_company_profile.stand_no,
+            csi_content_company_profile.short_description,
+            csi_content_company_profile.contact_name,
+            csi_content_company_profile.contact_email,
+            csi_content_company_profile.contact_phone,
+            csi_content_company_profile.address,
+            csi_content_company_profile.website_url
+        ');
+        $this->db->from('csi_contents');
+        $this->db->join('csi_content_company_profile', 'csi_contents.id = csi_content_company_profile.content_id', 'left');
+        // where conditions
+        $this->db->where('csi_contents.content_type', 'company-profile');
+        $this->db->where('csi_contents.menu_id', 8);
+        // $this->db->where('csi_content_media.media_type', 'image');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->menu_id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->menu_id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		         => $i,
+				"id" 		         => $row->id,
+                "menu_id"            => $row->menu_id,
+                "content_year"       => $row->content_year,
+                "content_type"       => $row->content_type,
+                "title"              => $row->title,
+                "status"             => $row->status,
+                "company_profile_id" => $row->company_profile_id,
+                "company_name"       => $row->company_name,
+                "stand_no"           => $row->stand_no,
+                "short_description"  => $row->short_description,
+                "contact_name"       => $row->contact_name,
+                "contact_email"      => $row->contact_email,
+                "contact_phone"      => $row->contact_phone,
+                "address"            => $row->address,
+                "website_url"        => $row->website_url
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
 
 }
