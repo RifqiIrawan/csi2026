@@ -77,9 +77,14 @@
   <link href="<?php echo base_url();?>Website/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/css/main.css" rel="stylesheet">  
   <script src="<?php echo base_url();?>Website/assets/js/sweetalert.min.js"></script>
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/font-icons.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/animate.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/font-icons.css" type="text/css">
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/animate.css" type="text/css">
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/magnific-popup.css" type="text/css">
+
+  <!-- <link rel="stylesheet" href="https://coatingshow.com/css/font-icons.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/animate.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/magnific-popup.css" type="text/css"> -->
+
 </head>
 
 <style>
@@ -589,7 +594,9 @@
 
     .social-links{
       position: relative;
-      left:21%;
+      display: flex;
+      justify-content: center; /* horizontal */
+      align-items: center;
     }
 
     .footer .copyright p {
@@ -687,6 +694,15 @@
       color: #000;
       font-weight: 700;
     } */
+
+    .footer {
+      color: black;
+      /* background-color: black; */
+      font-size: 15px;
+      position: relative;
+      background: url(./Website/assets/img/footer.jpg);
+      /* background-repeat: no-repeat; */
+    }
 </style>
 
 <style>
@@ -1147,6 +1163,49 @@
   .text-center {
     text-align: center !important;
   }
+
+  .copyright{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+  }
+  .footer .copyright {
+    padding: 0px 0px 20px;
+    border-top: 0px solid color-mix(in srgb, var(--default-color), transparent 0%);
+  }
+
+  .footer .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15%;
+    border: 2px solid
+    color-mix(in srgb, var(--default-color), transparent 0%);
+    font-size: 16px;
+    color: 
+    color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-right: 10px;
+    transition: 0.3s;
+  }
+
+  @media (max-width: 600px) {
+    .footer .social-links {
+      position: relative;
+      display: flex;
+      justify-content: center; /* horizontal */
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer .footer-about {
+        margin-bottom: 0px;
+        text-align: center;
+        /* margin-left: 10px; */
+    }
+  }
  </style>
 
 <body class="index-page">
@@ -1173,17 +1232,9 @@
               ?>
                 <li class="dropdown"><a href="#"><span><?php echo $row->name?></span></a>
                   <ul>
-                    <?php
-                      $submenu = $this->db->query("SELECT *
-                                                  FROM submenu
-                                                  where menu_id = '".$row->id."'
-                                              ")->result(); 
-                      foreach($submenu as $rw){
-                    ?>
-                      <li><a href=""><?php echo strtoupper($rw->sub_name)?></a></li>
-                    <?php
-                      }
-                    ?>
+                    
+                      <li><a href=""><?php echo strtoupper($row->sub_name)?></a></li>
+                    
                   </ul>
                 <?php
                   }
@@ -1400,9 +1451,9 @@
             <h2 class="text-white text-center">
               <?php echo $data_event->title2?>
             </h2>
-            <p class="text-center text-white">
-              <b><?php echo $data_event->description2?></b>
-            </p>          
+            
+            <b style="color:white"><?php echo $data_event->description2?></b>
+                     
             <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
         </div>
     </section>
@@ -1430,7 +1481,7 @@
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
                         <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="Supported" alt="Supported">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
                         </a>
                         <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
@@ -1508,23 +1559,33 @@
     </section> -->
   </main>
 
-  <footer  class="footer dark-background mt-3">
+  <footer id="footer" class="footer dark-background mt-3">
     <div class="container footer-top">
       <div class="row gy-4">
-        <div class="col-lg-4 footer-about">
-          <img width="215" height="50" src="<?php echo base_url($folder."".$logo);?>" class="attachment-full size-full" alt="">
-          <div class="social-links d-flex mt-3">
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
+          <img width="230" height="200px" style="border-radius: 50%;"  src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full" alt="">
+          <!-- <div class="social-links d-flex mt-3">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
             ?> 
             <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
             <?php } ?>
-          </div>
+          </div> -->
         </div>
-        
-        <div class="col-lg-1 col-md-3 footer-links">
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
+          <img width="230" height="200px" style="border-radius: 50%;" src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full" alt="">
         </div>
-        <div class="col-lg-3 col-md-3 footer-links">
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
+          
+        </div>
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
+          
+        </div>
+        <!-- <div class="col-lg-3 col-md-3 footer-links">
           <p>
             <strong  class="text-left">
               <?php echo $company_name?>
@@ -1532,16 +1593,12 @@
             <?php echo $address?>
           </p>
         </div>
-
-        <div class="col-lg-1 col-md-3 footer-links">
-        </div>
-
         <div class="col-lg-3 footer-links">
-          <!-- <p>Phone: <a href="tel:"<?php echo $phone?>><?php echo $phone?></a><br>
+          <p>Phone: <a href="tel:"<?php echo $phone?>><?php echo $phone?></a><br>
             Fax: <a href="tel:"<?php echo $fax?>><?php echo $fax?></a><br>
             email : <a href="mailto:"<?php echo $email?>><?php echo $email?></a><br>
             Website: <a href="<?php echo $website?>"><?php echo $website?></a>            
-          </p> -->
+          </p>
           <table width="100%">
             <tr>
               <td width="25%">Phone</td>
@@ -1559,12 +1616,40 @@
               <td><a href="<?php echo $website?>"><?php echo $website?></a></td>
             </tr>
           </table>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">          
+          <div style="color:#AEFF4BFF;font-size:24px;"><b>Connect <span style="color:white;">With</span> Us</b></div>
         </div>
+        <div class="col-lg-4 text-center">
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="social-links d-flex mb-4">
+            <?php 
+              foreach($data_sosmed as $row_sosmed){ 
+            ?> 
+            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+            <?php } ?>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">          
+          <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visotors under age 18 will not be permitted.</b></div>
+        </div>
+      </div>
+
+      <div class="row">
       </div>
     </div>
 
-    <div class="container copyright text-center mt-4">
-    <p>Copyright © <?php echo date('Y');?> <?php echo ucwords($data_profile->nick_name)?>. All Right Reserved.</p>
+
+    <div class="container copyright text-center mt-3">      
+      <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
     </div>
   </footer>
 

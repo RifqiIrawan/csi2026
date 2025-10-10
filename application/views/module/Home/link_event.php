@@ -209,7 +209,7 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->url."','".$row->status."');\">

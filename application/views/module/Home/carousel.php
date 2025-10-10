@@ -241,7 +241,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/add_carousel" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Floor Plan </h4>
+          <h4 class="modal-title">Add Data Carousel </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -285,7 +285,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/update_carousel" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Floor Plan</h4>
+          <h4 class="modal-title">Update Data Carousel</h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
