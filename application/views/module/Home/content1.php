@@ -169,7 +169,28 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function show_image(file){
+    var folder = "./assets/images/upload/content/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
 </script>
+
+<style>  
+  img{       
+    width: inherit;
+    height: 400px;  
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; /* inilah yang bikin full cover */
+  }
+  p{
+    color: black;
+  }
+</style>
 
 <div class="content-wrapper">
   <div class="page-header">

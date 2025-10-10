@@ -93,7 +93,7 @@
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_support",
+        url: "<?php echo base_url()?>Home/delete_sponsors",
         type: 'post',
         data: {'code' : code},
         success: function (data) {
@@ -106,7 +106,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Support";
+              window.location = "Sponsors";
             });
           }else{
             swal({
@@ -116,7 +116,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Support";
+              window.location = "Sponsors";
             });
           }
         },
@@ -162,7 +162,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Support</b></h4>
+    <h4 class="page-title"><b>Sponsors</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li> -->
@@ -196,7 +196,7 @@
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_support as $row) {
+                    foreach ($data_sponsors as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -236,9 +236,9 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_support" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_sponsors" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Support </h4>
+          <h4 class="modal-title">Add Data Sponsors </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -279,9 +279,9 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_support" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_sponsors" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Support </h4>
+          <h4 class="modal-title">Update Data Sponsors </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

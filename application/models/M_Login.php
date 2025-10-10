@@ -70,4 +70,13 @@ class M_Login extends CI_Model{
                               "); 
     return $res;
   }
+
+  function get_sosmed(){
+    $res = $this->db->query("SELECT *
+                                FROM sosmed
+                                where status = 'A' 
+                                order by id
+                              ")->result(); 
+    return $res;
+  }
 }

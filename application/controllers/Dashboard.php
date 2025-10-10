@@ -18,6 +18,8 @@ class Dashboard extends CI_Controller {
     $data["data_support"] = $this->M_Login->get_support();
     $data["data_content1"] = $this->M_Login->get_content1()->row();
     $data["data_profile"] = $this->M_Login->get_profile()->row();
+    $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    
     // print_r($data["data_event"]);die();
     $this->load->view('dashboard',$data);
 	}

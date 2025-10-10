@@ -791,6 +791,9 @@
       $('#acc').on("click", function() { 
       });
 
+      $('#ftr').on("click", function() { 
+      });
+
       $('#test').on("click", function() { 
         $("#test").attr("collapse");
       });

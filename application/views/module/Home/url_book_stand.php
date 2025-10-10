@@ -25,7 +25,7 @@
         <div class="row">     
             <div class="col-lg-3"></div>
             <div class="col-lg-7">
-               <div class="row">
+                <div class="row">
                     <div class="col-lg-12 mb-1">
                         <p class="title">
                             <?php echo ucwords($data_book_stand[0]->title)?>

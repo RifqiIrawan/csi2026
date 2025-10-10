@@ -106,26 +106,33 @@
     });
   });
 
-  function upd(code,name,title,description,image,title2,description2,image2,status){
+  function upd(code,name,title,image,title2,image2,status){
     $("#code").val(code);
     $("#name").val(name);
     $("#title1").val(title);
-    var desc = description;
-    CKEDITOR.instances.descriptions1_edit.setData(desc);
-    $("#image").val(image);
-    
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,"text":"event"},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        CKEDITOR.instances.descriptions1_edit.setData(jsn.description1); 
+        CKEDITOR.instances.descriptions2_edit.setData(jsn.description2);
+        var image1 = "<?php echo base_url()?>./assets/images/upload/event/image1/"+jsn.image1;
+        var image2 = "<?php echo base_url()?>./assets/images/upload/event/image2/"+jsn.image2;
+        // console.log(image1);
+        var img = $('<img />', {src : image1}).css("width","50px","min-height","1000px");
+        img.appendTo('#image_edit1');
+
+        var img2 = $('<img />', {src : image2}).css("width","50px","min-height","1000px");
+        img2.appendTo('#image_edit2');
+      }
+    });
+
+    $("#image").val(image);    
     $("#title2").val(title2);
-    var desc2 = description2;
-    CKEDITOR.instances.descriptions2_edit.setData(desc2);
     $("#image2").val(image2);
-
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -169,7 +176,64 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function show_image(file){
+    var folder = "./assets/images/upload/event/image1/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
+
+  function show_image2(file){
+    var folder = "./assets/images/upload/event/image2/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image2');
+    $("#mdl_img2").modal('show');
+  }
+
+  function doc1(code){
+    var code = code;
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,"text":"event"},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        $("#get_doc1").html(jsn.description1); 
+      }
+    });
+    $("#mdl_doc1").modal('show');
+  }
+  
+  function doc2(code){
+    var code = code;
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,"text":"event"},
+      success: function (data) {
+        var jsn2 = JSON.parse(data);
+        $("#get_doc22").html(jsn2.description2); 
+      }
+    });
+    $("#mdl_doc2").modal('show');
+  }
 </script>
+
+<style>  
+  img{       
+    width: inherit;
+    height: 400px;  
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; /* inilah yang bikin full cover */
+  }
+  p{
+    color: black;
+  }
+</style>
 
 <div class="content-wrapper">
   <div class="page-header">
@@ -224,14 +288,14 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title1))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->description1))."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->image1."')\"></i></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-file-document\" style=\"cursor:pointer;font-size:17px;\" title=\"Show Document\" onclick=\"doc1('".$row->id."')\"</i></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;font-size:17px;\" title=\"Show Image\" onclick=\"show_image('".$row->image1."')\"></i></td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title2))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->description2))."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->image1."')\"></i></td>";
+                        echo "<td align=\"\"><i class=\"mdi mdi-file-document\" style=\"cursor:pointer;font-size:17px;\" title=\"Show Document\" onclick=\"doc2('".$row->id."')\"></i></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;font-size:17px;\" title=\"Show Image\" onclick=\"show_image2('".$row->image2."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->title1."','".preg_replace('/\r\n|\r|\n/', '',$row->description1)."','".$row->image1."','".$row->title2."','".preg_replace('/\r\n|\r|\n/', '',$row->description2)."','".$row->image2."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->title1."','".$row->image1."','".$row->title2."','".$row->image2."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -332,6 +396,7 @@
           <div class="form-group">
             <label class="form-label">Image 1</label>
             <input type="file" class="form-control" name="file1" id="title1" required>
+            <div class="mt-2" id="image_edit1"></div>
           </div>              
           <div class="form-group">
             <label>Description 1</label>
@@ -344,6 +409,7 @@
           <div class="form-group">
             <label class="form-label">Image 2</label>
             <input type="file" class="form-control" name="file2" id="file2" required>
+            <div class="mt-2" id="image_edit2"></div>
           </div>                
           <div class="form-group">
             <label>Description 2</label>
@@ -372,7 +438,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="mdl_img">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -382,7 +447,55 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-12 text-center" id="get_image"></div>
+          <div class="col-lg-12 img-fluid text-center" id="get_image"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_img2">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Show Image </h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 img-fluid text-center" id="get_image2"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_doc1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Description 1</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 img-fluid text-center" id="get_doc1" style="color:black"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_doc2">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Description 2</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 img-fluid text-center" id="get_doc22" style="color:black"></div>
         </div>         
       </div>
     </div>

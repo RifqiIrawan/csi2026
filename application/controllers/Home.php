@@ -11,6 +11,13 @@ class Home extends CI_Controller {
     $this->load->helper('file');        
   }
 
+  public function search_text(){    
+    $code = $this->input->post("code");
+    $text = $this->input->post("text");
+    $cek = $this->M_Home->search_text($code,$text);
+    echo json_encode($cek->row());
+  }
+
   public function Menu(){   
       if($this->session->userdata('id_user') == NULL){
           redirect('Login');
@@ -455,7 +462,6 @@ class Home extends CI_Controller {
     $file = $_FILES;
     $folder = './assets/images/upload/support/';
     $name = $this->input->post("name");
-    $url = $this->input->post("url");
     $status = $this->input->post("status");
        
     $get_code = $this->M_Home->get_code_support();    
@@ -491,7 +497,7 @@ class Home extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        $insert = $this->M_Home->add_support($name,$config['file_name'],$folder,$number,$url,$status);        
+        $insert = $this->M_Home->add_support($name,$config['file_name'],$folder,$number,$status);        
       }      
     }
 
@@ -518,10 +524,7 @@ class Home extends CI_Controller {
     $file = $_FILES;
     $code = $this->input->post("code");
     $name = $this->input->post("name");
-    $urut = $this->input->post("urut");
-    $url = $this->input->post("url"); 
-    $status = $this->input->post("status");       
-    
+    $status = $this->input->post("status");           
     //$file = count($_FILES['file']['name']);
     //for($i = 0; $i < $file; $i++){  
     $_FILES['file']['name'];
@@ -561,7 +564,7 @@ class Home extends CI_Controller {
         // $this->image_lib->clear();
         // $name_file = $config['file_name'];
         // $name_keterangan = $name[$i];
-        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$urut,$url,$status);
+        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$urut,$status);
       }      
     }
 
@@ -595,11 +598,8 @@ class Home extends CI_Controller {
   //Book_Stand
   public function Url_Book_Stand(){   
     error_reporting(0);
-    if($this->session->userdata('id_user') == NULL){
-        redirect('Login');
-    }        
     $data["data_book_stand"] = $this->M_Home->get_book_stand();
-    $data["data_menu"] = $this->M_Home->get_menu();
+    // $data["data_menu"] = $this->M_Home->get_menu();
     $this->template->load('layouts/role','module/Home/url_book_stand',$data);
   }
 
@@ -791,7 +791,6 @@ class Home extends CI_Controller {
     }   
   }
 
-  
   // quick_link
   public function Quick_Link(){   
     if($this->session->userdata('id_user') == NULL){
@@ -971,8 +970,14 @@ class Home extends CI_Controller {
     }   
   }
 
-   // for Floor Plan (download file)
-   public function Carousel(){   
+  // for carousel (download file)
+  public function Url_Carousel(){   
+    error_reporting(0);
+    $data["data_carousel"] = $this->M_Home->get_carousel();
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $this->template->load('layouts/role','module/Home/url_carousel',$data);
+  }
+  public function Carousel(){   
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');
     }        
@@ -1049,5 +1054,367 @@ class Home extends CI_Controller {
       echo "Failed";
     }   
   }
+
+  public function Video_Highlights(){
+    error_reporting(0);
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_highlights"] = $this->M_Home->get_highlights();
+    $this->template->load('layouts/role','module/Home/video_highlights',$data);
+  }
+
+  public function Highlights(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_highlights"] = $this->M_Home->get_highlights();
+    $this->template->load('Admin/role','module/Home/highlights',$data);
+  }
+
+public function add_highlights(){
+    $title = $this->input->post("title");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions1");            
+    $insert = $this->M_Home->add_highlights($title,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Highlights');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Highlights');
+    } 
+}
+
+  public function update_highlights(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions_edit");            
+    $insert = $this->M_Home->update_highlights($code,$title,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Highlights');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Highlights');
+    } 
+  }
+
+  public function delete_highlights(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_highlights($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  // for Organizer  
+  public function Organizer(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_organizer"] = $this->M_Home->get_organizer();
+    $this->template->load('Admin/role','module/Home/organizer',$data);
+  }
+
+  public function add_organizer(){
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");  
+    $description = $this->input->post("descriptions1");  
+    $file = $_FILES;
+    $folder = './assets/images/upload/organizer/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Organizer".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+        $insert = $this->M_Home->add_organizer($title,$config['file_name'],$status,$description);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Organizer');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Organizer');
+    } 
+  }
+
+  public function update_organizer(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");   
+    $description = $this->input->post("descriptions_edit");
+    $insert = $this->M_Home->update_organizer($code,$title,$file,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Organizer');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Organizer');
+    } 
+  }
+
+  public function delete_organizer(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_organizer($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  // for Member  
+  public function Member(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_member"] = $this->M_Home->get_member();
+    $this->template->load('Admin/role','module/Home/member',$data);
+  }
+
+  public function add_member(){
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");  
+    $description = $this->input->post("descriptions1");  
+    $file = $_FILES;
+    $folder = './assets/images/upload/member/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Member".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+        $insert = $this->M_Home->add_member($title,$config['file_name'],$status,$description);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Member');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Member');
+    } 
+  }
+
+  public function update_member(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");   
+    $description = $this->input->post("descriptions_edit");
+    $insert = $this->M_Home->update_member($code,$title,$file,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Member');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Member');
+    } 
+  }
+
+  public function delete_member(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_member($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  //for sponsors
+  public function Sponsors(){    
+    if($this->session->userdata('id_user') == NULL){
+      redirect('Login');
+    }
+    $data["data_sponsors"] = $this->M_Home->get_sponsors();
+    $this->template->load('Admin/role','module/Home/sponsors',$data);
+  }
+  public function add_sponsors(){   
+    $file = $_FILES;
+    $folder = './assets/images/upload/sponsors/';
+    $name = $this->input->post("name");
+    $status = $this->input->post("status");
+       
+    $get_code = $this->M_Home->get_code_sponsors();    
+    $row = $get_code->row();      
+    if(empty($row->new_id)){
+      $number = $row->new_id + 1;
+    }else{
+      $number = $row->new_id;
+    }
+
+    //$file = count($_FILES['file']['name']);
+    //for($i = 0; $i < $file; $i++){  
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= "sponsors".$number.".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);
+        $insert = $this->M_Home->add_sponsors($name,$config['file_name'],$folder,$number,$status);        
+      }      
+    }
+
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Sponsors');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Sponsors');
+    }   
+
+    // $insert = $this->M_Unit->tambah($code,$name);
+    // if($insert == true){
+    //   $this->session->set_flashdata('simpan', 'Data berhasil disimpan');
+    //   redirect('Unit');         
+    // }
+    // else{
+    //   $this->session->set_flashdata('tidak', 'Data tidak berhasil disimpan');
+    //   redirect('Unit');
+    // }   
+  }
+  public function update_sponsors(){   
+    $file = $_FILES;
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $status = $this->input->post("status");           
+    //$file = count($_FILES['file']['name']);
+    //for($i = 0; $i < $file; $i++){  
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $sql = $this->db->query(" SELECT * from sponsors
+                              where id = '".$code."'
+                            ");
+      $r = $sql->row();	      
+      $folder = $r->folder_name;
+      unlink("".$r->folder_name."".$r->file_name."");
+      
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		=  md5(date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+        $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        // $config2['width']         = 900;
+        // $config2['height']       = 900;		
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);
+        // $this->image_lib->resize();
+        // $this->image_lib->clear();
+        // $name_file = $config['file_name'];
+        // $name_keterangan = $name[$i];
+        $update = $this->M_Home->update_sponsors($code,$name,$config['file_name'],$urut,$status);
+      }      
+    }
+
+    if($update == true){
+      $this->session->set_flashdata('update', 'Data Saved Successfully.');
+      redirect('Home/Sponsors');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Data Failed to Update.');
+      redirect('Home/Sponsors');
+    }   
+  }
+  
+  public function delete_sponsors(){
+    $code = $this->input->post("code");
+    $sql = $this->db->query(" SELECT * from sponsors
+                              where id = '".$code."'
+                            ");
+    $r = $sql->row();	      
+    unlink("".$r->folder_name."".$r->file_name."");      
+    $cek_data = $this->M_Home->delete_sponsors($code);
+    if($cek_data == TRUE){           
+      echo "OK";     
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
 
 }

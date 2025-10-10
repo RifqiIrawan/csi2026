@@ -2,6 +2,12 @@
 
 class M_Home extends CI_Model
 {	
+
+  function search_text($code,$text){
+    $res = $this->db->query("SELECT * from $text
+                              where id = '".$code."'"); 
+    return $res;
+  }
   // for menu
   function get_menu(){
     $res = $this->db->query("SELECT * from menu
@@ -216,23 +222,22 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_support($name,$file,$folder,$number,$url,$status){
+  function add_support($name,$file,$folder,$number,$status){
     $insert = $this->db->query("INSERT INTO 
-                                support(name,file_name,folder_name,urut,url,datecreated,createdby,status) 
+                                support(name,file_name,folder_name,urut,datecreated,createdby,status) 
                                 Values
-                                ('".$name."','".$file."','".$folder."','".$number."','".$url."'
+                                ('".$name."','".$file."','".$folder."','".$number."'
                                 ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
                                 ,'".$status."')
                             ");
     return $insert;
   }
     
-  function update_support($code,$name,$file_name,$urut,$url,$status){
+  function update_support($code,$name,$file_name,$urut,$status){
     $upd = $this->db->query(" UPDATE support SET 
                                   name = '".$name."'  
                                   ,file_name = '".$file_name."'                                
                                   ,urut = '".$urut."' 
-                                  ,url = '".$url."' 
                                   ,status = '".$status."'
                                   ,dateupdate = CURRENT_TIME()
                               WHERE id = '".$code."'
@@ -452,6 +457,138 @@ class M_Home extends CI_Model
   
   function delete_carousel($code){
     $delete = $this->db->query(" DELETE FROM carousel WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for menu
+  function get_highlights(){
+    $res = $this->db->query("SELECT * from highlights
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_highlights($title,$url,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        highlights(title,url,status,description) 
+                                        Values
+                                        ('".$title."','".$url."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_highlights($code,$title,$url,$status,$description){
+    $update = $this->db->query(" UPDATE highlights SET title = '".$title."',url = '".$url."',status = '".$status."'
+                            ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_highlights($code){
+    $delete = $this->db->query(" DELETE FROM highlights WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+
+  // for organizer
+  function get_organizer(){
+    $res = $this->db->query("SELECT * from organizer
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_organizer($title,$file,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        organizer(title,file_upload,status,description) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_organizer($code,$title,$file,$status,$description){
+    $update = $this->db->query(" UPDATE organizer SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                  ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_organizer($code){
+    $delete = $this->db->query(" DELETE FROM organizer WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  
+  // for member
+  function get_member(){
+    $res = $this->db->query("SELECT * from member
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_member($title,$file,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        member(title,file_upload,status,description) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_member($code,$title,$file,$status,$description){
+    $update = $this->db->query(" UPDATE member SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                  ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_member($code){
+    $delete = $this->db->query(" DELETE FROM member WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  //sponsors
+  function get_code_sponsors(){
+    $query = $this->db->query(" SELECT max(urut)+1 as new_id 
+                                FROM sponsors 
+                        ");  
+    return $query;
+  }  
+
+  function get_sponsors(){
+    $res = $this->db->query("SELECT * from sponsors
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_sponsors($name,$file,$folder,$number,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                sponsors(name,file_name,folder_name,urut,datecreated,createdby,status) 
+                                Values
+                                ('".$name."','".$file."','".$folder."','".$number."'
+                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
+                                ,'".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_sponsors($code,$name,$file_name,$urut,$status){
+    $upd = $this->db->query(" UPDATE sponsors SET 
+                                  name = '".$name."'  
+                                  ,file_name = '".$file_name."'                                
+                                  ,urut = '".$urut."' 
+                                  ,status = '".$status."'
+                                  ,dateupdate = CURRENT_TIME()
+                              WHERE id = '".$code."'
+                      ");
+    return $upd;
+  }
+
+  function delete_sponsors($code){
+    $delete = $this->db->query(" DELETE FROM sponsors WHERE id = '".$code."'
                       ");
     return $delete;
   }
