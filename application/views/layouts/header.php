@@ -188,13 +188,14 @@
 
     @media (min-width: 1200px) {
       .navmenu li:hover>a, .navmenu .active, .navmenu .active:focus {
-          /* color:#1c9356; */
-          color:#fff;
+          color:#1c9356;
+          /* color:#fff; */
       }
     }
 
     @media (min-width: 1200px) {
       .navmenu a, .navmenu a:focus {
+        text-decoration: none;
         color: #000;
         padding: 15px 15px;
         font-size: 15px;
@@ -1157,38 +1158,28 @@
         </a>
         <nav id="navmenu" class="navmenu">
             <ul>
-              <!-- <li class="dropdown"><a href="#"><span>Home</span></a>
-                <ul>
-                <li><a href="#about">Exhibiting</a></li>
-                <li><a href="#partners">Visiting</a></li>
-                </ul>
-              </li>
-              <li><a href="#product">Exhibiting</a></li>
-              <li><a href="#product">Visiting</a></li>
-              <li><a href="#product">Information</a></li>
-              <li><a href="#product">Contact</a></li>
-              <li><a href="#product">News Upadate </a></li> -->
-              <?php
-                foreach($data_menu as $row){ 
-              ?>
-                <li class="dropdown"><a href="#"><span><?php echo $row->name?></span></a>
+              <?php foreach ($data_menu as $row): ?>
+                <li class="dropdown">
+                  <a href="#"><span><?= $row->name ?></span></a>
                   <ul>
                     <?php
-                      $submenu = $this->db->query("SELECT *
-                                                  FROM submenu
-                                                  where menu_id = '".$row->id."'
-                                              ")->result(); 
-                      foreach($submenu as $rw){
+                      $submenu = $this->db->query("
+                        SELECT *
+                        FROM submenu
+                        WHERE menu_id = '".$row->id."'
+                      ")->result();
+                      
+                      foreach ($submenu as $rw):
                     ?>
-                      <li><a href=""><?php echo strtoupper($rw->sub_name)?></a></li>
-                    <?php
-                      }
-                    ?>
+                      <li>
+                        <a href="<?php echo base_url($rw->url); ?>">
+                          <?= strtoupper($rw->sub_name) ?>
+                        </a>
+                      </li>
+                    <?php endforeach; ?>
                   </ul>
-                <?php
-                  }
-                ?>
                 </li>
+              <?php endforeach; ?>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
