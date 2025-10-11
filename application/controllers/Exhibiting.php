@@ -331,8 +331,8 @@ class Exhibiting extends CI_Controller {
         if($this->session->userdata('id_user') == NULL){
             redirect('Login');
         }        
-        
-        $this->template->load('Admin/role','module/settings/exhibiting/why_exhibit',$data);
+        $data = [];
+        $this->template->load('Admin/roleme','module/settings/exhibiting/why_exhibit',$data);
     }
 
     public function exhibitor_list_settings(){
