@@ -331,7 +331,7 @@ class Exhibiting extends CI_Controller {
         if($this->session->userdata('id_user') == NULL){
             redirect('Login');
         }        
-        
+        // SIDIK
         $this->template->load('Admin/role','module/settings/exhibiting/why_exhibit',$data);
     }
 

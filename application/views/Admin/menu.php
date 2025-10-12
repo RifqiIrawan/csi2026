@@ -162,11 +162,20 @@
         </li>
 
         <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Visitor_Information');?>">
+          <a class="nav-link" href="<?php echo site_url('Info/Form_Visitor_Information');?>">
             <span class="menu-icon">
               <i class="mdi mdi-menu"></i>
             </span>
             <span class="menu-title">Visitor Information</span>
+          </a>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Info/Hotel');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Hotel</span>
           </a>
         </li>
 

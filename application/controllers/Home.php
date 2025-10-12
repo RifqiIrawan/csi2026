@@ -462,6 +462,7 @@ class Home extends CI_Controller {
     $file = $_FILES;
     $folder = './assets/images/upload/support/';
     $name = $this->input->post("name");
+    $url = $this->input->post("url");
     $status = $this->input->post("status");
        
     $get_code = $this->M_Home->get_code_support();    
@@ -497,7 +498,7 @@ class Home extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        $insert = $this->M_Home->add_support($name,$config['file_name'],$folder,$number,$status);        
+        $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$number,$status);        
       }      
     }
 
@@ -524,6 +525,7 @@ class Home extends CI_Controller {
     $file = $_FILES;
     $code = $this->input->post("code");
     $name = $this->input->post("name");
+    $url = $this->input->post("url");
     $status = $this->input->post("status");           
     //$file = count($_FILES['file']['name']);
     //for($i = 0; $i < $file; $i++){  
@@ -564,7 +566,7 @@ class Home extends CI_Controller {
         // $this->image_lib->clear();
         // $name_file = $config['file_name'];
         // $name_keterangan = $name[$i];
-        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$urut,$status);
+        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$url,$urut,$status);
       }      
     }
 

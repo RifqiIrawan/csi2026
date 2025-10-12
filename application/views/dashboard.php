@@ -1206,7 +1206,8 @@
         /* margin-left: 10px; */
     }
   }
- </style>
+ 
+</style>
 
 <body class="index-page">
     <header id="header" class="header d-flex align-items-center sticky-top">
@@ -1231,11 +1232,11 @@
                 foreach($data_menu as $row){ 
               ?>
                 <li class="dropdown"><a href="#"><span><?php echo $row->name?></span></a>
-                  <ul>
+                  <!-- <ul>
                     
                       <li><a href=""><?php echo strtoupper($row->sub_name)?></a></li>
                     
-                  </ul>
+                  </ul> -->
                 <?php
                   }
                 ?>
@@ -1695,4 +1696,9 @@
 
 <script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
+
+
+<script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
+<script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
 </html>
