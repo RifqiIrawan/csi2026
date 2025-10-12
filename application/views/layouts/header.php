@@ -84,6 +84,42 @@
 
 
 <style>
+    .modal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.6875rem;
+      border-top: 1px solid #c3c9cf;
+      border-bottom-right-radius: calc(0.3rem - 1px);
+      border-bottom-left-radius: calc(0.3rem - 1px);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid #c3c9cf;
+      border-top-left-radius: calc(0.3rem - 1px);
+      border-top-right-radius: calc(0.3rem - 1px);
+    }
+
+    .modal-header .close {
+      margin: -5px 0px -10px auto;
+      background: #fff;
+      color: black;
+      border: 1px solid transparent;
+      font-size: 25px;
+    }
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+      color: #000;
+      font-size: 18px;
+    }
+
     .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
       --bs-gutter-x: 2rem;
       --bs-gutter-y: 0;
