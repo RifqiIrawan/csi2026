@@ -82,7 +82,44 @@
   <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">
 </head>
 
+
 <style>
+    .modal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.6875rem;
+      border-top: 1px solid #c3c9cf;
+      border-bottom-right-radius: calc(0.3rem - 1px);
+      border-bottom-left-radius: calc(0.3rem - 1px);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid #c3c9cf;
+      border-top-left-radius: calc(0.3rem - 1px);
+      border-top-right-radius: calc(0.3rem - 1px);
+    }
+
+    .modal-header .close {
+      margin: -5px 0px -10px auto;
+      background: #fff;
+      color: black;
+      border: 1px solid transparent;
+      font-size: 25px;
+    }
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+      color: #000;
+      font-size: 18px;
+    }
+
     .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
       --bs-gutter-x: 2rem;
       --bs-gutter-y: 0;
@@ -590,7 +627,9 @@
 
     .social-links{
       position: relative;
-      left:21%;
+      display: flex;
+      justify-content: center; /* horizontal */
+      align-items: center;
     }
 
     .footer .copyright p {
@@ -688,6 +727,16 @@
       color: #000;
       font-weight: 700;
     } */
+
+    .footer {
+      color: black;
+      /* background-color: black; */
+      font-size: 15px;
+      position: relative;
+      background: url(../Website/assets/img/footer.jpg);
+      
+      /* background-repeat: no-repeat; */
+    }
 </style>
 
 <style>
@@ -1148,13 +1197,58 @@
   .text-center {
     text-align: center !important;
   }
- </style>
+
+  .copyright{
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+  }
+  .footer .copyright {
+    padding: 0px 0px 20px;
+    border-top: 0px solid color-mix(in srgb, var(--default-color), transparent 0%);
+  }
+
+  .footer .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15%;
+    border: 2px solid
+    color-mix(in srgb, var(--default-color), transparent 0%);
+    font-size: 16px;
+    color: 
+    color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-right: 10px;
+    transition: 0.3s;
+  }
+
+  @media (max-width: 600px) {
+    .footer .social-links {
+      position: relative;
+      display: flex;
+      justify-content: center; /* horizontal */
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer .footer-about {
+        margin-bottom: 0px;
+        text-align: center;
+        /* margin-left: 10px; */
+    }
+  }
+ 
+</style>
+
 
 <body class="index-page">
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
         <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
-            <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
+            <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" >
         </a>
         <nav id="navmenu" class="navmenu">
             <ul>

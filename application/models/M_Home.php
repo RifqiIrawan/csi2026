@@ -222,21 +222,22 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_support($name,$file,$folder,$number,$status){
+  function add_support($name,$file,$url,$folder,$number,$status){
     $insert = $this->db->query("INSERT INTO 
-                                support(name,file_name,folder_name,urut,datecreated,createdby,status) 
+                                support(name,file_name,folder_name,url,urut,datecreated,createdby,status) 
                                 Values
-                                ('".$name."','".$file."','".$folder."','".$number."'
+                                ('".$name."','".$file."','".$folder."','".$url."','".$number."'
                                 ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
                                 ,'".$status."')
                             ");
     return $insert;
   }
     
-  function update_support($code,$name,$file_name,$urut,$status){
+  function update_support($code,$name,$file_name,$url,$urut,$status){
     $upd = $this->db->query(" UPDATE support SET 
                                   name = '".$name."'  
                                   ,file_name = '".$file_name."'                                
+                                  ,url = '".$url."'                               
                                   ,urut = '".$urut."' 
                                   ,status = '".$status."'
                                   ,dateupdate = CURRENT_TIME()

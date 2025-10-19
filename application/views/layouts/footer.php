@@ -2,98 +2,99 @@
 </main>
 
 <footer id="footer" class="footer dark-background mt-3">
-  <div class="container footer-top">
-    <div class="row gy-4">
-      <div class="col-lg-3 footer-about mb-3">
-        <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
-        <img width="230" height="200px" style="border-radius: 50%;"  src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full" alt="">
-        <!-- <div class="social-links d-flex mt-3">
-          <?php 
-            foreach($data_sosmed as $row_sosmed){ 
-          ?> 
-          <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
-          <?php } ?>
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
+          <img width="230" height="200px" style="border-radius: 50%;"  src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full" alt="">
+          <!-- <div class="social-links d-flex mt-3">
+            <?php 
+              foreach($data_sosmed as $row_sosmed){ 
+            ?> 
+            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+            <?php } ?>
+          </div> -->
+        </div>
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
+          <img width="230" height="200px" style="border-radius: 50%;" src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full" alt="">
+        </div>
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
+          
+        </div>
+        <div class="col-lg-3 footer-about mb-3">
+          <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
+          
+        </div>
+        <!-- <div class="col-lg-3 col-md-3 footer-links">
+          <p>
+            <strong  class="text-left">
+              <?php echo $company_name?>
+            </strong><br>
+            <?php echo $address?>
+          </p>
+        </div>
+        <div class="col-lg-3 footer-links">
+          <p>Phone: <a href="tel:"<?php echo $phone?>><?php echo $phone?></a><br>
+            Fax: <a href="tel:"<?php echo $fax?>><?php echo $fax?></a><br>
+            email : <a href="mailto:"<?php echo $email?>><?php echo $email?></a><br>
+            Website: <a href="<?php echo $website?>"><?php echo $website?></a>            
+          </p>
+          <table width="100%">
+            <tr>
+              <td width="25%">Phone</td>
+              <td width="5%" align="center">:</td>
+              <td><a href="tel:"<?php echo $phone?>><?php echo $phone?></a></td>
+            </tr>
+            <tr>
+              <td width="25%">Email</td>
+              <td width="5%" align="center">:</td>
+              <td><a href="mailto:"<?php echo $email?>><?php echo $email?></a></td>
+            </tr>
+            <tr>
+              <td width="25%">Website</td>
+              <td width="5%" align="center">:</td>
+              <td><a href="<?php echo $website?>"><?php echo $website?></a></td>
+            </tr>
+          </table>
         </div> -->
       </div>
-      <div class="col-lg-3 footer-about mb-3">
-        <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
-        <img width="230" height="200px" style="border-radius: 50%;" src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full" alt="">
-      </div>
-      <div class="col-lg-3 footer-about mb-3">
-        <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
-        
-      </div>
-      <div class="col-lg-3 footer-about mb-3">
-        <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
-        
-      </div>
-      <!-- <div class="col-lg-3 col-md-3 footer-links">
-        <p>
-          <strong  class="text-left">
-            <?php echo $company_name?>
-          </strong><br>
-          <?php echo $address?>
-        </p>
-      </div>
-      <div class="col-lg-3 footer-links">
-        <p>Phone: <a href="tel:"<?php echo $phone?>><?php echo $phone?></a><br>
-          Fax: <a href="tel:"<?php echo $fax?>><?php echo $fax?></a><br>
-          email : <a href="mailto:"<?php echo $email?>><?php echo $email?></a><br>
-          Website: <a href="<?php echo $website?>"><?php echo $website?></a>            
-        </p>
-        <table width="100%">
-          <tr>
-            <td width="25%">Phone</td>
-            <td width="5%" align="center">:</td>
-            <td><a href="tel:"<?php echo $phone?>><?php echo $phone?></a></td>
-          </tr>
-          <tr>
-            <td width="25%">Email</td>
-            <td width="5%" align="center">:</td>
-            <td><a href="mailto:"<?php echo $email?>><?php echo $email?></a></td>
-          </tr>
-          <tr>
-            <td width="25%">Website</td>
-            <td width="5%" align="center">:</td>
-            <td><a href="<?php echo $website?>"><?php echo $website?></a></td>
-          </tr>
-        </table>
-      </div> -->
-    </div>
-    <div class="row">
-      <div class="col-lg-12 text-center">          
-        <div style="color:#AEFF4BFF;font-size:24px;"><b>Connect <span style="color:white;">With</span> Us</b></div>
-      </div>
-      <div class="col-lg-4 text-center">
-      </div>
-      <div class="col-lg-4 text-center">
-        <div class="social-links d-flex mb-4">
-          <?php 
-            foreach($data_sosmed as $row_sosmed){ 
-          ?> 
-          <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
-          <?php } ?>
+      <div class="row">
+        <div class="col-lg-12 text-center">          
+          <div style="color:#AEFF4BFF;font-size:24px;"><b>Connect <span style="color:white;">With</span> Us</b></div>
+        </div>
+        <div class="col-lg-4 text-center">
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="social-links d-flex mb-4">
+            <?php 
+              foreach($data_sosmed as $row_sosmed){ 
+            ?> 
+            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+            <?php } ?>
+          </div>
+        </div>
+        <div class="col-lg-4 text-center">
         </div>
       </div>
-      <div class="col-lg-4 text-center">
+
+      <div class="row">
+        <div class="col-lg-12">          
+          <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visotors under age 18 will not be permitted.</b></div>
+        </div>
+      </div>
+
+      <div class="row">
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-lg-12">          
-        <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visotors under age 18 will not be permitted.</b></div>
-      </div>
+
+    <div class="container copyright text-center mt-3">      
+      <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
     </div>
+  </footer>
 
-    <div class="row">
-    </div>
-  </div>
-
-
-  <div class="container copyright text-center mt-3">      
-    <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
-  </div>
-</footer>
 
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 <!-- <div id="preloader"></div> -->
