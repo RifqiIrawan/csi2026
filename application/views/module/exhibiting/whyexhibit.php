@@ -592,6 +592,52 @@
 
     </section>
 
+    <section id="customer" class="faq section">
+        <div class="container section-title center" >
+        <!-- <div class="description-title">Our Customer</div> -->
+        <h3>SUPPORTED BY</h3>
+        </div>
+
+        <div class="container mb-3">
+            <div class="row justify-content-left">
+                <div class="col-lg-12">
+
+                <div class="container">
+                    <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage">
+                        <?php 
+                            foreach($data_support as $row5){ 
+                            $file5 = $row5->folder_name."".$row5->file_name;
+                            $img5 = "".$file5."";
+                        ?> 
+                            
+                        <div class="owl-item">
+                            <div class="oc-item" style="text-align:center">
+                            <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
+                                <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                            </a>
+                            <!-- <h7><?php echo $row4->nam5?></h7> -->
+                            </div>
+                        </div>                          
+                        <?php } ?>
+                        </div>
+                    </div>
+                    <div class="owl-nav">
+                        <button type="button" role="presentation" class="owl-prev">
+                        <i class="icon-angle-left"></i>
+                        </button>
+                    <button type="button" role="presentation" class="owl-next">
+                        <i class="icon-angle-right"></i>
+                    </button></div>
+                    <div class="owl-dots disabled"></div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
