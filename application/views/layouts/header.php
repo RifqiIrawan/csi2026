@@ -1251,31 +1251,38 @@
             <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" >
         </a>
         <nav id="navmenu" class="navmenu">
-            <ul>
-              <?php foreach ($data_menu as $row): ?>
-                <li class="dropdown">
-                  <a href="#"><span><?= $row->name ?></span></a>
-                  <ul>
-                    <?php
-                      $submenu = $this->db->query("
-                        SELECT *
-                        FROM submenu
-                        WHERE menu_id = '".$row->id."'
-                      ")->result();
-                      
-                      foreach ($submenu as $rw):
-                    ?>
-                      <li>
-                        <a href="<?php echo base_url($rw->url); ?>">
-                          <?= strtoupper($rw->sub_name) ?>
-                        </a>
-                      </li>
-                    <?php endforeach; ?>
-                  </ul>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          <ul>
+            <?php foreach ($data_menu as $row): ?>
+              <?php
+                // Tentukan URL untuk menu utama
+                $main_href = !empty($row->url) ? base_url($row->url) : 'javascript:void(0)';
+              ?>
+              <li class="dropdown">
+                <a href="<?= $main_href ?>">
+                  <span><?= htmlspecialchars($row->name, ENT_QUOTES, 'UTF-8') ?></span>
+                </a>
+                <ul>
+                  <?php
+                    $submenu = $this->db->query("
+                      SELECT *
+                      FROM submenu
+                      WHERE menu_id = '".$row->id."'
+                    ")->result();
+
+                    foreach ($submenu as $rw):
+                      $sub_href = !empty($rw->url) ? base_url($rw->url) : 'javascript:void(0)';
+                  ?>
+                    <li>
+                      <a href="<?= $sub_href ?>">
+                        <?= strtoupper(htmlspecialchars($rw->sub_name, ENT_QUOTES, 'UTF-8')) ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
         </div>
     </header>
