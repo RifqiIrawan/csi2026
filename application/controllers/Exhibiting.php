@@ -69,6 +69,9 @@ class Exhibiting extends CI_Controller {
             case "exhibitor-datatable":
                 echo $this->M_Exhibiting->exhibitor_datatable();
                 break;
+            case "exhibitor-visa-settings":
+                $this->exhibitor_visa_settings();
+                break;
             default:
                 $this->whyexhibit_index();
         }
@@ -301,8 +304,16 @@ class Exhibiting extends CI_Controller {
         $this->template->load('Admin/roleme','module/settings/exhibiting/why_exhibit',$data);
     }
 
+    public function exhibitor_visa_settings(){
+        if($this->session->userdata('id_user') == NULL){
+            redirect('Login');
+        }        
+        $data = [];
+        $this->template->load('Admin/roleme','module/settings/exhibiting/exhibitor_visa',$data);
+    }
+
     public function exhibitor_list_settings(){
-        echo "Hellow World";
+        
         if($this->session->userdata('id_user') == NULL){
             redirect('Login');
         }        
