@@ -8,12 +8,68 @@ class Visiting extends CI_Controller {
     parent::__construct();       
     $this->load->model('M_Login');   
     $this->load->model('M_Form');
+    $this->load->model('M_Visiting');
+    $this->load->library('upload');
   }
 
-	public function index(){    
-    $uri = $this->uri->segment(2);
-    $url = $this->uri->segment(3);
+	public function index($submenu = null, $id = null){  
+      
+    // $uri = $this->uri->segment(2);
+    // $url = $this->uri->segment(3);
 
+    switch (strtolower($submenu)) {
+      case "conference-schedule":
+        $this->conference_schedule_index();
+        break;
+      case "show-report-download":
+        $this->download_show_report($id);
+        break;
+      case "show-report-get-data":
+        if (empty($id)) {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => 'error',
+                    'message' => 'ID is required'
+                ]));
+        }
+
+        $data_show_report = $this->M_Visiting->get_by_id('csi_report_files', (int) $id);
+
+        return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($data_show_report));
+        break;
+      case "show-report-edit":
+        $this->show_report_edit();
+        break;
+      case "why-visit-settings":
+        $this->why_visit_settings();
+        break;
+      // case "why-visit-settings":
+      //   $this->why_visit_settings();
+      //   break;
+      case "conference-schedule-settings":
+        $this->conference_schedule_settings();
+        break;
+      case "post-show-report-settings":
+        $this->post_show_report_settings();
+      case "event-datatable":
+        echo $this->M_Visiting->event_datatable();
+        break;
+      case "event-datatable":
+        echo $this->M_Visiting->event_datatable();
+        break;
+      case "show-report-datatable":
+        echo $this->M_Visiting->show_report_datatable();
+        break;
+
+      default:
+        $this->visiting_index();
+    }
+	}
+
+  public function visiting_index() {
     $data_profile = $this->M_Form->get_profile_dashboard();
     $r = $data_profile->row();
     $data["folder"] = $r->folder;
@@ -71,114 +127,133 @@ class Visiting extends CI_Controller {
     $data['features'] = $features;
     $data['show_features'] = $show_features;
 
-    // if(empty($uri)){      
-    // echo "<pre>";
-    // print_r($r->folder);
-    // echo "</pre>";
-    // echo "<pre>";
-    // print_r($data['show_features']);
-    // echo "</pre>";
-    // die();
+    $data["data_menu"] = $this->M_Login->get_menu();
     $this->load->view('layouts/header', $data);
     $this->load->view('visiting',$data);
     $this->load->view('layouts/footer', $data);
-        // if(empty($uri)){      
-        // echo "<pre>";
-        // print_r($data["email"]);
-        // echo "</pre>";
-        // $this->load->view('visiting',$data);
-        // }else if($uri == "info_news"){      
-        // $this->load->view('module/info_news',$data);
-        // }
-        // else if($uri == "event_update"){      
-        // $this->load->view('module/event_update',$data);
-        // }    
-	}
+  }
 
-  public function Login(){   
-    $username = $this->input->post('username');
-		$password = md5($this->input->post('password'));	
-    $cek = $this->M_Login->cek_login($username,$password); 
-    if($cek->num_rows() > 0){
-      $row = $cek->row();         
-        if($row->status == "A"){
-          $session_data = array( 
-                'id_user'   => $row->id,
-                'nama'   => ucwords($row->nama),
-                'username'   => $row->username, 
-                'password'   => $row->password,
-                'status'   => $row->status
-          );   
-          $this->session->set_userdata($session_data);
-          redirect('home');  
-        }else{
-          echo "<script>alert('Sorry,your account does not active');window.location.href='Login';</script>";
-        }
-    }
-    else{
-      echo "<script>alert('Sorry, username does not exist in database');window.location.href='Login';</script>";
-    }
-	}
+  public function conference_schedule_index() {
 
-  public function admin(){     
+    $data['programs'] = $this->M_Visiting->get_event_schedule([]);
+    // echo "<pre>";
+    // print_r($dataConference);
+    // echo "</pre>";
+    // die();
+    $data["data_menu"] = $this->M_Login->get_menu();
+    $this->load->view('layouts/header', $data);
+    $this->load->view('module/visiting/conferenceschedule',$data);
+    $this->load->view('layouts/footer', $data);
+  }
+
+  public function why_visit_settings() {
+    echo "why_visit_settings";
+    die();
     if($this->session->userdata('id_user') == NULL){
-      redirect('cek_login');
-    }
-    $this->template->load('Admin/role','module/home_admin');
-	}
+        redirect('Login');
+    }        
+    $data = [];
+    $this->template->load('Admin/roleme','module/settings/visiting/why_visit',$data);
+  }
 
-  public function visitor(){
+  public function conference_schedule_settings(){
     if($this->session->userdata('id_user') == NULL){
-      redirect('Login');
+        redirect('Login');
+    }        
+    $data = [];
+    $this->template->load('Admin/roleme','module/settings/visiting/conference_schedule',$data);
+  }
+
+  public function post_show_report_settings() {
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
     }
-    $data["data_visitor"] = $this->M_Login->get_visitor();
-    $this->template->load('Admin/role','module/get_visitor',$data);
+    $data = [];
+    $this->template->load('Admin/roleme','module/settings/visiting/post_show_report',$data);
   }
 
-  public function logout(){
-    $this->load->library('session');	
-    $this->session->unset_userdata('id_user');
-    redirect('login');
-  }
-
-  public function submit_form(){
-    $name = $this->input->post('name');
-		$email = $this->input->post('email');	
-    $subject = $this->input->post('subject');
-		$message = $this->input->post('message');	
+  public function download_show_report($id = null) {
     
-    $cek = $this->M_Login->submit_form($name,$email,$subject,$message); 
-    if($cek == true){
-      $this->session->set_flashdata('simpan', 'Data Saved Successfully.');
-      redirect('dashboard');         
+    $file = $this->M_Visiting->get_by_id('csi_report_files', (int) $id);
+
+    $file_path = FCPATH . 'assets/uploads/post_show_report/' . $file->file_name . $file->file_type;
+
+    if (!file_exists($file_path)) {
+        show_error('File not found on server.', 404);
+        return;
     }
-    else{
-      $this->session->set_flashdata('tidak', 'Data Failed to Save.');
-      redirect('dashboard');
-    }   
-    //echo $name." / ".$email." / ".$subject." / ".$message;
+
+    $data = file_get_contents($file_path);
+
+    // Load CI's download helper
+    $this->load->helper('download');
+    $file_name = $file->report_title . '.' . pathinfo($file->file_name . $file->file_type, PATHINFO_EXTENSION);
+
+    force_download($file_name, $data);
   }
 
-  public function reset(){      
-    $this->load->view('reset');
-	}
+  public function show_report_edit(){
+      // echo "<pre>";
+      // print_r($this->input->post());
+      // echo "</pre>";
 
-  public function reset_password(){      
-    $username = $this->input->post('username');    
-    $pass = "4321";
-    $q = $this->db->query("SELECT * from login
-                              where username = '".$username."'"); 
-    $row = $q->row();
-    if(!empty($row)){      
-      $this->db->query("UPDATE login set password = '".md5($pass)."' where username = '".$username."'");      
-      echo "<script type=\"text/javascript\">alert(\"Success, your password has been reset. Thank You\");window.location.href=\"login\"</script>";
-    }else{
-      echo "<script type=\"text/javascript\">alert(\"Sorry, username doesn't exist in database\");window.location.href=\"login\"</script>";
-    }
-	}
+      // echo "<pre>";
+      // print_r($_FILES);
+      // echo "</pre>";
+      // die();
+      $id = $this->input->post('id');
+      $title = $this->input->post('report_title', true);
+      $description = $this->input->post('report_description', true);
+      $is_published = $this->input->post('is_published') ? 1 : 0;
 
-  // public function info_news(){      
-  //   echo $this->uri->segment(2);
-    
-	// }
+      // Ambil data lama untuk hapus file lama jika diganti
+      
+      $old_data = $this->M_Visiting->get_by_id('csi_report_files', (int) $id);
+
+      if (!$old_data) {
+          echo json_encode(['success' => false, 'message' => 'Data not found.']);
+          return;
+      }
+
+      $update_data = [
+          'report_title' => $title,
+          'report_description' => $description,
+          'is_published' => $is_published,
+          'modified_date' => date('Y-m-d H:i:s')
+      ];
+      $file_path = 'assets/uploads/post_show_report/';
+      // === Handle file upload (optional) ===
+      if (!empty($_FILES['report_file']['name'])) {
+          $config['upload_path']   = FCPATH . $file_path;
+          $config['allowed_types'] = 'pdf';
+          $config['max_size']      = 5120; // 5MB
+          $config['file_name']     = time() . '_' . $_FILES['report_file']['name'];
+
+          $this->upload->initialize($config);
+
+          if ($this->upload->do_upload('report_file')) {
+              $file_data = $this->upload->data();
+
+              $update_data['file_name'] = $file_data['raw_name'];
+              $update_data['file_path'] = $file_path . $file_data['file_name'];
+
+              // Hapus file lama jika ada
+              if (!empty($old_data->report_file) && file_exists(FCPATH . $file_path . $old_data->report_file)) {
+                  @unlink(FCPATH . $file_path . $old_data->report_file);
+              }
+          } else {
+              echo json_encode(['success' => false, 'message' => $this->upload->display_errors()]);
+              return;
+          }
+      }
+
+      // === Update ke database ===
+      $updated = $this->M_Visiting->update('csi_report_files', $id, $update_data);
+
+      if ($updated) {
+          echo json_encode(['success' => true, 'message' => 'Report file updated successfully.']);
+      } else {
+          echo json_encode(['success' => false, 'message' => 'Failed to update data.']);
+      }
+  }
 }

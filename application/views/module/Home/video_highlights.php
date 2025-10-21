@@ -34,7 +34,7 @@
             ?>   
                  
             <div class="col-lg-4">
-                <p class="title text-center">
+                <p class="title text-center mb-3">
                     <?php echo ucwords($row->title)?>
                 </p>
                 <!-- <img src="<?php echo base_url();?>assets/images/upload/carousel/<?php echo $row->file_upload?>" class="img-fluid"> -->

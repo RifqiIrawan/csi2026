@@ -87,9 +87,9 @@
   }
 
 
-  .banner-form { display: none; margin-top: 0px; }
+  .event-form { display: none; margin-top: 0px; }
 
-  .content-banner { margin-top: 0px !important}
+  .content-event { margin-top: 0px !important}
 
   .ellipsis {
     max-width: 200px;    /* lebar kolom bisa disesuaikan */
@@ -137,8 +137,8 @@
   }
 
   /* Make DataTables full width */
-  #bannerTable_wrapper,
-  #bannerTable,
+  #eventTable_wrapper,
+  #eventTable,
   #section1Table_wrapper,
   #section1Table,
   #visainformationTable_wrapper,
@@ -170,8 +170,8 @@
   <div class="row">
     <ul class="nav custom-tabs" id="formTabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="tab-banner" data-bs-toggle="tab" href="#content-banner" role="tab">
-          <i class="fa fa-list"></i> Banner
+        <a class="nav-link active" id="tab-events" data-bs-toggle="tab" href="#content-events" role="tab">
+          <i class="fa fa-list"></i> Event
         </a>
         <a class="nav-link" id="tab-content" data-bs-toggle="tab" href="#content-content" role="tab">
           <i class="fa fa-tags"></i> Content
@@ -185,161 +185,126 @@
     <div class="col-md-12">
       <div class="tab-content" id="formTabsContent">
 
-        <!-- TAB 1: Banner -->
-        <div class="tab-pane fade show active" id="content-banner" role="tabpanel">
-          <button id="addBannerBtn" class="btn btn-success mb-3">Add Banner</button>
+        <div class="tab-pane fade show active" id="content-events" role="tabpanel"> 
+            <button id="addEventBtn" class="btn btn-success mb-3">Add Event</button>
 
-          <!-- DataTable -->
-          <table id="bannerTable" class="display table table-bordered">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Year</th>
-                <th>Title</th>
-                <th>Subtitle</th>
-                <th>Image</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <tr>
-                <td>1</td>
-                <td>Sample Banner</td>
-                <td><img src="https://via.placeholder.com/150x50" alt="Banner" style="width:150px;"></td>
-                <td>https://example.com</td>
-                <td>Active</td>
-                <td>This is a sample banner</td>
-                <td>
-                  <button class="btn btn-sm btn-primary">Edit</button>
-                  <button class="btn btn-sm btn-danger">Delete</button>
-                </td>
-              </tr> -->
-            </tbody>
-          </table>
+            <!-- DataTable -->
+            <table id="eventTable" class="display table table-bordered">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Event Name</th>
+                    <th>Year</th>
+                    <th>Location</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Created By</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Data populated dynamically -->
+                </tbody>
+            </table>
 
-          <!-- Banner Form -->
-          <div id="bannerFormContainer" class="banner-form">
-            <div class="card tab-card">
-              <div class="card-body">
-                <h5 class="mb-3 text-primary">Banner Configuration</h5>
-                <form action="<?= base_url('exhibiting/why-exhibit-banner-add') ?>" method="post" enctype="multipart/form-data">
-                  <div class="mb-3">
-                    <label class="form-label">Banner Year</label>
-                    <select class="form-control" name="banneryear" required>
-                      <option value="">-- Select Banner Year --</option>
-                      <?php for($y = $startYear; $y <= $endYear; $y++): ?>
-                        <option value="<?= $y; ?>" <?= ($y == $currentYear) ? 'selected' : ''; ?>>
-                          <?= $y; ?>
-                        </option>
-                      <?php endfor; ?>
-                    </select>
-                  </div>  
-                
-                  <div class="mb-3">
-                    <label class="form-label">Banner Title</label>
-                    <input type="text" class="form-control" name="bannertitle" placeholder="Enter Banner Title" required style="text-transform:capitalize">
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Subtitle</label>
-                    <textarea class="form-control" rows="4" name="bannersubtitle" placeholder="Enter banner subtitle"></textarea>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Image</label>
-                    <input type="file" class="form-control" name="bannerimage" accept="image/*" > <!-- required -->
-                    <small class="form-text text-muted">Recommended size: 1200x400px</small>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Link</label>
-                    <input type="url" class="form-control" name="bannerlink" placeholder="Enter URL if clickable">
-                  </div>
-
-                  <div class="mb-3 d-flex gap-3 align-items-center">
-                    <input type="radio" name="bannerStatus" id="bannerActive" value="active" checked>
-                    <label for="bannerActive" class="mb-0">Active</label>
-                    <input type="radio" name="bannerStatus" id="bannerPassive" value="inactive">
-                    <label for="bannerPassive" class="mb-0">Passive</label>
-                  </div>
-
-                  <button type="submit" class="btn btn-primary me-2">Submit</button>
-                  <button type="button" id="backBannerBtn" class="btn btn-outline-danger">Back</button>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <!-- Banner Edit Form -->
-          <div id="bannerEditFormContainer" class="banner-form d-none">
-            <div class="card tab-card">
-              <div class="card-body">
-                <h5 class="mb-3 text-primary">Edit Banner</h5>
-                <form id="editBannerForm" action="<?= base_url('exhibiting/why-exhibit-banner-update') ?>" method="post" enctype="multipart/form-data">
-                  
-                  <!-- Hidden field for Banner ID -->
-                  <input type="hidden" name="id" id="editBannerId">
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Year</label>
-                    <select class="form-control" name="banneryear" id="editBannerYear" required>
-                      <option value="">-- Select Banner Year --</option>
-                      <?php for($y = $startYear; $y <= $endYear; $y++): ?>
-                        <option value="<?= $y; ?>"><?= $y; ?></option>
-                      <?php endfor; ?>
-                    </select>
-                  </div>  
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Title</label>
-                    <input type="text" class="form-control" name="bannertitle" id="editBannerTitle" placeholder="Enter Banner Title" required style="text-transform:capitalize">
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label">Banner Subtitle</label>
-                    <textarea class="form-control" rows="4" name="bannersubtitle" id="editBannerSubtitle" placeholder="Enter banner subtitle"></textarea>
-                  </div>
-
-                  <!-- <div class="mb-3">
-                    <label class="form-label">Banner Image</label>
-                    <input type="file" class="form-control" name="bannerimage" accept="image/*">
-                    <small class="form-text text-muted">Recommended size: 1200x400px</small>
-                    <div class="mt-2">
-                      <img id="editBannerPreview" src="" alt="Current Banner" class="img-thumbnail" style="max-height:120px; display:none;">
+            <!-- Add Event Form -->
+            <div id="eventFormContainer" class="event-form">
+                <div class="card tab-card">
+                <div class="card-body">
+                    <h5 class="mb-3 text-primary">Add New Event</h5>
+                    <form action="<?= base_url('events/add') ?>" method="post">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Event Name</label>
+                        <input type="text" class="form-control" name="event_name" placeholder="Enter Event Name" required style="text-transform:capitalize">
                     </div>
-                  </div> -->
 
-                  <div class="mb-3">
-                      <label class="form-label">Banner Image</label>
-                      <input type="file" class="form-control" name="image" id="editBannerImage" accept="image/*">
-                      <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
-                      <div class="mt-2">
-                          <img id="editBannerPreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
-                      </div>
-                  </div>
+                    <div class="mb-3">
+                        <label class="form-label">Event Year</label>
+                        <select class="form-control" name="event_year" required>
+                        <option value="">-- Select Year --</option>
+                        <?php for($y = date('Y') - 5; $y <= date('Y') + 5; $y++): ?>
+                            <option value="<?= $y; ?>" <?= ($y == date('Y')) ? 'selected' : ''; ?>><?= $y; ?></option>
+                        <?php endfor; ?>
+                        </select>
+                    </div>
 
-                  <div class="mb-3">
-                    <label class="form-label">Banner Link</label>
-                    <input type="url" class="form-control" name="bannerlink" id="editBannerLink" placeholder="Enter URL if clickable">
-                  </div>
+                    <div class="mb-3">
+                        <label class="form-label">Event Location</label>
+                        <input type="text" class="form-control" name="event_location" placeholder="Enter Location">
+                    </div>
 
-                  <div class="mb-3 d-flex gap-3 align-items-center">
-                    <input type="radio" name="bannerStatus" id="editBannerActive" value="active">
-                    <label for="editBannerActive" class="mb-0">Active</label>
-                    <input type="radio" name="bannerStatus" id="editBannerInactive" value="inactive">
-                    <label for="editBannerInactive" class="mb-0">Inactive</label>
-                  </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="event_start_date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" name="event_end_date" required>
+                        </div>
+                    </div>
 
-                  <button type="submit" class="btn btn-primary me-2">Update</button>
-                  <button type="button" id="cancelEditBannerBtn" class="btn btn-outline-danger">Cancel</button>
-                </form>
-              </div>
+                    <button type="submit" class="btn btn-primary me-2">Save</button>
+                    <button type="button" id="backEventBtn" class="btn btn-outline-danger">Back</button>
+                    </form>
+                </div>
+                </div>
             </div>
-          </div>
 
+            <!-- Edit Event Form -->
+            <div id="eventEditFormContainer" class="event-form d-none">
+                <div class="card tab-card">
+                <div class="card-body">
+                    <h5 class="mb-3 text-primary">Edit Event</h5>
+                    <form id="editEventForm" action="<?= base_url('events/update') ?>" method="post">
+                    <input type="hidden" name="id" id="editEventId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Event Name</label>
+                        <input type="text" class="form-control" name="event_name" id="editEventName" required style="text-transform:capitalize">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Event Year</label>
+                        <select class="form-control" name="event_year" id="editEventYear" required>
+                        <option value="">-- Select Year --</option>
+                        <?php for($y = date('Y') - 5; $y <= date('Y') + 5; $y++): ?>
+                            <option value="<?= $y; ?>"><?= $y; ?></option>
+                        <?php endfor; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Event Location</label>
+                        <input type="text" class="form-control" name="event_location" id="editEventLocation">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" class="form-control" name="event_start_date" id="editEventStartDate">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                        <label class="form-label">End Date</label>
+                        <input type="date" class="form-control" name="event_end_date" id="editEventEndDate">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Modified By</label>
+                        <input type="text" class="form-control" name="modified_by" id="editEventModifiedBy" placeholder="Enter your name">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2">Update</button>
+                    <button type="button" id="cancelEditEventBtn" class="btn btn-outline-danger">Cancel</button>
+                    </form>
+                </div>
+                </div>
+            </div>
 
         </div>
+
         
         <!-- TAB 2: Section -->
         <div class="tab-pane fade" id="content-content" role="tabpanel">
@@ -559,279 +524,228 @@
 
 </script>
 <script>
-  var base_url = "<?= base_url(); ?>";
+    var base_url = "<?= base_url(); ?>";
 
-  $(document).ready(function() {
-    var $bannerTableWrapper = $('#bannerTable_wrapper');
-    var $bannerForm = $('#bannerFormContainer');
-    var $addBannerBtn = $('#addBannerBtn');
-    var $backBannerBtn = $('#backBannerBtn');
-    // Initialize DataTable
-    // Initialize DataTable with AJAX
-    var bannerTable = $('#bannerTable').DataTable({
-        responsive: true,
-        processing: true,   // show processing indicator
-        serverSide: true,   // kalau pakai server-side processing
-        ajax: {
-            url: base_url + "exhibiting/why-exhibit-datatable", // ganti dengan route CI kamu
-            type: "POST"
-        },
-        dataType: 'json',
-        order: [[1, "asc"]],
-        columns: [
-            { data: "no" },
-            { data: "content_year" },
-            { data: "title" },
-            { data: "subtitle" },
-            { data: "file_path" },
-            { data: "status" },
-            {
-              data: null,
-              orderable: false,
-              render: function (data, type, row) {
-                  return `
-                      <button class="btn btn-sm btn-primary editBanner" data-id="${row.id}" title="Edit">
-                          <i class="bi bi-pencil-square"></i>
-                      </button>
-                      <button class="btn btn-sm btn-danger deleteBanner" data-id="${row.id}" title="Delete">
-                          <i class="bi bi-trash"></i>
-                      </button>
-                  `;
-              }
-            }
-        ],
-        columnDefs: [
-          {
-            targets: 3, // index kolom Subtitle (0 = No, 1 = Year, 2 = Title, 3 = Subtitle)
-            render: function(data, type, row) {
-              if (type === 'display') {
-                return '<span class="ellipsis" title="'+data+'">'+data+'</span>';
-              }
-              return data;
-            }
-          }
-        ]
-        // lengthChange: true,
-        // pageLength: 25,
-        // scrollX: true,
-        // lengthMenu: [[10,25,50,100,-1],[10,25,50,100,"All"]],
-        // info: true
-    });
+    $(document).ready(function() {
+        // Elements
+        var $eventTableWrapper = $('#eventTable_wrapper');
+        var $eventForm = $('#eventFormContainer');
+        var $addEventBtn = $('#addEventBtn');
+        var $backEventBtn = $('#backEventBtn');
+        var $editEventFormContainer = $('#eventEditFormContainer');
 
-    // 🔹 Baru ambil wrapper setelah DataTable selesai inisialisasi
-    var $bannerTableWrapper = $('#bannerTable_wrapper');
-
-    $addBannerBtn.on('click', function() {
-        $bannerForm.removeClass('d-none').hide().slideDown();
-        $bannerTableWrapper.addClass('d-none'); // sekarang pasti ada
-        $(this).hide();
-    });
-
-    $backBannerBtn.on('click', function() {
-        $bannerForm.slideUp(function() {
-            $bannerForm.addClass('d-none');
-        });
-        $bannerTableWrapper.removeClass('d-none').hide().slideDown();
-        $addBannerBtn.show();
-    });
-
-
-    // Activate tab from URL hash
-    var hash = window.location.hash;
-    if(hash){
-      var triggerEl = document.querySelector('.nav-link[href="'+hash+'"]');
-      if(triggerEl){
-          var tab = new bootstrap.Tab(triggerEl);
-          tab.show();
-      }
-    }
-
-    // Update URL hash saat ganti tab
-    const tabEls = document.querySelectorAll('#formTabs a[data-bs-toggle="tab"]');
-    tabEls.forEach(function(tabEl) {
-        tabEl.addEventListener('shown.bs.tab', function (event) {
-            history.replaceState(null, null, event.target.getAttribute('href'));
-        });
-    });
-  });
-
-  $(document).on('click', '.editBanner', function() {
-    let id = $(this).data('id');
-
-    // Example: Fetch banner data from API (adjust URL)
-    $.getJSON("<?= base_url('exhibiting/why-exhibit-banner-get-data/') ?>" + id, function(data) {
-        $("#editBannerId").val(data.id);
-        $("#editBannerYear").val(data.content_year);
-        $("#editBannerTitle").val(data.title);
-        $("#editBannerSubtitle").val(data.subtitle);
-        $("#editBannerLink").val(data.link);
-
-        if (data.status === "active") {
-            $("#editBannerActive").prop("checked", true);
-        } else {
-            $("#editBannerInactive").prop("checked", true);
-        }
-
-        if (data.image) {
-            $("#editBannerPreview").attr("src", data.image).show();
-        } else {
-            $("#editBannerPreview").hide();
-        }
-
-        // Show edit form
-        $("#bannerFormContainer").addClass("d-none");
-        $("#bannerEditFormContainer").removeClass("d-none");
-
-        // hide table + button add
-        $('#bannerTable_wrapper').hide();
-        $('#addBannerBtn').hide();
-
-        $('#bannerEditFormContainer').show();
-    });
-  });
-
-  // Cancel button
-  $("#cancelEditBannerBtn").click(function() {
-      $("#bannerEditFormContainer").addClass("d-none");
-      $("#bannerFormContainer").removeClass("d-none");
-
-      // show table + button add
-      $('#bannerTable_wrapper').show();
-      $('#addBannerBtn').show();
-  });
-
-  
-
-  <?php
-    $flashdata_all = $this->session->flashdata();
-
-    if (!empty($flashdata_all)) {
-        foreach ($flashdata_all as $type => $msg) {
-            if (!empty($msg)) {
-                $typeEscaped = addslashes($type);
-                $title = ucfirst($typeEscaped);
-                $msgEscaped = addslashes($msg);
-
-                // Custom button color per type
-                switch ($typeEscaped) {
-                    case 'success':
-                        $btnColor = '#28a745'; // green
-                        break;
-                    case 'warning':
-                        $btnColor = '#f39c12'; // orange
-                        break;
-                    case 'info':
-                        $btnColor = '#3498db'; // blue
-                        break;
-                    case 'error':
-                    default:
-                        $btnColor = '#e74c3c'; // red
-                        break;
-                }
-
-                echo "
-                
-                console.log('Flashdata => type: {$typeEscaped}, message: {$msgEscaped}');
-                console.log('Flashdata => type: {$typeEscaped}, message: {$title}');
-
-                Swal.fire({
-                    icon: '{$typeEscaped}',
-                    title: '{$title}',
-                    html: '{$msgEscaped}',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '{$btnColor}',
-                    width: 450,
-                    padding: '2em',
-                    background: '#fff',
-                    customClass: {
-                        popup: 'swal2-rounded',
-                        title: 'swal2-title-custom',
-                        htmlContainer: 'swal2-text-custom'
+        // ===============================
+        // 🧩 Initialize DataTable
+        // ===============================
+        var eventTable = $('#eventTable').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: base_url + "visiting/event-datatable", // ← Update to your backend route
+                type: "POST"
+            },
+            order: [[1, "asc"]],
+            columns: [
+                { data: "no" },
+                { data: "event_name" },
+                { data: "event_year" },
+                { data: "event_location" },
+                { data: "event_start_date" },
+                { data: "event_end_date" },
+                { data: "created_by" },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return `
+                            <button class="btn btn-sm btn-primary editEvent" data-id="${row.id}" title="Edit">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger deleteEvent" data-id="${row.id}" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        `;
                     }
-                });
-                ";
+                }
+            ]
+        });
+
+        // 🔹 Baru ambil wrapper setelah DataTable selesai inisialisasi
+        var $eventTableWrapper = $('#eventTable_wrapper');
+
+        // ===============================
+        // 🔹 Add Event Button
+        // ===============================
+        $addEventBtn.on('click', function() {
+            $eventForm.removeClass('d-none').hide().slideDown();
+            $eventTableWrapper.addClass('d-none');
+            $(this).hide();
+        });
+
+        // ===============================
+        // 🔹 Back Button
+        // ===============================
+        $backEventBtn.on('click', function() {
+            $eventForm.slideUp(function() {
+                $eventForm.addClass('d-none');
+            });
+            $eventTableWrapper.removeClass('d-none').hide().slideDown();
+            $addEventBtn.show();
+        });
+
+        // ===============================
+        // 🔹 Activate Tab via URL Hash
+        // ===============================
+        var hash = window.location.hash;
+        if (hash) {
+            var triggerEl = document.querySelector('.nav-link[href="'+hash+'"]');
+            if (triggerEl) {
+                new bootstrap.Tab(triggerEl).show();
             }
         }
-    }
-  ?>
 
-  // Preview image sebelum upload
-  $("#editBannerImage").on("change", function(){
-      const [file] = this.files;
-      if (file) {
-          $("#editBannerPreview").attr("src", URL.createObjectURL(file)).show();
-      }
-  });
-  
-  $('#editBannerForm').on('submit', function(e) {
-    e.preventDefault();
+        // Update hash when switching tab
+        document.querySelectorAll('#formTabs a[data-bs-toggle="tab"]').forEach(function(tabEl) {
+            tabEl.addEventListener('shown.bs.tab', function (event) {
+                history.replaceState(null, null, event.target.getAttribute('href'));
+            });
+        });
 
-    var formData = new FormData(this);
+        // ===============================
+        // 🔹 Edit Event
+        // ===============================
+        $(document).on('click', '.editEvent', function() {
+            let id = $(this).data('id');
 
-    $.ajax({
-        url: base_url + "exhibiting/why-exhibit-banner-update",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function(res) {
-            if (res.success) {
-                Swal.fire("Success!", res.message, "success");
+            $.getJSON(base_url + "visiting/event-get-data/" + id, function(data) {
+                $("#editEventId").val(data.id);
+                $("#editEventName").val(data.event_name);
+                $("#editEventYear").val(data.event_year);
+                $("#editEventLocation").val(data.event_location);
+                $("#editEventStartDate").val(data.event_start_date);
+                $("#editEventEndDate").val(data.event_end_date);
+                $("#editEventModifiedBy").val(data.modified_by);
 
-                // hide edit form, show table & button add
-                $("#bannerEditFormContainer").hide();
-                $('#bannerTable_wrapper').show();
-                $('#addBannerBtn').show();
+                // Show edit form
+                $eventForm.addClass("d-none");
+                $editEventFormContainer.removeClass("d-none").hide().slideDown();
+                $eventTableWrapper.hide();
+                $addEventBtn.hide();
+            });
+        });
 
-                // reload datatable
-                $('#bannerTable').DataTable().ajax.reload();
-            } else {
-                Swal.fire("Error!", res.message, "error");
-            }
-        },
-        error: function() {
-            Swal.fire("Error!", "Terjadi kesalahan server.", "error");
-        }
-    });
-  });
+        // ===============================
+        // 🔹 Cancel Edit Event
+        // ===============================
+        $("#cancelEditEventBtn").click(function() {
+            $editEventFormContainer.addClass("d-none");
+            $eventForm.addClass("d-none");
+            $eventTableWrapper.show();
+            $addEventBtn.show();
+        });
 
+        // ===============================
+        // 🔹 Update Event via AJAX
+        // ===============================
+        $('#editEventForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
 
-  $(document).on('click', '.deleteBanner', function() {
-    const id = $(this).data('id');
-
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'This banner will be permanently deleted!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
             $.ajax({
-                url: base_url + 'exhibiting/why-exhibit-banner-delete/' + id,
-                type: 'POST',
-                dataType: 'json',
+                url: base_url + "events/update",
+                type: "POST",
+                data: formData,
+                dataType: "json",
                 success: function(res) {
-                    Swal.fire({
-                        icon: res.status,
-                        title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
-                        text: res.message
-                    });
-                    if (res.status === 'success') {
-                        // $('#bannerTable').DataTable().ajax.reload(null, false);
-                        bannerTable.ajax.reload(null, false); 
+                    if (res.success) {
+                        Swal.fire("Success!", res.message, "success");
+                        $editEventFormContainer.hide();
+                        $eventTableWrapper.show();
+                        $addEventBtn.show();
+                        eventTable.ajax.reload();
+                    } else {
+                        Swal.fire("Error!", res.message, "error");
                     }
                 },
                 error: function() {
-                    Swal.fire('Error', 'Failed to connect to server', 'error');
+                    Swal.fire("Error!", "Server error occurred.", "error");
                 }
             });
+        });
+
+        // ===============================
+        // 🔹 Delete Event
+        // ===============================
+        $(document).on('click', '.deleteEvent', function() {
+            const id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'This event will be permanently deleted!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: base_url + 'events/delete/' + id,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(res) {
+                            Swal.fire({
+                                icon: res.status,
+                                title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                                text: res.message
+                            });
+                            if (res.status === 'success') {
+                                eventTable.ajax.reload(null, false);
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error', 'Failed to connect to server', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        // ===============================
+        // 🔹 Flashdata Alert (CodeIgniter)
+        // ===============================
+        <?php
+        $flashdata_all = $this->session->flashdata();
+        if (!empty($flashdata_all)) {
+            foreach ($flashdata_all as $type => $msg) {
+                if (!empty($msg)) {
+                    $typeEscaped = addslashes($type);
+                    $title = ucfirst($typeEscaped);
+                    $msgEscaped = addslashes($msg);
+                    switch ($typeEscaped) {
+                        case 'success': $btnColor = '#28a745'; break;
+                        case 'warning': $btnColor = '#f39c12'; break;
+                        case 'info': $btnColor = '#3498db'; break;
+                        default: $btnColor = '#e74c3c'; break;
+                    }
+                    echo "
+                    Swal.fire({
+                        icon: '{$typeEscaped}',
+                        title: '{$title}',
+                        html: '{$msgEscaped}',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '{$btnColor}',
+                        width: 450,
+                        padding: '2em'
+                    });
+                    ";
+                }
+            }
         }
+        ?>
     });
-  });
 </script>
+
 <script>
   $(document).ready(function() {
 
