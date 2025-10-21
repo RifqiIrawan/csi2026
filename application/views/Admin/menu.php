@@ -179,6 +179,42 @@
           </a>
         </li>
 
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Info/Submit_Form');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Submit Form</span>
+          </a>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Info/Form_Contact');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Contact US</span>
+          </a>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Info/Header_News');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Header News</span>
+          </a>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Info/Form_News_Update');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">News Update</span>
+          </a>
+        </li>
+
         <!-- Exhibiting Menu -->
         <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#exhibitingMenu" aria-expanded="false" aria-controls="exhibitingMenu" data-parent="#exhibitingMenu">
