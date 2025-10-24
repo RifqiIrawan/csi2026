@@ -78,9 +78,6 @@ class Exhibiting extends CI_Controller {
         $uri = $this->uri->segment(2);
         $url = $this->uri->segment(3);
         $base_url = base_url(); 
-        // echo "<pre> base_url:";
-        // print_r($base_url);
-        // echo "</pre>";
 
         $data_profile = $this->M_Form->get_profile_dashboard();
         $r = $data_profile->row();
@@ -103,17 +100,9 @@ class Exhibiting extends CI_Controller {
             'content_year' => 2026,
             'content_type' => 'visa-information'
         ]);
-        // echo "<pre> sectionDataContents:";
-        // print_r($sectionDataContents);
-        // echo "</pre>";
-        // die();
 
         $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
         $hero_text = $dataContents['0']['title'];
-        // echo "<pre> background_hero:";
-        // print_r($hero_background);
-        // echo "</pre>";
-        // die();
 
         // Data Hero Section
         $data['hero'] = [
@@ -191,12 +180,6 @@ class Exhibiting extends CI_Controller {
             ],
         ];
 
-
-        // echo "<pre> section_background:";
-        // print_r($data['section']);
-        // echo "</pre>";
-        // die();
-
         $features = [
             [
                 'title' => 'NETWORKING OPPORTUNITIES',
@@ -206,7 +189,8 @@ class Exhibiting extends CI_Controller {
         ];
 
         $data['features'] = $features;
-
+        $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_support"] = $this->M_Login->get_support();
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/whyexhibit',$data);
         $this->load->view('layouts/footer', $data);
@@ -231,11 +215,6 @@ class Exhibiting extends CI_Controller {
             'content_type' => 'company-profile'
         ]);
 
-        // echo "<pre> dataContents:";
-        // print_r($dataContents);
-        // echo "</pre>";
-        // die();
-        
         $data['exhibitors'] = [];
         foreach($dataContents as $content) {
             $image = (!empty($content['file_path'])) ? $base_url . $content['file_path'] : '';
@@ -248,7 +227,7 @@ class Exhibiting extends CI_Controller {
                 'menu_controller' => $image_controller
             ];
         }
-
+        $data["data_menu"] = $this->M_Login->get_menu();
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorlist',$data);
         $this->load->view('layouts/footer', $data);
@@ -258,11 +237,6 @@ class Exhibiting extends CI_Controller {
 
         $content_media_id = (int) $id;
         $base_url = base_url(); 
-        // echo "Function Company Profile:";
-        // echo "<pre> id:";
-        // print_r($id);
-        // echo "</pre>";
-        // die();
 
         $dataCompanies = $this->M_Exhibiting->get_content_company_profile([
             'content_media_id' => $content_media_id
@@ -272,12 +246,6 @@ class Exhibiting extends CI_Controller {
 
         $data['company']->logo = (!empty($dataCompanies->file_path)) ? $base_url . $dataCompanies->file_path : '';
 
-        // echo "Function Company Profile:";
-        // echo "<pre> dataCompanies:";
-        // print_r($data['company']);
-        // echo "</pre>";
-        // die();
-
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/companyprofile',$data);
         $this->load->view('layouts/footer', $data);
@@ -285,42 +253,40 @@ class Exhibiting extends CI_Controller {
 
     public function exhibitor_visa(){
 
-        $base_url = base_url(); 
-        echo "Function Exhibitor Visa:";
-        // echo "<pre> id:";
-        // print_r($id);
-        // echo "</pre>";
-        die();
+        $base_url = base_url();
 
-        // $dataCompanies = $this->M_Exhibiting->get_content_company_profile([
-        //     'content_media_id' => $content_media_id
-        // ])[0];
+        $dataContents = $this->M_Exhibiting->get_contents([
+            'menu_id' => 9,
+            'content_year' => 2026,
+            'content_type' => 'banner'
+        ]);
 
-        // $data['company'] = $dataCompanies;
+        $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
+        $hero_text = $dataContents['0']['title'];
 
-        // $data['company']->logo = (!empty($dataCompanies->file_path)) ? $base_url . $dataCompanies->file_path : '';
-
-
-        // ambil banner dari csi_content_media
-        $banner = $this->db->where('media_type', 'banner')
-                           ->where('content_id', 1) // sesuaikan dengan ID konten Visa
-                            ->get('csi_content_media')
-                            ->row();
-
-        // ambil deskripsi dari csi_content_company_profile (atau bisa tabel khusus visa)
-        $profile = $this->db->where('content_id', 1)
-                            ->get('csi_content_company_profile')
-                            ->row();
-
-        $data = [
-            'banner'  => $banner,
-            'profile' => $profile
+        // Data Hero Section
+        $data['hero'] = [
+            'background' => $hero_background,
+            'button_text' => $hero_text,
+            'button_link' => '' // scroll ke section features
         ];
 
-        echo "<pre> data:";
-        print_r($data);
-        echo "</pre>";
-        die();
+        $sectionDataContents = $this->M_Exhibiting->get_contents([
+            'menu_id' => 9,
+            'content_year' => 2026,
+            'content_type' => 'section'
+        ]);
+
+        // $section_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
+        
+        $data['section'] = [
+            'subtitle' => $sectionDataContents[0]['subtitle']
+            , 'body_text' => $sectionDataContents[0]['body_text']
+            , 'body_img' => ''
+        ];
+        
+        $data['features'] = $features;
+        $data["data_menu"] = $this->M_Login->get_menu();
 
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorvisa',$data);
@@ -331,8 +297,8 @@ class Exhibiting extends CI_Controller {
         if($this->session->userdata('id_user') == NULL){
             redirect('Login');
         }        
-        // SIDIK
-        $this->template->load('Admin/role','module/settings/exhibiting/why_exhibit',$data);
+        $data = [];
+        $this->template->load('Admin/roleme','module/settings/exhibiting/why_exhibit',$data);
     }
 
     public function exhibitor_list_settings(){

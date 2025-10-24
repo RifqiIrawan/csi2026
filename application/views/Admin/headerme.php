@@ -24,6 +24,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css">
     
     
@@ -37,18 +38,17 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <script type="text/javascript"  src="<?php echo base_url();?>assets/jquery-rupiah/rupiah.js"></script>
 
-    <!-- <script src="<?php echo base_url();?>assets/vendors/js/vendor.bundle.base.js"></script> -->
     <script src="<?php echo base_url();?>assets/js/off-canvas.js"></script>
     <script src="<?php echo base_url();?>assets/js/hoverable-collapse.js"></script>
     <script src="<?php echo base_url();?>assets/js/misc.js"></script>
     <script src="<?php echo base_url();?>assets/js/settings.js"></script>
     <script src="<?php echo base_url();?>assets/js/todolist.js"></script>    
     <script src="<?= base_url().'assets/js/sweetalert.min.js'?>"></script>
-    <script src="<?php echo base_url();?>assets/js/file-upload.js"></script>    
-    <script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
+    <script src="<?php echo base_url();?>assets/js/file-upload.js"></script>
     
 
 
@@ -525,7 +525,7 @@
       border: 1px solid #c3c9cf;
       border-radius: 0.3rem;
       outline: 0;
-      top:2rem;
+      top:5rem;
     }
 
     .form-group {
@@ -754,12 +754,11 @@
       background: #00d25b;
     }
 
-    @media screen and (max-width: 991px) {
+    /* @media screen and (max-width: 991px) {
       .sidebar-offcanvas.active {
-          /* right: 0; */
           left: 0;
       }
-    } 
+    }  */
   </style>
 
   
