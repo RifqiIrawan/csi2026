@@ -112,13 +112,22 @@
     var desc = description;
     CKEDITOR.instances.descriptions1.setData(desc);
     CKEDITOR.instances.descriptions2.setData(description2);
-    // $("#ket").val(ket);
 
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    // $.ajax({
+    //   url: "<?php echo base_url()?>Home/search_text",
+    //   type: 'post',
+    //   data: {'code' : code,'text':'content1'},
+    //   success: function (data) {
+    //     var jsn = JSON.parse(data);
+    //     console.log(jsn);        
+    //     // var desc = description;
+    //     CKEDITOR.instances.descriptions1_edit.setData(jsn.description);
+    //     // CKEDITOR.instances.descriptions2_edit.setData(jsn.image_title);
+    //     $("#image_title").val(jsn.image_title);
+    //   }
+    // });
+
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -220,7 +229,7 @@
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."')\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."')\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -317,20 +326,24 @@
           <div class="form-group">
             <label>Upload Image</label>
             <input type="file" name="file" class="form-control">
-          </div>   
-            <div class="form-group">
-                <label class="form-label">Status</label>
-                <div class="custom-controls-stacked">
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="status" value="A" id="A">
-                        <span class="custom-control-label">Active</span>
-                    </label>
-                    <label class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" class="custom-control-input" name="status" value="P" id="P">
-                        <span class="custom-control-label">Passive</span>
-                    </label>             
-                </div>
-            </div>     
+          </div>      
+          <div class="form-group">
+            <label>Upload File For Download</label>
+            <input type="file" name="file2" class="form-control">
+          </div>    
+          <div class="form-group">
+              <label class="form-label">Status</label>
+              <div class="custom-controls-stacked">
+                  <label class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="status" value="A" id="A">
+                      <span class="custom-control-label">Active</span>
+                  </label>
+                  <label class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="status" value="P" id="P">
+                      <span class="custom-control-label">Passive</span>
+                  </label>             
+              </div>
+          </div>     
         </div>            
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 

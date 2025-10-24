@@ -106,9 +106,10 @@
     });
   });
 
-  function upd(code,name,status,description){
+  function upd(code,name,status,description,position){
     $("#code").val(code);
     $("#name").val(name);
+    $("#position").val(position);
     var desc = description;
     CKEDITOR.instances.descriptions.setData(desc);
     // $("#ket").val(ket);
@@ -191,6 +192,7 @@
                     <th width="1%">No</th>
                     <th>Product Name</th>
                     <th>Status</th>
+                    <th>Position</th>
                     <th>Description</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -211,9 +213,10 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
+                        echo "<td align=\"center\">".$row->position."</td>";  
                         echo "<td align=\"center\">".$row->description."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."','".$row->position."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -244,7 +247,11 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Product Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry product Name" style="text-transform:capitalize" required>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Product Name" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="position" Placeholder="Entry Position" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -287,6 +294,10 @@
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
           </div>
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="position" id="position" required>
+          </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">

@@ -30,7 +30,7 @@ class M_Login extends CI_Model{
     $res = $this->db->query("SELECT *
                                 FROM product
                                 where status = 'A' 
-                                order by urut
+                                order by position
                               ")->result(); 
     return $res;
   }
@@ -57,7 +57,7 @@ class M_Login extends CI_Model{
     $res = $this->db->query("SELECT *
                               FROM support
                               where status = 'A' 
-                              order by urut
+                              order by position
                             ")->result(); 
     return $res;
   }

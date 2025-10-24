@@ -109,8 +109,6 @@ class Info extends CI_Controller {
         echo "Failed";
       }   
     }
-
-
   
 
   // for Hotel_Booking (download file)
@@ -199,6 +197,438 @@ class Info extends CI_Controller {
     $code = $this->input->post("code");
     $cek_data = $this->M_Info->delete_hotel($code);
     if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  public function Contact_us(){
+    error_reporting(0);
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_profile"] = $this->M_Login->get_profile()->row();
+    $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_contact1"] = $this->M_Info->get_contact1();
+    $data["data_contact2"] = $this->M_Info->get_contact2();
+    $data["data_contact3"] = $this->M_Info->get_contact3();
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();
+    $this->template->load('layouts/role','module/Contact/contact_us',$data);
+  }
+
+  public function Form_Contact(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();
+    $this->template->load('Admin/role','module/Contact/form_contact_us',$data);
+  }
+
+  public function add_contact_us(){
+    $title = $this->input->post("title");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");   
+    $file = $_FILES;
+    $folder = './assets/images/upload/contact_us/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("contact_us".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+        $insert = $this->M_Info->add_contact_us($title,$config['file_name'],$status);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Info/Form_Contact');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Info/Form_Contact');
+    } 
+  }
+
+  public function update_contact_us(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $email = $this->input->post("email");
+    $contact = $this->input->post("contact");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");   
+    $insert = $this->M_Info->update_contact_us($code,$title,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Form_Contact');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Form_Contact');
+    } 
+  }
+
+  public function delete_contact_us(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Info->delete_contact_us($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  public function form_submit(){
+    $code = md5(date("YmdHis"));
+    $title = $this->input->post("title");
+    $name = $this->input->post("name");
+    $gender = $this->input->post("gender");
+    $country_code = $this->input->post("code");
+    $phone = $this->input->post("phone");
+    $email = $this->input->post("email");
+    $job_title = $this->input->post("job_title");
+    $company = $this->input->post("company");
+    $company_street = $this->input->post("company_street");
+    $suburb = $this->input->post("suburb");
+    $town = $this->input->post("town");
+    $postal = $this->input->post("postal");
+    $country = $this->input->post("country");
+    $message = $this->input->post("message");
+    $insert = $this->M_Info->submit_form($code,$title,$name,$gender,$country_code,$phone,$email,$job_title,$company
+                                              ,$company_street,$suburb,$town,$postal,$country,$message);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Contact_us');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Contact_us');
+    }
+  }
+
+  public function Submit_Form(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_submit"] = $this->M_Info->get_submit();
+    $this->template->load('Admin/role','module/Contact/submit_form',$data);
+  }
+
+  public function add_submit(){
+    $code = md5(date("YmdHis"));
+    $title = $this->input->post("title");
+    $name = $this->input->post("name");
+    $gender = $this->input->post("gender");
+    $country_code = $this->input->post("code");
+    $phone = $this->input->post("phone");
+    $email = $this->input->post("email");
+    $job_title = $this->input->post("job_title");
+    $company = $this->input->post("company");
+    $company_street = $this->input->post("company_street");
+    $suburb = $this->input->post("suburb");
+    $town = $this->input->post("town");
+    $postal = $this->input->post("postal");
+    $country = $this->input->post("country");
+    $message = $this->input->post("message");
+    $insert = $this->M_Info->submit_form($code,$title,$name,$gender,$country_code,$phone,$email,$job_title,$company
+                                              ,$company_street,$suburb,$town,$postal,$country,$message);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Info/Submit_Form');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Info/Submit_Form');
+    } 
+  }
+
+  public function update_submit(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $name = $this->input->post("name");
+    $gender = $this->input->post("gender");
+    $country_code = $this->input->post("country_code");
+    $phone = $this->input->post("phone");
+    $email = $this->input->post("email");
+    $job_title = $this->input->post("job_title");
+    $company = $this->input->post("company");
+    $company_street = $this->input->post("company_street");
+    $suburb = $this->input->post("suburb");
+    $town = $this->input->post("town");
+    $postal = $this->input->post("postal");
+    $country = $this->input->post("country");
+    $message = $this->input->post("message");
+    $insert = $this->M_Info->update_submit($code,$title,$name,$gender,$country_code,$phone,$email,$job_title,$company
+                                          ,$company_street,$suburb,$town,$postal,$country,$message);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Submit_Form');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Submit_Form');
+    } 
+  }
+
+  public function delete_submit(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Info->delete_submit($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  //for header news
+  public function Header_News(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_header_news"] = $this->M_Info->get_header_news();
+    $this->template->load('Admin/role','module/Info/header_news',$data);
+  }
+
+  public function add_header_news(){
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");   
+    $file = $_FILES;
+    $folder = './assets/images/upload/header_news/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("header_news".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+        $insert = $this->M_Info->add_header_news($title,$config['file_name'],$status);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Info/Header_News');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Info/Header_News');
+    } 
+  }
+
+  public function update_header_news(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $img = $this->input->post("img");
+    $status = $this->input->post("status");   
+    $folder = './assets/images/upload/header_news/';
+    $file = $_FILES;
+    $folder = './assets/images/upload/header_news/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("header_news".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+      }
+      unlink($folder."".$img);
+    }
+   
+    $insert = $this->M_Info->update_header_news($code,$title,$config['file_name'],$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Header_News');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Header_News');
+    } 
+  }
+
+  public function delete_header_news(){
+    $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/header_news/';
+    $cek_data = $this->M_Info->delete_header_news($code);
+    if ($this->db->affected_rows()) {
+      unlink($folder."".$img);
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  //for news update
+  public function News_Update(){
+    error_reporting(0);
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_profile"] = $this->M_Login->get_profile()->row();
+    $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_header_news"] = $this->M_Info->get_header_news();
+    $data["data_news_update"] = $this->M_Info->get_news_update();
+    $this->template->load('layouts/role','module/Info/news_update',$data);
+  }
+
+  public function Form_News_Update(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_news_update"] = $this->M_Info->get_news_update();
+    $this->template->load('Admin/role','module/Info/form_news_update',$data);
+  }
+
+  public function add_news_update(){
+    $title = $this->input->post("title");
+    $date = $this->input->post("date");
+    $description = $this->input->post("descriptions");  
+    $status = $this->input->post("status");    
+    $file = $_FILES;
+    $folder = './assets/images/upload/news_update/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("news_update".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+        $insert = $this->M_Info->add_news_update($title,$date,$config['file_name'],$description,$status);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Info/Form_News_Update');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Info/Form_News_Update');
+    } 
+  }
+
+  public function update_news_update(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $date = $this->input->post("date");
+    $img = $this->input->post("img");
+    $descriptions = $this->input->post("descriptions2"); 
+    $status = $this->input->post("status");   
+    $folder = './assets/images/upload/news_update/';
+    $file = $_FILES;
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("news_update".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+      }
+      unlink($folder."".$img);
+    }
+   
+    $insert = $this->M_Info->update_news_update($code,$title,$date,$config['file_name'],$description,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Form_News_Update');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Form_News_Update');
+    } 
+  }
+
+  public function delete_news_update(){
+    $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/news_update/';
+    $cek_data = $this->M_Info->delete_news_update($code);
+    if ($this->db->affected_rows()) {
+      unlink($folder."".$img);
       echo "OK";
     }
     else{

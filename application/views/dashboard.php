@@ -1373,15 +1373,13 @@
             <?php echo $data_content1->title?>
             </span>
           </p>
-          <p>
-            <h3>
-              <?php echo $data_content1->description?>
-            </h3>
-          </p>
+          <!-- <p> -->
+            <?php echo $data_content1->description?>
+          <!-- </p> -->
           </div>
-          <div class="col-lg-7" style="text-align:center">
+          <div class="col-lg-7" style="text-align:center;">
             <p>
-              <span class="fw-bold text-dark" style="font-size: 26px; line-height: 40px;">
+              <span class="fw-bold" style="font-size: 32px; line-height: 40px;color:#5B9D0A;font-weight:800">
                 <?php echo $data_content1->image_title?>
               </span>
             </p>
@@ -1709,5 +1707,5 @@
 
 <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
 <script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 </html>

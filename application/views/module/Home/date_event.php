@@ -225,7 +225,7 @@
 <style>  
   img{       
     width: inherit;
-    height: 400px;  
+    /* height: 400px;   */
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover; /* inilah yang bikin full cover */
@@ -295,7 +295,8 @@
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;font-size:17px;\" title=\"Show Image\" onclick=\"show_image2('".$row->image2."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->title1."','".$row->image1."','".$row->title2."','".$row->image2."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->title1."','".$row->image1."'
+                                ,'".$row->title2."','".$row->image2."','".$row->status."','".$row->description1."','".$row->description2."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -391,10 +392,12 @@
           </div>
           <div class="form-group">
             <label class="form-label">Title 1</label>
+            <input type="text" class="form-control" name="title" id="image">
             <input type="text" class="form-control" name="title1" id="title1" Placeholder="Entry Title 1" style="text-transform:capitalize" required>
           </div>    
           <div class="form-group">
             <label class="form-label">Image 1</label>
+            <input type="text" class="form-control" name="title" id="image">
             <input type="file" class="form-control" name="file1" id="title1" required>
             <div class="mt-2" id="image_edit1"></div>
           </div>              
@@ -408,6 +411,7 @@
           </div>     
           <div class="form-group">
             <label class="form-label">Image 2</label>
+            <input type="text" class="form-control" name="title" id="image2">
             <input type="file" class="form-control" name="file2" id="file2" required>
             <div class="mt-2" id="image_edit2"></div>
           </div>                

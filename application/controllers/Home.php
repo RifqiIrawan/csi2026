@@ -104,10 +104,10 @@ class Home extends CI_Controller {
     $this->load->library('upload', $config);
     $this->upload->initialize($config);		
     if ($this->upload->do_upload('file1')) {
-      echo "OK";
+      // echo "OK";
     }else{
       $error = array('error' => $this->upload->display_errors());
-      echo "Error : ";
+      // echo "Error : ";
     }
 
     //for image2
@@ -125,10 +125,10 @@ class Home extends CI_Controller {
     $this->load->library('upload', $config);
     $this->upload->initialize($config);		
     if ($this->upload->do_upload('file2')) {
-      echo "OK";
+      // echo "OK";
     }else{
       $error = array('error' => $this->upload->display_errors());
-      echo "Error : ";
+      // echo "Error : ";
     }
 
     $insert = $this->M_Home->add_date_event($name,$title1,$description1,$img1,$title2,$description2,$img2,$status);
@@ -143,19 +143,68 @@ class Home extends CI_Controller {
   }
 
   public function update_date_event(){
-      $code = $this->input->post("code");
-      $name = $this->input->post("name");
-      $status = $this->input->post("status");
-      $description = $this->input->post("description_edit");            
-      $insert = $this->M_Home->update_date_event($code,$name,$status,$description);
-      if($insert == true){
-        $this->session->set_flashdata('update', 'Update Data Successfully.');
-        redirect('Home/Date_Event');         
-      }
-      else{
-        $this->session->set_flashdata('not_update', 'Update Data Failed.');
-        redirect('Home/Date_Event');
-      } 
+    $folder1 = "./assets/images/upload/event/image1/";
+    $folder2 = "./assets/images/upload/event/image2/";
+    $name = $this->input->post("name");
+    $title1 = $this->input->post("title1");
+    $description1 = $this->input->post("descriptions");
+    $title2 = $this->input->post("title2");
+    $description2 = $this->input->post("descriptions2");
+    $status = $this->input->post("status");    
+    $get_file1 = $this->input->post("get_file1");    
+    $get_file2 = $this->input->post("get_file2");    
+    
+    //for image1
+    $_FILES['file1']['name'];
+    $_FILES['file1']['type'];
+    $_FILES['file1']['tmp_name'];
+    $_FILES['file1']['error'];
+    $_FILES['file1']['size'];  
+    $type = explode(".",$_FILES['file1']['name']);
+    $typ = $type;
+
+    $config['upload_path']          = $folder1;
+    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+    $config['file_name']     		= md5("image1".date('Ymdhis'));
+    $img1 = $config['file_name'].".".$typ[1];
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);		
+    if ($this->upload->do_upload('file1')) {
+      // echo "OK";
+    }else{
+      $error = array('error' => $this->upload->display_errors());
+      // echo "Error : ";
+    }
+
+    //for image2
+    $_FILES['file2']['name'];
+    $_FILES['file2']['type'];
+    $_FILES['file2']['tmp_name'];
+    $_FILES['file2']['error'];
+    $_FILES['file2']['size'];      
+    $type2 = explode(".",$_FILES['file2']['name']);
+    $typ2 = $type2;
+    $config['upload_path']          = $folder2;
+    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+    $config['file_name']     		= md5("image2".date('Ymdhis'));
+    $img2 = $config['file_name'].".".$typ2[1];
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);		
+    if ($this->upload->do_upload('file2')) {
+      // echo "OK";
+    }else{
+      $error = array('error' => $this->upload->display_errors());
+      // echo "Error : ";
+    }
+    $insert = $this->M_Home->update_date_event($code,$name,$title1,$description1,$img1,$title2,$description2,$img2,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Date_Event');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Date_Event');
+    } 
   }
 
   public function delete_date_event(){
@@ -219,10 +268,42 @@ class Home extends CI_Controller {
 
   public function update_content1(){
     $code = $this->input->post("code");
-    $name = $this->input->post("name");
-    $status = $this->input->post("status");
-    $description = $this->input->post("description_edit");            
-    $insert = $this->M_Home->update_content1($code,$name,$status,$description);
+    $folder = "./assets/images/upload/content/";
+    $title = $this->input->post("title");
+    $description = $this->input->post("descriptions1_edit");
+    $image_title = $this->input->post("image_title");
+    $status = $this->input->post("status");    
+    $get_image = $this->input->post("get_image");
+    //Now Unlink
+    if(file_exists("".$folder."".$get_image.""))
+    {
+      unlink("".$folder."".$get_image."");
+    }
+   
+    //for image1
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size'];  
+    $type = explode(".",$_FILES['file']['name']);
+    $typ = $type;
+
+    $config['upload_path']          = $folder;
+    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+    $config['file_name']     		= md5("image".date('Ymdhis'));
+    $img = $config['file_name'].".".$typ[1];
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);		
+    if ($this->upload->do_upload('file')) {
+      echo "OK";
+    }else{
+      $error = array('error' => $this->upload->display_errors());
+      echo "Error : ";
+      die();
+    }   
+
+    $insert = $this->M_Home->update_content1($code,$title,$description,$image_title,$img,$status);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Content1');         
@@ -411,9 +492,10 @@ class Home extends CI_Controller {
 
   public function add_product(){
     $name = $this->input->post("name");
+    $position = $this->input->post("position");
     $status = $this->input->post("status");
     $description = $this->input->post("descriptions");            
-    $insert = $this->M_Home->add_product($name,$status,$description);
+    $insert = $this->M_Home->add_product($name,$position,$status,$description);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Product');         
@@ -427,9 +509,10 @@ class Home extends CI_Controller {
   public function update_product(){
     $code = $this->input->post("code");
     $name = $this->input->post("name");
+    $position = $this->input->post("position");
     $status = $this->input->post("status");
     $description = $this->input->post("descriptions_edit");            
-    $insert = $this->M_Home->update_product($code,$name,$status,$description);
+    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Product');         
@@ -464,6 +547,7 @@ class Home extends CI_Controller {
     $name = $this->input->post("name");
     $url = $this->input->post("url");
     $status = $this->input->post("status");
+    $position = $this->input->post("position"); 
        
     $get_code = $this->M_Home->get_code_support();    
     $row = $get_code->row();      
@@ -498,7 +582,7 @@ class Home extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$number,$status);        
+        $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$number,$status,$position);        
       }      
     }
 
@@ -526,7 +610,8 @@ class Home extends CI_Controller {
     $code = $this->input->post("code");
     $name = $this->input->post("name");
     $url = $this->input->post("url");
-    $status = $this->input->post("status");           
+    $status = $this->input->post("status");     
+    $position = $this->input->post("position");      
     //$file = count($_FILES['file']['name']);
     //for($i = 0; $i < $file; $i++){  
     $_FILES['file']['name'];
@@ -540,7 +625,11 @@ class Home extends CI_Controller {
                             ");
       $r = $sql->row();	      
       $folder = $r->folder_name;
-      unlink("".$r->folder_name."".$r->file_name."");
+
+      if(file_exists("".$r->folder_name."".$r->file_name.""))
+      {
+        unlink("".$r->folder_name."".$r->file_name."");
+      }
       
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
@@ -566,7 +655,7 @@ class Home extends CI_Controller {
         // $this->image_lib->clear();
         // $name_file = $config['file_name'];
         // $name_keterangan = $name[$i];
-        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$url,$urut,$status);
+        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$url,$status,$position);
       }      
     }
 
@@ -586,7 +675,10 @@ class Home extends CI_Controller {
                               where id = '".$code."'
                             ");
     $r = $sql->row();	      
-    unlink("".$r->folder_name."".$r->file_name."");      
+    if(file_exists("".$r->folder_name."".$r->file_name.""))
+    {
+      unlink("".$r->folder_name."".$r->file_name."");
+    }
     $cek_data = $this->M_Home->delete_support($code);
     if($cek_data == TRUE){           
       echo "OK";     
@@ -630,7 +722,7 @@ class Home extends CI_Controller {
       $exp = $exp;	
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-      $config['file_name']     		= $_FILES['file']['name'];
+      $config['file_name']     		= md5(date("Ymdhis")).".".$exp[1];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -643,7 +735,26 @@ class Home extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
+        // $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
+      }      
+    }   
+
+    $_FILES['file2']['name'];
+    $_FILES['file2']['type'];
+    $_FILES['file2']['tmp_name'];
+    $_FILES['file2']['error'];
+    $_FILES['file2']['size']; 
+    if($_FILES['file2']['name'] != ""){
+      $exp = explode(".",$_FILES['file2']['name']);
+      $exp = $exp;	
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
+      $config['file_name2']     		= md5(date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file2')) {
+        $error = array('error' => $this->upload->display_errors());
+        $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name'],$config['file_name2']);
       }      
     }   
 
