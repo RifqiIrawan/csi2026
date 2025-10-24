@@ -75,10 +75,10 @@
     });
   });
 
-  function update(code,name,urut,status){
+  function update(code,name,position,status){
     $("#code").val(code);
     $("#name").val(name);
-    $("#urut").val(urut);
+    $("#position").val(position);
 
     if(status.length === 0){
       var status = "P";
@@ -160,6 +160,20 @@
   
 </script>
 
+<style>
+  .modal-body img {
+    object-fit: contain;
+  }
+  img{
+    width: 100%;
+    height: 400px;                /* tetapkan tinggi (atau gunakan min-height) */
+    background-image: url('foto.jpg');
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
+</style>
+
 <div class="content-wrapper">
   <div class="page-header">
     <h4 class="page-title"><b>Support</b></h4>
@@ -208,12 +222,12 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"center\">".$row->urut."</td>";
+                        echo "<td align=\"center\">".$row->position."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->name."'
-                                ,'".$row->urut."','".$row->status."');\">
+                                ,'".$row->position."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -253,6 +267,10 @@
               <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
             </div>
           </div>
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="position" required>
+          </div> 
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -299,7 +317,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Position</label>
-            <input type="number" class="form-control" name="urut" id="urut" required>
+            <input type="number" class="form-control" name="position" id="position" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>

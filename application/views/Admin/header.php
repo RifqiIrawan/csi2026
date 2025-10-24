@@ -527,7 +527,7 @@
       border: 1px solid #c3c9cf;
       border-radius: 0.3rem;
       outline: 0;
-      top:5rem;
+      top:2rem;
     }
 
     .form-group {

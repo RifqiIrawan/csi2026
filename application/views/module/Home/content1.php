@@ -106,26 +106,26 @@
     });
   });
 
-  function upd(code,name,title,description,image,title2,description2,image2,status){
+  function upd(code,title,image,status){
     $("#code").val(code);
-    $("#name").val(name);
-    $("#title1").val(title);
-    var desc = description;
-    CKEDITOR.instances.descriptions1_edit.setData(desc);
+    $("#title").val(title);
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'content1'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);        
+        // var desc = description;
+        CKEDITOR.instances.descriptions1_edit.setData(jsn.description);
+        // CKEDITOR.instances.descriptions2_edit.setData(jsn.image_title);
+        $("#image_title").val(jsn.image_title);
+      }
+    });
+
     $("#image").val(image);
-    
-    $("#title2").val(title2);
-    var desc2 = description2;
-    CKEDITOR.instances.descriptions2_edit.setData(desc2);
-    $("#image2").val(image2);
-
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -240,13 +240,13 @@
                       }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";  
                         echo "<td align=\"\">".ucwords(strtolower($row->description))."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->image_title))."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->image."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."','".$row->image_title."','".$row->image."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->image."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -283,10 +283,14 @@
             <label>Description</label>
             <textarea class="form-control" name="descriptions" rows="9"></textarea>
           </div>  
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-label">Image Title</label>
             <input type="text" class="form-control" name="image_title" Placeholder="Entry Image Title" style="text-transform:capitalize" required>
-          </div>     
+          </div>      -->
+          <div class="form-group">
+            <label>Image Title</label>
+            <input type="text" class="form-control" name="image_title" Placeholder="Entry Image Title" style="text-transform:capitalize" required>
+          </div>  
           <div class="form-group">
             <label class="form-label">Upload Image</label>
             <input type="file" class="form-control" name="file" required>
@@ -324,34 +328,27 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Event Name</label>
+            <label class="form-label">Title</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+            <input type="text" class="form-control" name="title" id="title" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Title 1</label>
-            <input type="text" class="form-control" name="title1" id="title1" Placeholder="Entry Title 1" style="text-transform:capitalize" required>
-          </div>    
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions1_edit" rows="9"></textarea>
+          </div>  
+          <!-- <div class="form-group">
+            <label class="form-label">Image Title</label>
+            <input type="text" class="form-control" name="image_title" Placeholder="Entry Image Title" style="text-transform:capitalize" required>
+          </div>      -->
           <div class="form-group">
-            <label class="form-label">Image 1</label>
-            <input type="file" class="form-control" name="file1" id="title1" required>
-          </div>              
-          <div class="form-group">
-            <label>Description 1</label>
-            <textarea class="form-control" name="descriptions1_edit" id="descriptions1_edit" rows="9"></textarea>
+            <label>Image Title</label>
+            <input type="text" class="form-control" name="image_title" id="image_title" id="title">
           </div>  
           <div class="form-group">
-            <label class="form-label">Title 2</label>
-            <input type="text" class="form-control" name="title2" id="title2" Placeholder="Entry Title 2" style="text-transform:capitalize" required>
-          </div>     
-          <div class="form-group">
-            <label class="form-label">Image 2</label>
-            <input type="file" class="form-control" name="file2" id="file2" required>
-          </div>                
-          <div class="form-group">
-            <label>Description 2</label>
-            <textarea class="form-control" name="descriptions2_edit" id="descriptions2_edit" rows="9"></textarea>
-          </div>       
+            <label class="form-label">Upload Image</label>
+            <input type="hidden" class="form-control" name="get_image" id="image">
+            <input type="file" class="form-control" name="file" required>
+          </div>
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">

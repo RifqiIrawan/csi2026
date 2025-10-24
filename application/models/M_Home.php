@@ -84,9 +84,14 @@ class M_Home extends CI_Model
     return $insert;
   }
     
-  function update_content1($code,$name,$title1,$description1,$img1,$title2,$description2,$img2,$status){
-    $update = $this->db->query(" UPDATE content1 SET name = '".$name."',status = '".$status."'
-                            ,description = '".$description."' WHERE id = '".$code."'
+  function update_content1($code,$title,$description,$image_title,$img,$status){
+    $update = $this->db->query(" UPDATE content1 SET 
+                                  title = '".$title."'
+                                  ,description = '".$description."'
+                                  ,image_title = '".$image_title."'
+                                  ,image = '".$img."'
+                                  ,status = '".$status."'
+                                WHERE id = '".$code."'
                       ");
     return $update;
   }
@@ -182,35 +187,35 @@ class M_Home extends CI_Model
   //product
   function get_product(){
     $res = $this->db->query("SELECT * from product
-                              order by urut asc"); 
+                              order by position asc"); 
     return $res->result();
   }
 
-  function add_product($name,$status,$description){
+  function add_product($name,$position,$status,$description){
     $insert = $this->db->query("INSERT INTO 
-                                        menu(name,status,description) 
+                                        product(name,status,description,position) 
                                         Values
-                                        ('".$name."','".$status."','".$description."')
+                                        ('".$name."','".$status."','".$description."','".$position."')
                             ");
     return $insert;
   }
     
-  function update_product($code,$name,$status,$description){
-    $update = $this->db->query(" UPDATE menu SET name = '".$name."',status = '".$status."'
+  function update_product($code,$name,$position,$status,$description){
+    $update = $this->db->query(" UPDATE product SET name = '".$name."',status = '".$status."',position = '".$position."'
                             ,description = '".$description."' WHERE id = '".$code."'
                       ");
     return $update;
   }
   
   function delete_product($code){
-    $delete = $this->db->query(" DELETE FROM menu WHERE id = '".$code."'
+    $delete = $this->db->query(" DELETE FROM product WHERE id = '".$code."'
                       ");
     return $delete;
   }
 
   //support
   function get_code_support(){
-    $query = $this->db->query(" SELECT max(urut)+1 as new_id 
+    $query = $this->db->query(" SELECT max(position)+1 as new_id 
                                 FROM support 
                         ");  
     return $query;
@@ -218,28 +223,28 @@ class M_Home extends CI_Model
 
   function get_support(){
     $res = $this->db->query("SELECT * from support
-                              order by id asc"); 
+                              order by position asc"); 
     return $res->result();
   }
 
-  function add_support($name,$file,$url,$folder,$number,$status){
+  function add_support($name,$file,$url,$folder,$status,$position){
     $insert = $this->db->query("INSERT INTO 
-                                support(name,file_name,folder_name,url,urut,datecreated,createdby,status) 
+                                support(name,file_name,folder_name,url,datecreated,createdby,status,position) 
                                 Values
-                                ('".$name."','".$file."','".$folder."','".$url."','".$number."'
-                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
+                                ('".$name."','".$file."','".$folder."','".$url."'
+                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."','".$position."'
                                 ,'".$status."')
                             ");
     return $insert;
   }
     
-  function update_support($code,$name,$file_name,$url,$urut,$status){
+  function update_support($code,$name,$file_name,$url,$status,$position){
     $upd = $this->db->query(" UPDATE support SET 
                                   name = '".$name."'  
                                   ,file_name = '".$file_name."'                                
-                                  ,url = '".$url."'                               
-                                  ,urut = '".$urut."' 
+                                  ,url = '".$url."'      
                                   ,status = '".$status."'
+                                  ,position = '".$position."'
                                   ,dateupdate = CURRENT_TIME()
                               WHERE id = '".$code."'
                       ");
