@@ -1,10 +1,10 @@
 
 <!-- Bootstrap CSS -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <!-- DataTables CSS -->
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
 <style>/* TAB STYLING */
   .main-panel{
@@ -160,36 +160,6 @@
 </head>
 <body>
 
-<!-- CKEditor 5 Classic dari CDN -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
-
-<script>
-
-  let sectionEditor, visainformationEditor;
-
-  // 2️⃣ Inisialisasi CKEditor
-  document.addEventListener('DOMContentLoaded', function () {
-    ClassicEditor
-      .create(document.querySelector('#editSection1Description'))
-      .then(editor => {
-        sectionEditor = editor;
-        console.log('CKEditor ready');
-      })
-      .catch(error => console.error(error));
-
-    ClassicEditor
-      .create(document.querySelector('#editVisaInformationDescription'))
-      .then(editor => {
-          visainformationEditor = editor;
-          console.log('Editor 2 ready');
-      })
-      .catch(error => console.error(error));
-  });
-
-</script>
-
-
-
 <?php 
   $currentYear = date('Y'); 
   $startYear   = $currentYear - 2; 
@@ -220,7 +190,7 @@
           <button id="addBannerBtn" class="btn btn-success mb-3">Add Banner</button>
 
           <!-- DataTable -->
-          <table id="example" class="display table table-bordered">
+          <table id="bannerTable" class="display table table-bordered">
             <thead>
               <tr>
                 <th>No</th>
@@ -376,7 +346,7 @@
           <button id="addSection1Btn" class="btn btn-success mb-3">Add Section</button>
 
           <!-- DataTable -->
-          <table id="example2" class="display table table-bordered">
+          <table id="section1Table" class="display table table-bordered">
             <thead>
               <tr>
                 <th>No</th>
@@ -508,7 +478,7 @@
         <!-- TAB 3: Visa Information -->
         <div class="tab-pane fade" id="content-visainformation" role="tabpanel">
           <!-- DataTable -->
-          <table id="example3" class="display table table-bordered">
+          <table id="visainformationTable" class="display table table-bordered">
             <thead>
               <tr>
                 <th>No</th>
@@ -560,9 +530,34 @@
 
 <!-- jQuery + DataTables + Bootstrap JS Bundle -->
 <!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> -->
-<!-- <script src="https://cdn.datatables.net\/1.13.7/js/jquery.dataTables.min.js"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script>
+
+  let sectionEditor, visainformationEditor;
+
+  // 2️⃣ Inisialisasi CKEditor
+  document.addEventListener('DOMContentLoaded', function () {
+    ClassicEditor
+      .create(document.querySelector('#editSection1Description'))
+      .then(editor => {
+        sectionEditor = editor;
+        console.log('CKEditor ready');
+      })
+      .catch(error => console.error(error));
+
+    ClassicEditor
+      .create(document.querySelector('#editVisaInformationDescription'))
+      .then(editor => {
+          visainformationEditor = editor;
+          console.log('Editor 2 ready');
+      })
+      .catch(error => console.error(error));
+  });
+
+</script>
 <script>
   var base_url = "<?= base_url(); ?>";
 
@@ -573,7 +568,7 @@
     var $backBannerBtn = $('#backBannerBtn');
     // Initialize DataTable
     // Initialize DataTable with AJAX
-    var bannerTable = $('#example').DataTable({
+    var bannerTable = $('#bannerTable').DataTable({
         responsive: true,
         processing: true,   // show processing indicator
         serverSide: true,   // kalau pakai server-side processing
@@ -852,7 +847,7 @@
     $sectionFormContainer.addClass('d-none');
 
     // Initialize Section DataTable
-    var sectionTable = $('#example2').DataTable({
+    var sectionTable = $('#section1Table').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
@@ -1097,7 +1092,7 @@
     $visainformationFormContainer.addClass('d-none');
 
     // Initialize Section DataTable
-    var sectionTable = $('#example3').DataTable({
+    var sectionTable = $('#visainformationTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,

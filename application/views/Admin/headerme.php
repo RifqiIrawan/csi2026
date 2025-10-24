@@ -49,7 +49,8 @@
     <script src="<?php echo base_url();?>assets/js/todolist.js"></script>    
     <script src="<?= base_url().'assets/js/sweetalert.min.js'?>"></script>
     <script src="<?php echo base_url();?>assets/js/file-upload.js"></script>
-    
+    <!-- <script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script> -->
+    <!-- CKEditor 5 Classic dari CDN -->
 
 
 
@@ -740,7 +741,7 @@
 
     .btn-hapus-icn{
       background:#F70D1A;
-      margin-left:0px;
+      margin-left: 0px;
     }
 
     .edit-btn{        
@@ -764,26 +765,7 @@
   
   <script type="text/javascript">
     $(document).ready(function() {
-      CKEDITOR.replace( 'descriptions' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
-      CKEDITOR.replace( 'descriptions_edit' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
 
-      CKEDITOR.replace( 'descriptions1' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
-      CKEDITOR.replace( 'descriptions1_edit' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
-
-      CKEDITOR.replace( 'descriptions2' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
-      CKEDITOR.replace( 'descriptions2_edit' , {
-        customConfig : '/custom/ckeditor_config.js'
-      });
       $('#master_data').on("click", function() { 
       });
 

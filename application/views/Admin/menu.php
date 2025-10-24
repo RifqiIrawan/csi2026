@@ -242,8 +242,43 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="<?php echo site_url('Home/About'); ?>">
+                <a class="nav-link" href="<?php echo site_url('exhibiting/exhibitor-visa-settings'); ?>">
                   <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Exhibitor Visa
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+
+        <!-- Visiting Menu -->
+        <li class="nav-item menu-items">
+          <a class="nav-link" data-toggle="collapse" href="#visitingMenu" aria-expanded="false" aria-controls="visitingMenu" data-parent="#visitingMenu">
+            <span class="menu-icon">
+              <i class="mdi mdi-account-group-outline"></i>
+            </span>
+            <span class="menu-title">Visiting</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="visitingMenu" data-parent="#visitingMenu">
+            <ul class="nav flex-column sub-menu">
+
+              <!-- Visiting with Sub Menu -->
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('visiting/why-visit-settings'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Why Visit
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('visiting/conference-schedule-settings'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Conference Schedule
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="<?php echo site_url('visiting/post-show-report-settings'); ?>">
+                  <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Post Show Report
                 </a>
               </li>
 
