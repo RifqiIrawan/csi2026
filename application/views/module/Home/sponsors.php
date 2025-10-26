@@ -75,11 +75,12 @@
     });
   });
 
-  function update(code,name,url,urut,status){
+  function update(code,name,url,position,status,file){
     $("#code").val(code);
     $("#name").val(name);
     $("#url").val(url);
-    $("#urut").val(urut);
+    $("#file_edit").val(file);
+    $("#position").val(position);
 
     if(status.length === 0){
       var status = "P";
@@ -154,12 +155,27 @@
 
   function show_image(file,folder){
     var pic = "."+folder+""+file;
-    var img = $('<img />', {src : pic}).css("width","auto","height","200px","text-align","center");
+    var img = $('<img />', {src : pic});
     img.appendTo('#get_image');
     $("#mdl_img").modal('show');
   }
   
 </script>
+
+<style>
+  .modal-body img {
+    object-fit: contain;
+  }
+
+  img{
+    width: 100%;
+    
+    /* background-image: url('foto.jpg'); */
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
+</style>
 
 <div class="content-wrapper">
   <div class="page-header">
@@ -169,7 +185,7 @@
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li> -->
         <!-- <li class="breadcrumb-item active" aria-current="page">support</li> -->
     </ol>
-    </nav>
+    </nav>  
   </div>
     <div class="row ">
       <div class="col-lg-12">
@@ -209,12 +225,12 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"center\">".$row->urut."</td>";
+                        echo "<td align=\"center\">".$row->position."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->name."'
-                                ,'".$row->url."','".$row->urut."','".$row->status."');\">
+                                ,'".$row->url."','".$row->position."','".$row->status."','".$row->file_name."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -253,7 +269,7 @@
           </div>
           <div class="form-group">
             <label>File upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
+            <!-- <input type="file" name="img[]" class="file-upload-default"> -->
             <div class="input-group col-xs-12">
               <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi()">
             </div>
@@ -304,11 +320,12 @@
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
               <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+              <input type="hidden" class="form-control" name="file_edit" id="file_edit">
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Position</label>
-            <input type="number" class="form-control" name="urut" id="urut" required>
+            <input type="number" class="form-control" name="position" id="position" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -334,7 +351,7 @@
 </div>
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>

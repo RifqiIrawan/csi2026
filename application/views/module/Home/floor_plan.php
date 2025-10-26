@@ -110,13 +110,7 @@
     $("#code").val(code);
     $("#title").val(title);
     $("#file_edit").val(file);
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -160,6 +154,10 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function open_file(file){
+   window.open('../assets/images/upload/floor_plan/'+file, '_blank');
+  }
 </script>
 
 <div class="content-wrapper">
@@ -209,7 +207,7 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-file-pdf\" style=\"font-size: 16px;cursor:pointer\"></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-file-pdf\" style=\"font-size: 16px;cursor:pointer\" onclick=\"open_file('".$row->file_upload."');\"></td>";
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->file_upload."','".$row->status."');\">
@@ -284,11 +282,12 @@
           <div class="form-group">
             <label class="form-label">Title</label>
             <input type="hidden" class="form-control" name="code" id="code">
+            <input type="hidden" class="form-control" name="file_edit" id="file_edit">
             <input type="text" class="form-control" name="title" id="title" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="url" required>
+            <input type="file" class="form-control" name="file" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>

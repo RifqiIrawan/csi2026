@@ -110,15 +110,20 @@
     $("#code").val(code);
     $("#title").val(title);
     $("#url").val(url);
-    var desc = description;
-    CKEDITOR.instances.descriptions.setData(desc);
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    // var desc = description;
+    // CKEDITOR.instances.descriptions.setData(desc);
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'highlights'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);        
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+      }
+    });
+   
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -162,6 +167,20 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'highlights'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.description);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
 </script>
 
 <div class="content-wrapper">
@@ -214,7 +233,7 @@
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
-                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
@@ -300,7 +319,7 @@
           </div> 
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions_edit" rows="9"></textarea>
           </div>      
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -326,16 +345,16 @@
 </div>
 
 
-<div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="mdl_text1">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Show Image </h4>
+        <h4 class="modal-title">Description</h4>
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-lg-12 text-center" id="get_image"></div>
+          <div class="col-lg-12" id="get_text1"></div>
         </div>         
       </div>
     </div>

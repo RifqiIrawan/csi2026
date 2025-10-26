@@ -167,7 +167,7 @@
   img{
     width: 100%;
     height: 400px;                /* tetapkan tinggi (atau gunakan min-height) */
-    background-image: url('foto.jpg');
+    /* background-image: url('foto.jpg'); */
     background-size: cover;       /* kunci: cover */
     background-position: center;  /* posisi fokus gambar */
     background-repeat: no-repeat;
