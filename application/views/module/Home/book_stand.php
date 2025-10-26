@@ -88,6 +88,15 @@
   .modal-body img {
     object-fit: contain;
   }
+
+  img{
+    width: 100%;
+    
+    /* background-image: url('foto.jpg'); */
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
 </style>
 
 <script type="text/javascript">  
@@ -106,26 +115,24 @@
     });
   });
 
-  function upd(code,name,status,description,description2){
+  function upd(code,name,status,file1,file2){
     $("#code").val(code);
     $("#name").val(name);
-    var desc = description;
-    CKEDITOR.instances.descriptions1.setData(desc);
-    CKEDITOR.instances.descriptions2.setData(description2);
+    $("#file_edit").val(file1);
+    $("#file_edit2").val(file2);
 
-    // $.ajax({
-    //   url: "<?php echo base_url()?>Home/search_text",
-    //   type: 'post',
-    //   data: {'code' : code,'text':'content1'},
-    //   success: function (data) {
-    //     var jsn = JSON.parse(data);
-    //     console.log(jsn);        
-    //     // var desc = description;
-    //     CKEDITOR.instances.descriptions1_edit.setData(jsn.description);
-    //     // CKEDITOR.instances.descriptions2_edit.setData(jsn.image_title);
-    //     $("#image_title").val(jsn.image_title);
-    //   }
-    // });
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'book_stand'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);        
+        // var desc = description;
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+        CKEDITOR.instances.descriptions2_edit.setData(jsn.description2);
+      }
+    });
 
     var status='#'+status;
     $(status).prop("checked", true);
@@ -171,6 +178,45 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'book_stand'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.description);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
+  function text2(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'book_stand'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text2").html(jsn.description2);
+      }
+    });
+    $('#mdl_text2').modal('show'); 
+  }
+
+  function show_image(file){
+    var folder = "./assets/images/upload/book_stand/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
+
+  function open_file(file){
+   window.open('../assets/images/upload/book_stand/'+file, '_blank');
+  }
 </script>
 
 <div class="content-wrapper">
@@ -200,8 +246,8 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title</th>
-                    <!-- <th>Text Header</th>
-                    <th>Text Footer</th> -->
+                    <th>Text Header</th>
+                    <th>Text Footer</th>
                     <th>Image</th>
                     <th>File</th>
                     <th>Status</th>
@@ -223,13 +269,13 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        // echo "<td align=\"center\">".$row->description."</td>";   
-                        // echo "<td align=\"center\">".$row->description2."</td>";   
-                        echo "<td align=\"center\">".$stat."</td>";     
-                        echo "<td align=\"center\">".$stat."</td>";     
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";   
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text2('".$row->id."');\"></td>";   
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->file_name."');\"></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-file-pdf\" style=\"font-size: 16px;cursor:pointer\" onclick=\"open_file('".$row->upload_file."');\"></td>";
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."')\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".$row->file_name."','".$row->upload_file."')\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -264,19 +310,19 @@
           </div>                  
           <div class="form-group">
             <label>Text Before Image</label>
-            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions1" rows="9" required></textarea>
           </div>      
           <div class="form-group">
             <label>Text After Image</label>
-            <textarea class="form-control" name="descriptions2" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions2" rows="9" required></textarea>
           </div>  
           <div class="form-group">
             <label>Upload Image</label>
-            <input type="file" name="file" class="form-control">
+            <input type="file" name="file" class="form-control" required>
           </div>     
           <div class="form-group">
             <label>Upload File For Download</label>
-            <input type="file" name="file2" class="form-control">
+            <input type="file" name="file2" class="form-control" required>
           </div>     
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -317,19 +363,21 @@
             </div>   
             <div class="form-group">
                 <label>Text Before Image</label>
-                <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
+                <textarea class="form-control" name="descriptions_edit" id="descriptions_edit" rows="9"></textarea>
             </div> 
             <div class="form-group">
                 <label>Text After Image</label>
-                <textarea class="form-control" name="descriptions2_edit" name="descriptions2" rows="9"></textarea>
+                <textarea class="form-control" name="descriptions2_edit" name="descriptions2_edit" rows="9"></textarea>
             </div>   
           <div class="form-group">
             <label>Upload Image</label>
-            <input type="file" name="file" class="form-control">
+            <input type="file" name="file" class="form-control" required>
+            <input type="hidden" name="file_edit" id="file_edit" class="form-control">
           </div>      
           <div class="form-group">
             <label>Upload File For Download</label>
-            <input type="file" name="file2" class="form-control">
+            <input type="file" name="file2" class="form-control" required>
+            <input type="hidden" name="file_edit2" id="file_edit2" class="form-control">
           </div>    
           <div class="form-group">
               <label class="form-label">Status</label>
@@ -354,9 +402,8 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>
@@ -365,6 +412,38 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-12 text-center" id="get_image"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_text1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Text Header</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_text1"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_text2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Text Footer</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_text2"></div>
         </div>         
       </div>
     </div>

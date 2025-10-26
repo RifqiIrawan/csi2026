@@ -264,18 +264,24 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_book_stand($name,$status,$description,$description2,$file_name){
+  function add_book_stand($name,$status,$description,$description2,$file_name,$file2){
     $insert = $this->db->query("INSERT INTO 
-                                        book_stand(title,status,description,description2,file_name) 
+                                        book_stand(title,status,description,description2,file_name,upload_file) 
                                         Values
-                                        ('".$name."','".$status."','".$description."','".$description2."','".$file_name."')
+                                        ('".$name."','".$status."','".$description."','".$description2."','".$file_name."','".$file2."')
                             ");
     return $insert;
   }
     
-  function update_book_stand($code,$name,$status,$description){
-    $update = $this->db->query(" UPDATE book_stand SET name = '".$name."',status = '".$status."'
-                            ,description = '".$description."' WHERE id = '".$code."'
+  function update_book_stand($code,$name,$status,$description,$description2,$file_1,$file_2){
+    $update = $this->db->query(" UPDATE book_stand SET
+                                title = '".$name."'
+                                ,description = '".$description."'
+                                ,description2 = '".$description2."'
+                                ,file_name = '".$file_1."'
+                                ,upload_file = '".$file_2."'
+                                ,status = '".$status."'
+                                WHERE id = '".$code."'
                       ");
     return $update;
   }
@@ -558,7 +564,7 @@ class M_Home extends CI_Model
 
   //sponsors
   function get_code_sponsors(){
-    $query = $this->db->query(" SELECT max(urut)+1 as new_id 
+    $query = $this->db->query(" SELECT max(position)+1 as new_id 
                                 FROM sponsors 
                         ");  
     return $query;
@@ -570,22 +576,23 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_sponsors($name,$file,$folder,$number,$status){
+  function add_sponsors($name,$url,$file,$folder,$number,$status){
     $insert = $this->db->query("INSERT INTO 
-                                sponsors(name,file_name,folder_name,urut,datecreated,createdby,status) 
+                                sponsors(name,url,file_name,folder_name,position,datecreated,createdby,status) 
                                 Values
-                                ('".$name."','".$file."','".$folder."','".$number."'
+                                ('".$name."','".$url."','".$file."','".$folder."','".$number."'
                                 ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
                                 ,'".$status."')
                             ");
     return $insert;
   }
     
-  function update_sponsors($code,$name,$file_name,$urut,$status){
+  function update_sponsors($code,$name,$url,$file_name,$position,$status){
     $upd = $this->db->query(" UPDATE sponsors SET 
                                   name = '".$name."'  
-                                  ,file_name = '".$file_name."'                                
-                                  ,urut = '".$urut."' 
+                                  ,file_name = '".$file_name."'     
+                                  ,url = '".$url."'                                
+                                  ,position = '".$position."' 
                                   ,status = '".$status."'
                                   ,dateupdate = CURRENT_TIME()
                               WHERE id = '".$code."'

@@ -106,11 +106,9 @@
     });
   });
 
-  function upd(code,name,status,description,description2){
+  function upd(code,name,status,description,description2,file){
     $("#code").val(code);
     $("#name").val(name);
-    var desc = description;
-    CKEDITOR.instances.descriptions.setData(desc);
     // $("#ket").val(ket);
 
     // if(status.length === 0){
