@@ -72,6 +72,21 @@ class Exhibiting extends CI_Controller {
             case "exhibitor-visa-settings":
                 $this->exhibitor_visa_settings();
                 break;
+            case "exhibitor-visa-datatable":
+                echo $this->M_Exhibiting->exhibitor_visa_datatable();
+                break;
+            case "exhibitor-content-get-data":
+                $this->exhibitor_content_get_data($id);
+                break;
+            case "exhibitor-visa-section-add":
+                $this->exhibitor_visa_section_add();
+                break;
+            case "exhibitor-visa-section-update":
+                $this->exhibitor_visa_section_update();
+                break;
+            case "exhibitor-visa-section-delete":
+                $this->exhibitor_visa_section_delete();
+                break;
             default:
                 $this->whyexhibit_index();
         }
@@ -318,7 +333,7 @@ class Exhibiting extends CI_Controller {
             redirect('Login');
         }        
         
-        $this->template->load('Admin/role','module/settings/exhibiting/exhibitor_list',$data);
+        $this->template->load('Admin/roleme','module/settings/exhibiting/exhibitor_list',$data);
     }
 
     public function banner_add_data(){
@@ -705,7 +720,7 @@ class Exhibiting extends CI_Controller {
                 ]));
         }
     }
-
+    
     public function why_exhibit_section_update()
     {
         // echo "<pre> POST:";
@@ -808,7 +823,7 @@ class Exhibiting extends CI_Controller {
         redirect('exhibiting/why-exhibit-settings');
         
     }
-
+    
     public function why_exhibit_section_add()
     {
         // echo "<pre> POST:";
@@ -914,7 +929,6 @@ class Exhibiting extends CI_Controller {
         
     }
 
-    
     public function why_exhibit_visa_get_data($id){
 
         // echo "<pre> VISA ID:";
@@ -957,6 +971,313 @@ class Exhibiting extends CI_Controller {
                     'message' => 'Visa not found'
                 ]));
         }
+    }
+    
+    public function exhibitor_content_get_data($id){
+
+        // echo "<pre> ID:";
+        // print_r($id);
+        // echo "</pre>";
+        // die();
+
+        $IDContent = (int) $id;
+
+        $activeContent = $this->M_Exhibiting->fetchData(
+            'csi_contents c',
+            ['c.id' => $IDContent],
+            [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
+            'c.id, c.content_year, c.content_type, c.title, c.subtitle, c.body_text, c.status, cm.file_path as image, cm.url_path as link',
+            ['c.id' => 'DESC']
+        )->row_array();
+        // print_r($activeContent);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeContent['image'])) {
+            $activeContent['image'] = base_url($activeContent['image']);
+        }
+        // echo "<pre> activeContent:";
+		// print_r($activeContent);
+		// echo "</pre>";
+
+        // die();
+
+        if ($activeContent) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeContent));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    //exhibitor_visa_section_add
+    public function exhibitor_visa_section_add()
+    {
+        // echo "<pre> POST:";
+        // print_r($this->input->post());
+        // echo "</pre>";
+
+        // echo "<pre> IMAGE FILES:";
+        // print_r($_FILES);
+        // echo "</pre>";
+
+        
+        // die();
+        if ($this->input->is_ajax_request()) {
+            $menu_id = 9;
+            $created_date = date('Y-m-d H:i:s');
+            $created_by = 'sysadmin';
+            $content_type = 'section';
+            $body_text = '';
+            $content_id = 0;
+
+            try {
+                $visa_year       = $this->input->post('add_visa_year');
+                $visa_title      = $this->input->post('add_visa_title');
+                $visa_description= $this->input->post('add_visa_description');
+                $visa_status     = $this->input->post('add_visa_status'); // active / inactive
+
+                $file_path = 'assets/uploads/exhibitor_visa/';
+
+                $image_path = null;
+                    
+                if (!empty($_FILES['add_visa_image']['name'])) {
+                    $config['upload_path']   = FCPATH . $file_path;
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                    $config['max_size']      = 2048;
+                    $config['encrypt_name']  = TRUE;
+                    $this->upload->initialize($config);
+                    if (!$this->upload->do_upload('add_visa_image')) {
+                        throw new Exception($this->upload->display_errors());
+                    } else {
+                        $uploadData = $this->upload->data();
+                        if ($uploadData['file_size'] > 2048) {
+                            unlink($uploadData['full_path']); // delete if oversized
+                            $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
+                        }
+                        $image_path = $file_path . $uploadData['file_name'];
+                    }
+                }
+                /*
+                    $idsection          
+                    $sectionyear        
+                    $sectiontitle       
+                    $sectiondescription 
+                    $sectionStatus      
+
+                */
+                
+                $datasection = [
+                    'menu_id'       => $menu_id,      // replace $menu_id with your variable
+                    'content_year'  => $visa_year, // replace $content_year with your variable
+                    'content_type'  => $content_type, // replace $content_type with your variable
+                    'title'         => $visa_title,        // replace $title with your variable
+                    
+                    'body_text'     => $visa_description,    // replace $body_text with your variable
+                    'created_date'  => $created_date, // usually date('Y-m-d H:i:s')
+                    'created_by'    => $created_by,   // your user id or name
+                    'modified_date' => $created_date,// usually date('Y-m-d H:i:s')
+                    'modified_by'   => $created_by   // your user id or name
+                ];
+
+                $this->db->insert('csi_contents', $datasection);
+                $content_id = $this->db->insert_id();
+                // Simpan ke DB lewat model
+
+                $sort_order = 1;
+                $is_main = 1;
+                if ($image_path) {
+                    $datasectionMedia = [
+                        'content_id'      => $content_id,     // the related content ID
+                        'media_type'      => 'image',     // e.g., 'image', 'video', etc.
+                        'file_path'       => $image_path,      // path on server
+                        'sort_order'      => $sort_order,     // integer
+                        'is_main'         => $is_main,        // 0 or 1
+                        'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')
+                        'created_by'      => $created_by,     // user id or name
+                        'modified_date'   => $created_date,  // usually date('Y-m-d H:i:s')
+                        'modified_by'     => $created_by     // user id or name
+                    ];
+                    $this->db->insert('csi_content_media', $datasectionMedia);
+                }
+
+                $response = ['success' => true, 'message' => 'Section berhasil ditambahkan'];
+
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => $e->getMessage()];
+            }
+
+            echo json_encode($response);
+            exit;
+            return; // atau exit;
+        }
+        
+        redirect('exhibiting/why-exhibit-settings');
+        
+    }
+
+    public function exhibitor_visa_section_update()
+    {
+        // echo "<pre> POST:";
+        // print_r($this->input->post());
+        // echo "</pre>";
+
+        // echo "<pre> IMAGE FILES:";
+        // print_r($_FILES);
+        // echo "</pre>";
+
+        
+        // die();
+        if ($this->input->is_ajax_request()) {
+            try {
+                $visa_id          = $this->input->post('id');
+                $visa_year        = $this->input->post('edit_visa_year');
+                $visa_title       = $this->input->post('edit_visa_title');
+                $visa_description = $this->input->post('edit_visa_description');
+                $visa_Status      = $this->input->post('VisaStatus'); // active / inactive
+
+                $modified_date  = date('Y-m-d H:i:s');
+                // validasi ID
+                if (empty($visa_id)) {
+                    throw new Exception("ID tidak ditemukan.");
+                }
+
+                $file_path = 'assets/uploads/exhibitor_visa/';
+
+                $image_path = null;
+                
+                if (!empty($_FILES['edit_visa_image']['name'])) {
+                    $config['upload_path']   = FCPATH . $file_path;
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                    $config['max_size']      = 2048;
+                    $config['encrypt_name']  = TRUE;
+                    $this->upload->initialize($config);
+                    if (!$this->upload->do_upload('edit_visa_image')) {
+                        throw new Exception($this->upload->display_errors());
+                    } else {
+                        $uploadData = $this->upload->data();
+                        if ($uploadData['file_size'] > 2048) {
+                            unlink($uploadData['full_path']); // delete if oversized
+                            $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
+                        }
+                        $image_path = $file_path . $uploadData['file_name'];
+                    }
+                }
+                /*
+                    $visa_id          
+                    $visa_year        
+                    $visa_title       
+                    $visa_description 
+                    $visa_Status           
+
+                */
+                
+                // data yang akan diupdate
+                $datasection = [
+                    'content_year' => $visa_year,
+                    'title'        => $visa_title,
+                    'body_text'    => $visa_description,
+                    'status'       => $visa_Status,
+                    'modified_date'=> $modified_date
+                ];
+
+                $update = $this->M_Exhibiting->update('csi_contents', ['id' => $visa_id], $datasection);
+                
+                $mediaExist = $this->M_Exhibiting->get('csi_content_media', [
+                    'content_id' => $visa_id
+                ])->num_rows();
+
+                if ($mediaExist > 0) {
+                
+                    $datasectionMedia = [
+                        'modified_date'=> $modified_date
+                    ];
+
+                    if ($image_path) {
+                        $datasectionMedia['file_path'] = $image_path;
+                    }
+
+                    $update = $this->M_Exhibiting->update('csi_content_media', ['content_id' => $visa_id], $datasectionMedia);
+                }
+
+                if ($update) {
+                    $response = ['success' => true, 'message' => 'Section berhasil diperbarui'];
+                } else {
+                    $response = ['success' => false, 'message' => 'Gagal memperbarui section'];
+                }
+
+            } catch (Exception $e) {
+                $response = ['success' => false, 'message' => $e->getMessage()];
+            }
+
+            echo json_encode($response);
+            exit;
+            return; // atau exit;
+        }
+        
+        redirect('exhibiting/why-exhibit-settings');
+        
+    }
+
+    public function exhibitor_visa_section_delete()
+    {
+
+        $id = (int) $this->input->post('exhibitor_visa_id');
+        // $id = (int) $id;
+        // echo "<pre> ID Delete xx:";
+        // print_r($id);
+        // echo "</pre>";
+
+        
+        // die();
+        $this->db->trans_begin(); // Start transaction
+
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            // Step 1: Delete from csi_content_media first
+            $deletedMedia = $this->M_Exhibiting->delete('csi_content_media', ['content_id' => $id]);
+            if ($deletedMedia === false) {
+                throw new Exception('Failed to delete related media');
+            }
+
+            // Step 2: Delete from csi_contents
+            $deletedContent = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+            if ($deletedContent === false) {
+                throw new Exception('Failed to delete content');
+            }
+
+            // Step 3: Commit if everything is fine
+            if ($this->db->trans_status() === false) {
+                throw new Exception('Transaction failed');
+            }
+
+            $this->db->trans_commit();
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Banner deleted successfully'
+            ];
+        } catch (Exception $e) {
+            // Rollback on error
+            $this->db->trans_rollback();
+
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
     }
 
 }

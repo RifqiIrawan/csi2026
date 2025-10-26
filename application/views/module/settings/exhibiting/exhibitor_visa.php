@@ -198,11 +198,8 @@
         <a class="nav-link active" id="tab-bannervisa" data-bs-toggle="tab" href="#content-bannervisa" role="tab">
           <i class="fa fa-list"></i> Banner Visa
         </a>
-        <a class="nav-link" id="tab-content" data-bs-toggle="tab" href="#content-content" role="tab">
-          <i class="fa fa-tags"></i> Content
-        </a>
-        <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
-          <i class="fa fa-ellipsis-h"></i> Visa Information
+        <a class="nav-link" id="tab-contentvisa" data-bs-toggle="tab" href="#content-contentvisa" role="tab">
+          <i class="fa fa-tags"></i> Content Visa
         </a>
       </li>
     </ul>
@@ -342,9 +339,95 @@
           </div>
         </div>
 
-        <!-- TAB 2: Section -->
-        <div class="tab-pane fade" id="content-content" role="tabpanel">
-          <!-- (unchanged section content) -->
+        <!-- TAB 2: Content Visa -->
+        <div class="tab-pane fade" id="content-contentvisa" role="tabpanel">
+          <button id="addSection1VisaBtn" class="btn btn-success mb-3">Add Section</button>
+
+          <table id="section1VisaTable" class="display table table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Year</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+
+          <!-- Add Form -->
+          <div id="section1VisaFormContainer" class="section1Visa-form d-none mt-3">
+            <form id="addSection1VisaForm" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="visa_year" class="form-label">Year</label>
+                <input type="number" name="add_visa_year" id="visa_year" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="visa_title" class="form-label">Title</label>
+                <input type="text" name="add_visa_title" id="visa_title" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Section Description</label>
+                <textarea class="form-control" rows="4"
+                  name="add_visa_description"
+                  id="visa_description"
+                  placeholder="Enter Section Description"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="visa_image" class="form-label">Image</label>
+                <input type="file" name="add_visa_image" id="visa_image" class="form-control">
+              </div>
+              <div class="mb-3 d-flex gap-3 align-items-center">
+                <input type="radio" name="add_visa_status" id="addVisa1Active" value="active" checked>
+                <label for="addVisa1Active" class="mb-0">Active</label>
+                <input type="radio" name="add_visa_status" id="addVisa1Inactive" value="inactive">
+                <label for="addVisa1Inactive" class="mb-0">Inactive</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="button" id="cancelSection1VisaBtn" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+
+          <!-- Edit Form -->
+          <div id="section1VisaEditFormContainer" class="section1Visa-form d-none mt-3">
+            <form id="editSection1VisaForm" enctype="multipart/form-data">
+              <input type="hidden" name="id" id="editSection1VisaId">
+              <div class="mb-3">
+                <label for="editSection1VisaYear" class="form-label">Year</label>
+                <input type="number" name="edit_visa_year" id="editSection1VisaYear" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="editSection1VisaTitle" class="form-label">Title</label>
+                <input type="text" name="edit_visa_title" id="editSection1VisaTitle" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Section Description</label>
+                <textarea class="form-control" rows="4"
+                  name="edit_visa_description"
+                  id="editSection1VisaDescription"
+                  placeholder="Enter Section Description"></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Section Image</label>
+                <input type="file" class="form-control" name="edit_visa_image" id="editSection1VisaImage" accept="image/*">
+                <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                <div class="mt-2">
+                  <img id="editSection1VisaPreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                </div>
+              </div>
+              <div class="mb-3 d-flex gap-3 align-items-center">
+                <input type="radio" name="VisaStatus" id="editSection1VisaActive" value="active">
+                <label for="editVisa1Active" class="mb-0">Active</label>
+                <input type="radio" name="VisaStatus" id="editSection1VisaInactive" value="inactive">
+                <label for="editVisa1Inactive" class="mb-0">Inactive</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Update</button>
+              <button type="button" id="cancelEditSection1VisaBtn" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
         </div>
 
         <!-- TAB 3: Visa Information -->
@@ -366,6 +449,30 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script>
+
+  let sectionEditor, visainformationEditor;
+
+  // 2️⃣ Inisialisasi CKEditor
+  document.addEventListener('DOMContentLoaded', function () {
+    ClassicEditor
+      .create(document.querySelector('#editSection1VisaDescription'))
+      .then(editor => {
+        sectionEditor = editor;
+        console.log('CKEditor ready');
+      })
+      .catch(error => console.error(error));
+
+    ClassicEditor
+      .create(document.querySelector('#visa_description'))
+      .then(editor => {
+          visainformationEditor = editor;
+          console.log('Editor 2 ready');
+      })
+      .catch(error => console.error(error));
+  });
+
+</script>
 <script>
   var base_url = "<?= base_url(); ?>";
 
@@ -581,6 +688,255 @@
     });
   });
 </script>
+<script>
+  $(document).ready(function() {
+
+    const base_url = "<?= base_url(); ?>";
+
+    // ============================
+    // SECTION VARIABLES (Content Visa)
+    // ============================
+    const $section1VisaTable = $('#section1VisaTable');
+    const $section1VisaTableWrapper = $('#section1VisaTable_wrapper');
+    const $section1VisaFormContainer = $('#section1VisaFormContainer');
+    const $section1VisaEditFormContainer = $('#section1VisaEditFormContainer');
+    const $addSection1VisaBtn = $('#addSection1VisaBtn');
+    const $cancelSection1VisaBtn = $('#cancelSection1VisaBtn');
+    const $cancelEditSection1VisaBtn = $('#cancelEditSection1VisaBtn');
+
+    // Hide form containers on load
+    $section1VisaFormContainer.addClass('d-none');
+    $section1VisaEditFormContainer.addClass('d-none');
+
+    // ============================
+    // INITIALIZE DATATABLE
+    // ============================
+    const section1VisaTable = $section1VisaTable.DataTable({
+      responsive: true,
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: base_url + "exhibiting/exhibitor-visa-datatable",
+        type: "POST"
+      },
+      dataType: 'json',
+      order: [[1, "asc"]],
+      columns: [
+        { data: "no" },
+        { data: "content_year" },
+        { data: "title" },
+        { data: "body_text" },
+        { data: "file_path" },
+        { data: "status" },
+        {
+          data: null,
+          orderable: false,
+          render: function(data, type, row) {
+            return `
+              <button class="btn btn-sm btn-primary editSectionVisa" data-id="${row.id}" title="Edit">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-sm btn-danger deleteSectionVisa" data-id="${row.id}" title="Delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            `;
+          }
+        }
+      ],
+      columnDefs: [
+        {
+          targets: 3, // Description
+          render: function(data, type, row) {
+            if (type === 'display') {
+              return `<span class="ellipsis" title="${data}">${data}</span>`;
+            }
+            return data;
+          }
+        }
+      ]
+    });
+    
+    // ============================
+    // ADD NEW SECTION
+    // ============================
+    $addSection1VisaBtn.on('click', function() {
+      $('#section1VisaTable_wrapper').hide();
+      $addSection1VisaBtn.hide();
+      $section1VisaFormContainer.removeClass('d-none').hide().fadeIn(200);
+    });
+
+    $cancelSection1VisaBtn.on('click', function() {
+      $section1VisaFormContainer.slideUp(function() {
+        $(this).addClass('d-none');
+      });
+      $('#section1VisaTable_wrapper').show();
+      $('#addSection1VisaBtn').show();
+    });
+
+    // ============================
+    // EDIT SECTION
+    // ============================
+    $(document).on('click', '.editSectionVisa', function() {
+      const id = $(this).data('id');
+
+      $.getJSON(base_url + "exhibiting/exhibitor-content-get-data/" + id, function(data) {
+        $('#editSection1VisaId').val(data.id);
+        $('#editSection1VisaYear').val(data.content_year);
+        $('#editSection1VisaTitle').val(data.title);
+        if (sectionEditor) sectionEditor.setData(data.body_text || '');
+
+        if (data.status === "active") {
+          $('#editSection1VisaActive').prop('checked', true);
+        } else {
+          $('#editSection1VisaInactive').prop('checked', true);
+        }
+
+        if (data.image) {
+          $('#editSection1VisaPreview').attr('src', data.image).show();
+        } else {
+          $('#editSection1VisaPreview').hide();
+        }
+
+        $section1VisaFormContainer.addClass('d-none');
+        $section1VisaEditFormContainer.removeClass('d-none');
+
+        // Hide table & add button
+        $('#section1VisaTable_wrapper').hide();
+        $('#addSection1VisaBtn').hide();
+      });
+    });
+
+    $cancelEditSection1VisaBtn.on('click', function() {
+      $section1VisaEditFormContainer.addClass('d-none');
+      $section1VisaFormContainer.addClass('d-none');
+      $section1VisaTableWrapper.show();
+      $('#section1VisaTable_wrapper').show();
+      $('#addSection1VisaBtn').show();
+    });
+
+    // ============================
+    // IMAGE PREVIEW
+    // ============================
+    $('#editSection1VisaImage').on('change', function() {
+      const [file] = this.files;
+      if (file) {
+        $('#editSection1VisaPreview').attr('src', URL.createObjectURL(file)).show();
+      }
+    });
+
+    // ============================
+    // SUBMIT ADD FORM
+    // ============================
+    $('#addSection1VisaForm').on('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      $.ajax({
+        url: base_url + "exhibiting/exhibitor-visa-section-add",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(res) {
+          if (res.success) {
+            Swal.fire("Success!", res.message, "success").then(() => {
+              section1VisaTable.ajax.reload();
+              $section1VisaFormContainer.addClass('d-none');
+              // $section1VisaTableWrapper.show();
+              // $addSection1VisaBtn.show();
+              $('#section1VisaTable_wrapper').show();
+              $('#addSection1VisaBtn').show();
+              // Swal.fire("Success!", res.message, "success").then(() => {
+              //     window.location.href = base_url + "exhibiting/why-exhibit-settings";
+              // });
+            });
+          } else {
+            Swal.fire("Error!", res.message, "error");
+          }
+        },
+        error: function() {
+          Swal.fire("Error!", "Server error occurred.", "error");
+        }
+      });
+    });
+
+    // ============================
+    // SUBMIT EDIT FORM
+    // ============================
+    $('#editSection1VisaForm').on('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      $.ajax({
+        url: base_url + "exhibiting/exhibitor-visa-section-update",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(res) {
+          if (res.success) {
+            Swal.fire("Updated!", res.message, "success").then(() => {
+              section1VisaTable.ajax.reload();
+              $section1VisaEditFormContainer.addClass('d-none');
+              // $section1VisaTableWrapper.show();
+              // $addSection1VisaBtn.show();
+
+              $('#section1VisaTable_wrapper').show();
+              $('#addSection1VisaBtn').show();
+            });
+          } else {
+            Swal.fire("Error!", res.message, "error");
+          }
+        },
+        error: function() {
+          Swal.fire("Error!", "Server error occurred.", "error");
+        }
+      });
+    });
+
+    // ============================
+    // DELETE SECTION
+    // ============================
+    $(document).on('click', '.deleteSectionVisa', function() {
+      const id = $(this).data('id');
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This section will be permanently deleted!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: base_url + 'exhibiting/exhibitor-visa-section-delete',
+            type: 'POST',
+            data: { exhibitor_visa_id: id },
+            dataType: 'json',
+            success: function(res) {
+              Swal.fire({
+                icon: res.status,
+                title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                text: res.message
+              });
+              if (res.status === 'success') {
+                section1VisaTable.ajax.reload(null, false);
+              }
+            },
+            error: function() {
+              Swal.fire('Error', 'Failed to connect to server', 'error');
+            }
+          });
+        }
+      });
+    });
+
+  });
+</script>
+
 
 
 
