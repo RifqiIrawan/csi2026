@@ -578,6 +578,7 @@ class Exhibiting extends CI_Controller {
             $status         = $this->input->post('bannerStatus'); // active / inactive
 
             $modified_date  = date('Y-m-d H:i:s');
+            $id_menus = 7;
             // validasi ID
             if (empty($id)) {
                 throw new Exception("ID tidak ditemukan.");
@@ -618,7 +619,8 @@ class Exhibiting extends CI_Controller {
             if ($status === 'active') {
                 // Set semua record lain menjadi 'inactive'
                 $this->db->where('id !=', $id); // kecuali yang sedang diupdate
-                $this->db->where('content_type=', 'banner');
+                $this->db->where('content_type', 'banner');
+                $this->db->where('menu_id', $id_menus);
                 $this->db->update('csi_contents', ['status' => 'inactive']);
             }
 
