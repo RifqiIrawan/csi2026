@@ -439,7 +439,7 @@
       right: 15px;
       bottom: 15px;
       z-index: 99999;
-      background-color: #1c9356;
+      background-color: #0d6efd;
       width: 40px;
       height: 40px;
       border-radius: 4px;
@@ -651,7 +651,38 @@
     }
 
     .img-product{
-      height: 185px;
+      height: 150px;
+     
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;       /* biar bisa ke baris berikutnya */
+      justify-content: center; /* rata tengah seluruh isi */
+      gap: 20px;             /* jarak antar gambar */
+      text-align: center;
+    }
+
+    .gallery-item {
+      width: 200px;          /* ukuran tiap kotak */
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;     /* gambar tidak gepeng */
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item p {
+      margin-top: 8px;
+      font-weight: 500;
     }
 
     .section-title span {
@@ -1233,11 +1264,10 @@
                   <a href="#"><span><?= $row->name ?></span></a>
                   <ul>
                     <?php
-                      $submenu = $this->db->query("
-                        SELECT *
-                        FROM submenu
-                        WHERE menu_id = '".$row->id."'
-                      ")->result();
+                      $submenu = $this->db->query("SELECT *
+                                                    FROM submenu
+                                                    WHERE menu_id = '".$row->id."'
+                                                  ")->result();
                       
                       foreach ($submenu as $rw):
                     ?>
@@ -1257,99 +1287,6 @@
     </header>
 
   <main class="main">
-        <!-- <section id="hero" class="hero section dark-background">
-        <div id="hero-carousel" class="carousel slide carousel-fade active" data-bs-ride="carousel" data-bs-interval="5000">     
-            <?php foreach($data_slide as $row){ 
-            $file = $row->folder_name."".$row->file_name;
-            $img = "".$file."";
-
-            if($row->urut == 1){
-                $act = "active";
-            }else{            
-                $act = "";
-            }
-            ?> 
-            <div class="carousel-item <?php echo $act; ?>">
-            <img src="<?php echo base_url($img); ?>">
-            </div>
-            <?php } ?>        
-            <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-            </a>
-            <ol class="carousel-indicators"></ol>
-        </div>
-        </section> -->
-
-    <!-- <section id="partners" class="portfolio section">
-      <div class="container section-title heading_style4 center" >
-        <span class="description-title">Our Partners</span>
-        <h2>Our <span>Partners</span></h2>
-      </div>
-
-      <div class="container">
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-          <div class="row gy-4 isotope-container" data-aos-delay="200">
-            <?php 
-              foreach($data_slide2 as $row2){ 
-                $file2 = $row2->folder_name."".$row2->file_name;
-                $img2 = "".$file2."";
-            ?> 
-            <div class="col-lg-3 col-md-1 portfolio-item isotope-item filter-app">
-              <div class="portfolio-content h-100">
-                <a href="<?php echo $row2->url ?>" class="stretched-link" target="_blank"></a>
-                <img src="<?php echo base_url($img2); ?>" class="img-fluid con_partner img-partner" alt="">
-              </div>
-            </div>
-            <?php } ?>
-          </div>
-        </div>
-      </div>
-    </section><br><br><br> -->
-
-    <!-- <section id="about" class="features section">
-      <?php 
-        $n = 1;
-        foreach($data_slide3 as $row3){ 
-        $file3 = $row3->folder_name."".$row3->file_name;
-        $img3 = "".$file3."";
-
-        $explode = explode(" ",$row3->nama);
-        $exp = $explode;
-
-        if($n > 1){
-          $style = 'style = "margin-top:-60px;"';
-        }else{
-          $style = "";
-        }
-      ?> 
-      <div class="container section-title heading_style4 left" <?php echo $style ?>>        
-        <div class="row gy-4">
-          <div class="col-xl-5 col-lg-6" data-aos="zoom-out" data-aos-delay="100">
-            <img src="<?php echo base_url($img3);?>" class="img-fluid" alt="">
-          </div>
-          <div class="col-xl-7 col-lg-6 d-flex flex-column justify-content-center px-lg-5 container section-title heading_style4 center" data-aos-delay="200">
-            <div style="text-align:left;margin-left:15px" >
-              <h2><?php echo $exp[0];?><span>&nbsp; <?php echo $exp[1];?></span></h2>              
-            </div>
-            <div class="icon-box d-flex position-relative" style="margin:15px;margin-top: 35px; text-align: left;">
-              <div>
-                <p class="description">
-                  <?php echo $row3->description; ?>
-                </p>
-              </div>
-            </div><br>
-          </div>          
-        </div>
-      </div>        
-      <?php
-        $n++; 
-        } 
-      ?>    
-    </section><br><br><br> -->
-
     <section id="event_date" class="portfolio section">
       <div class="container">
         <div class="row">
@@ -1389,17 +1326,45 @@
       </div>
     </section>
 
-    <section id="stats" class="stats section dark-background">
-      <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #5B9D0A !important;">
-        <div class="row">
-          <?php foreach($data_event_value as $row){?>
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="<?php echo $row->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row->value;?></span>
-              <p> <?php echo $row->title;?> </p>
+    <section id="carousel" class="faq section">
+      <div class="container section-title center">
+        <h3 style="font-size:24px;font-weight:800"><b>CAROUSEL</b></h3>
+      </div>
+      <div class="container">
+        <div class="row justify-content-left">
+          <div class="col-lg-12">
+            <div class="container mt-3 mb-4">
+              <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
+                <div class="owl-stage-outer">
+                  <div class="owl-stage">
+                    <?php 
+                      foreach($data_carousel as $row5){ 
+                        $file5 = $row5->folder_name."".$row5->file_upload;
+                        $img5 = "".$file5."";
+                    ?> 
+                      
+                    <div class="owl-item">
+                      <div class="oc-item" style="text-align:center">
+                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        </a>
+                        <!-- <h7><?php echo $row4->nam5?></h7> -->
+                      </div>
+                    </div>                          
+                    <?php } ?>
+                  </div>
+                </div>
+                <div class="owl-nav">
+                  <button type="button" role="presentation" class="owl-prev">
+                    <i class="icon-angle-left"></i>
+                  </button>
+                <button type="button" role="presentation" class="owl-next">
+                  <i class="icon-angle-right"></i>
+                </button></div>
+                <div class="owl-dots disabled"></div>
+              </div>
             </div>
           </div>
-          <?php } ?>         
         </div>
       </div>
     </section>
@@ -1408,7 +1373,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <p><h3><b><?php echo ucwords($data_profile->company_name)?></b></h3></p>
+            <p><h3><b><?php echo ucwords($data_profile->nick_name)?></b></h3></p>
             <p class="mb-4">
               <?php echo $data_profile->vision?>
             </p>
@@ -1417,26 +1382,77 @@
       </div>
     </section>
 
-    <section id="event_date" class="portfolio section">
-      <div class="container">
-        <div class="row">
-          <?php
-            foreach($data_product as $row){ 
-          ?>
-          <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12 mx-auto mb-4">
-            <h4 class="text-light text-center" style="font-size: 22px; background-color: #2154B6; padding: 16px; height: 85px; display:flex; justify-content: center; align-items:center;"><?php echo $row->name?></h4>
+    <section id="product_sector" class="portfolio section">
+      <div class="container section-title center" >
+        <h3 style="font-size:24px;font-weight:800"><b>PRODUCT SECTOR</b></h3>
+      </div>
+      <div class="container ">
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">           
+          <div class="row gy-4 isotope-container mt-2" data-aos-delay="200" style="position: relative; height: 419.667px;">
+            <?php 
+              foreach($data_product as $row5){ 
+                $file5 = $row5->folder_name."".$row5->file_upload;
+                $img5 = "".$file5."";
+            ?>     
+            <div class="col-lg-2 col-md-3 portfolio-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;min-height: 250px;">
+              <div class="portfolio-content h-00">                                
+                <img src="<?php echo base_url($img5); ?>" class="img-fluid img-product" alt="">
+                <div class="portfolio-info">
+                  <a href="<?php echo base_url($img5); ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link" style="color:white"><i class="bi bi-zoom-in"></i></a>
+                </div>
+              </div>
+              <p class="text-center mt-2"><?php echo ucwords($row5->name); ?></p>
+            </div>                             
+            <?php } ?> 
           </div>
-          <?php } ?>
         </div>
       </div>
+    </section>
 
-      <div class="container">
+    <section id="attandance" class="stats section">
+      <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #5B9D0A !important;">
         <div class="row">
-          <div class="col-lg-12 text-center">
-            <button class="btn btn-success" style="min-width: 150px;min-height: 50px;font-weight: 700;font-size: 24px;margin-top:10px;color:white">Event</button>
+        <?php foreach($data_event_value as $row){?>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+            <span data-purecounter-start="0" data-purecounter-end="<?php echo $row->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row->value;?></span>
+              <p> <?php echo $row->title;?> </p>
+            </div>
+          </div>
+          <?php } ?>         
+        </div>
+      </div>
+    </section>
+
+    <section id="highlights" class="faq section mb-4">
+      <div class="container section-title center" >
+        <h3 style="font-size:24px;font-weight:800"><b>HIGHLIGHTS</b></b></h3>
+      </div>
+      <div class="container">
+        <div class="row justify-content-left">
+          <div class="col-lg-12">
+            <div class="container mt-3 mb-4">
+              <div class="row mt-3">
+              <?php foreach($data_video as $row){
+              ?>   
+                  
+              <div class="col-lg-4">
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
+                  <iframe 
+                    src="https://www.youtube.com/embed/<?php echo $row->url?>" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen
+                    style="position: absolute; top:0; left:0; width:100%; height:100%;">
+                  </iframe>
+                </div>
+              </div>    
+              <?php } ?>   
+            </div>
           </div>
         </div>
-      </div><br>
+      </div>
     </section>
 
     <section style="background-image: url('<?php echo base_url();?>assets/images/upload/event/image1/<?php echo $data_event->image1?>');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
@@ -1455,28 +1471,109 @@
     </section>
 
     <section class="mx-auto book-stand mb-4" style="border-radius: 0px;width: 100%;z-index: 10;position: relative;background: url('<?php echo base_url();?>Website/assets/img/bg-regist2.jpg'); background-position: center; background-size: cover;">
-        <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
-            <h2 class="text-white text-center">
-              <?php echo $data_event->title2?>
-            </h2>
-            
-            <b style="color:white"><?php echo $data_event->description2?></b>
-                     
-            <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
-        </div>
+      <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
+        <h2 class="text-white text-center" style="font-weight:800">
+          <?php echo $data_event->title2?>
+        </h2>            
+        <b style="color:white"><?php echo $data_event->description2?></b>                     
+        <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
+      </div>
     </section>
 
-    <section id="customer" class="faq section">
+    <section id="cooperation" class="faq section">
       <div class="container section-title center" >
-        <!-- <div class="description-title">Our Customer</div> -->
-        <h3>SUPPORTED BY</h3>
+        <h3 style="font-size:24px;font-weight:800"><b>IN COOPERATION</b></h3>
       </div>
-
-      <div class="container mb-3">
+      <div class="container mt-3">
         <div class="row justify-content-left">
           <div class="col-lg-12">
+            <div class="container mt-3">
+              <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
+                <div class="owl-stage-outer">
+                  <div class="owl-stage">
+                    <?php 
+                      foreach($data_organizer as $row5){ 
+                        $file5 = $row5->folder_name."".$row5->file_upload;
+                        $img5 = "".$file5."";
+                    ?> 
+                      
+                    <div class="owl-item">
+                      <div class="oc-item" style="text-align:center">
+                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        </a>
+                        <!-- <h7><?php echo $row4->nam5?></h7> -->
+                      </div>
+                    </div>                          
+                    <?php } ?>
+                  </div>
+                </div>
+                <div class="owl-nav">
+                  <button type="button" role="presentation" class="owl-prev">
+                    <i class="icon-angle-left"></i>
+                  </button>
+                <button type="button" role="presentation" class="owl-next">
+                  <i class="icon-angle-right"></i>
+                </button></div>
+                <div class="owl-dots disabled"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="container">
+    <section id="organizer" class="faq section">
+      <div class="container section-title center" >
+        <h3 style="font-size:24px;font-weight:800"><b>ORGANIZER</b></h3>
+      </div>
+      <div class="container mt-3">
+        <div class="row justify-content-left">
+          <div class="col-lg-12">
+            <div class="container mt-3">
+              <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
+                <div class="owl-stage-outer">
+                  <div class="owl-stage">
+                    <?php 
+                      foreach($data_organizer as $row5){ 
+                        $file5 = $row5->folder_name."".$row5->file_upload;
+                        $img5 = "".$file5."";
+                    ?> 
+                      
+                    <div class="owl-item">
+                      <div class="oc-item" style="text-align:center">
+                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        </a>
+                        <!-- <h7><?php echo $row4->nam5?></h7> -->
+                      </div>
+                    </div>                          
+                    <?php } ?>
+                  </div>
+                </div>
+                <div class="owl-nav">
+                  <button type="button" role="presentation" class="owl-prev">
+                    <i class="icon-angle-left"></i>
+                  </button>
+                <button type="button" role="presentation" class="owl-next">
+                  <i class="icon-angle-right"></i>
+                </button></div>
+                <div class="owl-dots disabled"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sponsors" class="faq section">
+      <div class="container section-title center" >
+        <h3 style="font-size:24px;font-weight:800"><b>SPONSORS</b></h3>
+      </div>
+      <div class="container mt-3">
+        <div class="row justify-content-left">
+          <div class="col-lg-12">
+            <div class="container mt-3">
               <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
@@ -1512,59 +1609,48 @@
       </div>
     </section>
 
-    
-
-    <!-- <section id="contact" class="contact section">
+    <section id="support" class="faq section">
       <div class="container section-title center" >
-        <h2>Contact Us</h2>
+        <h3 style="font-size:24px;font-weight:800"><b>SUPPORTED BY</b></h3>
       </div>
-      
-      <div class="container">        
-        <div class="row gy-4">
-          <div class="col-xl-6 col-lg-6">
-            <form action="<?php echo base_url(); ?>Dashboard/submit_form" method="post" class="php-email-form" data-aos-delay="200" style="margin: 20px;">
-              <div class="row gy-4">
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" style="text-transform:capitalize" required="">
+      <div class="container mt-3">
+        <div class="row justify-content-left">
+          <div class="col-lg-12">
+            <div class="container mt-3">
+              <div id="media-partner-carousel" class="owl-carousel owl-carousel1 image-carousel carousel-widget owl-loaded owl-drag" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-items-xs="1" data-autoplay="5000" data-items-sm="8" data-items-md="6" data-items-lg="6" data-items-xl="4">
+                <div class="owl-stage-outer">
+                  <div class="owl-stage">
+                    <?php 
+                      foreach($data_support as $row5){ 
+                        $file5 = $row5->folder_name."".$row5->file_name;
+                        $img5 = "".$file5."";
+                    ?> 
+                      
+                    <div class="owl-item">
+                      <div class="oc-item" style="text-align:center">
+                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        </a>
+                        <!-- <h7><?php echo $row4->nam5?></h7> -->
+                      </div>
+                    </div>                          
+                    <?php } ?>
+                  </div>
                 </div>
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-                <div class="col-md-12">
-                  <input type="number" class="form-control" name="hp" placeholder="Mobile Phone" required="">
-                </div>
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="company" placeholder="Company" style="text-transform:capitalize" required="">
-                </div>
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="position" placeholder="Position" required="">
-                </div>
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-                <div class="col-md-12 text-center">
-                  <button type="submit">Send Message</button>
-                </div>
+                <div class="owl-nav">
+                  <button type="button" role="presentation" class="owl-prev">
+                    <i class="icon-angle-left"></i>
+                  </button>
+                <button type="button" role="presentation" class="owl-next">
+                  <i class="icon-angle-right"></i>
+                </button></div>
+                <div class="owl-dots disabled"></div>
               </div>
-            </form>
-          </div>
-          <div class="col-xl-6 col-lg-6">
-            <ul class="list-style-none">
-              <li>Email : <a href="mailto:contact@keliechem.com"><?php echo $email?></a></li>
-              <li>Phone: <a href="tel:+62214532003"><?php echo $phone?></a></li><br>
-              <li>Give us a call or drop by anytime, we endeavour to answer all enquiries within 24 hours on business days.</li><br>
-              <li>We are open from 9AM – 5PM week days.</li>
-            </ul>
-            <div class="map">
-			        <iframe src="<?php echo trim($gmaps)?>" width="500" style="height:300px" frameborder="0" style="border:0" allowfullscreen=""></iframe>		  
             </div>
-          </div>          
+          </div>
         </div>
       </div>
-    </section> -->
+    </section>
   </main>
 
   <footer id="footer" class="footer dark-background mt-3">
@@ -1587,11 +1673,28 @@
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
-          
+          <?php 
+            foreach($data_qlink as $row_qlink){ 
+          ?> 
+            <p style=""><a style="color:white;font-weight:600;font-size:16px" href="<?php echo $row_qlink->url ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a></p>
+          <?php } ?>
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
-          
+          <?php 
+            foreach($data_contact as $row_contact){ 
+          ?> 
+            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
+            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
+            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
+              <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
+                <i class="bi bi-whatsapp" aria-hidden="true"></i>
+              </a>
+              <a href="mailto:<?php echo $row_contact->mail?>" style="margin-top: 5px !important;color:#AEFF4BFF" target="_blank" rel="noopener">
+                <i class="bi bi-envelope-paper" aria-hidden="true"></i>
+              </a>
+            </p>
+          <?php } ?>
         </div>
         <!-- <div class="col-lg-3 col-md-3 footer-links">
           <p>
@@ -1633,11 +1736,11 @@
         <div class="col-lg-4 text-center">
         </div>
         <div class="col-lg-4 text-center">
-          <div class="social-links d-flex mb-4">
+          <div class="social-links d-flex mb-3 mt-1">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
             ?> 
-            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->name)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
             <?php } ?>
           </div>
         </div>
@@ -1654,7 +1757,6 @@
       <div class="row">
       </div>
     </div>
-
 
     <div class="container copyright text-center mt-3">      
       <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>

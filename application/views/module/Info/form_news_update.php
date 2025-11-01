@@ -88,6 +88,15 @@
   .modal-body img {
     object-fit: contain;
   }
+
+  img{
+    width: 100%;
+    
+    /* background-image: url('foto.jpg'); */
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
 </style>
 
 <script type="text/javascript">  
@@ -155,6 +164,14 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function show_image(file){
+    var folder = "./assets/images/upload/news_update/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }  
 </script>
 
 <div class="content-wrapper">
@@ -206,7 +223,7 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".$row->title."</td>";
                         echo "<td align=\"center\">".$row->date_news."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-file-image\" style=\"font-size: 16px;cursor:pointer\"></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->file_upload."');\"></td>";
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->date_news."','".$row->file_upload."','".$row->status."');\">
@@ -325,7 +342,7 @@
 
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>

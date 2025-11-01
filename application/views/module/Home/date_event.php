@@ -296,7 +296,7 @@
                         echo "<td align=\"center\">".$stat."</td>";     
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->title1."','".$row->image1."'
-                                ,'".$row->title2."','".$row->image2."','".$row->status."','".$row->description1."','".$row->description2."');\">
+                                ,'".$row->title2."','".$row->image2."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -392,14 +392,13 @@
           </div>
           <div class="form-group">
             <label class="form-label">Title 1</label>
-            <input type="text" class="form-control" name="title" id="image">
             <input type="text" class="form-control" name="title1" id="title1" Placeholder="Entry Title 1" style="text-transform:capitalize" required>
           </div>    
           <div class="form-group">
             <label class="form-label">Image 1</label>
-            <input type="text" class="form-control" name="title" id="image">
+            <input type="hidden" class="form-control" name="image" id="image">
             <input type="file" class="form-control" name="file1" id="title1" required>
-            <div class="mt-2" id="image_edit1"></div>
+            <!-- <div class="mt-2" id="image_edit1"></div> -->
           </div>              
           <div class="form-group">
             <label>Description 1</label>
@@ -411,9 +410,9 @@
           </div>     
           <div class="form-group">
             <label class="form-label">Image 2</label>
-            <input type="text" class="form-control" name="title" id="image2">
+            <input type="hidden" class="form-control" name="image2" id="image2">
             <input type="file" class="form-control" name="file2" id="file2" required>
-            <div class="mt-2" id="image_edit2"></div>
+            <!-- <div class="mt-2" id="image_edit2"></div> -->
           </div>                
           <div class="form-group">
             <label>Description 2</label>
@@ -443,7 +442,7 @@
 </div>
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>
@@ -459,7 +458,7 @@
 </div>
 
 <div class="modal fade" id="mdl_img2">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>

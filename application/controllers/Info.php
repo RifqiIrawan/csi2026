@@ -181,8 +181,39 @@ class Info extends CI_Controller {
     $email = $this->input->post("email");
     $contact = $this->input->post("contact");
     $url = $this->input->post("url");
+    $file_edit = $this->input->post("file_edit");
     $status = $this->input->post("status");   
-    $insert = $this->M_Info->update_hotel($code,$title,$email,$contact,$url,$status);
+    $file = $_FILES;
+    $folder = './assets/images/upload/hotel/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Hotel".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+      }
+    }
+
+    $insert = $this->M_Info->update_hotel($code,$title,$email,$contact,$url,$status,$config['file_name']);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Info/Hotel');         
@@ -195,6 +226,9 @@ class Info extends CI_Controller {
 
   public function delete_hotel(){
     $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/hotel/';
+    unlink("".$folder."".$img."");
     $cek_data = $this->M_Info->delete_hotel($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -270,11 +304,38 @@ class Info extends CI_Controller {
   public function update_contact_us(){
     $code = $this->input->post("code");
     $title = $this->input->post("title");
-    $email = $this->input->post("email");
-    $contact = $this->input->post("contact");
-    $url = $this->input->post("url");
+    $file_edit = $this->input->post("file_edit");
     $status = $this->input->post("status");   
-    $insert = $this->M_Info->update_contact_us($code,$title,$status);
+    $file = $_FILES;
+    $folder = './assets/images/upload/contact_us/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("contact_us".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);        
+      }
+    }
+    $insert = $this->M_Info->update_contact_us($code,$title,$status,$config['file_name']);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Info/Form_Contact');         
@@ -287,6 +348,9 @@ class Info extends CI_Controller {
 
   public function delete_contact_us(){
     $code = $this->input->post("code");
+    $folder = './assets/images/upload/contact_us/';
+    $file = $this->input->post("file");
+    unlink("".$folder."".$file."");
     $cek_data = $this->M_Info->delete_contact_us($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -455,7 +519,6 @@ class Info extends CI_Controller {
     $title = $this->input->post("title");
     $img = $this->input->post("img");
     $status = $this->input->post("status");   
-    $folder = './assets/images/upload/header_news/';
     $file = $_FILES;
     $folder = './assets/images/upload/header_news/';
     $_FILES['file']['name'];
@@ -466,6 +529,7 @@ class Info extends CI_Controller {
     if($_FILES['file']['name'] != ""){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
+      unlink($folder."".$img);
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -483,7 +547,6 @@ class Info extends CI_Controller {
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
       }
-      unlink($folder."".$img);
     }
    
     $insert = $this->M_Info->update_header_news($code,$title,$config['file_name'],$status);
@@ -591,6 +654,7 @@ class Info extends CI_Controller {
     if($_FILES['file']['name'] != ""){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
+      unlink($folder."".$img);
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -608,7 +672,6 @@ class Info extends CI_Controller {
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
       }
-      unlink($folder."".$img);
     }
    
     $insert = $this->M_Info->update_news_update($code,$title,$date,$config['file_name'],$description,$status);

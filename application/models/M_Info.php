@@ -57,10 +57,10 @@ class M_Info extends CI_Model
     return $insert;
   }
     
-  function update_hotel($code,$title,$email,$contact,$url,$status){
+  function update_hotel($code,$title,$email,$contact,$url,$status,$file){
     $update = $this->db->query(" UPDATE hotel SET title = '".$title."',email = '".$email."'
-                                  ,contact = '".$contact."',url = '".$url."',status = '".$status."'
-                                  WHERE id = '".$code."'
+                                ,contact = '".$contact."',url = '".$url."',status = '".$status."',file_upload = '".$file."'
+                                WHERE id = '".$code."'
                       ");
     return $update;
   }
@@ -108,9 +108,9 @@ class M_Info extends CI_Model
     return $insert;
   }
     
-  function update_contact_us($code,$title,$status){
-    $update = $this->db->query(" UPDATE contact_bg SET title = '".$title."',status = '".$status."'
-                                  WHERE id = '".$code."'
+  function update_contact_us($code,$title,$status,$file){
+    $update = $this->db->query("UPDATE contact_bg SET title = '".$title."',status = '".$status."',file_upload = '".$file."'
+                                WHERE id = '".$code."'
                       ");
     return $update;
   }

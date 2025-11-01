@@ -12,7 +12,7 @@ class M_Login extends CI_Model{
 
   function get_menu(){
     $res = $this->db->query("SELECT *
-                                FROM menu
+                                FROM menu order by position asc
                             ")->result(); 
     return $res;
   }
@@ -27,7 +27,7 @@ class M_Login extends CI_Model{
 
 
   function get_product(){
-    $res = $this->db->query("SELECT *
+    $res = $this->db->query("SELECT *,'./assets/images/upload/product/' as folder_name
                                 FROM product
                                 where status = 'A' 
                                 order by position
@@ -77,6 +77,60 @@ class M_Login extends CI_Model{
                                 where status = 'A' 
                                 order by id
                               ")->result(); 
+    return $res;
+  }
+
+  function get_qlink(){
+    $res = $this->db->query("SELECT *
+                              FROM quick_link
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+
+  function get_contact(){
+    $res = $this->db->query("SELECT *
+                              FROM contact
+                              where status = 'A' and level = '1'
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+
+  function get_carousel(){
+    $res = $this->db->query("SELECT *,'./assets/images/upload/carousel/' as folder_name
+                              FROM carousel
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+
+  function get_highlights(){
+    $res = $this->db->query("SELECT *
+                              FROM highlights
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+  
+  function get_organizer(){
+    $res = $this->db->query("SELECT *,'./assets/images/upload/organizer/' as folder_name
+                              FROM organizer
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+
+  function get_sponsors(){
+    $res = $this->db->query("SELECT *
+                              FROM sponsors
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
     return $res;
   }
 }
