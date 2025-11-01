@@ -89,9 +89,21 @@
     object-fit: contain;
   }
 </style>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions2_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });
