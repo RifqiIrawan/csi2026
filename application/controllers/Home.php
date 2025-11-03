@@ -29,9 +29,10 @@ class Home extends CI_Controller {
   public function add_menu(){
       $name = $this->input->post("name");
       $url = $this->input->post("url");
+      $position = $this->input->post("position");
       $status = $this->input->post("status");
       $description = $this->input->post("descriptions1");            
-      $insert = $this->M_Home->add_menu($name,$url,$status,$description);
+      $insert = $this->M_Home->add_menu($name,$url,$position,$status,$description);
       if($insert == true){
         $this->session->set_flashdata('save', 'Data Saved Successfully.');
         redirect('Home/Menu');         
@@ -46,9 +47,10 @@ class Home extends CI_Controller {
       $code = $this->input->post("code");
       $name = $this->input->post("name");
       $url = $this->input->post("url");
+      $position = $this->input->post("position");
       $status = $this->input->post("status");
       $description = $this->input->post("descriptions_edit");            
-      $insert = $this->M_Home->update_menu($code,$name,$url,$status,$description);
+      $insert = $this->M_Home->update_menu($code,$name,$url,$position,$status,$description);
       if($insert == true){
         $this->session->set_flashdata('update', 'Update Data Successfully.');
         redirect('Home/Menu');         
@@ -147,55 +149,63 @@ class Home extends CI_Controller {
     $folder2 = "./assets/images/upload/event/image2/";
     $name = $this->input->post("name");
     $title1 = $this->input->post("title1");
-    $description1 = $this->input->post("descriptions");
+    $description1 = $this->input->post("descriptions1_edit");
     $title2 = $this->input->post("title2");
-    $description2 = $this->input->post("descriptions2");
+    $description2 = $this->input->post("descriptions2_edit");
     $status = $this->input->post("status");    
-    $get_file1 = $this->input->post("get_file1");    
-    $get_file2 = $this->input->post("get_file2");    
-    
-    //for image1
-    $_FILES['file1']['name'];
-    $_FILES['file1']['type'];
-    $_FILES['file1']['tmp_name'];
-    $_FILES['file1']['error'];
-    $_FILES['file1']['size'];  
-    $type = explode(".",$_FILES['file1']['name']);
-    $typ = $type;
+    $get_file1 = $this->input->post("image");    
+    $get_file2 = $this->input->post("image2");    
+    $img1 = "";  
+    $img2 = "";
+      //for image1
+    if($_FILES['file1']['name'] != ""){
+      $_FILES['file1']['name'];
+      $_FILES['file1']['type'];
+      $_FILES['file1']['tmp_name'];
+      $_FILES['file1']['error'];
+      $_FILES['file1']['size'];  
+      $type = explode(".",$_FILES['file1']['name']);
+      $typ = $type;
+      unlink("".$folder1."".$get_file1."");
 
-    $config['upload_path']          = $folder1;
-    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-    $config['file_name']     		= md5("image1".date('Ymdhis'));
-    $img1 = $config['file_name'].".".$typ[1];
-    $this->load->library('upload', $config);
-    $this->upload->initialize($config);		
-    if ($this->upload->do_upload('file1')) {
-      // echo "OK";
-    }else{
-      $error = array('error' => $this->upload->display_errors());
-      // echo "Error : ";
+      $config['upload_path']          = $folder1;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("image1".date('Ymdhis'));
+      $img1 = $config['file_name'].".".$typ[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);		
+      if ($this->upload->do_upload('file1')) {
+        // echo "OK";
+      }else{
+        $error = array('error' => $this->upload->display_errors());
+        // echo "Error : ";
+      }
     }
 
     //for image2
-    $_FILES['file2']['name'];
-    $_FILES['file2']['type'];
-    $_FILES['file2']['tmp_name'];
-    $_FILES['file2']['error'];
-    $_FILES['file2']['size'];      
-    $type2 = explode(".",$_FILES['file2']['name']);
-    $typ2 = $type2;
-    $config['upload_path']          = $folder2;
-    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-    $config['file_name']     		= md5("image2".date('Ymdhis'));
-    $img2 = $config['file_name'].".".$typ2[1];
-    $this->load->library('upload', $config);
-    $this->upload->initialize($config);		
-    if ($this->upload->do_upload('file2')) {
-      // echo "OK";
-    }else{
-      $error = array('error' => $this->upload->display_errors());
-      // echo "Error : ";
+    if($_FILES['file2']['name'] != ""){
+      $_FILES['file2']['name'];
+      $_FILES['file2']['type'];
+      $_FILES['file2']['tmp_name'];
+      $_FILES['file2']['error'];
+      $_FILES['file2']['size'];      
+      $type2 = explode(".",$_FILES['file2']['name']);
+      $typ2 = $type2;
+      unlink("".$folder2."".$get_file2."");
+      $config['upload_path']          = $folder2;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("image2".date('Ymdhis'));
+      $img2 = $config['file_name'].".".$typ2[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);		
+      if ($this->upload->do_upload('file2')) {
+        // echo "OK";
+      }else{
+        $error = array('error' => $this->upload->display_errors());
+        // echo "Error : ";
+      }
     }
+    
     $insert = $this->M_Home->update_date_event($code,$name,$title1,$description1,$img1,$title2,$description2,$img2,$status);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
@@ -431,19 +441,13 @@ class Home extends CI_Controller {
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
-        // $config2['width']         = 900;
-        // $config2['height']       = 900;		
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        // $this->image_lib->resize();
-        // $this->image_lib->clear();
-        // $name_file = $config['file_name'];
-        // $name_keterangan = $name[$i];
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
         $insert = $this->M_Home->add_profile($company,$vision,$config['file_name'],$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status);        
       }      
     }
-
-    //$insert = $this->M_Home->tambah_profile($name,$icon,$url,$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Profile');         
@@ -456,11 +460,43 @@ class Home extends CI_Controller {
 
   public function update_profile(){   
     $code = $this->input->post("code");
-    $name = $this->input->post("name");
-    $icon = $this->input->post("icon");
-    $url = $this->input->post("url");  
-    $status = $this->input->post("status");     
-    $update = $this->M_Home->update_profile($code,$name,$icon,$url,$status);
+    $folder = './assets/images/upload/profile/';
+    $company = $this->input->post("company");
+    $vision = $this->input->post("descriptions");
+    $nick = $this->input->post("nick");
+    $address = $this->input->post("address");
+    $maps = $this->input->post("maps");
+    $phone = $this->input->post("phone");
+    $fax = $this->input->post("fax");
+    $email = $this->input->post("email");
+    $website = $this->input->post("website");
+    $status = $this->input->post("status");
+    $file_edit = $this->input->post("file_edit");
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("logo_com".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+        $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
+      }      
+    }
+
+    $update = $this->M_Home->update_profile($code,$company,$vision,$config['file_name'],$nick,$address,$maps,$phone,$fax,$email,$website,$status);
     if($update == true){
       $this->session->set_flashdata('update', 'Data Saved Successfully.');
       redirect('Home/Profile');         
@@ -472,7 +508,10 @@ class Home extends CI_Controller {
   }
 
   public function delete_profile(){
-    $code = $this->input->post("code");
+    $code = $this->input->post("code");    
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/profile/';
+    unlink("".$folder."".$img."");
     $cek_data = $this->M_Home->delete_profile($code);
     if($cek_data == TRUE){           
       echo "OK";     
@@ -494,8 +533,40 @@ class Home extends CI_Controller {
     $name = $this->input->post("name");
     $position = $this->input->post("position");
     $status = $this->input->post("status");
-    $description = $this->input->post("descriptions");            
-    $insert = $this->M_Home->add_product($name,$position,$status,$description);
+    $description = $this->input->post("descriptions");  
+    $file = $_FILES;
+    $folder = './assets/images/upload/product/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Product".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;  
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);     
+        $this->image_lib->resize();
+        $this->image_lib->clear();          
+      }
+    }          
+    $insert = $this->M_Home->add_product($name,$position,$status,$description,$config['file_name']);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Product');         
@@ -511,8 +582,42 @@ class Home extends CI_Controller {
     $name = $this->input->post("name");
     $position = $this->input->post("position");
     $status = $this->input->post("status");
-    $description = $this->input->post("descriptions_edit");            
-    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description);
+    $description = $this->input->post("descriptions_edit");     
+    $file_edit = $this->input->post("file_edit");   
+    $file = $_FILES;
+    $folder = './assets/images/upload/product/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
+      $config['file_name']     		= md5(date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;   
+        $config2['height'] = 400;              
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);     
+        $this->image_lib->resize();
+        $this->image_lib->clear();          
+      }
+    }   
+    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description,$config['file_name']);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Product');         
@@ -525,6 +630,16 @@ class Home extends CI_Controller {
 
   public function delete_product(){
     $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/product/';
+    unlink("".$folder."".$img."");
+    $cek_data = $this->M_Home->delete_organizer($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
     $cek_data = $this->M_Home->delete_product($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -580,8 +695,12 @@ class Home extends CI_Controller {
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
         $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$number,$status,$position);        
       }      
     }
@@ -647,14 +766,12 @@ class Home extends CI_Controller {
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
-        // $config2['width']         = 900;
-        // $config2['height']       = 900;		
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
-        // $this->image_lib->resize();
-        // $this->image_lib->clear();
-        // $name_file = $config['file_name'];
-        // $name_keterangan = $name[$i];
+        $this->image_lib->resize();
+        $this->image_lib->clear();
         $update = $this->M_Home->update_support($code,$name,$config['file_name'],$url,$status,$position);
       }      
     }
@@ -814,6 +931,8 @@ class Home extends CI_Controller {
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        // $config2['width'] = 600;                  
+        // $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
         // $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
@@ -1235,8 +1354,12 @@ class Home extends CI_Controller {
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);        
+        $this->image_lib->initialize($config2); 
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
         $insert = $this->M_Home->add_carousel($title,$config['file_name'],$status,$description);
       }
     }
@@ -1281,9 +1404,13 @@ class Home extends CI_Controller {
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
-        $config2 ['create_thumb'] = false;
+        
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);        
+        $this->image_lib->initialize($config2);    
+        $this->image_lib->resize();
+        $this->image_lib->clear();           
         // $insert = $this->M_Home->add_carousel($title,$config['file_name'],$status,$description);
       }
     }
@@ -1406,8 +1533,12 @@ public function add_highlights(){
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);        
+        $this->image_lib->initialize($config2);     
+        $this->image_lib->resize();
+        $this->image_lib->clear();          
         $insert = $this->M_Home->add_organizer($title,$config['file_name'],$status,$description);
       }
     }
@@ -1425,8 +1556,43 @@ public function add_highlights(){
     $code = $this->input->post("code");
     $title = $this->input->post("title");
     $status = $this->input->post("status");   
+    $file_edit = $this->input->post("file_edit");   
     $description = $this->input->post("descriptions_edit");
-    $insert = $this->M_Home->update_organizer($code,$title,$file,$status,$description);
+    $file = $_FILES;
+    $folder = './assets/images/upload/organizer/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");   
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Organizer".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);     
+        $this->image_lib->resize();
+        $this->image_lib->clear();                 
+      }
+    }
+
+    $insert = $this->M_Home->update_organizer($code,$title,$config['file_name'],$status,$description);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Organizer');         
@@ -1439,6 +1605,9 @@ public function add_highlights(){
 
   public function delete_organizer(){
     $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/organizer/';
+    unlink("".$folder."".$img."");
     $cek_data = $this->M_Home->delete_organizer($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -1485,8 +1654,12 @@ public function add_highlights(){
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
-        $this->image_lib->initialize($config2);        
+        $this->image_lib->initialize($config2);      
+        $this->image_lib->resize();
+        $this->image_lib->clear();         
         $insert = $this->M_Home->add_member($title,$config['file_name'],$status,$description);
       }
     }
@@ -1500,12 +1673,47 @@ public function add_highlights(){
     } 
   }
 
-  public function update_member(){
+  public function update_member(){ 
     $code = $this->input->post("code");
     $title = $this->input->post("title");
     $status = $this->input->post("status");   
+    $file_edit = $this->input->post("file_edit");   
     $description = $this->input->post("descriptions_edit");
-    $insert = $this->M_Home->update_member($code,$title,$file,$status,$description);
+    $file = $_FILES;
+    $folder = './assets/images/upload/member/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");  
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Member".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2 ['maintain_ratio'] = false;
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);   
+        $this->image_lib->resize();
+        $this->image_lib->clear();            
+      }
+    }
+
+    $insert = $this->M_Home->update_member($code,$title,$config['file_name'],$status,$description);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Member');         
@@ -1518,6 +1726,9 @@ public function add_highlights(){
 
   public function delete_member(){
     $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/member/';
+    unlink("".$folder."".$img."");
     $cek_data = $this->M_Home->delete_member($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -1571,8 +1782,12 @@ public function add_highlights(){
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
       }      
     }
     
@@ -1619,8 +1834,12 @@ public function add_highlights(){
         $config2['source_image'] = $folder."/".$config['file_name']; 
         $config2 ['maintain_ratio'] = false;
         $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
+        $this->image_lib->resize();
+        $this->image_lib->clear();       
         $update = $this->M_Home->update_sponsors($code,$name,$url,$config['file_name'],$position,$status);
       }      
     }

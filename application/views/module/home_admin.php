@@ -35,39 +35,7 @@
 </style>
 
 <div class="content-wrapper">
-  <!-- <div class="page-header"> 
-    <h4 class="page-title"><b>M</b></h4>
-    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
-      <li class="breadcrumb-item active" aria-current="page">Master Unit</li>
-    </ol>
-    </nav>
-  </div> -->
-  <div class="row ">
-      <div class="col-md-12 grid-margin stretch-card">
-          <div class="card" style="border: 1px solid transparent; margin-top:-35px;">            
-              <div class="card-body">
-                <p class="text-right">
-                    <button type="button" class="btn btn-edit-icn bw" title="Edit Text"  data-toggle="modal" data-target="#mdl">
-                        <i class="mdi mdi-table-edit icn"></i>
-                    </button>
-                    <!-- <button type="button" class="btn btn-hapus-icn bw"  title="Delete" >
-                        <i class="mdi mdi-delete-sweep icn"></i>
-                    </button> -->
-                </p>
-                <p>
-                    <?php
-                        $hasil = $this->db->query("SELECT * from content
-                                                        order by id asc"); 
-                        $row = $hasil->row();
-                        echo $row->freetext
-                    ?>                
-                </p> 
-              </div>
-          </div>
-      </div>
-  </div>           
+ 
 </div>
 
 <div class="modal fade" id="mdl">

@@ -132,19 +132,14 @@
     });
   });
 
-  function upd(code,name,url,status,description){
+  function upd(code,name,url,position,status,description){
     $("#code").val(code);
     $("#name").val(name);
     $("#url").val(url);
+    $("#position").val(position);
     var desc = description;
     CKEDITOR.instances.descriptions.setData(desc);
-    // $("#ket").val(ket);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -218,6 +213,7 @@
                     <th width="1%">No</th>
                     <th>Menu Name</th>
                     <th>Url/Controller</th>
+                    <th>Position</th>
                     <th>Status</th>
                     <th>Description</th>
                     <th width="15%">Action</th>
@@ -239,10 +235,11 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"center\">".$row->position."</td>";      
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">".$row->description."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->url."','".$row->position."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -279,6 +276,10 @@
             <label class="form-label">Url/Controller</label>
             <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
           </div>  
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="position" required>
+          </div> 
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -319,6 +320,10 @@
             <label class="form-label">Menu Name</label>
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Position</label>
+            <input type="number" class="form-control" name="position" id="position" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Url/Controller</label>

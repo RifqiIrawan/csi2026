@@ -11,21 +11,21 @@ class M_Home extends CI_Model
   // for menu
   function get_menu(){
     $res = $this->db->query("SELECT * from menu
-                              order by id asc"); 
+                              order by position asc"); 
     return $res->result();
   }
 
-  function add_menu($name,$url,$status,$description){
+  function add_menu($name,$url,$position,$status,$description){
     $insert = $this->db->query("INSERT INTO 
-                                        menu(name,url,status,description) 
+                                        menu(name,url,position,status,description) 
                                         Values
-                                        ('".$name."','".$url."','".$status."','".$description."')
+                                        ('".$name."','".$url."','".$position."','".$status."','".$description."')
                             ");
     return $insert;
   }
     
-  function update_menu($code,$name,$url,$status,$description){
-    $update = $this->db->query(" UPDATE menu SET name = '".$name."',url = '".$url."',status = '".$status."'
+  function update_menu($code,$name,$url,$position,$status,$description){
+    $update = $this->db->query(" UPDATE menu SET name = '".$name."',url = '".$url."',position = '".$position."',status = '".$status."'
                             ,description = '".$description."' WHERE id = '".$code."'
                       ");
     return $update;
@@ -56,8 +56,16 @@ class M_Home extends CI_Model
   }
     
   function update_date_event($code,$name,$title1,$description1,$img1,$title2,$description2,$img2,$status){
-    $update = $this->db->query(" UPDATE event SET name = '".$name."',status = '".$status."'
-                            ,description = '".$description."' WHERE id = '".$code."'
+    $update = $this->db->query(" UPDATE event SET 
+                                              name = '".$name."'
+                                              ,title1 = '".$title1."'
+                                              ,description1 = '".$description1."'
+                                              ,image1 = '".$img1."'
+                                              ,title2 = '".$title2."'
+                                              ,description2 = '".$description2."'
+                                              ,image2 = '".$img2."'
+                                              ,status = '".$status."'
+                                WHERE id = '".$code."'
                       ");
     return $update;
   }
@@ -167,11 +175,18 @@ class M_Home extends CI_Model
     return $insert;
   }
     
-  function update_profile($code,$name,$icon,$url,$status){
+  function update_profile($code,$company,$vision,$file,$nick,$address,$maps,$phone,$fax,$email,$website,$status){
     $ubah = $this->db->query(" UPDATE profile SET 
-                                      name = '".$name."'
-                                      ,icon = '".$icon."'
-                                      ,url = '".$url."'
+                                      company_name = '".$company."'
+                                      ,vision = '".$vision."'
+                                      ,logo = '".$file."'
+                                      ,nick_name = '".$nick."'
+                                      ,address = '".$address."'
+                                      ,gmaps = '".$maps."'
+                                      ,phone = '".$phone."'
+                                      ,fax = '".$fax."'
+                                      ,email = '".$email."'
+                                      ,website = '".$website."'
                                       ,status = '".$status."'
                               WHERE id = '".$code."'
                       ");
@@ -191,17 +206,17 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_product($name,$position,$status,$description){
+  function add_product($name,$position,$status,$description,$file){
     $insert = $this->db->query("INSERT INTO 
-                                        product(name,status,description,position) 
+                                        product(name,status,description,position,file_upload) 
                                         Values
-                                        ('".$name."','".$status."','".$description."','".$position."')
+                                        ('".$name."','".$status."','".$description."','".$position."','".$file."')
                             ");
     return $insert;
   }
     
-  function update_product($code,$name,$position,$status,$description){
-    $update = $this->db->query(" UPDATE product SET name = '".$name."',status = '".$status."',position = '".$position."'
+  function update_product($code,$name,$position,$status,$description,$file){
+    $update = $this->db->query(" UPDATE product SET name = '".$name."',status = '".$status."',position = '".$position."',file_upload = '".$file."'
                             ,description = '".$description."' WHERE id = '".$code."'
                       ");
     return $update;

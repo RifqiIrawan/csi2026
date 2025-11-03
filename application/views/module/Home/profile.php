@@ -103,10 +103,28 @@
     });
   });
 
-  function update(code,nama,urut,status){
+  function update(code,company_name,logo,nick_name,address,gmaps,phone,fax,email,website,status){
     $("#code").val(code);
-    $("#nama").val(nama);
-    $("#urut").val(urut);
+    $("#company_name").val(company_name);
+    $("#logo").val(logo);
+    $("#nick_name").val(nick_name);
+    $("#address").val(address);
+    $("#gmaps").val(gmaps);
+    $("#phone").val(phone);
+    $("#fax").val(fax);
+    $("#email").val(email);
+    $("#website").val(website);
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,"text":"profile"},
+      success: function (data) {
+        // console.log(data);
+        var jsn = JSON.parse(data);
+        CKEDITOR.instances.descriptions_edit.setData(jsn.vision); 
+      }
+    });
 
     if(status.length === 0){
       var status = "P";
@@ -117,13 +135,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code){
+  function del(code,img){
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
         url: "<?php echo base_url()?>Home/delete_profile",
         type: 'post',
-        data: {'code' : code},
+        data: {'code' : code, 'img' : img},
         success: function (data) {
           console.log(data);
           if(data === "OK"){
@@ -251,11 +269,12 @@
                         echo "<td align=\"center\">".$row->gmaps."</td>";
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update();\">
-                                    <i class=\"mdi mdi-table-edit icn\"></i>
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->company_name."','".$row->logo."'
+                                ,'".$row->nick_name."','".$row->address."','".$row->gmaps."','".$row->phone."','".$row->fax."','".$row->email."','".$row->website."','".$row->status."');\">
+                                  <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
-                                    <i class=\"mdi mdi-delete-sweep icn\"></i>
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->logo."')\">
+                                  <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";       
                       echo "</tr>";                     
@@ -357,26 +376,55 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Title Name</label>
-            <input type="text" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="nama" id="nama" style="text-transform:capitalize" required>
+            <label class="form-label">Company Name</label>
+            <input type="hidden" class="form-control" name="code" id="code">
+            <input type="text" class="form-control" name="company" id="company_name" required>
           </div>
           <div class="form-group">
-            <label>File upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
+            <label>Logo</label>
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+              <input type="hidden" name="file_edit" id="logo">
+              <input type="file" class="form-control file-upload-info" name="file" id="file" onchange="return validasiEkstensi2()">
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Position</label>
-            <input type="number" class="form-control" name="urut" id="urut" required>
+            <label class="form-label">Nick Name</label>
+            <input type="text" class="form-control" name="nick" id="nick_name" style="text-transform:capitalize" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Vision</label>
+            <textarea class="form-control" name="descriptions_edit" rows="6" id="descriptions_edit" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <textarea class="form-control" name="address" rows="6" id="address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" name="phone" id="phone" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fax</label>
+            <input type="text" class="form-control" name="fax" id="fax" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Website</label>
+            <input type="text" class="form-control" name="website" id="website" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Maps</label>
+            <input type="text" class="form-control" name="maps" id="gmaps" required>
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
               <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="status" value="A" id="A">
+                <input type="radio" class="custom-control-input" name="status" value="A" id="A" checked>
                 <span class="custom-control-label">Active</span>
               </label>
               <label class="custom-control custom-radio custom-control-inline">
