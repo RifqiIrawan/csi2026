@@ -1294,8 +1294,8 @@
             <h5><b><?php echo $data_event->name?></b></h5>
           </div>
           <div class="col-lg-8 mt-3" style="text-align: right;">
-            <button type="button" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</button>
-            <button type="button" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</button>
+            <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
+            <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
           </div>
         </div>
       </div>
@@ -1464,7 +1464,7 @@
           <b><?php echo $data_event->description1?></b>
         </h1>
         <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
-        <a href="https://coatingshow.com/book-a-stand" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content">
+        <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content">
         <b>Book a Stand</b>
         </a>
       </div>
@@ -1476,7 +1476,7 @@
           <?php echo $data_event->title2?>
         </h2>            
         <b style="color:white"><?php echo $data_event->description2?></b>                     
-        <a href="https://ems.coatingshow.com/Event/Show_Event/1/e39b7ecf3805de07f96ddee1d18b5eea" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
+        <a href=" <?php echo $data_event->link_event?>" target="blank_" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
       </div>
     </section>
 

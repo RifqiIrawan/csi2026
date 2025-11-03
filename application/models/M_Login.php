@@ -19,6 +19,14 @@ class M_Login extends CI_Model{
 
   function get_event(){
     $res = $this->db->query("SELECT *
+                                ,(SELECT file_upload
+                                FROM floor_plan
+                                WHERE id = (SELECT MAX(id) FROM floor_plan)
+                                and status = 'A') as floor_file
+                                ,(SELECT url
+                                FROM link_event
+                                WHERE id = (SELECT MAX(id) FROM link_event)
+                                and status = 'A') as link_event
                                 FROM event
                                 where status = 'A'
                               "); 

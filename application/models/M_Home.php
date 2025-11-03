@@ -274,7 +274,8 @@ class M_Home extends CI_Model
 
   // for menu
   function get_book_stand(){
-    $res = $this->db->query("SELECT * from book_stand
+    $res = $this->db->query("SELECT *                                
+                              from book_stand
                               order by id asc"); 
     return $res->result();
   }
@@ -373,7 +374,8 @@ class M_Home extends CI_Model
 
   // quick link
   function get_quick_link(){
-    $res = $this->db->query("SELECT * from quick_link
+    $res = $this->db->query("SELECT * 
+                              from quick_link
                               order by id asc"); 
     return $res->result();
   }

@@ -1300,6 +1300,17 @@ class Home extends CI_Controller {
     } 
   }
 
+  public function download_floor($filename){
+    $this->load->helper('download');
+    $path = './assets/images/upload/floor_plan/' . $filename;
+    if (file_exists($path)) {
+        $data = file_get_contents($path);
+        force_download($filename, $data);
+    } else {
+        show_404();
+    }
+  }
+
   public function delete_floor_plan(){
     $code = $this->input->post("code");
     $cek_data = $this->M_Home->delete_floor_plan($code);
