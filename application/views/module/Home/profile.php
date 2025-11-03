@@ -84,6 +84,18 @@
     padding: 0.65rem 0.65rem;
     background: #00d25b;
   }
+  .modal-body img {
+    object-fit: contain;
+  }
+
+  img{
+    width: 100%;
+    
+    /* background-image: url('foto.jpg'); */
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
 </style>
 
 <script type="text/javascript">  
@@ -237,12 +249,13 @@
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Logo</th>
+                    <th>Action</th> 
                     <th>Fax</th>
                     <th>Website</th>
                     <th>Location</th>
                     <th>Status</th>
                     <!-- <th>Logo</th>-->
-                    <th>Action</th> 
                   </tr>
                 </thead>
                 <tbody>
@@ -264,10 +277,7 @@
                         echo "<td align=\"center\">".$row->address."</td>";
                         echo "<td align=\"center\">".$row->phone."</td>";
                         echo "<td align=\"center\">".$row->email."</td>";
-                        echo "<td align=\"center\">".$row->fax."</td>";
-                        echo "<td align=\"center\">".$row->website."</td>";
-                        echo "<td align=\"center\">".$row->gmaps."</td>";
-                        echo "<td align=\"center\">".$stat."</td>";    
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->logo."','".$row->folder."');\"></td>";  
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->company_name."','".$row->logo."'
                                 ,'".$row->nick_name."','".$row->address."','".$row->gmaps."','".$row->phone."','".$row->fax."','".$row->email."','".$row->website."','".$row->status."');\">
@@ -277,6 +287,10 @@
                                   <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";       
+                        echo "<td align=\"center\">".$row->fax."</td>";
+                        echo "<td align=\"center\">".$row->website."</td>";
+                        echo "<td align=\"center\">".$row->gmaps."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";  
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -444,7 +458,7 @@
 </div>
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>
