@@ -89,9 +89,35 @@
     object-fit: contain;
   }
 </style>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+
+    // if (document.getElementById('descriptions')) {
+    //   if (CKEDITOR.instances['descriptions']) CKEDITOR.instances['descriptions'].destroy(true);
+    //   CKEDITOR.replace('descriptions', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
+
+    // if (document.getElementsByName('descriptions1').length) {
+    //   if (CKEDITOR.instances['descriptions1']) CKEDITOR.instances['descriptions1'].destroy(true);
+    //   CKEDITOR.replace('descriptions1', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });

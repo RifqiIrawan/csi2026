@@ -97,9 +97,21 @@
     background-repeat: no-repeat;
   }
 </style>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });

@@ -9,6 +9,7 @@ class Visiting extends CI_Controller {
     $this->load->model('M_Login');   
     $this->load->model('M_Form');
     $this->load->model('M_Visiting');
+    $this->load->model('M_Exhibiting');
     $this->load->library('upload');
   }
 
@@ -46,9 +47,21 @@ class Visiting extends CI_Controller {
       case "why-visit-settings":
         $this->why_visit_settings();
         break;
-      // case "why-visit-settings":
-      //   $this->why_visit_settings();
-      //   break;
+      case "why-visit-datatable":
+        echo $this->M_Visiting->why_visit_datatable();
+        break;
+      case "why-visit-banner-add":
+        $this->why_visit_banner_add();
+        break;
+      case "why-visit-banner-get-data":
+        $this->why_visit_banner_get_data($id);
+        break;
+      case "why-visit-banner-update":
+        $this->why_visit_banner_update($id);
+        break;
+      case "why-visit-banner-delete":
+        $this->why_visit_banner_delete($id);
+        break;
       case "conference-schedule-settings":
         $this->conference_schedule_settings();
         break;
@@ -74,18 +87,52 @@ class Visiting extends CI_Controller {
     $r = $data_profile->row();
     $data["folder"] = $r->folder;
 
+    $dataContents = $this->M_Exhibiting->get_contents([
+        'menu_id' => 10,
+        'content_year' => 2026,
+        'content_type' => 'banner'
+    ]);
+
+    $sectionDataContents = $this->M_Exhibiting->get_contents([
+        'menu_id' => 10,
+        'content_year' => 2026,
+        'content_type' => 'section'
+    ]);
+    
+    // echo "<pre> sectionDataContents: ";
+    // print_r($sectionDataContents);
+    // echo "</pre>";
+    // die();
+
+    $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
+    $hero_text = $dataContents['0']['title'];
+
+    $feature_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
+    $feature_text = $sectionDataContents['0']['title'];
+    $feature_desc = $sectionDataContents['0']['subtitle'];
+
+
+    // echo "<pre> hero_background: ";
+    // print_r($hero_background);
+    // echo "</pre>";
+
+    // echo "<pre> hero_text: ";
+    // print_r($hero_text);
+    // echo "</pre>";
+    // die();
+
     // Data Hero Section
     $data['hero'] = [
-        'background' => 'https://i.pinimg.com/1200x/76/24/d7/7624d76199dbffbe3c13fc9c5b8339a6.jpg',
-        'button_text' => 'WHY VISIT ?',
+        'background' => $hero_background,
+        'button_text' => $hero_text,
         'button_link' => '#features' // scroll ke section features
     ];
 
     $features = [
         [
-            'title' => 'NETWORKING OPPORTUNITIES',
-            'icon'  => 'https://indointertex.com/wp-content/uploads/2024/12/2025_Web_Why_Visit2-1600x708.png',
-            'desc'  => 'Seize networking opportunities with top companies through face-to-face meetings.'
+            'title' => $feature_text,
+            'icon'  => $feature_background,
+            'desc'  => $feature_desc
         ]
     ];
 
@@ -147,14 +194,48 @@ class Visiting extends CI_Controller {
   }
 
   public function why_visit_settings() {
-    echo "why_visit_settings";
-    die();
+    // echo "why_visit_settings";
+    // die();
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');
     }        
     $data = [];
     $this->template->load('Admin/roleme','module/settings/visiting/why_visit',$data);
   }
+
+  public function why_visit_banner_get_data($id){
+
+    $IDBanner = (int) $id;
+
+    $activeBanners = $this->M_Exhibiting->fetchData(
+        'csi_contents c',
+        ['c.id' => $IDBanner],
+        [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
+        'c.id, c.content_year, c.content_type, c.title, c.subtitle, c.status, cm.file_path as image, cm.url_path as link',
+        ['c.id' => 'DESC']
+    )->row_array();
+
+    // Tambahkan base_url di sini
+    if (!empty($activeBanners['image'])) {
+        $activeBanners['image'] = base_url($activeBanners['image']);
+    }
+
+    if ($activeBanners) {
+        // kembalikan data JSON
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($activeBanners));
+    } else {
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status' => false,
+                'message' => 'Banner not found'
+            ]));
+    }
+  }
+
+  // END Part WHY VISIT
 
   public function conference_schedule_settings(){
     if($this->session->userdata('id_user') == NULL){
@@ -256,4 +337,425 @@ class Visiting extends CI_Controller {
           echo json_encode(['success' => false, 'message' => 'Failed to update data.']);
       }
   }
+
+  public function why_visit_banner_add(){
+  
+    // Ambil input form
+    // echo "<pre> Files:";
+    // print_r($_FILES);
+    // echo "</pre>";
+    // echo "<pre> Post:";
+    // print_r($this->input->post());
+    // echo "</pre>";
+    // die();
+    /*
+    Array
+        (
+            [bannerimage] => Array
+                (
+                    [name] => Sample Page - Coating Show Image.png
+                    [type] => image/png
+                    [tmp_name] => C:\xampp\tmp\phpF543.tmp
+                    [error] => 0
+                    [size] => 2193849
+                )
+
+        )
+        Array
+        (
+            [bannertitle] => Banner Title
+            [bannersubtitle] => Banner Subtitle
+            [bannerlink] => 
+            [bannerStatus] => active
+        )
+    */
+    $content_year = $this->input->post('banner_whyvisityear');
+    $title        = $this->input->post('banner_whyvisittitle');
+    $subtitle     = $this->input->post('banner_whyvisitsubtitle');
+    $link         = $this->input->post('banner_whyvisitlink');
+    $status       = $this->input->post('banner_whyvisitStatus');
+
+    $menu_id = 10;
+    $created_date = date('Y-m-d H:i:s');
+    $created_by = 'sysadmin';
+    $content_type = 'banner';
+    $body_text = '';
+    $content_id = 0;
+
+    // Konfigurasi upload gambar
+    $file_path = 'assets/uploads/why_visit/';
+    $config['upload_path'] = FCPATH . $file_path; // FCPATH = path ke public root CI
+
+    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+    $config['max_size'] = 2048; // 2MB
+    // $config['max_size']      = 4096; // 4MB
+    $config['encrypt_name']  = TRUE; // supaya nama unik
+
+    $this->upload->initialize($config);
+
+    if (!empty($_FILES['bannerimage']['name'])) {
+        if ($this->upload->do_upload('bannerimage')) {
+            $uploadData = $this->upload->data();
+            $image = $uploadData['file_name'];
+        } else {
+            // echo $this->upload->display_errors();
+            // return;
+            $this->flashdata_set([
+                'error' => $this->upload->display_errors()
+            ]);
+            redirect('exhibiting/why-exhibit-settings');
+        }
+    }
+
+    try {
+        // Start transaction
+        $this->db->trans_begin();
+
+        // Prepare the data array
+        $data = [
+            'menu_id'       => $menu_id,      // replace $menu_id with your variable
+            'content_year'  => $content_year, // replace $content_year with your variable
+            'content_type'  => $content_type, // replace $content_type with your variable
+            'title'         => $title,        // replace $title with your variable
+            'subtitle'      => $subtitle,     // replace $subtitle with your variable
+            'body_text'     => $body_text,    // replace $body_text with your variable
+            'created_date'  => $created_date, // usually date('Y-m-d H:i:s')
+            'created_by'    => $created_by,   // your user id or name
+            'modified_date' => $created_date,// usually date('Y-m-d H:i:s')
+            'modified_by'   => $created_by   // your user id or name
+        ];
+
+        $this->db->insert('csi_contents', $data);
+        $content_id = $this->db->insert_id();
+
+        $sort_order = 1;
+        $is_main = 1;
+        
+        $dataMedia = [
+            'content_id'      => $content_id,     // the related content ID
+            'media_type'      => 'image',     // e.g., 'image', 'video', etc.
+            'file_path'       => $file_path . $image,      // path on server
+            'sort_order'      => $sort_order,     // integer
+            'is_main'         => $is_main,        // 0 or 1
+            'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')
+            'created_by'      => $created_by,     // user id or name
+            'modified_date'   => $created_date,  // usually date('Y-m-d H:i:s')
+            'modified_by'     => $created_by     // user id or name
+        ];
+
+        // print_r($data);
+        // print_r($dataMedia);
+        // die();
+
+        // Simpan ke DB lewat model
+        $this->db->insert('csi_content_media', $dataMedia);
+
+        // Cek transaction
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            throw new Exception('Database insert failed.');
+        } else {
+            $this->db->trans_commit();
+        }
+
+        // Jika sukses
+        $this->flashdata_set([
+            'success' => 'Banner berhasil disimpan.'
+        ]);
+        redirect('visiting/why-visit-settings');
+
+    } catch (Exception $e) {
+        // Jika ada error
+        log_message('error', 'Banner save error: ' . $e->getMessage());
+        $this->flashdata_set([
+            'error' => 'Terjadi kesalahan saat menyimpan banner.'
+        ]);
+        redirect('visiting/why-visit-settings');
+    }
+  }
+
+  public function why_visit_banner_update_good()
+  {
+      // echo "<pre> why_visit_banner_update:";
+      // print_r($this->input->post());
+      // echo "</pre>";
+
+      // echo "<pre> why_visit_banner_update:";
+      // print_r($_FILES);
+      // echo "</pre>";
+
+      
+      // die();
+      /*
+      why_visit_banner_update:Array
+        (
+            [id] => 14
+            [banner_whyvisityear] => 2027
+            [banner_whyvisittitle] => WHY VISIT ???
+            [banner_whyvisitsubtitle] => The Coating Show is the premier gathering for professionals in the coatings industry.
+            [banner_whyvisitlink] => 
+            [banner_whyvisitStatus] => active
+      */
+      try {
+          $id             = $this->input->post('id');
+          $content_year   = $this->input->post('banner_whyvisityear');
+          $title          = $this->input->post('banner_whyvisittitle');
+          $subtitle       = $this->input->post('banner_whyvisitsubtitle');
+          $link           = $this->input->post('banner_whyvisitlink');
+          $status         = $this->input->post('banner_whyvisitStatus'); // active / inactive
+
+          $modified_date  = date('Y-m-d H:i:s');
+          $id_menus = 10;
+          // validasi ID
+          if (empty($id)) {
+              throw new Exception("ID tidak ditemukan.");
+          }
+
+          $file_path = 'assets/uploads/why_visit/';
+
+          $image_path = null;
+          
+          if (!empty($_FILES['image']['name'])) {
+              $config['upload_path']   = FCPATH . $file_path;
+              $config['allowed_types'] = 'jpg|jpeg|png|gif';
+              $config['max_size']      = 2048;
+              $config['encrypt_name']  = TRUE;
+              $this->upload->initialize($config);
+              if (!$this->upload->do_upload('image')) {
+                  throw new Exception($this->upload->display_errors());
+              } else {
+                  $uploadData = $this->upload->data();
+                  if ($uploadData['file_size'] > 2048) {
+                      unlink($uploadData['full_path']); // delete if oversized
+                      $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
+                  }
+                  $image_path = $file_path . $uploadData['file_name'];
+              }
+          }
+          
+          
+          // data yang akan diupdate
+          $data = [
+              'content_year' => $content_year,
+              'title'        => $title,
+              'subtitle'     => $subtitle,
+              'status'       => $status,
+              'modified_date'=> $modified_date
+          ];
+
+          if ($status === 'active') {
+              // Set semua record lain menjadi 'inactive'
+              $this->db->where('id !=', $id); // kecuali yang sedang diupdate
+              $this->db->where('content_type', 'banner');
+              $this->db->where('menu_id', $id_menus);
+              $this->db->update('csi_contents', ['status' => 'inactive']);
+          }
+
+          $this->M_Exhibiting->update('csi_contents', ['id' => $id], $data);
+
+          $dataMedia = [
+              'url_path'     => $link,
+              'modified_date'=> $modified_date
+          ];
+
+          if ($image_path) {
+              $dataMedia['file_path'] = $image_path;
+          }
+
+          $update = $this->M_Exhibiting->update('csi_content_media', ['content_id' => $id], $dataMedia);
+
+          if ($update) {
+              $response = ['success' => true, 'message' => 'Banner berhasil diperbarui'];
+          } else {
+              $response = ['success' => false, 'message' => 'Gagal memperbarui banner'];
+          }
+
+      } catch (Exception $e) {
+          $response = ['success' => false, 'message' => $e->getMessage()];
+      }
+
+      echo json_encode($response);
+  }
+
+  public function why_visit_banner_update()
+  {
+      try {
+          $id             = $this->input->post('id');
+          $content_year   = $this->input->post('banner_whyvisityear');
+          $title          = $this->input->post('banner_whyvisittitle');
+          $subtitle       = $this->input->post('banner_whyvisitsubtitle');
+          $link           = $this->input->post('banner_whyvisitlink');
+          $status         = $this->input->post('banner_whyvisitStatus');
+          $modified_date  = date('Y-m-d H:i:s');
+          $id_menus       = 10;
+
+          if (empty($id)) {
+              throw new Exception("ID tidak ditemukan.");
+          }
+
+          $file_path  = 'assets/uploads/why_visit/';
+          $image_path = null;
+
+          // === Ambil data lama (untuk hapus gambar lama jika ada upload baru) ===
+          $oldMedia = $this->db->get_where('csi_content_media', ['content_id' => $id])->row();
+
+          // === Jika ada file diupload ===
+          if (!empty($_FILES['image']['name'])) {
+              $config['upload_path']   = FCPATH . $file_path;
+              $config['allowed_types'] = 'jpg|jpeg|png|gif';
+              $config['max_size']      = 2048;
+              $config['encrypt_name']  = TRUE;
+
+              $this->upload->initialize($config);
+
+              if (!$this->upload->do_upload('image')) {
+                  throw new Exception($this->upload->display_errors());
+              } else {
+                  $uploadData = $this->upload->data();
+
+                  if ($uploadData['file_size'] > 2048) {
+                      unlink($uploadData['full_path']);
+                      throw new Exception('File size exceeds the 2MB limit.');
+                  }
+
+                  $image_path = $file_path . $uploadData['file_name'];
+
+                  // === Hapus file lama jika ada ===
+                  if (!empty($oldMedia->file_path) && file_exists(FCPATH . $oldMedia->file_path)) {
+                      unlink(FCPATH . $oldMedia->file_path);
+                  }
+              }
+          }
+
+          // === UPDATE DATA UTAMA ===
+          $data = [
+              'content_year'  => $content_year,
+              'title'         => $title,
+              'subtitle'      => $subtitle,
+              'status'        => $status,
+              'modified_date' => $modified_date
+          ];
+
+          if ($status === 'active') {
+              // Set semua record lain menjadi 'inactive'
+              $this->db->where('id !=', $id);
+              $this->db->where('content_type', 'banner');
+              $this->db->where('menu_id', $id_menus);
+              $this->db->update('csi_contents', ['status' => 'inactive']);
+          }
+
+          $this->M_Exhibiting->update('csi_contents', ['id' => $id], $data);
+
+          // === UPDATE DATA MEDIA ===
+          $dataMedia = [
+              'url_path'      => $link,
+              'modified_date' => $modified_date
+          ];
+
+          // hanya update file_path jika ada file baru
+          if (!empty($image_path)) {
+              $dataMedia['file_path'] = $image_path;
+          }
+
+          $update = $this->M_Exhibiting->update('csi_content_media', ['content_id' => $id], $dataMedia);
+
+          if ($update) {
+              $response = ['success' => true, 'message' => 'Banner berhasil diperbarui'];
+          } else {
+              $response = ['success' => false, 'message' => 'Gagal memperbarui banner'];
+          }
+
+      } catch (Exception $e) {
+          $response = ['success' => false, 'message' => $e->getMessage()];
+      }
+
+      echo json_encode($response);
+  }
+
+  public function why_visit_banner_delete_($id = null)
+  {
+      $id = (int) $id;
+      try {
+          if (!$id) {
+              throw new Exception('Invalid ID');
+          }
+
+          $deleted = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+
+          if (!$deleted) {
+              throw new Exception('Failed to delete banner');
+          }
+
+          $response = [
+              'status' => 'success',
+              'message' => 'Banner deleted successfully'
+          ];
+      } catch (Exception $e) {
+          $response = [
+              'status' => 'error',
+              'message' => $e->getMessage()
+          ];
+      }
+
+      echo json_encode($response);
+  }
+
+  public function why_visit_banner_delete($id = null)
+  {
+      $id       = (int) $id;
+      $id_menus = 10;
+
+      try {
+          if (!$id) {
+              throw new Exception('Invalid ID');
+          }
+
+          // Hitung jumlah total data banner yang ada
+          $total = $this->db
+            ->where('content_type', 'banner')
+            ->where('menu_id', $id_menus)
+            ->where('status', 'active')
+            ->count_all_results('csi_contents');
+
+          if ($total <= 1) {
+              throw new Exception('Tidak dapat menghapus banner terakhir');
+          }
+
+          // Hapus data berdasarkan ID
+          $deleted = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+
+          if (!$deleted) {
+              throw new Exception('Gagal menghapus banner');
+          }
+
+          $response = [
+              'status' => 'success',
+              'message' => 'Banner berhasil dihapus'
+          ];
+      } catch (Exception $e) {
+          $response = [
+              'status' => 'error',
+              'message' => $e->getMessage()
+          ];
+      }
+
+      echo json_encode($response);
+  }
+
+  protected function flashdata_set(array $new_flashdata)
+  {
+      // 1️⃣ Reset all existing flashdata
+      $all_flash = $this->session->flashdata();
+      if (!empty($all_flash)) {
+          foreach ($all_flash as $key => $val) {
+              $this->session->unset_userdata($key);
+          }
+      }
+
+      // 2️⃣ Set new flashdata
+      foreach ($new_flashdata as $type => $msg) {
+          $this->session->set_flashdata($type, $msg);
+      }
+  }
+
 }
