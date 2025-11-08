@@ -18,6 +18,13 @@ class Home extends CI_Controller {
     echo json_encode($cek->row());
   }
 
+  public function search_text2(){    
+    $code = $this->input->post("code");
+    $text = $this->input->post("text");
+    $cek = $this->M_Home->search_text2($code,$text);
+    echo json_encode($cek);
+  }
+
   public function Menu(){   
       if($this->session->userdata('id_user') == NULL){
           redirect('Login');
@@ -439,7 +446,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
@@ -487,7 +495,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
@@ -556,7 +565,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;  
@@ -607,7 +617,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;   
         $config2['height'] = 400;              
@@ -693,7 +704,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -764,7 +776,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -849,7 +862,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
@@ -878,7 +892,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
@@ -929,7 +944,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         // $config2['width'] = 600;                  
         // $config2['height'] = 400;
@@ -961,7 +977,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
@@ -1236,7 +1253,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
@@ -1282,7 +1300,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
@@ -1363,7 +1382,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1414,8 +1434,8 @@ class Home extends CI_Controller {
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
-        
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';  
         $config2['width'] = 600;                  
         $config2['height'] = 400;
         $this->load->library('image_lib', $config2);
@@ -1542,7 +1562,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1592,7 +1613,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1663,7 +1685,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1713,7 +1736,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1791,7 +1815,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1843,7 +1868,8 @@ public function add_highlights(){
         // menambil nilai value yang di upload  
         $config2['image_library'] = 'gd2';
         $config2['source_image'] = $folder."/".$config['file_name']; 
-        $config2 ['maintain_ratio'] = false;
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
         $config2 ['create_thumb'] = false;
         $config2['width'] = 600;                  
         $config2['height'] = 400;
@@ -1881,5 +1907,126 @@ public function add_highlights(){
     }   
   }
 
+  // for Coperation  
+  public function Coperation(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_coperation"] = $this->M_Home->get_coperation();
+    $this->template->load('Admin/role','module/Home/coperation',$data);
+  }
 
+  public function add_coperation(){
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");  
+    $description = $this->input->post("descriptions1");  
+    $file = $_FILES;
+    $folder = './assets/images/upload/coperation/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("coperation".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);      
+        $this->image_lib->resize();
+        $this->image_lib->clear();         
+        $insert = $this->M_Home->add_coperation($title,$config['file_name'],$status,$description);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Coperation');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Coperation');
+    } 
+  }
+
+  public function update_coperation(){ 
+    $code = $this->input->post("code");
+    $title = $this->input->post("title");
+    $status = $this->input->post("status");   
+    $file_edit = $this->input->post("file_edit");   
+    $description = $this->input->post("descriptions_edit");
+    $file = $_FILES;
+    $folder = './assets/images/upload/coperation/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");  
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("Coperation".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
+        $config2 ['create_thumb'] = false;
+        $config2['width'] = 600;                  
+        $config2['height'] = 400;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);   
+        $this->image_lib->resize();
+        $this->image_lib->clear();            
+      }
+    }
+
+    $insert = $this->M_Home->update_coperation($code,$title,$config['file_name'],$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Coperation');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Coperation');
+    } 
+  }
+
+  public function delete_coperation(){
+    $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/coperation/';
+    unlink("".$folder."".$img."");
+    $cek_data = $this->M_Home->delete_coperation($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
 }

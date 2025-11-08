@@ -229,7 +229,71 @@
     }
     return strVal
   }
+
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'content1'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.description);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
+
+  function dtl1(code,title){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text': 'information_detail'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);    
+        var i;
+        // var html = "";
+        var n = 1;
+        for(i=0;i<jsn.length;i++){
+          var html = "<p style=\"margin-top: 5px;\">"+n+". "
+                    +"<span><i class=\"bi bi-"+jsn[i].icon+"\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
+                      +"<span style=\"margin-left:15px;\">"+jsn[i].date_text+"</span>"
+                  +"</p>";
+          $("#get_dtl1").append(html);
+          n++;
+        }        
+        $("#get_title1").html(title);
+      }
+    });
+    $('#mdl_dtl1').modal('show'); 
+  }
+
+  function dtl2(code,title){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_hours'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);    
+        var i;
+        // var html = "";
+        var n = 1;
+        for(i=0;i<jsn.length;i++){
+          var html = "<p style=\"margin-top: 5px;\">"+n+". "                   
+                      +"<span style=\"margin-left:15px;\">"+jsn[i].text+"</span>"
+                  +"</p>";
+          $("#get_dtl2").append(html);
+          n++;
+        }        
+        $("#get_title2").html(title);
+      }
+    });
+    $('#mdl_dtl2').modal('show'); 
+  }
 </script>
+
 <style>
   .btn-float {
       position: absolute;
@@ -282,6 +346,7 @@
                     <th>Title 2</th>
                     <th>Description</th>
                     <th>Link Maps</th>
+                    <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
                 </thead>
@@ -300,10 +365,12 @@
                                             
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"center\"><b style=\"cursor:pointer\" title=\"Show Detail\">".ucwords(strtolower($row->title1))."</b></td>";
-                        echo "<td align=\"center\"><b style=\"cursor:pointer\"  title=\"Show Detail\">".ucwords(strtolower($row->title2))."</b></td>";
-                        echo "<td align=\"center\">".$row->description."</td>";
+                        echo "<td align=\"center\"><b style=\"cursor:pointer\" style=\"cursor:pointer\" title=\"Show Detail\" onclick=\"dtl1('".$row->code."','".$row->title1."');\">".ucwords(strtolower($row->title1))."</b></td>";
+                        echo "<td align=\"center\"><b style=\"cursor:pointer\" style=\"cursor:pointer\" title=\"Show Detail\" onclick=\"dtl2('".$row->code."','".$row->title2."');\">".ucwords(strtolower($row->title2))."</b></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" title=\"Show Description\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";
+                        // echo "<td align=\"center\">".$row->description."</td>";
                         echo "<td align=\"center\">".$row->link_maps."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->code."')\">
                                   <i class=\"mdi mdi-delete-sweep icn\"></i>
@@ -473,3 +540,51 @@
     </div>
   </div>
 </div> -->
+
+<div class="modal fade" id="mdl_text1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Description</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_text1"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_dtl1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><span id="get_title1"></span></h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_dtl1"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_dtl2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><span id="get_title2"></span></h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_dtl2"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>

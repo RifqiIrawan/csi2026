@@ -5,32 +5,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Coating Show</title>
-
-    <!-- Favicons -->
     <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="icon">
     <link href="<?php echo base_url();?>Website/assets/img/logo_csi.png" rel="logo_csi">
-    <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/css/vendor.bundle.base.css">
-    
-    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/jvectormap/jquery-jvectormap.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/owl-carousel-2/owl.carousel.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/owl-carousel-2/owl.theme.default.min.css">
-     <!-- <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"> -->
-    <!-- <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"> -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css">
-    
-    
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
-    
-  
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">  
+
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/font-icons.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/animate.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">
+
   <!--  Javascript -->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
