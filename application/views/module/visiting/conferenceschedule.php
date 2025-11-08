@@ -112,41 +112,48 @@
                             <?php foreach ($programs as $prog): ?>
                                 <div class="col-md-4 col-sm-6 col-12">
                                     <div class="program-card">
-                                    <span class="badge-type <?= strtolower($prog['program_type']) === 'seminar' ? 'badge-seminar' : 'badge-workshop' ?>">
-                                        <?= strtoupper($prog['program_type']); ?>
-                                    </span>
+                                        <span class="badge-type <?= strtolower($prog['program_type']) === 'seminar' ? 'badge-seminar' : 'badge-workshop' ?>">
+                                            <?= strtoupper($prog['program_type']); ?>
+                                        </span>
 
-                                    <div class="icon-text">
-                                        <i class="bi bi-calendar-date"></i>
-                                        <?= date('l, d F Y', strtotime($prog['program_date'])); ?>
-                                    </div>
-                                    <div class="icon-text">
-                                        <i class="bi bi-clock"></i>
-                                        <?= date('H:i', strtotime($prog['program_start_time'])) . ' - ' . date('H:i', strtotime($prog['program_end_time'])); ?> WIB
-                                    </div>
+                                        <div class="icon-text">
+                                            <i class="bi bi-calendar-date"></i>
+                                            <?= date('l, d F Y', strtotime($prog['program_date'])); ?>
+                                        </div>
+                                        <div class="icon-text">
+                                            <i class="bi bi-clock"></i>
+                                            <?= date('H:i', strtotime($prog['program_start_time'])) . ' - ' . date('H:i', strtotime($prog['program_end_time'])); ?> WIB
+                                        </div>
 
-                                    <h5><?= $prog['program_title']; ?></h5>
+                                        <h5><?= $prog['program_title']; ?></h5>
 
-                                    <?php if (!empty($prog['speaker_name'])): ?>
+                                        <?php if (!empty($prog['speaker_name'])): ?>
+                                            <p class="mb-1 fw-semibold">
+                                                <i class="bi bi-person-circle"></i> Speaker :
+                                            </p>
+                                            <p class="text-secondary mb-2">
+                                            <?= $prog['speaker_name']; ?>
+                                            <?= !empty($prog['speaker_organization']) ? ' - ' . $prog['speaker_organization'] : ''; ?>
+                                            </p>
+                                        <?php endif; ?>
+
                                         <p class="mb-1 fw-semibold">
-                                            <i class="bi bi-person-circle"></i> Speaker :
+                                            <i class="bi bi-geo-alt me-1"></i> Location :
                                         </p>
-                                        <p class="text-secondary mb-2">
-                                        <?= $prog['speaker_name']; ?>
-                                        <?= !empty($prog['speaker_organization']) ? ' - ' . $prog['speaker_organization'] : ''; ?>
-                                        </p>
-                                    <?php endif; ?>
+                                        <p class="text-secondary mb-4"><?= $prog['program_location']; ?></p>
 
-                                    <p class="mb-1 fw-semibold">
-                                        <i class="bi bi-geo-alt me-1"></i> Location :
-                                    </p>
-                                    <p class="text-secondary mb-4"><?= $prog['program_location']; ?></p>
+                                        <div class="mt-auto text-center">
+                                            <!--
+                                            <a href="<?= $prog['program_register_link']; ?>" class="btn btn-register">
+                                            REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
+                                            -->
+                                            <a href="<?= base_url('visiting/conference-schedule-validation/' . $prog['program_id']); ?>" 
+                                                class="btn btn-register">
+                                                REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
+                                            </a>
 
-                                    <div class="mt-auto text-center">
-                                        <a href="<?= $prog['program_register_link']; ?>" class="btn btn-register">
-                                        REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
-                                        </a>
-                                    </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -155,4 +162,60 @@
                 </div>
             </div>
         </section>
-        </main>
+    </main>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    <?php
+        $flashdata_all = $this->session->flashdata();
+
+        if (!empty($flashdata_all)) {
+            foreach ($flashdata_all as $type => $msg) {
+                if (!empty($msg)) {
+                    $typeEscaped = addslashes($type);
+                    $title = ucfirst($typeEscaped);
+                    $msgEscaped = addslashes($msg);
+
+                    // Custom button color per type
+                    switch ($typeEscaped) {
+                        case 'success':
+                            $btnColor = '#28a745'; // green
+                            break;
+                        case 'warning':
+                            $btnColor = '#f39c12'; // orange
+                            break;
+                        case 'info':
+                            $btnColor = '#3498db'; // blue
+                            break;
+                        case 'error':
+                        default:
+                            $btnColor = '#e74c3c'; // red
+                            break;
+                    }
+
+                    echo "
+                    
+                    console.log('Flashdata => type: {$typeEscaped}, message: {$msgEscaped}');
+                    console.log('Flashdata => type: {$typeEscaped}, message: {$title}');
+
+                    Swal.fire({
+                        icon: '{$typeEscaped}',
+                        title: '{$title}',
+                        html: '{$msgEscaped}',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '{$btnColor}',
+                        width: 450,
+                        padding: '2em',
+                        background: '#fff',
+                        customClass: {
+                            popup: 'swal2-rounded',
+                            title: 'swal2-title-custom',
+                            htmlContainer: 'swal2-text-custom'
+                        }
+                    });
+                    ";
+                }
+            }
+        }
+    ?>
+
+</script>

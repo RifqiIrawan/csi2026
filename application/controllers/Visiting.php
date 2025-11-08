@@ -4,181 +4,190 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Visiting extends CI_Controller {
 
-  public function __construct(){
-    parent::__construct();       
-    $this->load->model('M_Login');   
-    $this->load->model('M_Form');
-    $this->load->model('M_Visiting');
-    $this->load->model('M_Exhibiting');
-    $this->load->library('upload');
-  }
+    public function __construct(){
+        parent::__construct();
+        $this->load->library('session');    
+        $this->load->model('M_Login');   
+        $this->load->model('M_Form');
+        $this->load->model('M_Visiting');
+        $this->load->model('M_Exhibiting');
+        $this->load->library('upload');
+    }
 
 	public function index($submenu = null, $id = null){  
-      
-    // $uri = $this->uri->segment(2);
-    // $url = $this->uri->segment(3);
+        // $uri = $this->uri->segment(2);
+        // $url = $this->uri->segment(3);
 
-    switch (strtolower($submenu)) {
-      case "conference-schedule":
-        $this->conference_schedule_index();
-        break;
-      case "show-report-download":
-        $this->download_show_report($id);
-        break;
-      case "show-report-get-data":
-        if (empty($id)) {
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => 'error',
-                    'message' => 'ID is required'
-                ]));
+        switch (strtolower($submenu)) {
+            case "conference-schedule":
+                $this->conference_schedule_index();
+                break;
+            case "conference-schedule-validation":
+                // echo "<pre> GET:";
+                // print_r($id);
+                // echo "</pre>";
+                // die();
+                $this->conference_schedule_validation($id);
+                break;
+            case "show-report-download":
+                $this->download_show_report($id);
+                break;
+            case "show-report-get-data":
+                if (empty($id)) {
+                    return $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([
+                            'status' => 'error',
+                            'message' => 'ID is required'
+                        ]));
+                }
+
+                $data_show_report = $this->M_Visiting->get_by_id('csi_report_files', (int) $id);
+
+                return $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode($data_show_report));
+                break;
+            case "show-report-edit":
+                $this->show_report_edit();
+                break;
+            case "why-visit-settings":
+                $this->why_visit_settings();
+                break;
+            case "why-visit-datatable":
+                echo $this->M_Visiting->why_visit_datatable();
+                break;
+            case "why-visit-banner-add":
+                $this->why_visit_banner_add();
+                break;
+            case "why-visit-banner-get-data":
+                $this->why_visit_banner_get_data($id);
+                break;
+            case "why-visit-banner-update":
+                $this->why_visit_banner_update($id);
+                break;
+            case "why-visit-banner-delete":
+                $this->why_visit_banner_delete($id);
+                break;
+            case "why-visit-section-datatable":
+                echo $this->M_Visiting->why_visit_section_datatable();
+                break;
+                case "conference-schedule-settings":
+                $this->conference_schedule_settings();
+                break;
+            case "post-show-report-settings":
+                $this->post_show_report_settings();
+            case "event-datatable":
+                echo $this->M_Visiting->event_datatable();
+                break;
+            case "event-datatable":
+                echo $this->M_Visiting->event_datatable();
+                break;
+            case "show-report-datatable":
+                echo $this->M_Visiting->show_report_datatable();
+                break;
+            default:
+                $this->visiting_index();
         }
-
-        $data_show_report = $this->M_Visiting->get_by_id('csi_report_files', (int) $id);
-
-        return $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($data_show_report));
-        break;
-      case "show-report-edit":
-        $this->show_report_edit();
-        break;
-      case "why-visit-settings":
-        $this->why_visit_settings();
-        break;
-      case "why-visit-datatable":
-        echo $this->M_Visiting->why_visit_datatable();
-        break;
-      case "why-visit-banner-add":
-        $this->why_visit_banner_add();
-        break;
-      case "why-visit-banner-get-data":
-        $this->why_visit_banner_get_data($id);
-        break;
-      case "why-visit-banner-update":
-        $this->why_visit_banner_update($id);
-        break;
-      case "why-visit-banner-delete":
-        $this->why_visit_banner_delete($id);
-        break;
-      case "conference-schedule-settings":
-        $this->conference_schedule_settings();
-        break;
-      case "post-show-report-settings":
-        $this->post_show_report_settings();
-      case "event-datatable":
-        echo $this->M_Visiting->event_datatable();
-        break;
-      case "event-datatable":
-        echo $this->M_Visiting->event_datatable();
-        break;
-      case "show-report-datatable":
-        echo $this->M_Visiting->show_report_datatable();
-        break;
-
-      default:
-        $this->visiting_index();
     }
-	}
 
-  public function visiting_index() {
-    $data_profile = $this->M_Form->get_profile_dashboard();
-    $r = $data_profile->row();
-    $data["folder"] = $r->folder;
+    public function visiting_index() {
+        $data_profile = $this->M_Form->get_profile_dashboard();
+        $r = $data_profile->row();
+        $data["folder"] = $r->folder;
 
-    $dataContents = $this->M_Exhibiting->get_contents([
-        'menu_id' => 10,
-        'content_year' => 2026,
-        'content_type' => 'banner'
-    ]);
+        $dataContents = $this->M_Exhibiting->get_contents([
+            'menu_id' => 10,
+            'content_year' => 2026,
+            'content_type' => 'banner'
+        ]);
 
-    $sectionDataContents = $this->M_Exhibiting->get_contents([
-        'menu_id' => 10,
-        'content_year' => 2026,
-        'content_type' => 'section'
-    ]);
-    
-    // echo "<pre> sectionDataContents: ";
-    // print_r($sectionDataContents);
-    // echo "</pre>";
-    // die();
+        $sectionDataContents = $this->M_Exhibiting->get_contents([
+            'menu_id' => 10,
+            'content_year' => 2026,
+            'content_type' => 'section'
+        ]);
+        
+        // echo "<pre> sectionDataContents: ";
+        // print_r($sectionDataContents);
+        // echo "</pre>";
+        // die();
 
-    $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
-    $hero_text = $dataContents['0']['title'];
+        $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
+        $hero_text = $dataContents['0']['title'];
 
-    $feature_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
-    $feature_text = $sectionDataContents['0']['title'];
-    $feature_desc = $sectionDataContents['0']['subtitle'];
+        $feature_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
+        $feature_text = $sectionDataContents['0']['title'];
+        $feature_desc = $sectionDataContents['0']['subtitle'];
 
 
-    // echo "<pre> hero_background: ";
-    // print_r($hero_background);
-    // echo "</pre>";
+        // echo "<pre> hero_background: ";
+        // print_r($hero_background);
+        // echo "</pre>";
 
-    // echo "<pre> hero_text: ";
-    // print_r($hero_text);
-    // echo "</pre>";
-    // die();
+        // echo "<pre> hero_text: ";
+        // print_r($hero_text);
+        // echo "</pre>";
+        // die();
 
-    // Data Hero Section
-    $data['hero'] = [
-        'background' => $hero_background,
-        'button_text' => $hero_text,
-        'button_link' => '#features' // scroll ke section features
-    ];
+        // Data Hero Section
+        $data['hero'] = [
+            'background' => $hero_background,
+            'button_text' => $hero_text,
+            'button_link' => '#features' // scroll ke section features
+        ];
 
-    $features = [
-        [
-            'title' => $feature_text,
-            'icon'  => $feature_background,
-            'desc'  => $feature_desc
-        ]
-    ];
+        $features = [
+            [
+                'title' => $feature_text,
+                'icon'  => $feature_background,
+                'desc'  => $feature_desc
+            ]
+        ];
 
-    // Data bisa diambil dari database, untuk contoh hardcode array
-    $show_features = [
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
-            'title' => 'Global Suppliers',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
-            'title' => 'Live Demonstration',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
-            'title' => 'Webinar Presentation',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
-            'title' => 'Industry Conference',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
-            'title' => 'Global Suppliers',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
-            'title' => 'Live Demonstration',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
-            'title' => 'Webinar Presentation',
-        ],
-        [
-            'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
-            'title' => 'Industry Conference',
-        ],
-    ];
-    $data['features'] = $features;
-    $data['show_features'] = $show_features;
+        // Data bisa diambil dari database, untuk contoh hardcode array
+        $show_features = [
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
+                'title' => 'Global Suppliers',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
+                'title' => 'Live Demonstration',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
+                'title' => 'Webinar Presentation',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
+                'title' => 'Industry Conference',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
+                'title' => 'Global Suppliers',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
+                'title' => 'Live Demonstration',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
+                'title' => 'Webinar Presentation',
+            ],
+            [
+                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
+                'title' => 'Industry Conference',
+            ],
+        ];
+        $data['features'] = $features;
+        $data['show_features'] = $show_features;
 
-    $data["data_menu"] = $this->M_Login->get_menu();
-    $this->load->view('layouts/header', $data);
-    $this->load->view('visiting',$data);
-    $this->load->view('layouts/footer', $data);
-  }
+        $data["data_menu"] = $this->M_Login->get_menu();
+        $this->load->view('layouts/header', $data);
+        $this->load->view('visiting',$data);
+        $this->load->view('layouts/footer', $data);
+    }
 
   public function conference_schedule_index() {
 
@@ -700,62 +709,104 @@ class Visiting extends CI_Controller {
       echo json_encode($response);
   }
 
-  public function why_visit_banner_delete($id = null)
-  {
-      $id       = (int) $id;
-      $id_menus = 10;
+    public function why_visit_banner_delete($id = null)
+    {
+        $id       = (int) $id;
+        $id_menus = 10;
 
-      try {
-          if (!$id) {
-              throw new Exception('Invalid ID');
-          }
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
 
-          // Hitung jumlah total data banner yang ada
-          $total = $this->db
-            ->where('content_type', 'banner')
-            ->where('menu_id', $id_menus)
-            ->where('status', 'active')
-            ->count_all_results('csi_contents');
+            // Hitung jumlah total data banner yang ada
+            $total = $this->db
+                ->where('content_type', 'banner')
+                ->where('menu_id', $id_menus)
+                ->where('status', 'active')
+                ->count_all_results('csi_contents');
 
-          if ($total <= 1) {
-              throw new Exception('Tidak dapat menghapus banner terakhir');
-          }
+            if ($total <= 1) {
+                throw new Exception('Tidak dapat menghapus banner terakhir');
+            }
 
-          // Hapus data berdasarkan ID
-          $deleted = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+            // Hapus data berdasarkan ID
+            $deleted = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
 
-          if (!$deleted) {
-              throw new Exception('Gagal menghapus banner');
-          }
+            if (!$deleted) {
+                throw new Exception('Gagal menghapus banner');
+            }
 
-          $response = [
-              'status' => 'success',
-              'message' => 'Banner berhasil dihapus'
-          ];
-      } catch (Exception $e) {
-          $response = [
-              'status' => 'error',
-              'message' => $e->getMessage()
-          ];
-      }
+            $response = [
+                'status' => 'success',
+                'message' => 'Banner berhasil dihapus'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
 
-      echo json_encode($response);
-  }
+        echo json_encode($response);
+    }
 
-  protected function flashdata_set(array $new_flashdata)
-  {
+    protected function flashdata_set(array $new_flashdata)
+    {
       // 1️⃣ Reset all existing flashdata
-      $all_flash = $this->session->flashdata();
-      if (!empty($all_flash)) {
-          foreach ($all_flash as $key => $val) {
-              $this->session->unset_userdata($key);
-          }
-      }
+        $all_flash = $this->session->flashdata();
+        if (!empty($all_flash)) {
+            foreach ($all_flash as $key => $val) {
+                $this->session->unset_userdata($key);
+            }
+        }
 
-      // 2️⃣ Set new flashdata
-      foreach ($new_flashdata as $type => $msg) {
-          $this->session->set_flashdata($type, $msg);
-      }
-  }
+        // 2️⃣ Set new flashdata
+        foreach ($new_flashdata as $type => $msg) {
+            $this->session->set_flashdata($type, $msg);
+        }
+    }
+
+    public function conference_schedule_validation($id = null)
+    {
+        try {
+            $id = (int) $id;
+            if (!$id) {
+                throw new Exception('Invalid event ID.');
+            }
+
+            // 🔹 Ambil data event dari model
+            $event = $this->M_Visiting->get_event_schedule(['event_id' => $id]);
+            if (empty($event)) {
+                throw new Exception('Program not found.');
+            }
+
+            $program = $event[0];
+            $program_date = $program['program_date'];
+
+            // 🔹 Hitung selisih tanggal
+            $today = new DateTime();
+            $event_date = new DateTime($program_date);
+            $days_difference = (int)$today->diff($event_date)->format('%r%a');
+
+            // 🔹 Validasi 2 bulan sebelum event
+            if ($days_difference > 60) {
+                $this->flashdata_set([
+                    'error' => 'Form pendaftaran belum dibuka. Silakan cek kembali mendekati tanggal acara.'
+                ]);
+                redirect('visiting/conference-schedule'); // ganti 'event' dengan route halaman utama kamu
+                return;
+            }
+
+            redirect($program['program_register_link']);
+
+        } catch (Exception $e) {
+            // 🔹 Tangani semua error tak terduga
+            $this->flashdata_set([
+                'error' => $e->getMessage()
+            ]);
+            redirect('event'); // fallback redirect
+        }
+    }
 
 }
