@@ -119,7 +119,6 @@
           </a>
           <div class="collapse" id="acc">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Menu</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Date_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Date Event</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Content</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Event_Value');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Event Value</a></li>
@@ -159,6 +158,15 @@
 
             </ul>
           </div>
+        </li>
+
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="<?php echo site_url('Home/Coperation');?>">
+            <span class="menu-icon">
+              <i class="mdi mdi-menu"></i>
+            </span>
+            <span class="menu-title">Coperation</span>
+          </a>
         </li>
 
         <li class="nav-item menu-items">
@@ -286,88 +294,7 @@
           </div>
         </li>
 
-        <!-- <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('form_product');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Products and Services</span>
-          </a>
-        </li>
-
         <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('form_event');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Event</span>
-          </a>
-        </li>
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('form_news');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">News Update</span>
-          </a>
-        </li>
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('form_customer');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Customer</span>
-          </a>
-        </li> 
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('userlogin');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">User Account</span>
-          </a>
-        </li>
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('sosmed');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Sos-Med</span>
-          </a>
-        </li>     
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('contact_us');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Visitor Emails</span>
-          </a>
-        </li>
-
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('get_visitor');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Visitor List</span>
-          </a>
-        </li> -->
-
-        <!-- <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('form_partner');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Partner</span>
-          </a>
-        </li> -->
-
-        <!-- <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="setting">
             <span class="menu-icon">
               <i class="mdi mdi-settings"></i>
@@ -378,13 +305,11 @@
           <div class="collapse" id="setting">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('userlogin');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Account Login</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('get_visitor');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Visit</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('contact_us');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Submit Form</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Profile</a></li>            
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('content');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Content</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Menu</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sub_Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sub Menu</a>
             </ul>
           </div>
-        </li> -->
+        </li>
       </ul>
     </nav>
     <div class="container-fluid page-body-wrapper">

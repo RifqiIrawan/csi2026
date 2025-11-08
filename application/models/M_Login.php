@@ -134,8 +134,16 @@ class M_Login extends CI_Model{
   }
 
   function get_sponsors(){
-    $res = $this->db->query("SELECT *
+    $res = $this->db->query("SELECT * ,'./assets/images/upload/sponsors/' as folder_name
                               FROM sponsors
+                              where status = 'A' 
+                              order by id
+                            ")->result(); 
+    return $res;
+  }
+  function get_coperation(){
+    $res = $this->db->query("SELECT * ,'./assets/images/upload/coperation/' as folder_name
+                              FROM coperation
                               where status = 'A' 
                               order by id
                             ")->result(); 

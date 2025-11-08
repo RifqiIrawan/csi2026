@@ -56,7 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['admin'] = 'Userlogin';
 $route['cek_login'] = 'Dashboard/Login';
-$route['home'] = 'Dashboard/admin';
+$route['home'] = 'Dashboard';
 $route['get_visitor'] = 'Dashboard/visitor';
 $route['logout'] = 'Dashboard/logout';
 

@@ -8,6 +8,12 @@ class M_Home extends CI_Model
                               where id = '".$code."'"); 
     return $res;
   }
+
+  function search_text2($code,$text){
+    $res = $this->db->query("SELECT * from $text
+                              where id_header = '".$code."'")->result(); 
+    return $res;
+  }
   // for menu
   function get_menu(){
     $res = $this->db->query("SELECT * from menu
@@ -623,4 +629,32 @@ class M_Home extends CI_Model
     return $delete;
   }
 
+  // for member
+  function get_coperation(){
+    $res = $this->db->query("SELECT * from coperation
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_coperation($title,$file,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        coperation(title,file_upload,status,description) 
+                                        Values
+                                        ('".$title."','".$file."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_coperation($code,$title,$file,$status,$description){
+    $update = $this->db->query(" UPDATE coperation SET title = '".$title."',file_upload = '".$file."',status = '".$status."'
+                                  ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_coperation($code){
+    $delete = $this->db->query(" DELETE FROM coperation WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
 }

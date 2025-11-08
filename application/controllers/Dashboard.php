@@ -25,6 +25,7 @@ class Dashboard extends CI_Controller {
     $data["data_video"] = $this->M_Login->get_highlights();
     $data["data_organizer"] = $this->M_Login->get_organizer();
     $data["data_sponsors"] = $this->M_Login->get_sponsors();
+    $data["data_coperation"] = $this->M_Login->get_coperation();
     
     // print_r($data["data_event"]);die();
     $this->load->view('dashboard',$data);

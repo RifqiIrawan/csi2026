@@ -76,15 +76,15 @@
   <link href="<?php echo base_url();?>Website/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/css/main.css" rel="stylesheet">  
-  <script src="<?php echo base_url();?>Website/assets/js/sweetalert.min.js"></script>
   <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/font-icons.css" type="text/css">
   <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/animate.css" type="text/css">
   <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/magnific-popup.css" type="text/css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- <link rel="stylesheet" href="https://coatingshow.com/css/font-icons.css" type="text/css">
   <link rel="stylesheet" href="https://coatingshow.com/css/animate.css" type="text/css">
   <link rel="stylesheet" href="https://coatingshow.com/css/magnific-popup.css" type="text/css"> -->
-
+  <script src="<?php echo base_url();?>Website/assets/js/sweetalert.min.js"></script>
+  <script src="<?php echo base_url();?>./assets/coatingshow/lazysizes.min.js"></script>
 </head>
 
 <style>
@@ -465,7 +465,6 @@
     .stats .stats-item {
       padding: 30px;
       width: 100%;
-      border-bottom: 1px solid #fff;
     }
 
     .contact3 ul {
@@ -734,6 +733,19 @@
       background: url(./Website/assets/img/footer.jpg);
       /* background-repeat: no-repeat; */
     }
+
+    @media (max-width: 600px) {
+      .stats .stats-item {
+        padding: 30px;
+        width: 100%;
+      }
+      
+      .fa{
+        margin-left: -15px;
+      }
+    }
+
+    
 </style>
 
 <style>
@@ -1151,7 +1163,7 @@
   }
 
   .owl-carousel .owl-nav [class*=owl-]:hover {
-      background-color: #1ABC9C !important;
+      background-color: #0D6EFD !important;
       color: #FFF !important;
       text-decoration: none;
   }
@@ -1172,7 +1184,7 @@
       margin: 30px 4px 0 4px;
       opacity: 0.5;
       border-radius: 50%;
-      background-color: #1ABC9C;
+      background-color: #0D6EFD;
       -webkit-transition: all .3s ease;
       -o-transition: all .3s ease;
       transition: all .3s ease;
@@ -1237,6 +1249,7 @@
         /* margin-left: 10px; */
     }
   }
+  
  
 </style>
 
@@ -1261,7 +1274,7 @@
               <li><a href="#product">News Upadate </a></li> -->
               <?php foreach ($data_menu as $row): ?>
                 <li class="dropdown">
-                  <a href="#"><span><?= $row->name ?></span></a>
+                  <a href="<?= base_url($row->url) ?>"><span><?= $row->name ?></span></a>
                   <ul>
                     <?php
                       $submenu = $this->db->query("SELECT *
@@ -1320,7 +1333,7 @@
                 <?php echo $data_content1->image_title?>
               </span>
             </p>
-            <p><img src="<?php echo base_url();?>assets/images/upload/content/<?php echo $data_content1->image?>" alt="" draggable="false" class="no-lazy img img-responsive d-block mx-auto" width="auto" height="300px"></p>
+            <p><img data-src="<?php echo base_url();?>assets/images/upload/content/<?php echo $data_content1->image?>" alt="" draggable="false" class="img img-responsive d-block mx-auto lazyload" width="auto" height="300px"></p>
           </div>
         </div>
       </div>
@@ -1338,17 +1351,17 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_carousel as $row5){ 
-                        $file5 = $row5->folder_name."".$row5->file_upload;
-                        $img5 = "".$file5."";
+                      foreach($data_carousel as $row1){ 
+                        $file1 = $row1->folder_name."".$row1->file_upload;
+                        $img1 = "".$file1."";
                     ?> 
                       
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
-                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        <a href="<?php echo $row1->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img data-src="<?php echo base_url($img1); ?>" class="day rowsel lazyload" title="<?php echo ucwords($row1->name); ?>" alt="<?php echo ucwords($row1->name);?>">
                         </a>
-                        <!-- <h7><?php echo $row4->nam5?></h7> -->
+                        <!-- <h7><?php echo $row1->nam5?></h7> -->
                       </div>
                     </div>                          
                     <?php } ?>
@@ -1390,18 +1403,18 @@
         <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">           
           <div class="row gy-4 isotope-container mt-2" data-aos-delay="200" style="position: relative; height: 419.667px;">
             <?php 
-              foreach($data_product as $row5){ 
-                $file5 = $row5->folder_name."".$row5->file_upload;
-                $img5 = "".$file5."";
+              foreach($data_product as $row2){ 
+                $file2 = $row2->folder_name."".$row2->file_upload;
+                $img2 = "".$file2."";
             ?>     
             <div class="col-lg-2 col-md-3 portfolio-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;min-height: 250px;">
               <div class="portfolio-content h-00">                                
-                <img src="<?php echo base_url($img5); ?>" class="img-fluid img-product" alt="">
+                <img data-src="<?php echo base_url($img2); ?>" class="img-fluid img-product lazyload" alt="">
                 <div class="portfolio-info">
-                  <a href="<?php echo base_url($img5); ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link" style="color:white"><i class="bi bi-zoom-in"></i></a>
+                  <a href="<?php echo base_url($img2); ?>" data-gallery="portfolio-gallery-app" class="glightbox preview-link" style="color:white"><i class="bi bi-zoom-in"></i></a>
                 </div>
               </div>
-              <p class="text-center mt-2"><?php echo ucwords($row5->name); ?></p>
+              <p class="text-center mt-2"><?php echo ucwords($row2->name); ?></p>
             </div>                             
             <?php } ?> 
           </div>
@@ -1410,13 +1423,20 @@
     </section>
 
     <section id="attandance" class="stats section">
-      <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #5B9D0A !important;">
+      <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #E7AC4A !important;">
         <div class="row">
-        <?php foreach($data_event_value as $row){?>
+        <?php foreach($data_event_value as $row3){?>
           <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-            <span data-purecounter-start="0" data-purecounter-end="<?php echo $row->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row->value;?></span>
-              <p> <?php echo $row->title;?> </p>
+            <div class="row">
+              <div class="col-lg-3">
+                <i class="fa fa-handshake-o" aria-hidden="true" style="margin-top: 30px;position: absolute;font-size: 50px;color:white;margin-left:20px"></i>
+              </div>
+              <div class="col-lg-9">
+                <div class="stats-item text-center w-100 h-100">
+                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $row3->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row3->value;?></span>
+                  <p> <?php echo $row3->title;?> </p>
+                </div>
+              </div>
             </div>
           </div>
           <?php } ?>         
@@ -1433,13 +1453,13 @@
           <div class="col-lg-12">
             <div class="container mt-3 mb-4">
               <div class="row mt-3">
-              <?php foreach($data_video as $row){
+              <?php foreach($data_video as $row4){
               ?>   
                   
               <div class="col-lg-4">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
                   <iframe 
-                    src="https://www.youtube.com/embed/<?php echo $row->url?>" 
+                    data-src="https://www.youtube.com/embed/<?php echo $row4->url?>" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -1463,7 +1483,7 @@
         <h1 class="text-white text-center fw-bold">
           <b><?php echo $data_event->description1?></b>
         </h1>
-        <img class="mx-auto d-block mb-3" style="height: 50px" src="https://coatingshow.com/Arrow1.png" alt="">
+        <img class="mx-auto d-block mb-3" style="height: 50px" data-src="https://coatingshow.com/Arrow1.png" alt="">
         <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-light btn-md mx-auto d-block" style="color: #2154B6;padding: 10px 40px;border-radius: 20px;width: fit-content">
         <b>Book a Stand</b>
         </a>
@@ -1492,7 +1512,7 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_organizer as $row5){ 
+                      foreach($data_coperation as $row5){ 
                         $file5 = $row5->folder_name."".$row5->file_upload;
                         $img5 = "".$file5."";
                     ?> 
@@ -1500,7 +1520,7 @@
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
                         <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                          <img data-src="<?php echo base_url($img5); ?>" class="day rowsel lazyload" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
                         </a>
                         <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
@@ -1535,17 +1555,16 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_organizer as $row5){ 
-                        $file5 = $row5->folder_name."".$row5->file_upload;
-                        $img5 = "".$file5."";
+                      foreach($data_organizer as $row6){ 
+                        $file6 = $row6->folder_name."".$row6->file_upload;
+                        $img6 = "".$file6."";
                     ?> 
                       
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
-                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        <a href="<?php echo $row6->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img data-src="<?php echo base_url($img6); ?>" class="day rowsel lazyload" title="<?php echo ucwords($row6->name); ?>" alt="<?php echo ucwords($row6->name);?>">
                         </a>
-                        <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
                     </div>                          
                     <?php } ?>
@@ -1578,17 +1597,16 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_support as $row5){ 
-                        $file5 = $row5->folder_name."".$row5->file_name;
-                        $img5 = "".$file5."";
+                      foreach($data_sponsors as $row7){ 
+                        $file7 = $row7->folder_name."".$row7->file_name;
+                        $img7 = "".$file7."";
                     ?> 
                       
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
-                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        <a href="<?php echo $row7->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img data-src="<?php echo base_url($img7); ?>" class="day rowsel lazyload" title="<?php echo ucwords($row7->name); ?>" alt="<?php echo ucwords($row7->name);?>">
                         </a>
-                        <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
                     </div>                          
                     <?php } ?>
@@ -1621,17 +1639,16 @@
                 <div class="owl-stage-outer">
                   <div class="owl-stage">
                     <?php 
-                      foreach($data_support as $row5){ 
-                        $file5 = $row5->folder_name."".$row5->file_name;
-                        $img5 = "".$file5."";
+                      foreach($data_support as $row8){ 
+                        $file8 = $row8->folder_name."".$row8->file_name;
+                        $img8 = "".$file8."";
                     ?> 
                       
                     <div class="owl-item">
                       <div class="oc-item" style="text-align:center">
-                        <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
-                          <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
+                        <a href="<?php echo $row8->url ?>" target="_blank" rel="noopener noreferrer">
+                          <img data-src="<?php echo base_url($img8); ?>" class="day rowsel lazyload" title="<?php echo ucwords($row8->name); ?>" alt="<?php echo ucwords($row8->name);?>">
                         </a>
-                        <!-- <h7><?php echo $row4->nam5?></h7> -->
                       </div>
                     </div>                          
                     <?php } ?>
@@ -1658,7 +1675,7 @@
       <div class="row gy-4">
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
-          <img width="230" height="200px" style="border-radius: 50%;"  src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full" alt="">
+          <img width="230" height="200px" style="border-radius: 50%;"  data-src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full lazyload" alt="">
           <!-- <div class="social-links d-flex mt-3">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
@@ -1669,7 +1686,7 @@
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
-          <img width="230" height="200px" style="border-radius: 50%;" src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full" alt="">
+          <img width="230" height="200px" style="border-radius: 50%;" data-src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full lazyload" alt="">
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
@@ -1781,25 +1798,28 @@
 <script type="text/javascript" src="<?php echo base_url();?>Website/assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {      
-    $.getJSON('https://ipinfo.io/json', function(data) {
-      var ip = JSON.stringify(data["ip"], null, 2);
-      var city = JSON.stringify(data["city"], null, 2);
-      var country = JSON.stringify(data["country"], null, 2);
-      var loc = JSON.stringify(data["loc"], null, 2);
-      var org = JSON.stringify(data["org"], null, 2);
-      var timezone = JSON.stringify(data["timezone"], null, 2);
-      //console.log(JSON.stringify(data, null, 2));
-      //console.log(ip+" - "+city+" - "+country+" - "+loc+" - "+org+" - "+timezone);
+    // $.getJSON('https://ipinfo.io/json', function(data) {
+    //   var ip = JSON.stringify(data["ip"], null, 2);
+    //   var city = JSON.stringify(data["city"], null, 2);
+    //   var country = JSON.stringify(data["country"], null, 2);
+    //   var loc = JSON.stringify(data["loc"], null, 2);
+    //   var org = JSON.stringify(data["org"], null, 2);
+    //   var timezone = JSON.stringify(data["timezone"], null, 2);
+    //   //console.log(JSON.stringify(data, null, 2));
+    //   //console.log(ip+" - "+city+" - "+country+" - "+loc+" - "+org+" - "+timezone);
 
-      $.ajax({
-          url: "<?php echo base_url()?>Login/save_ip_visitor",
-          type: 'post',
-          data: {ip : ip, city : city, country : country, loc : loc, org : org, timezone : timezone},
-          success: function (data) {
-            //console.log(data);      
-          }
-      });  
-    });
+    //   $.ajax({
+    //       url: "<?php echo base_url()?>Login/save_ip_visitor",
+    //       type: 'post',
+    //       data: {ip : ip, city : city, country : country, loc : loc, org : org, timezone : timezone},
+    //       success: function (data) {
+    //         //console.log(data);      
+    //       }
+    //   });  
+    // });
+    
+
+    
   });  
 </script>
 
