@@ -6,7 +6,7 @@
       <div class="row gy-4">
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
-          <img width="230" height="200px" style="border-radius: 50%;"  src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full" alt="">
+          <img width="230" height="200px" style="border-radius: 50%;"  data-src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full lazyload" alt="">
           <!-- <div class="social-links d-flex mt-3">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
@@ -17,15 +17,32 @@
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
-          <img width="230" height="200px" style="border-radius: 50%;" src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full" alt="">
+          <img width="230" height="200px" style="border-radius: 50%;" data-src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full lazyload" alt="">
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
-          
+          <?php 
+            foreach($data_qlink as $row_qlink){ 
+          ?> 
+            <p style=""><a style="color:white;font-weight:600;font-size:16px" href="<?php echo $row_qlink->url ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a></p>
+          <?php } ?>
         </div>
         <div class="col-lg-3 footer-about mb-3">
           <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
-          
+          <?php 
+            foreach($data_contact as $row_contact){ 
+          ?> 
+            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600;margin-bottom: 15px;"><?php echo ucwords($row_contact->name)?></p>
+            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px;margin-bottom: 15px;"><?php echo ucwords($row_contact->position)?></p>
+            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px;margin-bottom: 15px;">
+              <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
+                <i class="bi bi-whatsapp" aria-hidden="true"></i>
+              </a>
+              <a href="mailto:<?php echo $row_contact->mail?>" style="margin-top: 5px !important;color:#AEFF4BFF" target="_blank" rel="noopener">
+                <i class="bi bi-envelope-paper" aria-hidden="true"></i>
+              </a>
+            </p>
+          <?php } ?>
         </div>
         <!-- <div class="col-lg-3 col-md-3 footer-links">
           <p>
@@ -67,11 +84,11 @@
         <div class="col-lg-4 text-center">
         </div>
         <div class="col-lg-4 text-center">
-          <div class="social-links d-flex mb-4">
+          <div class="social-links d-flex mb-3 mt-1">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
             ?> 
-            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->name)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
             <?php } ?>
           </div>
         </div>
@@ -88,7 +105,6 @@
       <div class="row">
       </div>
     </div>
-
 
     <div class="container copyright text-center mt-3">      
       <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>

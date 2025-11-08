@@ -746,9 +746,6 @@
     }
 
     
-</style>
-
-<style>
   .sponsors-section .slide-logo img {
     max-width: 100%;
     height: auto;
@@ -784,9 +781,6 @@
       object-fit: initial;
   }
 
-</style>
-
-<style>
   .menu-item:hover>.menu-link,
   .menu-item.current>.menu-link {
       color: #FFBC00 !important;
@@ -1250,8 +1244,15 @@
     }
   }
   
- 
+  .border-gradient {
+    border: 2px solid transparent;
+    border-image: linear-gradient(to bottom, #0C5E65, #4ED4A9);
+    border-image-slice: 1;
+    border-radius: 8px; /* opsional, untuk sudut lembut */
+  }
+    
 </style>
+
 
 <body class="index-page">
     <header id="header" class="header d-flex align-items-center sticky-top">
@@ -1422,24 +1423,59 @@
       </div>
     </section>
 
-    <section id="attandance" class="stats section">
+    <section id="attandance1" class="stats section">
+      <div class="container aos-init aos-animate"  data-aos-delay="100">
+        <div class="row">
+        <?php foreach($data_event_value as $row3){
+          $simbol = str_replace('"',"'",$row3->simbol);
+          if($row3->category == 1){
+        ?>
+          <div class="col-lg-3 col-md-6">            
+            <div class="card">
+              <div class="card-body border-gradient">
+                <div class="row">
+                  <div class="col-9">
+                    <div class="d-flex align-items-center align-self-start">
+                      <h3 class="mb-0" style="color:#006400"><b><?php echo number_format((int)$row3->value,0,",",".");?></b></h3>
+                      <p class="text-success ml-2 mb-0" style="margin-left:3px;font-size:30px;color:linear-gradient(to bottom, #5B9D0A, #2FAE2F); font-weight:700"><b><?php echo $simbol;?></b></p>
+                    </div>
+                  </div>
+                  <!-- <div class="col-3">
+                    <div class="icon icon-box-success ">
+                      <span class="mdi mdi-arrow-top-right icon-item"></span>
+                    </div>
+                  </div> -->
+                </div>
+                <h6 class="text-muted font-weight-normal"><span><i class="<?php echo $row3->icon;?>" aria-hidden="true" style="color: #E7AC4A"></i> &nbsp;<span><?php echo $row3->title;?></span></h6>
+              </div>
+            </div>
+          </div>
+        <?php }} ?>            
+        </div>
+      </div>
+    </section>
+
+    <section id="attandance2" class="stats section">
       <div class="container aos-init aos-animate"  data-aos-delay="100" style="background: #E7AC4A !important;">
         <div class="row">
-        <?php foreach($data_event_value as $row3){?>
+        <?php foreach($data_event_value as $row3){
+          $simbol = str_replace('"',"'",$row3->simbol);
+          if($row3->category == 2){
+        ?>
           <div class="col-lg-3 col-md-6">
             <div class="row">
               <div class="col-lg-3">
-                <i class="fa fa-handshake-o" aria-hidden="true" style="margin-top: 30px;position: absolute;font-size: 50px;color:white;margin-left:20px"></i>
+                <i class="<?php echo $row3->icon;?>" aria-hidden="true" style="margin-top: 30px;position: absolute;font-size: 50px;color:white;margin-left:20px"></i>
               </div>
               <div class="col-lg-9">
                 <div class="stats-item text-center w-100 h-100">
-                  <span data-purecounter-start="0" data-purecounter-end="<?php echo $row3->value;?>" data-purecounter-duration="0" class="purecounter"><?php echo $row3->value;?></span>
+                  <span><?php echo number_format((int)$row3->value,0,",",".")."".$simbol;?></span> 
                   <p> <?php echo $row3->title;?> </p>
                 </div>
               </div>
             </div>
           </div>
-          <?php } ?>         
+        <?php }} ?>         
         </div>
       </div>
     </section>
@@ -1459,7 +1495,7 @@
               <div class="col-lg-4">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
                   <iframe 
-                    data-src="https://www.youtube.com/embed/<?php echo $row4->url?>" 
+                    src="https://www.youtube.com/embed/<?php echo $row4->url?>" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 

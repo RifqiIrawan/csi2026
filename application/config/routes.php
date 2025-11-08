@@ -56,7 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['admin'] = 'Userlogin';
 $route['cek_login'] = 'Dashboard/Login';
-$route['home'] = 'Dashboard';
+$route['Dashboard'] = 'Dashboard';
+$route['Home'] = 'Dashboard/admin';
 $route['get_visitor'] = 'Dashboard/visitor';
 $route['logout'] = 'Dashboard/logout';
 
@@ -83,6 +84,12 @@ $route['form_news'] = 'Form/Form_News';
 $route['news/info_news/(:any)'] = 'Dashboard/index/$1';
 $route['event/event_update/(:any)'] = 'Dashboard/index/$1';
 
+
+
+$route['Contact_us'] = 'Info/Contact_us';
+$route['Visitor_Information'] = 'Info/Visitor_Information';
+$route['Hotel_Booking'] = 'Info/Hotel_Booking';
+$route['News_Update'] = 'Info/News_Update';
 
 
 

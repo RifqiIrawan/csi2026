@@ -16,6 +16,12 @@ class Info extends CI_Controller {
       error_reporting(0);
       $data["data_information"] = $this->M_Info->get_information();
       $data["data_menu"] = $this->M_Home->get_menu();
+      $data["data_contact1"] = $this->M_Info->get_contact1();
+      $data["data_contact2"] = $this->M_Info->get_contact2();
+      $data["data_contact3"] = $this->M_Info->get_contact3();
+      $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+      $data["data_qlink"] = $this->M_Login->get_qlink();
+      $data["data_contact"] = $this->M_Login->get_contact();    
       $this->template->load('layouts/role','module/Info/visitor_information',$data);
     }
   
@@ -101,7 +107,17 @@ class Info extends CI_Controller {
   
     public function delete_information(){
       $code = $this->input->post("code");
-      $cek_data = $this->M_Info->delete_information($code);
+      // echo $code;die();
+      $tables = array('information', 'information_detail', 'information_hours');
+      foreach ($tables as $table) {
+        if($table !='information'){
+          $parm = "id_header";
+        }else{
+          $parm = "code";
+        }
+        $this->db->where_in($parm, $code);
+        $this->db->delete($table);
+      }
       if ($this->db->affected_rows()) {
         echo "OK";
       }
@@ -118,6 +134,13 @@ class Info extends CI_Controller {
     $data["data_menu"] = $this->M_Home->get_menu();
     $data["data_profile"] = $this->M_Login->get_profile()->row();
     $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_contact1"] = $this->M_Info->get_contact1();
+    $data["data_contact2"] = $this->M_Info->get_contact2();
+    $data["data_contact3"] = $this->M_Info->get_contact3();
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+    $data["data_qlink"] = $this->M_Login->get_qlink();
+    $data["data_contact"] = $this->M_Login->get_contact();    
+
     $data["data_hotel"] = $this->M_Info->get_hotel();
     $this->template->load('layouts/role','module/Info/hotel_booking',$data);
   }
@@ -246,7 +269,9 @@ class Info extends CI_Controller {
     $data["data_contact1"] = $this->M_Info->get_contact1();
     $data["data_contact2"] = $this->M_Info->get_contact2();
     $data["data_contact3"] = $this->M_Info->get_contact3();
-    $data["data_contact_us"] = $this->M_Info->get_contact_us();
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+    $data["data_qlink"] = $this->M_Login->get_qlink();
+    $data["data_contact"] = $this->M_Login->get_contact();    
     $this->template->load('layouts/role','module/Contact/contact_us',$data);
   }
 
@@ -577,9 +602,17 @@ class Info extends CI_Controller {
   //for news update
   public function News_Update(){
     error_reporting(0);
+    $data["data_carousel"] = $this->M_Home->get_carousel();
     $data["data_menu"] = $this->M_Home->get_menu();
     $data["data_profile"] = $this->M_Login->get_profile()->row();
     $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_contact1"] = $this->M_Info->get_contact1();
+    $data["data_contact2"] = $this->M_Info->get_contact2();
+    $data["data_contact3"] = $this->M_Info->get_contact3();
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+    $data["data_qlink"] = $this->M_Login->get_qlink();
+    $data["data_contact"] = $this->M_Login->get_contact();    
+
     $data["data_header_news"] = $this->M_Info->get_header_news();
     $data["data_news_update"] = $this->M_Info->get_news_update();
     $this->template->load('layouts/role','module/Info/news_update',$data);

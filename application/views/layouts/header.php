@@ -76,50 +76,18 @@
   <link href="<?php echo base_url();?>Website/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>Website/assets/css/main.css" rel="stylesheet">  
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/font-icons.css" type="text/css">
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/animate.css" type="text/css">
+  <link rel="stylesheet" href="<?php echo base_url();?>./assets/coatingshow/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://coatingshow.com/css/font-icons.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/animate.css" type="text/css">
+  <link rel="stylesheet" href="https://coatingshow.com/css/magnific-popup.css" type="text/css"> -->
   <script src="<?php echo base_url();?>Website/assets/js/sweetalert.min.js"></script>
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/font-icons.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/animate.css" type="text/css">
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">
+  <script src="<?php echo base_url();?>./assets/coatingshow/lazysizes.min.js"></script>
 </head>
 
-
 <style>
-    .modal-footer {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0.6875rem;
-      border-top: 1px solid #c3c9cf;
-      border-bottom-right-radius: calc(0.3rem - 1px);
-      border-bottom-left-radius: calc(0.3rem - 1px);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 1rem 1rem;
-      border-bottom: 1px solid #c3c9cf;
-      border-top-left-radius: calc(0.3rem - 1px);
-      border-top-right-radius: calc(0.3rem - 1px);
-    }
-
-    .modal-header .close {
-      margin: -5px 0px -10px auto;
-      background: #fff;
-      color: black;
-      border: 1px solid transparent;
-      font-size: 25px;
-    }
-
-    .modal-title {
-      margin-bottom: 0;
-      line-height: 1.5;
-      color: #000;
-      font-size: 18px;
-    }
-
     .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
       --bs-gutter-x: 2rem;
       --bs-gutter-y: 0;
@@ -232,7 +200,6 @@
 
     @media (min-width: 1200px) {
       .navmenu a, .navmenu a:focus {
-        text-decoration: none;
         color: #000;
         padding: 15px 15px;
         font-size: 15px;
@@ -472,7 +439,7 @@
       right: 15px;
       bottom: 15px;
       z-index: 99999;
-      background-color: #1c9356;
+      background-color: #0d6efd;
       width: 40px;
       height: 40px;
       border-radius: 4px;
@@ -498,7 +465,6 @@
     .stats .stats-item {
       padding: 30px;
       width: 100%;
-      border-bottom: 1px solid #fff;
     }
 
     .contact3 ul {
@@ -684,7 +650,38 @@
     }
 
     .img-product{
-      height: 185px;
+      height: 150px;
+     
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;       /* biar bisa ke baris berikutnya */
+      justify-content: center; /* rata tengah seluruh isi */
+      gap: 20px;             /* jarak antar gambar */
+      text-align: center;
+    }
+
+    .gallery-item {
+      width: 200px;          /* ukuran tiap kotak */
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;     /* gambar tidak gepeng */
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-item img:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item p {
+      margin-top: 8px;
+      font-weight: 500;
     }
 
     .section-title span {
@@ -733,13 +730,22 @@
       /* background-color: black; */
       font-size: 15px;
       position: relative;
-      background: url(../Website/assets/img/footer.jpg);
-      
+      background: url(./Website/assets/img/footer.jpg);
       /* background-repeat: no-repeat; */
     }
-</style>
 
-<style>
+    @media (max-width: 600px) {
+      .stats .stats-item {
+        padding: 30px;
+        width: 100%;
+      }
+      
+      .fa{
+        margin-left: -15px;
+      }
+    }
+
+    
   .sponsors-section .slide-logo img {
     max-width: 100%;
     height: auto;
@@ -775,9 +781,6 @@
       object-fit: initial;
   }
 
-</style>
-
-<style>
   .menu-item:hover>.menu-link,
   .menu-item.current>.menu-link {
       color: #FFBC00 !important;
@@ -1154,7 +1157,7 @@
   }
 
   .owl-carousel .owl-nav [class*=owl-]:hover {
-      background-color: #1ABC9C !important;
+      background-color: #0D6EFD !important;
       color: #FFF !important;
       text-decoration: none;
   }
@@ -1175,7 +1178,7 @@
       margin: 30px 4px 0 4px;
       opacity: 0.5;
       border-radius: 50%;
-      background-color: #1ABC9C;
+      background-color: #0D6EFD;
       -webkit-transition: all .3s ease;
       -o-transition: all .3s ease;
       transition: all .3s ease;
@@ -1240,7 +1243,14 @@
         /* margin-left: 10px; */
     }
   }
- 
+  
+  .border-gradient {
+    border: 2px solid transparent;
+    border-image: linear-gradient(to bottom, #0C5E65, #4ED4A9);
+    border-image-slice: 1;
+    border-radius: 8px; /* opsional, untuk sudut lembut */
+  }
+    
 </style>
 
 

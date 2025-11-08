@@ -37,7 +37,7 @@ class M_Info extends CI_Model
   
   function delete_information($code){
     $delete = $this->db->query(" DELETE FROM information WHERE id = '".$code."'
-                      ");
+                              ");
     return $delete;
   }
 

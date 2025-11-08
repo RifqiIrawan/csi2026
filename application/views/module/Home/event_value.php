@@ -106,16 +106,14 @@
     });
   });
 
-  function upd(code,title,value,status){
+  function upd(code,title,value,status,icon,simbol,kat){
     $("#code").val(code);
     $("#title").val(title);
     $("#value").val(value);
-
-    // if(status.length === 0){
-    //   var status = "P";
-    // }else{      
-       var status='#'+status;
-    // }
+    $("#icon").val(icon);
+    $("#simbol").val(simbol);
+    $("#kat").val(kat);
+    var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -189,6 +187,9 @@
                     <th width="1%">No</th>
                     <th>Title</th>
                     <th>Value</th>
+                    <th>Icon</th>
+                    <th>Symbol</th>
+                    <th>Kategori</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -204,14 +205,23 @@
                         case 'P':
                           $stat="Passive";
                         break; 
-                      }//end switch               
+                      }//end switch       
+
+                      if($row->category == 1){
+                        $kat = "Top";
+                      }else{                        
+                        $kat = "Down";
+                      }
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
                         echo "<td align=\"center\">".$row->value."</td>";  
+                        echo "<td align=\"center\">".$row->icon."</td>";   
+                        echo "<td align=\"center\">".$row->simbol."</td>";  
+                        echo "<td align=\"center\">".$kat."</td>"; 
                         echo "<td align=\"center\">".$stat."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->value."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->value."','".$row->status."','".$row->icon."','".$row->simbol."','".$row->category."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -248,6 +258,22 @@
             <label class="form-label">Value</label>
             <input type="text" class="form-control" name="value" Placeholder="Entry Value" required>
           </div>
+          <div class="form-group">
+            <label class="form-label">Icon</label>
+            <input type="text" class="form-control" name="icon" Placeholder="Entry Icon" required>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Custom Symbol</label>
+            <input type="text" class="form-control" name="simbol" Placeholder="Entry Custom Symbol" required>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-control" name="kat">
+                <option value=""> - - Choose Category - -</option>
+                <option value="1"> Top</option>
+                <option value="2"> Down</option>
+            </select>
+          </div> 
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -289,6 +315,22 @@
             <label class="form-label">Value</label>
             <input type="text" class="form-control" name="value" id="value" required>
           </div>
+          <div class="form-group">
+            <label class="form-label">Icon</label>
+            <input type="text" class="form-control" name="icon" id="icon" required>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Custom Symbol</label>
+            <input type="text" class="form-control" name="simbol" id="simbol" required>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-control" name="kat" id="kat">
+                <option value=""> - - Choose Category - -</option>
+                <option value="1"> Top</option>
+                <option value="2"> Down</option>
+            </select>
+          </div> 
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
