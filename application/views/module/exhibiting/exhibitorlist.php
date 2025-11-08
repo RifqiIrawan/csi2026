@@ -114,6 +114,25 @@ section,
   margin-bottom: 20px; /* atau sesuai kebutuhan */
 }
 
+
+/* Fix: Pastikan teks tidak membesar di hover + beri padding kanan & kiri */
+.exhibitor-card h5,
+.exhibitor-card:hover h5,
+.exhibitor-card a:hover h5 {
+  font-size: 1.1rem !important;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+  padding: 0 10px; /* ✅ Tambah padding kiri-kanan */
+  transition: color 0.2s ease;
+}
+
+/* Opsional: efek hover hanya ubah warna teks */
+.exhibitor-card:hover h5 {
+  color: #007bff; /* atau sesuaikan warna */
+}
+
+
 </style>
 
 <!-- Slick CSS -->
