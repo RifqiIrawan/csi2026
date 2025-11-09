@@ -75,6 +75,15 @@ class Exhibiting extends CI_Controller {
             case "exhibitor-visa-datatable":
                 echo $this->M_Exhibiting->exhibitor_visa_datatable();
                 break;
+            case "exhibitor-visa-banner-add":
+                $this->exhibitor_visa_banner_add();
+                break;
+            case "exhibitor-visa-banner-update":
+                $this->exhibitor_visa_banner_update();
+                break;
+            case "exhibitor-visa-banner-delete":
+                $this->exhibitor_visa_banner_delete($id);
+                break;
             case "exhibitor-content-get-data":
                 $this->exhibitor_content_get_data($id);
                 break;
@@ -335,7 +344,7 @@ class Exhibiting extends CI_Controller {
         
         $this->template->load('Admin/roleme','module/settings/exhibiting/exhibitor_list',$data);
     }
-
+    
     public function banner_add_data(){
         
         // Ambil input form
@@ -649,8 +658,7 @@ class Exhibiting extends CI_Controller {
 
         echo json_encode($response);
     }
-
-    // $this->M_Exhibiting->delete('csi_contents', ['id' => (int) $id]);
+    
     public function why_exhibit_banner_delete($id = null)
     {
         $id = (int) $id;
@@ -1273,6 +1281,256 @@ class Exhibiting extends CI_Controller {
             // Rollback on error
             $this->db->trans_rollback();
 
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+    
+    public function exhibitor_visa_banner_update()
+    {
+        // print_r($this->input->post());
+        // die();
+
+        try {
+            $id             = $this->input->post('id');
+            $content_year   = $this->input->post('bannervisayear');
+            $title          = $this->input->post('bannervisatitle');
+            $subtitle       = $this->input->post('bannervisasubtitle');
+            $link           = $this->input->post('bannervisalink');
+            $status         = $this->input->post('bannervisaStatus'); // active / inactive
+
+            $modified_date  = date('Y-m-d H:i:s');
+            $id_menus = 9;
+            // validasi ID
+            if (empty($id)) {
+                throw new Exception("ID tidak ditemukan.");
+            }
+
+            $file_path = 'assets/uploads/exhibitor_visa/';
+
+            $image_path = null;
+            
+            if (!empty($_FILES['image']['name'])) {
+                $config['upload_path']   = FCPATH . $file_path;
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+                $config['max_size']      = 2048;
+                $config['encrypt_name']  = TRUE;
+                $this->upload->initialize($config);
+                if (!$this->upload->do_upload('image')) {
+                    throw new Exception($this->upload->display_errors());
+                } else {
+                    $uploadData = $this->upload->data();
+                    if ($uploadData['file_size'] > 2048) {
+                        unlink($uploadData['full_path']); // delete if oversized
+                        $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
+                    }
+                    $image_path = $file_path . $uploadData['file_name'];
+                }
+            }
+            
+            
+            // data yang akan diupdate
+            $data = [
+                'content_year' => $content_year,
+                'title'        => $title,
+                'subtitle'     => $subtitle,
+                'status'       => $status,
+                'modified_date'=> $modified_date
+            ];
+
+            if ($status === 'active') {
+                // Set semua record lain menjadi 'inactive'
+                $this->db->where('id !=', $id); // kecuali yang sedang diupdate
+                $this->db->where('content_type', 'banner');
+                $this->db->where('menu_id', $id_menus);
+                $this->db->update('csi_contents', ['status' => 'inactive']);
+            }
+
+            $this->M_Exhibiting->update('csi_contents', ['id' => $id], $data);
+
+            $dataMedia = [
+                'url_path'     => $link,
+                'modified_date'=> $modified_date
+            ];
+
+            if ($image_path) {
+                $dataMedia['file_path'] = $image_path;
+            }
+
+            $update = $this->M_Exhibiting->update('csi_content_media', ['content_id' => $id], $dataMedia);
+
+            if ($update) {
+                $response = ['success' => true, 'message' => 'Banner berhasil diperbarui'];
+            } else {
+                $response = ['success' => false, 'message' => 'Gagal memperbarui banner'];
+            }
+
+        } catch (Exception $e) {
+            $response = ['success' => false, 'message' => $e->getMessage()];
+        }
+
+        echo json_encode($response);
+    }
+
+    public function exhibitor_visa_banner_add(){
+        
+        // Ambil input form
+        // print_r($_FILES);
+        // print_r($this->input->post());
+        // die();
+        /*
+        Array
+            (
+                [bannervisaimage] => Array
+                    (
+                        [name] => Sample Page - Coating Show Image.png
+                        [type] => image/png
+                        [tmp_name] => C:\xampp\tmp\phpF543.tmp
+                        [error] => 0
+                        [size] => 2193849
+                    )
+
+            )
+            Array
+            (
+                [bannertitle] => Banner Title
+                [bannersubtitle] => Banner Subtitle
+                [bannerlink] => 
+                [bannerStatus] => active
+            )
+        */
+        $content_year = $this->input->post('bannervisayear');
+        $title      = $this->input->post('bannervisatitle');
+        $subtitle   = $this->input->post('bannervisasubtitle');
+        $link       = $this->input->post('bannervisalink');
+        $status     = $this->input->post('bannervisaStatus');
+
+        $menu_id = 9;
+        $created_date = date('Y-m-d H:i:s');
+        $created_by = 'sysadmin';
+        $content_type = 'banner';
+        $body_text = '';
+        $content_id = 0;
+
+        // Konfigurasi upload gambar
+        // assets/uploads/why_exhibit/banner.jpg
+        // $config['upload_path']   = './uploads/why_exhibit/'; // pastikan folder ini dibuat
+        // print_r(FCPATH);
+        $file_path = 'assets/uploads/exhibitor_visa/';
+        $config['upload_path'] = FCPATH . $file_path; // FCPATH = path ke public root CI
+
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 2048; // 2MB
+        // $config['max_size']      = 4096; // 4MB
+        $config['encrypt_name']  = TRUE; // supaya nama unik
+
+        $this->upload->initialize($config);
+
+        if (!empty($_FILES['bannervisaimage']['name'])) {
+            if ($this->upload->do_upload('bannervisaimage')) {
+                $uploadData = $this->upload->data();
+                $image = $uploadData['file_name'];
+            } else {
+                // echo $this->upload->display_errors();
+                // return;
+                $this->flashdata_set([
+                    'error' => $this->upload->display_errors()
+                ]);
+                redirect('exhibiting/exhibitor-visa-settings');
+            }
+        }
+
+        try {
+            // Start transaction
+            $this->db->trans_begin();
+
+           // Prepare the data array
+            $data = [
+                'menu_id'       => $menu_id,      // replace $menu_id with your variable
+                'content_year'  => $content_year, // replace $content_year with your variable
+                'content_type'  => $content_type, // replace $content_type with your variable
+                'title'         => $title,        // replace $title with your variable
+                'subtitle'      => $subtitle,     // replace $subtitle with your variable
+                'body_text'     => $body_text,    // replace $body_text with your variable
+                'created_date'  => $created_date, // usually date('Y-m-d H:i:s')
+                'created_by'    => $created_by,   // your user id or name
+                'modified_date' => $created_date,// usually date('Y-m-d H:i:s')
+                'modified_by'   => $created_by   // your user id or name
+            ];
+
+            $this->db->insert('csi_contents', $data);
+            $content_id = $this->db->insert_id();
+
+            $sort_order = 1;
+            $is_main = 1;
+            
+            $dataMedia = [
+                'content_id'      => $content_id,     // the related content ID
+                'media_type'      => 'image',     // e.g., 'image', 'video', etc.
+                'file_path'       => $file_path . $image,      // path on server
+                'sort_order'      => $sort_order,     // integer
+                'is_main'         => $is_main,        // 0 or 1
+                'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')
+                'created_by'      => $created_by,     // user id or name
+                'modified_date'   => $created_date,  // usually date('Y-m-d H:i:s')
+                'modified_by'     => $created_by     // user id or name
+            ];
+
+            // print_r($data);
+            // print_r($dataMedia);
+            // die();
+
+            // Simpan ke DB lewat model
+            $this->db->insert('csi_content_media', $dataMedia);
+
+            // Cek transaction
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception('Database insert failed.');
+            } else {
+                $this->db->trans_commit();
+            }
+
+            // Jika sukses
+            $this->flashdata_set([
+                'success' => 'Banner berhasil disimpan.'
+            ]);
+            redirect('exhibiting/exhibitor-visa-settings');
+
+        } catch (Exception $e) {
+            // Jika ada error
+            log_message('error', 'Banner save error: ' . $e->getMessage());
+            $this->flashdata_set([
+                'error' => 'Terjadi kesalahan saat menyimpan banner.'
+            ]);
+            redirect('exhibiting/exhibitor-visa-settings');
+        }
+    }
+
+    public function exhibitor_visa_banner_delete($id = null)
+    {
+        $id = (int) $id;
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            $deleted = $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+
+            if (!$deleted) {
+                throw new Exception('Failed to delete banner');
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Banner deleted successfully'
+            ];
+        } catch (Exception $e) {
             $response = [
                 'status' => 'error',
                 'message' => $e->getMessage()
