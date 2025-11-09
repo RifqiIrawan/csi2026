@@ -232,7 +232,7 @@
             <div class="card tab-card">
               <div class="card-body">
                 <h5 class="mb-3 text-primary">Banner Visa Configuration</h5>
-                <form action="<?= base_url('exhibiting/why-exhibit-bannervisa-add') ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= base_url('exhibiting/exhibitor-visa-banner-add') ?>" method="post" enctype="multipart/form-data">
                   
                   <div class="mb-3">
                     <label class="form-label">Banner Visa Year</label>
@@ -449,6 +449,58 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<?php
+    $flashdata_all = $this->session->flashdata();
+
+    if (!empty($flashdata_all)) {
+        foreach ($flashdata_all as $type => $msg) {
+            if (!empty($msg)) {
+                $typeEscaped = addslashes($type);
+                $title = ucfirst($typeEscaped);
+                $msgEscaped = addslashes($msg);
+
+                // Custom button color per type
+                switch ($typeEscaped) {
+                    case 'success':
+                        $btnColor = '#28a745'; // green
+                        break;
+                    case 'warning':
+                        $btnColor = '#f39c12'; // orange
+                        break;
+                    case 'info':
+                        $btnColor = '#3498db'; // blue
+                        break;
+                    case 'error':
+                    default:
+                        $btnColor = '#e74c3c'; // red
+                        break;
+                }
+
+                echo "
+                
+                console.log('Flashdata => type: {$typeEscaped}, message: {$msgEscaped}');
+                console.log('Flashdata => type: {$typeEscaped}, message: {$title}');
+
+                Swal.fire({
+                    icon: '{$typeEscaped}',
+                    title: '{$title}',
+                    html: '{$msgEscaped}',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '{$btnColor}',
+                    width: 450,
+                    padding: '2em',
+                    background: '#fff',
+                    customClass: {
+                        popup: 'swal2-rounded',
+                        title: 'swal2-title-custom',
+                        htmlContainer: 'swal2-text-custom'
+                    }
+                });
+                ";
+            }
+        }
+    }
+  ?>
 <script>
 
   let sectionEditor, visainformationEditor;
@@ -536,17 +588,17 @@
     // BUTTON ACTIONS
     // ==============================
     $addBannervisaBtn.on("click", function () {
-      $bannervisaForm.removeClass("d-none").hide().slideDown();
-      $bannervisaTableWrapper.addClass("d-none");
-      $(this).hide();
+      $('#bannervisaTable_wrapper').hide();
+      $addBannervisaBtn.hide();
+      $bannervisaForm.removeClass('d-none').hide().fadeIn(200);
     });
 
     $backBannervisaBtn.on("click", function () {
-      $bannervisaForm.slideUp(function () {
-        $bannervisaForm.addClass("d-none");
+      $bannervisaForm.slideUp(function() {
+        $(this).addClass('d-none');
       });
-      $bannervisaTableWrapper.removeClass("d-none").hide().slideDown();
-      $addBannervisaBtn.show();
+      $('#bannervisaTable_wrapper').show();
+      $('#addBannervisaBtn').show();
     });
 
     // ==============================
@@ -608,7 +660,7 @@
       var formData = new FormData(this);
 
       $.ajax({
-        url: base_url + "exhibiting/why-exhibit-banner-update",
+        url: base_url + "exhibiting/exhibitor-visa-banner-update",
         type: "POST",
         data: formData,
         processData: false,
@@ -647,7 +699,7 @@
       }).then((result) => {
         if (result.isConfirmed) {
           $.ajax({
-            url: base_url + "exhibiting/why-exhibit-banner-delete/" + id,
+            url: base_url + "exhibiting/exhibitor-visa-banner-delete/" + id,
             type: "POST",
             dataType: "json",
             success: function (res) {
