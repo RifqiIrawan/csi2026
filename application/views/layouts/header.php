@@ -730,7 +730,7 @@
       /* background-color: black; */
       font-size: 15px;
       position: relative;
-      background: url(./Website/assets/img/ftr.jpg);
+      background: url(./Website/assets/img/ftr.jpg); 
       /* background-repeat: no-repeat; */
     }
 
