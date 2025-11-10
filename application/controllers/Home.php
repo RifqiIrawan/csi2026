@@ -354,7 +354,10 @@ class Home extends CI_Controller {
     $title = $this->input->post("title");
     $status = $this->input->post("status");
     $value = $this->input->post("value");            
-    $insert = $this->M_Home->add_event_value($title,$value,$status);
+    $icon = $this->input->post("icon");              
+    $simbol = $this->input->post("simbol");           
+    $kat = $this->input->post("kat");            
+    $insert = $this->M_Home->add_event_value($title,$value,$status,$icon,$simbol,$kat);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Event_Value');         
@@ -369,8 +372,11 @@ class Home extends CI_Controller {
     $code = $this->input->post("code");
     $title = $this->input->post("title");
     $status = $this->input->post("status");
-    $value = $this->input->post("value");              
-    $insert = $this->M_Home->update_event_value($code,$title,$value,$status);
+    $value = $this->input->post("value");                       
+    $icon = $this->input->post("icon");         
+    $simbol = $this->input->post("simbol");           
+    $kat = $this->input->post("kat");                 
+    $insert = $this->M_Home->update_event_value($code,$title,$value,$status,$icon,$simbol,$kat);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Event_Value');         

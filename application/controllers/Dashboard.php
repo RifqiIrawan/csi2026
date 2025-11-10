@@ -46,7 +46,7 @@ class Dashboard extends CI_Controller {
                 'status'   => $row->status
           );   
           $this->session->set_userdata($session_data);
-          redirect('home');  
+          redirect('Home');  
         }else{
           echo "<script>alert('Sorry,your account does not active');window.location.href='Login';</script>";
         }

@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/select2/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">  
-
+    
+    <link href="<?php echo base_url();?>Website/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/font-icons.css" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/animate.css" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/coatingshow/magnific-popup.css" type="text/css">

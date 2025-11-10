@@ -122,15 +122,15 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code,folder){
+  function del(code){
     var code = code;
     if (confirm("Do you want delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Info/Visitor Information/del",
+        url: "<?php echo base_url()?>Info/delete_information",
         type: 'post',
-        data: {'code' : code,folder : folder},
+        data: {'code' : code},
         success: function (data) {
-          //console.log(data);
+          console.log(data);
           if(data === "OK"){
             swal({
                 title: "Delete Success",
@@ -139,7 +139,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Visitor Information";
+              window.location = "Form_Visitor_Information";
             });
           }else{
             swal({
@@ -149,7 +149,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Visitor Information";
+              window.location = "Form_Visitor_Information";
             });
           }
         },
@@ -253,12 +253,12 @@
         var jsn = JSON.parse(data);
         console.log(jsn);    
         var i;
-        // var html = "";
+        var html = "";
         var n = 1;
         for(i=0;i<jsn.length;i++){
           var html = "<p style=\"margin-top: 5px;\">"+n+". "
-                    +"<span><i class=\"bi bi-"+jsn[i].icon+"\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
-                      +"<span style=\"margin-left:15px;\">"+jsn[i].date_text+"</span>"
+                    +"<span><i class=\"bi bi-"+jsn[i].icon+" ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
+                      +"<span style=\"margin-left:10px;\">"+jsn[i].text+"</span>"
                   +"</p>";
           $("#get_dtl1").append(html);
           n++;
@@ -278,11 +278,12 @@
         var jsn = JSON.parse(data);
         // console.log(jsn);    
         var i;
-        // var html = "";
+        var html = "";
         var n = 1;
         for(i=0;i<jsn.length;i++){
           var html = "<p style=\"margin-top: 5px;\">"+n+". "                   
-                      +"<span style=\"margin-left:15px;\">"+jsn[i].text+"</span>"
+                      +"<span><i class=\"bi bi-clock ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
+                      +"<span style=\"margin-left:10px;\">"+jsn[i].date_text+"</span>"
                   +"</p>";
           $("#get_dtl2").append(html);
           n++;

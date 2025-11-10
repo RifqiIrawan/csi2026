@@ -123,18 +123,18 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_event_value($title,$value,$status){
+  function add_event_value($title,$value,$status,$icon,$simbol,$kat){
     $insert = $this->db->query("INSERT INTO 
-                                event_value(title,value,status) 
+                                event_value(title,value,status,icon,simbol,category) 
                                 Values
-                                ('".$title."','".$value."','".$status."')
+                                ('".$title."','".$value."','".$status."','".$icon."','".$simbol."','".$kat."')
                               ");
     return $insert;
   }
     
-  function update_event_value($code,$title,$value,$status){
+  function update_event_value($code,$title,$value,$status,$icon,$simbol,$kat){
     $update = $this->db->query(" UPDATE event_value SET title = '".$title."',value = '".$value."' 
-                                ,status = '".$status."' WHERE id = '".$code."'
+                                ,status = '".$status."',icon = '".$icon."' ,simbol = '".$simbol."' ,category = '".$kat."' WHERE id = '".$code."'
                       ");
     return $update;
   }
