@@ -1,5 +1,5 @@
 # Host: localhost  (Version: 5.5.5-10.1.36-MariaDB)
-# Date: 2025-11-03 14:49:50
+# Date: 2025-11-09 13:56:24
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES latin1 */;
@@ -151,6 +151,25 @@ CREATE TABLE `content1` (
 REPLACE INTO `content1` VALUES (1,'WELCOME TO Coating Show','<p><span style=\"font-size:24px\">Don&rsquo;t miss the opportunity to promote your products internationally, regionally and locally at affordable costs.</span></p>\r\n','EMPOWERING INDUSTRIES','b23a208fadff92d6e21f40f3a9e7b9f2.jpg','A');
 
 #
+# Structure for table "coperation"
+#
+
+CREATE TABLE `coperation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `file_upload` varchar(255) DEFAULT NULL,
+  `description` text,
+  `status` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+#
+# Data for table "coperation"
+#
+
+REPLACE INTO `coperation` VALUES (2,'wqewqewq','93d9ba498d44b192746920662999e4ee.jpg','<p>sadsa</p>\r\n','A');
+
+#
 # Structure for table "csi_menus"
 #
 
@@ -260,13 +279,38 @@ CREATE TABLE `csi_content_media` (
   PRIMARY KEY (`id`),
   KEY `fk_csi_content_media` (`content_id`),
   CONSTRAINT `fk_csi_content_media` FOREIGN KEY (`content_id`) REFERENCES `csi_contents` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
 
 #
 # Data for table "csi_content_media"
 #
 
-REPLACE INTO `csi_content_media` VALUES (1,1,'image','assets/uploads/why_exhibit/banner.jpg','',NULL,1,1,NULL,'2025-09-24 23:25:36','sysadmin','2025-10-09 03:39:20','sysadmin'),(2,2,'image','assets/uploads/why_exhibit/831fc97e19f3d2f9ec80ea5485d66523.png',NULL,NULL,1,1,NULL,'2025-09-24 23:25:36','sysadmin','2025-10-09 04:54:28','sysadmin'),(3,5,'image','assets/uploads/exhibitor_list/actega.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 06:06:16','sysadmin','2025-09-28 14:48:43','sysadmin'),(4,5,'image','assets/uploads/exhibitor_list/aiger.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 14:53:59','sysadmin','2025-09-28 14:59:38','sysadmin'),(5,5,'image','assets/uploads/exhibitor_list/ali_machinery_dubai.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 14:59:03','sysadmin','2025-09-28 14:59:52','sysadmin'),(6,5,'image','assets/uploads/exhibitor_list/anhui_great_nation.jpeg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 15:02:59','sysadmin','2025-09-28 15:05:20','sysadmin'),(11,12,'image','assets/uploads/why_exhibit/128cc7c6dbdb9ec17a023d81e75f1272.png','',NULL,1,1,NULL,'2025-10-04 09:09:51','sysadmin','2025-10-06 02:48:31','sysadmin');
+REPLACE INTO `csi_content_media` VALUES (1,1,'image','assets/uploads/why_exhibit/banner.jpg','',NULL,1,1,NULL,'2025-09-24 23:25:36','sysadmin','2025-10-09 03:39:20','sysadmin'),(2,2,'image','assets/uploads/why_exhibit/831fc97e19f3d2f9ec80ea5485d66523.png',NULL,NULL,1,1,NULL,'2025-09-24 23:25:36','sysadmin','2025-10-09 04:54:28','sysadmin'),(3,5,'image','assets/uploads/exhibitor_list/actega.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 06:06:16','sysadmin','2025-09-28 14:48:43','sysadmin'),(4,5,'image','assets/uploads/exhibitor_list/aiger.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 14:53:59','sysadmin','2025-09-28 14:59:38','sysadmin'),(5,5,'image','assets/uploads/exhibitor_list/ali_machinery_dubai.jpg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 14:59:03','sysadmin','2025-09-28 14:59:52','sysadmin'),(6,5,'image','assets/uploads/exhibitor_list/anhui_great_nation.jpeg',NULL,'exhibiting/company-profile',1,0,NULL,'2025-09-28 15:02:59','sysadmin','2025-09-28 15:05:20','sysadmin'),(11,12,'image','assets/uploads/why_exhibit/128cc7c6dbdb9ec17a023d81e75f1272.png','',NULL,1,1,NULL,'2025-10-04 09:09:51','sysadmin','2025-10-06 02:48:31','sysadmin'),(12,6,'image','assets/uploads/exhibitor_visa/2fbfe8d5871af987081aa1d3d3aeb87e.jpg','',NULL,1,1,NULL,'2025-10-11 13:20:36','sysadmin','2025-11-09 07:53:41','sysadmin');
+
+#
+# Structure for table "csi_report_files"
+#
+
+CREATE TABLE `csi_report_files` (
+  `id` int(11) DEFAULT NULL,
+  `report_title` varchar(765) DEFAULT NULL,
+  `report_description` text,
+  `file_name` varchar(765) DEFAULT NULL,
+  `file_path` varchar(765) DEFAULT NULL,
+  `file_type` varchar(150) DEFAULT NULL,
+  `file_size` bigint(20) DEFAULT NULL,
+  `is_published` tinyint(1) DEFAULT NULL,
+  `uploaded_date` datetime DEFAULT NULL,
+  `uploaded_by` varchar(150) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `modified_by` varchar(150) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# Data for table "csi_report_files"
+#
+
+REPLACE INTO `csi_report_files` VALUES (1,'CSI 2025 Post Show Report','CSI 2025 Post Show Report','1760633516_CSI_2025_Post_Show_Report','assets/uploads/post_show_report/1760633516_CSI_2025_Post_Show_Report.pdf','.pdf',916,1,'2025-10-15 08:20:07','sysadmin','2025-10-16 23:51:56','sysadmin');
 
 #
 # Structure for table "customer"
@@ -373,15 +417,18 @@ CREATE TABLE `event_value` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text,
   `value` varchar(255) DEFAULT '',
+  `icon` varchar(255) DEFAULT NULL,
+  `simbol` varchar(255) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 #
 # Data for table "event_value"
 #
 
-REPLACE INTO `event_value` VALUES (1,'Paint Companies in Indonesia','200','A'),(2,'Multi National / Regional Brands','34','A'),(3,'National Brands','92','A'),(4,'Small / Medium Manufacturers','74','A');
+REPLACE INTO `event_value` VALUES (1,'Exhibitors','200','fa fa-handshake-o','+',2,'A'),(2,'Attandance','34','fa fa-users','+',2,'A'),(3,'Speakers','92','fa fa-microphone','+',2,'A'),(4,'Product','74','fa fa-list-alt','\"S',2,'A'),(6,'SQM','24000','fa fa-camera','+',1,'A'),(7,'Exhibitors','500','fa fa-users','+',1,'A'),(8,'Countries','12','fa fa-globe','+',1,'A'),(9,'Visitors','16000','fa fa-user-circle','+',1,'A');
 
 #
 # Structure for table "floor_plan"
@@ -604,7 +651,7 @@ CREATE TABLE `menu` (
 # Data for table "menu"
 #
 
-REPLACE INTO `menu` VALUES (1,'Home','Home',1,'A','<p>-</p>\r\n'),(2,'Exhibiting',NULL,3,'A',NULL),(4,'Information',NULL,4,'A',NULL),(5,'Contact',NULL,5,'A',NULL),(6,'News Update',NULL,6,'A',NULL),(7,'visiting','visiting',2,'A','<p>-</p>\r\n');
+REPLACE INTO `menu` VALUES (1,'Home','Dashboard',1,'A','<p>-</p>\r\n'),(2,'Exhibiting',NULL,3,'A',NULL),(4,'Information',NULL,4,'A',NULL),(5,'Contact','Contact_us',5,'A',NULL),(6,'News Update','News_Update',6,'A',NULL),(7,'Visiting',NULL,2,'A','<p>-</p>\r\n');
 
 #
 # Structure for table "news_update"
@@ -644,7 +691,7 @@ CREATE TABLE `organizer` (
 # Data for table "organizer"
 #
 
-REPLACE INTO `organizer` VALUES (1,'sdsasdsad','bfbb0bd4b06f35fea55425f3b11e21a7.png','<p>sadsad</p>\r\n','A'),(2,'dfs32432','b6b280684a4ee0a85d295e22c99f60ae.jpg','<p>3243254fdgfhfh</p>\r\n','A'),(3,'sdsadsad','7f93f62be863a285ce5f08b8601434c0.jpg','<p>sdada</p>\r\n','A'),(4,'asdsadsa','e9539b84d9751152fe15772490efa20a.png','<p>sadsad</p>\r\n','A'),(5,'sadsadsa','be8bd607c1fc5e68c52d5a3c93654867.jpg','<p>sadsad</p>\r\n','A');
+REPLACE INTO `organizer` VALUES (1,'sadsadsa','89b6bd1b5afc7265df1ed7f91c28144b.jpg','<p>asdsad</p>\r\n','A'),(2,'dssdfsdf','74e7d3bebb4c3e35ede1e312c82ce837.jpg','<p>sfsf</p>\r\n','A'),(3,'sdfdsf','3c4346ccc3c14876e7a5c5114f72b3c0.jpg','<p>sdfsdf</p>\r\n','A'),(4,'sdfsfs324','c13806cb7d432393e3aacffceb5b4a67.jpg','<p>dsfsdf</p>\r\n','A'),(5,'ertretre','5c98e2bea0254dcd94b4760ed8ca8492.png','<p>retre</p>\r\n','A');
 
 #
 # Structure for table "partner"
@@ -736,7 +783,7 @@ CREATE TABLE `quick_link` (
 # Data for table "quick_link"
 #
 
-REPLACE INTO `quick_link` VALUES (1,'Home','-','A'),(2,'Why Exhibit?','-','A'),(3,'Hotel Booking','-','A'),(4,'News Update','-','A');
+REPLACE INTO `quick_link` VALUES (1,'Home','Dashboard','A'),(2,'Why Exhibit?','Exhibiting/whyexhibit_index','A'),(3,'Hotel Booking','Hotel_Booking','A'),(4,'News Update','-','A');
 
 #
 # Structure for table "sosmed"
@@ -795,13 +842,13 @@ CREATE TABLE `submenu` (
   `status` varchar(1) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 #
 # Data for table "submenu"
 #
 
-REPLACE INTO `submenu` VALUES (1,'2','Why Exhibit',NULL,'A',NULL),(2,'2','Exhibitor List',NULL,'A',NULL),(3,'2','Exhibitor Visa',NULL,'A',NULL);
+REPLACE INTO `submenu` VALUES (1,'2','Why Exhibit','Exhibiting/whyexhibit_index','A',NULL),(2,'2','Exhibitor List','Exhibiting/exhibitorlist_index','A',NULL),(3,'2','Exhibitor Visa','Exhibiting/exhibitor_visa','A',NULL),(4,'7','Why Visit','Visiting/visiting_index','A',NULL),(5,'7','Conference Schedule','Visiting/conference_schedule_index','A',NULL),(6,'7','Post Show Report','Visiting/download_show_report','A',NULL),(7,'4','Visitor Information','Visitor_Information','A',NULL),(8,'4','Accommodation','Hotel_Booking','A',NULL);
 
 #
 # Structure for table "submit_form"

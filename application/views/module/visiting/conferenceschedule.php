@@ -99,6 +99,15 @@
     .text-secondary {
         color: #777 !important;
     }
+
+    .footer {
+      color: black;
+      /* background-color: black; */
+      font-size: 15px;
+      position: relative;
+      background: url(../Website/assets/img/footer.jpg);
+      /* background-repeat: no-repeat; */
+    }
     </style>
     </head>
     <body>

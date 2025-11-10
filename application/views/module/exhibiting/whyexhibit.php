@@ -188,9 +188,12 @@
     Footer
     ====================== */
     .footer {
-    color: var(--default-color);
-    background-color: #000;
-    font-size: 14px;
+      color: black;
+      /* background-color: black; */
+      font-size: 15px;
+      position: relative;
+      background: url(../Website/assets/img/footer.jpg);
+      /* background-repeat: no-repeat; */
     }
 
     .footer .footer-top {
