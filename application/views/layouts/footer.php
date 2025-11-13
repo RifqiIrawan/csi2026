@@ -1,7 +1,143 @@
 
 </main>
+<style>
+  /* ================================
+   FOOTER SECTION
+   ================================ */
 
-<footer id="footer" class="footer dark-background mt-3">
+/* Footer utama */
+.footer {
+  color: black;
+  font-size: 15px;
+  position: relative;
+}
+
+/* Jika ingin menambah efek overlay gelap transparan di atas gambar */
+.footer.dark-background::before {
+  content: "";
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Overlay hitam transparan */
+  z-index: 0;
+}
+
+/* Supaya isi footer tetap di atas overlay */
+.footer.dark-background > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tambahan class dark-background untuk kontrol umum */
+.dark-background {
+  background-color: transparent; /* biar tetap pakai gambar footer */
+  color: #fff; /* teks jadi putih agar kontras dengan gambar */
+}
+
+/* Bagian atas footer (pembatas dari konten utama) */
+.footer .footer-top {
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+/* Link di dalam footer */
+.footer .footer-links {
+  margin-bottom: 50px;
+  text-align: left;
+}
+
+.footer .footer-links a {
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer .footer-links a:hover {
+  color: #fff;
+}
+
+/* Layout flex untuk kolom footer */
+.footer_top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* Widget/konten dalam footer */
+.footer_widgets {
+  flex: 0 0 auto;
+  margin: 80px auto;
+}
+
+/* Bagian about di footer */
+.footer-about {
+  text-align: center;
+  color: #fff;
+}
+
+/* Social media icons */
+.social-links {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-links a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transition: 0.3s;
+}
+
+.social-links a:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Copyright section */
+.footer .copyright p {
+  margin: 0px 10px;
+  color: #ccc;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Bagian bawah background opsional */
+.secondary-bg {
+  background-color: #111 !important;
+  color: #fff;
+  position: relative;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 600px) {
+  .footer .footer-links {
+    margin-bottom: 0px;
+    text-align: left;
+  }
+
+  .footer .footer-about {
+    margin-bottom: 0px;
+    text-align: left;
+  }
+
+  .footer .social-links {
+    position: relative;
+    left: 0%;
+  }
+}
+
+</style>
+
+<footer class="footer dark-background mt-3"
+  style="background-image: url('<?php echo base_url('Website/assets/img/ftr.jpg'); ?>');
+         background-size: cover;
+         background-repeat: no-repeat;
+         min-height: 300px;">
+
+
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-3 footer-about mb-3">
@@ -32,9 +168,9 @@
           <?php 
             foreach($data_contact as $row_contact){ 
           ?> 
-            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600;margin-bottom: 15px;"><?php echo ucwords($row_contact->name)?></p>
-            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px;margin-bottom: 15px;"><?php echo ucwords($row_contact->position)?></p>
-            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px;margin-bottom: 15px;">
+            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
+            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
+            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
               <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
                 <i class="bi bi-whatsapp" aria-hidden="true"></i>
               </a>
@@ -111,9 +247,8 @@
     </div>
   </footer>
 
-
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<!-- <div id="preloader"></div> -->
+  <!-- <div id="preloader"></div> -->
 </body>
 
 <script src="<?php echo base_url();?>Website/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -129,33 +264,37 @@
 <script src="<?php echo base_url();?>Website/assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>Website/assets/js/jquery.cookie.min.js"></script>
 <script type="text/javascript">  
-$(document).ready(function() {      
-  $.getJSON('https://ipinfo.io/json', function(data) {
-    var ip = JSON.stringify(data["ip"], null, 2);
-    var city = JSON.stringify(data["city"], null, 2);
-    var country = JSON.stringify(data["country"], null, 2);
-    var loc = JSON.stringify(data["loc"], null, 2);
-    var org = JSON.stringify(data["org"], null, 2);
-    var timezone = JSON.stringify(data["timezone"], null, 2);
-    //console.log(JSON.stringify(data, null, 2));
-    //console.log(ip+" - "+city+" - "+country+" - "+loc+" - "+org+" - "+timezone);
+  $(document).ready(function() {      
+    // $.getJSON('https://ipinfo.io/json', function(data) {
+    //   var ip = JSON.stringify(data["ip"], null, 2);
+    //   var city = JSON.stringify(data["city"], null, 2);
+    //   var country = JSON.stringify(data["country"], null, 2);
+    //   var loc = JSON.stringify(data["loc"], null, 2);
+    //   var org = JSON.stringify(data["org"], null, 2);
+    //   var timezone = JSON.stringify(data["timezone"], null, 2);
+    //   //console.log(JSON.stringify(data, null, 2));
+    //   //console.log(ip+" - "+city+" - "+country+" - "+loc+" - "+org+" - "+timezone);
 
-    $.ajax({
-        url: "<?php echo base_url()?>Login/save_ip_visitor",
-        type: 'post',
-        data: {ip : ip, city : city, country : country, loc : loc, org : org, timezone : timezone},
-        success: function (data) {
-          //console.log(data);      
-        }
-    });  
-  });
-});  
+    //   $.ajax({
+    //       url: "<?php echo base_url()?>Login/save_ip_visitor",
+    //       type: 'post',
+    //       data: {ip : ip, city : city, country : country, loc : loc, org : org, timezone : timezone},
+    //       success: function (data) {
+    //         //console.log(data);      
+    //       }
+    //   });  
+    // });
+    
+
+    
+  });  
 </script>
 
-<script src="https://coatingshow.com/js/plugins.min.js"></script>
-<script src="https://coatingshow.com/js/functions.js"></script>
+<script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
+<script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
+
 
 <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
 <script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 </html>
