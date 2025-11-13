@@ -218,6 +218,13 @@ return $insert;
     return $res->result();
   }
 
+  function get_news_update1($code){
+    $res = $this->db->query("SELECT * from news_update
+                              where id = '".$code."'
+                              order by id asc"); 
+    return $res->result();
+  }
+
   function add_news_update($title,$date,$file,$description,$status){
     $insert = $this->db->query("INSERT INTO 
                                 news_update(title,date_news,file_upload,description,status,datecreated) 

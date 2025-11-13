@@ -59,7 +59,7 @@
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Date_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Date Event</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Content</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Coperation');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Coperation</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Coperation');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Cooperation</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Event_Value');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Event Value</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Profile</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Product');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Product</a></li>

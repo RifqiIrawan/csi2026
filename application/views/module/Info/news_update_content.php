@@ -286,28 +286,32 @@
         background-color: #5B9D0A;
         color: #FFF;
     }
+
+    .footer {
+      color: black;
+      /* background-color: black; */
+      font-size: 15px;
+      position: relative;
+      background: url(../Website/assets/img/ftr.jpg);
+      /* background-repeat: no-repeat; */
+    }
 </style>
 
 <section class="inner-banner hero-section" style="background-image: url('<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>'); padding: 7.5rem 0 !important; background-size: cover; background-position: center;" data-desktop_image="<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>" data-mobile_image="<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>">
     <div class="container">
-        <h2 class="text-light"><?php echo ucwords($data_header_news[0]->title);?></h2>
+        <h2 class="text-light"><?php echo ucwords($data_news_update1[0]->title);?></h2>
     </div>
 </section>
 
 <section class="generic-gallery-isotope mt-4">
     <div class="container">
         <div class="row">
-            <?php foreach($data_news_update as $row){?>
-                <div class="col-lg-3">
-                    <div class="card card-01">
-                        <img class="card-img-top" src="<?php echo base_url("./assets/images/upload/news_update/".$row->file_upload."");?>">
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><?php echo $row->title;?></h5>
-                            <p class="card-text text-center"><?php echo $row->date_news;?></p>
-                            <a href="<?php echo base_url("News_Update/".$row->id);?>" class="btn btn-default text-uppercase" target="_blank">Read
-                                More</a>
-                        </div>
-                    </div>
+            <?php foreach($data_news_update1 as $row){?>
+                <div class="col-lg-12 text-center">
+                    <img src="<?php echo base_url("./assets/images/upload/news_update/".$data_news_update1[0]->file_upload."");?>" width="400">
+                </div>
+                <div class="col-lg-12">
+                    <?php echo $row->description;?>
                 </div>  
             <?php }?>                                  
         </div>

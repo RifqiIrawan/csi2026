@@ -4,7 +4,7 @@
         font-weight: 600;
         color: #000;
     }
-    p {
+    /* p {
         display: block;
         margin: 0 0 5px;
         font-weight: 400;
@@ -12,7 +12,7 @@
         letter-spacing: normal;
         word-break: break-word;
         color: #000;
-    }
+    } */
     .img-fluid{       
         width: 100%;
         height: 200px;
