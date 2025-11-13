@@ -30,7 +30,7 @@ class M_Visiting extends CI_Model{
 	
     function get_event_schedule($params = []) {
 
-        $this->edb 	= $this->load->database('ems', TRUE);
+        $this->edb 	= $this->load->database('pnicheme_ems', TRUE);
         $this->edb->select('
             e.id AS program_id,
             e.name_event AS program_title,
@@ -45,7 +45,7 @@ class M_Visiting extends CI_Model{
             e.name_event AS event_name,
             YEAR(e.start_date) AS event_year
         ');
-        $this->edb->from('ems.event e');
+        $this->edb->from('pnicheme_ems.event e');
 
 		if (!empty($params)) {
 			foreach ($params as $key => $value) {
