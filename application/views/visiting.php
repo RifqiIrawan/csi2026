@@ -1,5 +1,12 @@
 <!-- Bootstrap 5 only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+<style>
+  .navbar .nav-link,
+  .navbar .nav-link:hover,
+  .navbar .nav-link:focus {
+    text-decoration: none !important;
+  }
+</style>
 <style>
     /* ======================
     Global & Reset
@@ -325,7 +332,7 @@
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: all 0.3s ease;
     }
 
