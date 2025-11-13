@@ -540,6 +540,12 @@
       color-mix(in srgb, var(--default-color), transparent 90%);
     }
 
+    .footer .footer-top {
+      padding-top: 15px;
+      border-top: 1px solid
+      color-mix(in srgb, var(--default-color), transparent 90%);
+    }
+
     .footer_top {
       display: flex;
       flex-wrap: wrap;
@@ -1207,7 +1213,7 @@
     color: white;
   }
   .footer .copyright {
-    padding: 0px 0px 20px;
+    padding: 0px 0px 10px;
     border-top: 0px solid color-mix(in srgb, var(--default-color), transparent 0%);
   }
 
@@ -1709,7 +1715,7 @@
   <footer id="footer" class="footer dark-background mt-3">
     <div class="container footer-top">
       <div class="row gy-4">
-        <div class="col-lg-3 footer-about mb-3">
+        <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
           <img width="230" height="200px" style="border-radius: 50%;"  data-src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full lazyload" alt="">
           <!-- <div class="social-links d-flex mt-3">
@@ -1720,11 +1726,11 @@
             <?php } ?>
           </div> -->
         </div>
-        <div class="col-lg-3 footer-about mb-3">
+        <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
           <img width="230" height="200px" style="border-radius: 50%;" data-src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full lazyload" alt="">
         </div>
-        <div class="col-lg-3 footer-about mb-3">
+        <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
           <?php 
             foreach($data_qlink as $row_qlink){ 
@@ -1732,7 +1738,7 @@
             <p style=""><a style="color:white;font-weight:600;font-size:16px" href="<?php echo $row_qlink->url ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a></p>
           <?php } ?>
         </div>
-        <div class="col-lg-3 footer-about mb-3">
+        <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
           <?php 
             foreach($data_contact as $row_contact){ 
@@ -1749,38 +1755,6 @@
             </p>
           <?php } ?>
         </div>
-        <!-- <div class="col-lg-3 col-md-3 footer-links">
-          <p>
-            <strong  class="text-left">
-              <?php echo $company_name?>
-            </strong><br>
-            <?php echo $address?>
-          </p>
-        </div>
-        <div class="col-lg-3 footer-links">
-          <p>Phone: <a href="tel:"<?php echo $phone?>><?php echo $phone?></a><br>
-            Fax: <a href="tel:"<?php echo $fax?>><?php echo $fax?></a><br>
-            email : <a href="mailto:"<?php echo $email?>><?php echo $email?></a><br>
-            Website: <a href="<?php echo $website?>"><?php echo $website?></a>            
-          </p>
-          <table width="100%">
-            <tr>
-              <td width="25%">Phone</td>
-              <td width="5%" align="center">:</td>
-              <td><a href="tel:"<?php echo $phone?>><?php echo $phone?></a></td>
-            </tr>
-            <tr>
-              <td width="25%">Email</td>
-              <td width="5%" align="center">:</td>
-              <td><a href="mailto:"<?php echo $email?>><?php echo $email?></a></td>
-            </tr>
-            <tr>
-              <td width="25%">Website</td>
-              <td width="5%" align="center">:</td>
-              <td><a href="<?php echo $website?>"><?php echo $website?></a></td>
-            </tr>
-          </table>
-        </div> -->
       </div>
       <div class="row">
         <div class="col-lg-12 text-center">          
@@ -1789,7 +1763,7 @@
         <div class="col-lg-4 text-center">
         </div>
         <div class="col-lg-4 text-center">
-          <div class="social-links d-flex mb-3 mt-1">
+          <div class="social-links d-flex mb-2 mt-1">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
             ?> 
@@ -1811,7 +1785,7 @@
       </div>
     </div>
 
-    <div class="container copyright text-center mt-3">      
+    <div class="container copyright text-center mt-2">      
       <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
     </div>
   </footer>

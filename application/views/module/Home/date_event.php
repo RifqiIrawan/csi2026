@@ -413,7 +413,7 @@
           <div class="form-group">
             <label class="form-label">Image 1</label>
             <input type="hidden" class="form-control" name="image" id="image">
-            <input type="file" class="form-control" name="file1" id="title1" required>
+            <input type="file" class="form-control" name="file1" id="file1">
             <!-- <div class="mt-2" id="image_edit1"></div> -->
           </div>              
           <div class="form-group">
@@ -427,7 +427,7 @@
           <div class="form-group">
             <label class="form-label">Image 2</label>
             <input type="hidden" class="form-control" name="image2" id="image2">
-            <input type="file" class="form-control" name="file2" id="file2" required>
+            <input type="file" class="form-control" name="file2" id="file2">
             <!-- <div class="mt-2" id="image_edit2"></div> -->
           </div>                
           <div class="form-group">

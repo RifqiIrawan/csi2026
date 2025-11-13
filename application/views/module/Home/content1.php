@@ -373,7 +373,7 @@
           <div class="form-group">
             <label class="form-label">Upload Image</label>
             <input type="hidden" class="form-control" name="get_image" id="image">
-            <input type="file" class="form-control" name="file" required>
+            <input type="file" class="form-control" name="file">
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -400,7 +400,7 @@
 
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>
