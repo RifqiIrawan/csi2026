@@ -45,7 +45,7 @@
         </li>
         <li class="nav-item nav-category">
           <span class="nav-link">Navigation</span>
-        </li>
+        </li> 
         
         <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#acc" aria-expanded="false" aria-controls="acc">
