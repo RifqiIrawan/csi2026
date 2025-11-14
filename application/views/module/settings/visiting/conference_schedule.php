@@ -1,11 +1,70 @@
 
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<style>
+  /* Spacing utilities */
+  .mb-0 { margin-bottom: 0 !important; }
+  .mb-3 { margin-bottom: 1rem !important; }
+  .mt-2 { margin-top: 0.5rem !important; }
 
+  /* Gap utility */
+  .gap-3 { gap: 1rem !important; }
+
+  /* Display & flex */
+  .d-flex { display: flex !important; }
+  .align-items-center { align-items: center !important; }
+
+  /* Form Label */
+  .form-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  /* Input Form */
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  }
+
+  .form-control:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 .2rem rgba(13,110,253,.25);
+  }
+
+  /* Text small */
+  .form-text {
+    font-size: 0.875em;
+  }
+
+  .text-muted {
+    color: #6c757d !important;
+  }
+
+  /* Image thumbnail */
+  .img-thumbnail {
+    padding: .25rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: .375rem;
+    max-width: 100%;
+    height: auto;
+  }
+
+</style>
 <style>/* TAB STYLING */
   .main-panel{
       padding-top: 50px !important
@@ -18,6 +77,23 @@
     background: #f8f9fa;
     padding: .5rem;
     border-radius: .5rem .5rem 0 0;
+    width: 100%;  
+  }
+
+  .custom-tab .row {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-top: var(--bs-gutter-y);
+  }
+
+  .custom-tabs .nav-item {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: none;
   }
 
   .custom-tabs .nav-link {
