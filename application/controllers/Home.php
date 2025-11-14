@@ -79,6 +79,61 @@ class Home extends CI_Controller {
       }   
   }
 
+  // sub menu
+  public function Sub_Menu(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_sub_menu"] = $this->M_Home->get_sub_menu();
+    $this->template->load('Admin/role','module/Home/sub_menu',$data);
+}
+
+public function add_sub_menu(){
+    $id_menu = $this->input->post("id_menu");
+    $name = $this->input->post("name");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions1");            
+    $insert = $this->M_Home->add_sub_menu($id_menu,$name,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Sub_Menu');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Sub_Menu');
+    } 
+}
+
+public function update_sub_menu(){
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions_edit");            
+    $insert = $this->M_Home->update_sub_menu($code,$id_menu,$name,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Sub_Menu');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Sub_Menu');
+    } 
+}
+
+public function delete_sub_menu(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_sub_menu($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+}
+
   public function Date_Event(){   
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');

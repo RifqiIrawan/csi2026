@@ -43,6 +43,37 @@ class M_Home extends CI_Model
     return $delete;
   }
 
+  //sub menu
+  function get_sub_menu(){
+    $res = $this->db->query("SELECT *,submenu.id as subid from submenu
+                            left join menu 
+                            on submenu.menu_id = menu.id
+                              order by submenu.id asc"); 
+    return $res->result();
+  }
+
+  function add_sub_menu($id_menu,$name,$url,$status,$description){
+    $insert = $this->db->query("INSERT INTO 
+                                        submenu(menu_id,sub_name,url,status,description) 
+                                        Values
+                                        ('".$id_menu."','".$name."','".$url."','".$status."','".$description."')
+                            ");
+    return $insert;
+  }
+    
+  function update_sub_menu($code,$id_menu,$name,$url,$status,$description){
+    $update = $this->db->query(" UPDATE submenu SET menu_id = '".$id_menu."',sub_name = '".$name."',url = '".$url."',status = '".$status."'
+                            ,description = '".$description."' WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_sub_menu($code){
+    $delete = $this->db->query(" DELETE FROM submenu WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
   // for event date  
   function get_date_event(){
     $res = $this->db->query("SELECT * from event

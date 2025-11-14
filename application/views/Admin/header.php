@@ -782,7 +782,7 @@
       });
 
       $('#acc').on("click", function() { 
-        $("#acc").attr("collapse");
+        // $("#acc").attr("collapse");
       });
 
       $('#ftr').on("click", function() { 

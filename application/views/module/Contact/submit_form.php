@@ -265,7 +265,7 @@
     <div class="modal-content">
       <form action="<?php echo base_url(); ?>Info/add_submit" method="POST" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Submit Form </h4>
+          <h4 class="modal-title">Add Submit Form </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -837,7 +837,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Info/update_submit" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Submit Form </h4>
+          <h4 class="modal-title">Update Submit Form </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

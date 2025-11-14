@@ -85,28 +85,36 @@
     background: #00d25b;
   }
 
-  
   .modal-body img {
     object-fit: contain;
-  }
-
-  img{
-    width: 100%;
-    
-    /* background-image: url('foto.jpg'); */
-    background-size: cover;       /* kunci: cover */
-    background-position: center;  /* posisi fokus gambar */
-    background-repeat: no-repeat;
   }
 </style>
 <script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+
+    // if (document.getElementById('descriptions')) {
+    //   if (CKEDITOR.instances['descriptions']) CKEDITOR.instances['descriptions'].destroy(true);
+    //   CKEDITOR.replace('descriptions', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
+
+    // if (document.getElementsByName('descriptions1').length) {
+    //   if (CKEDITOR.instances['descriptions1']) CKEDITOR.instances['descriptions1'].destroy(true);
+    //   CKEDITOR.replace('descriptions1', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
     CKEDITOR.replace( 'descriptions' , {
       customConfig : '/custom/ckeditor_config.js'
     });
 
     CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1' , {
       customConfig : '/custom/ckeditor_config.js'
     });
 
@@ -124,11 +132,12 @@
     });
   });
 
-  function upd(code,name,status,description,position,file){
+  function upd(code,id_menu,name,url,status,description){
     $("#code").val(code);
+    $("#id_menu").val(id_menu);
     $("#name").val(name);
+    $("#url").val(url);
     $("#position").val(position);
-    $("#file_edit").val(file);
     var desc = description;
     CKEDITOR.instances.descriptions.setData(desc);
     var status='#'+status;
@@ -136,13 +145,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code,img){
+  function del(code){
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_product",
+        url: "<?php echo base_url()?>Home/delete_sub_menu",
         type: 'post',
-        data: {'code' : code, 'img' : img},
+        data: {'code' : code},
         success: function (data) {
         //   console.log(data);
           if(data === "OK"){
@@ -153,7 +162,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Product";
+              window.location = "Sub_Menu";
             });
           }else{
             swal({
@@ -163,7 +172,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Product";
+              window.location = "Sub_Menu";
             });
           }
         },
@@ -175,19 +184,11 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
-
-  function show_image(file){
-    var folder = "./assets/images/upload/product/";
-    var pic = "."+folder+""+file;
-    var img = $('<img />', {src : pic});
-    img.appendTo('#get_image');
-    $("#mdl_img").modal('show');
-  }
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Product Sector</b></h4>
+    <h4 class="page-title"><b>Sub Menu</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -211,18 +212,18 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Product Name</th>
-                    <th>Position</th>
-                    <th>Image</th>
-                    <th>Description</th>
+                    <th>Menu</th>
+                    <th>Sub_Menu</th>
+                    <th>Url/Controller</th>
                     <th>Status</th>
+                    <th>Description</th>
                     <th width="15%">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_product as $row) {
+                    foreach ($data_sub_menu as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -234,15 +235,15 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"center\">".$row->position."</td>";  
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->file_upload."');\"></td>";
-                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"\">".ucwords(strtolower($row->sub_name))."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
+                        echo "<td align=\"center\">".$row->description."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."','".$row->position."','".$row->file_upload."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->subid."','".$row->menu_id."','".$row->sub_name."','".$row->url."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->file_upload."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->subid."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
@@ -262,23 +263,29 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_product" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_sub_menu" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Product Sector </h4>
+          <h4 class="modal-title">Add Menu </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Product Sector Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Product Name" style="text-transform:capitalize" required>
+            <label class="form-label">Menu</label>
+            <select class="form-control" name="id_menu">
+              <?php 
+                foreach($data_menu as $row){
+                  echo "<option value=\"".$row->id."\">".$row->name."</option>";
+                }
+              ?>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Sub Menu</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Sub Menu" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
-            <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Position</label>
-            <input type="number" class="form-control" name="position" Placeholder="Entry Position" style="text-transform:capitalize" required>
+            <label class="form-label">Url/Controller</label>
+            <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -295,7 +302,7 @@
           </div>       
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="descriptions" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">
@@ -310,25 +317,30 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_product" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_sub_menu" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Product Sector </h4>
+          <h4 class="modal-title">Update Data Menu </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Product Sector Name</label>
+            <label class="form-label">Menu</label>
             <input type="hidden" class="form-control" name="code" id="code">
+            <select class="form-control" name="id_menu" id="id_menu">
+              <?php 
+                foreach($get_menu as $row){
+                  echo "<option value=\"".$row->id."\">".$row->name."</option>";
+                }
+              ?>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Menu Name</label>
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
-          </div>
+          </div>  
           <div class="form-group">
-            <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
-            <input type="hidden" class="form-control" name="file_edit" id="file_edit">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Position</label>
-            <input type="number" class="form-control" name="position" id="position" required>
+            <label class="form-label">Url/Controller</label>
+            <input type="text" class="form-control" name="url" id="url" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -359,7 +371,7 @@
 
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>
