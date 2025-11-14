@@ -77,8 +77,6 @@ class Visiting extends CI_Controller {
                 break;
             case "post-show-report-settings":
                 $this->post_show_report_settings();
-            case "event-datatable":
-                echo $this->M_Visiting->event_datatable();
                 break;
             case "event-datatable":
                 echo $this->M_Visiting->event_datatable();
