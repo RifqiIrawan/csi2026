@@ -139,8 +139,8 @@
   /* Make DataTables full width */
   #banner_whyvisitTable_wrapper,
   #banner_whyvisitTable,
-  #section1Table_wrapper,
-  #section1Table,
+  #section1Table_whyvisit_wrapper,
+  #section1Table_whyvisit,
   #visainformationTable_wrapper,
   #visainformationTable {
       width: 100% !important;
@@ -173,13 +173,13 @@
           <i class="fa fa-list"></i> Banner Why Visit
         </a>
         <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
-          <i class="fa fa-tags"></i> Content
+          <i class="fa fa-tags"></i> Content Why Visit
         </a>
         <!-- <a class="nav-link" id="tab-content_whyvisit" data-bs-toggle="tab" href="#content-content_whyvisit" role="tab">
           <i class="fa fa-tags"></i> Content
         </a> -->
         <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
-          <i class="fa fa-ellipsis-h"></i> Visa Information
+          <i class="fa fa-ellipsis-h"></i> Show Features
         </a>
       </li>
     </ul>
@@ -329,29 +329,30 @@
 
         <!-- TAB 2: Content (Why Visit) -->
         <div class="tab-pane fade" id="content-content-whyvisit" role="tabpanel">
-            <button id="addSection1Btn_whyvisit" class="btn btn-success mb-3">Add Section</button>
+            <button id="addSection1Btn_whyvisit" class="btn btn-success mb-3">Add Content Why Visit</button>
 
             <!-- DataTable -->
-            <table id="section1Table_whyvisit" class="display table table-bordered">
-                <thead>
+
+            <table id="section1Table_whyvisit" class="display table table-bordered w-100">
+              <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Year</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                  <th>No</th>
+                  <th>Year</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Image</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-                </thead>
-                <tbody></tbody>
+              </thead>
+              <tbody></tbody>
             </table>
 
             <!-- Section Add Form -->
             <div id="section1FormContainer_whyvisit" class="section1-form d-none mt-3">
                 <div class="card tab-card">
                 <div class="card-body">
-                    <h5 class="mb-3 text-success">Add Section</h5>
+                    <h5 class="mb-3 text-success">Content Why Visit Configuration</h5>
                     <form id="addSection1Form_whyvisit" action="<?= base_url('exhibiting/why-exhibit-section-add') ?>" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label">Section Year</label>
@@ -403,7 +404,7 @@
             <div id="section1EditFormContainer_whyvisit" class="section1-form d-none">
                 <div class="card tab-card">
                 <div class="card-body">
-                    <h5 class="mb-3 text-primary">Edit Section</h5>
+                    <h5 class="mb-3 text-primary">Content Why Visit Configuration</h5>
                     <form id="editSection1Form_whyvisit" action="<?= base_url('exhibiting/why-exhibit-section-update') ?>" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="id" id="editSection1Id_whyvisit">
 
@@ -460,6 +461,20 @@
   </div>
 </div>
 
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img id="previewImage" src="" class="img-fluid rounded" alt="Preview Image">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -783,8 +798,11 @@ $(document).ready(function () {
     processing: true,
     serverSide: true,
     ajax: {
-      url: base_url + "exhibiting/why-exhibit-section-datatable",
-      type: "POST"
+      url: base_url + "visiting/why-visit-section-datatable",
+      type: "POST",
+      dataSrc: function (json) {
+        return json.data || [];
+      }
     },
     order: [[1, "asc"]],
     columns: [
@@ -792,42 +810,75 @@ $(document).ready(function () {
       { data: "content_year" },
       { data: "subtitle" },
       { data: "body_text" },
-      {
-        data: "file_path",
-        render: function (data) {
-          return data ? `<img src="${data}" class="img-thumbnail" style="max-height:60px;">` : '-';
-        }
-      },
+      { data: "file_path" },
       { data: "status" },
-      {
-        data: null,
-        orderable: false,
-        render: function (data, type, row) {
-          return `
-            <button class="btn btn-sm btn-primary editSection_whyvisit" data-id="${row.id}" title="Edit">
-              <i class="bi bi-pencil-square"></i>
-            </button>
-            <button class="btn btn-sm btn-danger deleteSection_whyvisit" data-id="${row.id}" title="Delete">
-              <i class="bi bi-trash"></i>
-            </button>
-          `;
-        }
-      }
+      { data: null }
     ],
     columnDefs: [
       {
-        targets: 3,
+        targets: 3, // Description
         render: function (data, type) {
-          return type === 'display' && data
-            ? `<span class="text-truncate d-inline-block" style="max-width:180px;" title="${data}">${data}</span>`
-            : data;
+          if (type === "display" && data) {
+            return `
+              <span class="text-truncate d-inline-block" 
+                    style="max-width:200px;" 
+                    title="${$("<div>").text(data).html()}">
+                ${$("<div>").text(data).html()}
+              </span>`;
+          }
+          return data || "-";
+        }
+      },
+      {
+        targets: 4, // Image column
+        render: function (data) {
+          if (!data) return "-";
+          const imageUrl = data.startsWith("http") ? data : base_url + data;
+          return `
+            <img src="${imageUrl}" 
+                class="img-thumbnail preview-img" 
+                alt="Thumbnail"
+                style="max-height:60px; cursor:pointer; object-fit:cover;"
+                data-full="${imageUrl}">
+          `;
+        }
+      },
+      {
+        targets: 5, // Status
+        render: function (data) {
+          const badgeClass = data === "Active" ? "success" : "secondary";
+          return `<span class="badge bg-${badgeClass}">${data}</span>`;
+        }
+      },
+      {
+        targets: 6, // Actions
+        orderable: false,
+        render: function (data, type, row) {
+          return `
+            <button class="btn btn-sm btn-primary editSection_whyvisit" 
+                    data-id="${row.id}" title="Edit">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-sm btn-danger deleteSection_whyvisit" 
+                    data-id="${row.id}" title="Delete">
+              <i class="bi bi-trash"></i>
+            </button>`;
         }
       }
     ]
   });
 
+  // 🖼️ Handle image click to show modal
+  $(document).on("click", ".preview-img", function () {
+    const imageUrl = $(this).data("full");
+    $("#previewImage").attr("src", imageUrl);
+    const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
+    modal.show();
+  });
+
   // ====== SHOW ADD FORM ======
   $addSectionBtn.on('click', function () {
+    $('#section1Table_whyvisit_wrapper').hide();
     $sectionTableWrapper.hide();
     $addSectionBtn.hide();
     $addFormContainer.removeClass('d-none').hide().fadeIn(200);
@@ -838,6 +889,7 @@ $(document).ready(function () {
     $addFormContainer.slideUp(200, function () {
       $addFormContainer.addClass('d-none');
       $sectionTableWrapper.slideDown(200);
+      $('#section1Table_whyvisit_wrapper').show();
       $addSectionBtn.show();
     });
   });
@@ -901,6 +953,17 @@ $(document).ready(function () {
       $addSectionBtn.hide();
       $addFormContainer.addClass("d-none");
       $editFormContainer.removeClass("d-none").hide().fadeIn(200);
+
+
+      // Show edit form
+      $("#section1FormContainer_whyvisit").addClass("d-none");
+      $("#section1EditFormContainer_whyvisit").removeClass("d-none");
+
+      // Hide table + add button
+      $('#section1Table_whyvisit_wrapper').hide();
+      // $('#addBannerWhyvisitBtn').hide();
+
+      $('#section1EditFormContainer_whyvisit').show();
     });
   });
 
@@ -908,7 +971,7 @@ $(document).ready(function () {
   $cancelEditBtn.on('click', function () {
     $editFormContainer.fadeOut(200, function () {
       $editFormContainer.addClass('d-none');
-      $sectionTableWrapper.slideDown(200);
+      $('#section1Table_whyvisit_wrapper').show();
       $addSectionBtn.show();
     });
   });

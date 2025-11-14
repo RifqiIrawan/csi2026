@@ -269,6 +269,8 @@ class Exhibiting extends CI_Controller {
             ];
         }
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_qlink"] = $this->M_Login->get_qlink();
+        $data["data_contact"] = $this->M_Login->get_contact();   
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorlist',$data);
         $this->load->view('layouts/footer', $data);
@@ -328,6 +330,8 @@ class Exhibiting extends CI_Controller {
         
         $data['features'] = $features;
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_qlink"] = $this->M_Login->get_qlink();
+        $data["data_contact"] = $this->M_Login->get_contact();    
 
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorvisa',$data);
