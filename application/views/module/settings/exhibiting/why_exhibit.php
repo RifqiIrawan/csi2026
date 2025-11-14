@@ -1,11 +1,197 @@
 
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<style>
+  /* === Bootstrap 5 Compatibility Layer for Bootstrap 4 === */
 
+  /* Fix spacing utilities that don't exist in Bootstrap 4 */
+  .me-2 { margin-right: .5rem !important; }
+  .me-3 { margin-right: 1rem !important; }
+  .ms-2 { margin-left: .5rem !important; }
+  .ms-3 { margin-left: 1rem !important; }
+  .mt-3 { margin-top: 1rem !important; }
+  .mb-3 { margin-bottom: 1rem !important; }
+  .mb-5 { margin-bottom: 3rem !important; }
+  .gap-3 { gap: 1rem !important; }
+
+  /* Text utilities */
+  .text-primary { color: #0d6efd !important; }
+  .text-success { color: #198754 !important; }
+
+  /* Buttons (Bootstrap 5 color palette for consistency) */
+  .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  /* Cards adjustment */
+  .tab-card {
+    border: 1px solid #dee2e6;
+    border-radius: .5rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+
+  /* === Bootstrap 5 `.row > *` gutter fix for Bootstrap 4 === */
+  .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+  }
+
+  .row > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+    margin-top: var(--bs-gutter-y);
+  }
+
+
+  /* === Fix for <ul class="nav custom-tabs"> structure with multiple <a> inside one <li> === */
+  .custom-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    border-bottom: 2px solid #dee2e6;
+    background: #f8f9fa;
+    padding: .5rem;
+    border-radius: .5rem .5rem 0 0;
+  }
+
+  .custom-tab .row {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-top: var(--bs-gutter-y);
+  }
+  /* Ensure all links inside the single <li> look like individual tab items */
+  .custom-tabs .nav-item {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: none;
+  }
+
+  .custom-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    padding: .5rem 1rem;
+    margin-right: .25rem;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: all .15s ease-in-out;
+    font-weight: 500;
+  }
+
+  .custom-tabs .nav-link:hover {
+    background-color: #e9ecef;
+    color: #0d6efd;
+    border-color: #dee2e6 #dee2e6 #fff;
+  }
+
+  /* Active tab mimic Bootstrap 5 */
+  .custom-tabs .nav-link.active {
+    color: #0d6efd;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+    font-weight: 600;
+  }
+
+  /* Fix icon spacing */
+  .custom-tabs .nav-link i {
+    margin-right: .4rem;
+  }
+
+  /* Optional: add soft shadow and rounded corners to tabs */
+  .custom-tabs .nav-link.active {
+    box-shadow: inset 0 -2px 0 #0d6efd;
+  }
+
+
+  /* Form labels & controls */
+  .form-label {
+    display: inline-block;
+    margin-bottom: .5rem;
+    font-weight: 500;
+  }
+
+  /* File input and text area styling improvements */
+  .form-control {
+    border-radius: .25rem;
+  }
+
+  .form-text {
+    display: block;
+    margin-top: .25rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+
+  /* For radio button alignment */
+  .d-flex { display: flex !important; }
+  .align-items-center { align-items: center !important; }
+
+  /* For DataTables border consistency */
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6 !important;
+  }
+
+  /* Fix fade + show for tab-pane (Bootstrap 5 behavior) */
+  .tab-pane {
+    display: none;
+  }
+  .tab-pane.active,
+  .tab-pane.show {
+    display: block;
+  }
+
+  /* Fix .d-none & visibility classes if any conflict */ /* Remark this part do display logo coating show */
+  /* .d-none { display: none !important; } */
+
+  /* Mimic Bootstrap 5 outline button hover */
+  .btn-outline-danger:hover,
+  .btn-outline-primary:hover,
+  .btn-outline-success:hover {
+    color: #fff !important;
+  }
+
+  /* Make form inside card more consistent visually */
+  .banner-form .card-body,
+  .section1-form .card-body,
+  .visainformation-form .card-body {
+    padding: 1.5rem;
+  }
+
+  /* Align DataTable header */
+  .table thead th {
+    background-color: #f8f9fa;
+    vertical-align: middle;
+  }
+
+  /* Image previews */
+  .img-thumbnail {
+    border-radius: .25rem;
+    border: 1px solid #dee2e6;
+    padding: .25rem;
+  }
+
+</style>
 <style>/* TAB STYLING */
   .main-panel{
       padding-top: 50px !important
