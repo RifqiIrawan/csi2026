@@ -220,7 +220,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Content</b></h4>
+    <h4 class="page-title"><b>Header Content</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -297,7 +297,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/add_content1" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Content </h4>
+          <h4 class="modal-title">Add Header Content </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -349,7 +349,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/update_content1" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Content </h4>
+          <h4 class="modal-title">Update Header Content </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -373,7 +373,7 @@
           <div class="form-group">
             <label class="form-label">Upload Image</label>
             <input type="hidden" class="form-control" name="get_image" id="image">
-            <input type="file" class="form-control" name="file" required>
+            <input type="file" class="form-control" name="file">
           </div>
           <div class="form-group">
             <label class="form-label">Status</label>
@@ -400,7 +400,7 @@
 
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>

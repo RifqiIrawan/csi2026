@@ -89,6 +89,8 @@ $route['Contact_us'] = 'Info/Contact_us';
 $route['Visitor_Information'] = 'Info/Visitor_Information';
 $route['Hotel_Booking'] = 'Info/Hotel_Booking';
 $route['News_Update'] = 'Info/News_Update';
+$route['News_Update/(:any)'] = 'Info/News_Update_Content';
+
 
 
 

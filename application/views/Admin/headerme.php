@@ -760,6 +760,16 @@
           left: 0;
       }
     }  */
+
+
+  .fixed-top {
+    position: absolute;
+    top: 0;
+    right: auto;
+    left: auto;
+    z-index: 1030;
+    width: -webkit-fill-available;
+  }
   </style>
 
   

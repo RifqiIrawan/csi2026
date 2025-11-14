@@ -193,7 +193,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Coperation</b></h4>
+    <h4 class="page-title"><b>In Coperation</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -268,7 +268,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/add_coperation" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Coperation </h4>
+          <h4 class="modal-title">Add In Coperation </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -312,7 +312,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/update_coperation" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Coperation</h4>
+          <h4 class="modal-title">Update In Coperation</h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

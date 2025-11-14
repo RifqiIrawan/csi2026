@@ -1,10 +1,11 @@
 <style>
-    .title{
-        font-size: 28px;
+
+.title{
+        font-size: 28px; 
         font-weight: 600;
         color: #000;
     }
-    p {
+    /* p {
         display: block;
         margin: 0 0 5px;
         font-weight: 400;
@@ -12,7 +13,7 @@
         letter-spacing: normal;
         word-break: break-word;
         color: #000;
-    }
+    } */
     .img-fluid{       
         width: 100%;
         /* background-image: url('foto.jpg'); */
@@ -69,7 +70,7 @@
         object-fit: contain;
     }
 
-    img{
+    img .card-img-top{
         background-size: cover;        /* Gambar menutupi seluruh area */
         background-position: center;   /* Posisi gambar di tengah */
         background-repeat: no-repeat;  /* Tidak diulang */
@@ -82,6 +83,210 @@
         font-weight: 700;
     }
 
+    input[type=text], input[type=password], input[type=number], input[type=email], input[type=url], input[type=search], select, textarea {
+        background: #fff;
+        border: 2px solid #d9d9d9;
+        border-radius: 0;
+        box-shadow: none;
+        color: #888;
+        font-size: 16px;
+        height:30px; 
+        line-height: 0px;
+        padding: 10px;
+        width: 100%;
+    }
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        color: var(--bs-body-color);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: var(--bs-body-bg);
+        background-clip: padding-box;
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-radius: var(--bs-border-radius);
+        transition: border-color .15s 
+        ease-in-out, box-shadow .15s 
+        ease-in-out;
+    }
+
+    /* coating show */
+    .btn-default {
+        background: #5cb468 !important;
+        width: 100%;
+        color: #fff !important;
+        font-weight: 700 !important;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+    }
+
+    .card {
+        box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+        border: none;
+        margin-bottom: 30px;
+    }
+
+    .card-img, .card-img-bottom, .card-img-top {
+        width: 100%;
+        max-height: 200px;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        transition: all 1s ease;
+        z-index: 999;
+    }
+
+    .card-01 .card-body {
+        position: relative;
+        padding-top: 0px;
+    }
+
+    h5{
+        font-weight: 700;
+    }
+
+    .card-01 .badge-box {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        margin-left: -50px;
+        text-align: center;
+    }
+
+    .card-01 .badge-box i {
+        background: #006EFF;
+        color: #fff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .card-01 .height-fix {
+        height: 455px;
+        overflow: hidden;
+    }
+
+    .card-01 .height-fix .card-img-top {
+        width: auto;
+    }
+
+    .main-nav>ul>li>a,
+    .main-nav>ul>li.submenu:after {
+        color: #2a2a2a !important;
+    }
+
+    .white-btn {
+        color: #2a2a2a !important;
+        border: 2px solid #2a2a2a !important;
+    }
+
+    .ket h4,
+    .ket p {
+        color: #2a2a2a !important;
+    }
+
+    sponsors-section .slide-logo img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .slide-logo a {
+        height: auto;
+    }
+
+    .fl-module img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+    .rowsel {
+        border: 1px solid rgba(0, 0, 0, .1);
+        background: #fff;
+        padding: 0.938rem;
+        height: 200px;
+        width: fit-content;
+        aspect-ratio: 3/2;
+        ;
+    }
+    .owl-carousel .owl-item img {
+        width: 80%;
+        border: 1px solid rgba(0, 0, 0, .1);
+        background: #fff;
+        padding: 0.938rem;
+        height: 200px;
+        width: fit-content;
+        aspect-ratio: 3/2;
+        object-fit: contain;
+    }
+
+    .menu-item:hover>.menu-link,
+    .menu-item.current>.menu-link {
+        color: #FFBC00 !important;
+    }
+        
+
+    .sub-menu-container .menu-item>.menu-link {
+        color: black;
+    }
+
+    #primary-menu-trigger,
+    #page-menu-trigger {
+        display: -ms-flex;
+        display: flex;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 5;
+        cursor: pointer;
+        font-size: 0.875rem;
+        width: 20%;
+        height: 47px;
+        position: relative;
+        left: 5%;
+        /* top: -1%; */
+        line-height: 90px;
+        justify-content: center;
+        align-items: center;
+        -webkit-transition: opacity .3s ease;
+        transition: opacity .3s ease;
+    }
+
+    .svg-trigger {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 400ms;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .top-phone {
+        background-color: #FFBC00;
+        border-radius: 50px;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 14px;
+        border-radius: 50px;
+    }
+
+    .top-phone:hover {
+        background-color: #5B9D0A;
+        color: #FFF;
+    }
     input[type=text], input[type=password], input[type=number], input[type=email], input[type=url], input[type=search], select, textarea {
         background: #fff;
         border: 2px solid #d9d9d9;

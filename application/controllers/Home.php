@@ -79,6 +79,61 @@ class Home extends CI_Controller {
       }   
   }
 
+  // sub menu
+  public function Sub_Menu(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_sub_menu"] = $this->M_Home->get_sub_menu();
+    $this->template->load('Admin/role','module/Home/sub_menu',$data);
+}
+
+public function add_sub_menu(){
+    $id_menu = $this->input->post("id_menu");
+    $name = $this->input->post("name");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions1");            
+    $insert = $this->M_Home->add_sub_menu($id_menu,$name,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Sub_Menu');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Sub_Menu');
+    } 
+}
+
+public function update_sub_menu(){
+    $code = $this->input->post("code");
+    $name = $this->input->post("name");
+    $url = $this->input->post("url");
+    $status = $this->input->post("status");
+    $description = $this->input->post("descriptions_edit");            
+    $insert = $this->M_Home->update_sub_menu($code,$id_menu,$name,$url,$status,$description);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Sub_Menu');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Sub_Menu');
+    } 
+}
+
+public function delete_sub_menu(){
+    $code = $this->input->post("code");
+    $cek_data = $this->M_Home->delete_sub_menu($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+}
+
   public function Date_Event(){   
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');
@@ -154,6 +209,7 @@ class Home extends CI_Controller {
   public function update_date_event(){
     $folder1 = "./assets/images/upload/event/image1/";
     $folder2 = "./assets/images/upload/event/image2/";
+    $code = $this->input->post("code");
     $name = $this->input->post("name");
     $title1 = $this->input->post("title1");
     $description1 = $this->input->post("descriptions1_edit");
@@ -165,7 +221,7 @@ class Home extends CI_Controller {
     $img1 = "";  
     $img2 = "";
       //for image1
-    if($_FILES['file1']['name'] != ""){
+    if($_FILES['file1']['name'] != "" || !empty($_FILES['file1']['name'])){
       $_FILES['file1']['name'];
       $_FILES['file1']['type'];
       $_FILES['file1']['tmp_name'];
@@ -187,10 +243,12 @@ class Home extends CI_Controller {
         $error = array('error' => $this->upload->display_errors());
         // echo "Error : ";
       }
+    }else{
+      $img1 = $get_file1;
     }
 
     //for image2
-    if($_FILES['file2']['name'] != ""){
+    if($_FILES['file2']['name'] != "" || !empty($_FILES['file2']['name'])){
       $_FILES['file2']['name'];
       $_FILES['file2']['type'];
       $_FILES['file2']['tmp_name'];
@@ -211,6 +269,8 @@ class Home extends CI_Controller {
         $error = array('error' => $this->upload->display_errors());
         // echo "Error : ";
       }
+    }else{
+      $img2 = $get_file2;
     }
     
     $insert = $this->M_Home->update_date_event($code,$name,$title1,$description1,$img1,$title2,$description2,$img2,$status);
@@ -290,12 +350,7 @@ class Home extends CI_Controller {
     $description = $this->input->post("descriptions1_edit");
     $image_title = $this->input->post("image_title");
     $status = $this->input->post("status");    
-    $get_image = $this->input->post("get_image");
-    //Now Unlink
-    if(file_exists("".$folder."".$get_image.""))
-    {
-      unlink("".$folder."".$get_image."");
-    }
+    $get_image = $this->input->post("get_image");   
    
     //for image1
     $_FILES['file']['name'];
@@ -303,22 +358,31 @@ class Home extends CI_Controller {
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size'];  
-    $type = explode(".",$_FILES['file']['name']);
-    $typ = $type;
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
+      //Now Unlink
+      if(file_exists("".$folder."".$get_image.""))
+      {
+        unlink("".$folder."".$get_image."");
+      }
+      $type = explode(".",$_FILES['file']['name']);
+      $typ = $type;
 
-    $config['upload_path']          = $folder;
-    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-    $config['file_name']     		= md5("image".date('Ymdhis'));
-    $img = $config['file_name'].".".$typ[1];
-    $this->load->library('upload', $config);
-    $this->upload->initialize($config);		
-    if ($this->upload->do_upload('file')) {
-      echo "OK";
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("image".date('Ymdhis'));
+      $img = $config['file_name'].".".$typ[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);		
+      if ($this->upload->do_upload('file')) {
+        echo "OK";
+      }else{
+        $error = array('error' => $this->upload->display_errors());
+        echo "Error : ";
+        die();
+      }   
     }else{
-      $error = array('error' => $this->upload->display_errors());
-      echo "Error : ";
-      die();
-    }   
+      $img = $get_image;
+    }
 
     $insert = $this->M_Home->update_content1($code,$title,$description,$image_title,$img,$status);
     if($insert == true){

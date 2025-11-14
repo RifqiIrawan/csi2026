@@ -198,6 +198,11 @@ Logo Box
   max-height: 100px;
   margin: auto;
 }
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 10px !important;
+}
 </style>
 
 <!-- jQuery & Slick -->

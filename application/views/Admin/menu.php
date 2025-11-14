@@ -45,33 +45,33 @@
         </li>
         <li class="nav-item nav-category">
           <span class="nav-link">Navigation</span>
-        </li>
+        </li> 
+
+      
         
         <li class="nav-item menu-items">
-          <a class="nav-link" data-toggle="collapse" href="#acc" aria-expanded="false" aria-controls="acc">
+          <a class="nav-link" data-toggle="collapse" href="#menu1" aria-expanded="false" aria-controls="menu1">
             <span class="menu-icon">
               <i class="mdi mdi-home"></i>
             </span>
             <span class="menu-title">Home</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="acc">
+          <div class="collapse" id="menu1">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Date_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Date Event</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Content</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Coperation');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Coperation</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Event_Value');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Event Value</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Profile</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Product');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Product</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Support');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Support</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header Content</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Book_Stand');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Book A Stand</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Floor_Plan');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Floor Plan</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Date_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Logo & Date Event</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Carousel');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Carousel</a></li>
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Highlights');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Video Highlights</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Profile');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Logo & Event Profile</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Product');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Product Sector</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Event_Value');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Highlights Attendees</a></li>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Highlights');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Show Highlights Video</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Coperation');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;In Cooperation</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sponsors');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sponsors</a></li> 
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organizer</a></li> 
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Member');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Member</a></li> 
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sosmed');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sosmed</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Support');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Supported By</a></li>
+
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Link_Event');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Link Event (EMS)</a></li> 
 
             </ul>
@@ -79,75 +79,80 @@
         </li>
 
         <li class="nav-item menu-items">
-          <a class="nav-link collapsed" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+          <a class="nav-link collapsed" data-toggle="collapse" href="#menu2" aria-expanded="false" aria-controls="menu2">
             <span class="menu-icon">
-              <i class="mdi mdi-home"></i>
+              <i class="mdi mdi-chevron-double-down"></i>
             </span>
             <span class="menu-title">Footer</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="auth">
+          <div class="collapse" id="menu2">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organizer By</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Member');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Member Of</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Quick_Link');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Quick Link</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sosmed');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sosial Media</a></li> 
 
             </ul>
           </div>
         </li>
 
         <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Form_Visitor_Information');?>">
+          <a class="nav-link collapsed" data-toggle="collapse" href="#menu3" aria-expanded="false" aria-controls="menu3">
             <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
+              <i class="mdi mdi-chevron-double-down"></i>
             </span>
-            <span class="menu-title">Visitor Information</span>
+            <span class="menu-title">Information</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="menu3">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Form_Visitor_Information');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Visitor Information</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Hotel');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Booking Hotel</a></li> 
+
+            </ul>
+          </div>
         </li>
 
         <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Hotel');?>">
+          <a class="nav-link collapsed" data-toggle="collapse" href="#menu4" aria-expanded="false" aria-controls="menu4">
             <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
+              <i class="mdi mdi-chevron-double-down"></i>
             </span>
-            <span class="menu-title">Hotel</span>
+            <span class="menu-title">Contact</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="menu4">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Form_Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header Contact</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Submit_Form');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Submit Form</a></li> 
+
+            </ul>
+          </div>
         </li>
 
         <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Submit_Form');?>">
+          <a class="nav-link collapsed" data-toggle="collapse" href="#menu5" aria-expanded="false" aria-controls="menu5">
             <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
+              <i class="mdi mdi-chevron-double-down"></i>
             </span>
-            <span class="menu-title">Submit Form</span>
+            <span class="menu-title">News</span>
+            <i class="menu-arrow"></i>
           </a>
+          <div class="collapse" id="menu5">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Header_News');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header News</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/News_Update');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;News Update</a></li> 
+
+            </ul>
+          </div>
         </li>
 
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Form_Contact');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Contact US</span>
-          </a>
-        </li>
+        
 
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Header_News');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">Header News</span>
-          </a>
-        </li>
 
-        <li class="nav-item menu-items">
-          <a class="nav-link" href="<?php echo site_url('Info/Form_News_Update');?>">
-            <span class="menu-icon">
-              <i class="mdi mdi-menu"></i>
-            </span>
-            <span class="menu-title">News Update</span>
-          </a>
-        </li>
+       
 
         <!-- Exhibiting Menu -->
         <li class="nav-item menu-items">
@@ -225,17 +230,19 @@
             <span class="menu-icon">
               <i class="mdi mdi-settings"></i>
             </span>
-            <span class="menu-title">Management</span>
+            <span class="menu-title">Settings</span>
             <i class="menu-arrow"></i>
           </a>
           <div class="collapse" id="setting">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('userlogin');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Account Login</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Menu</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sub_Menu');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sub Menu</a>
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('userlogin');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Account Login</a></li>
             </ul>
           </div>
         </li>
+
+      
       </ul>
     </nav>
     <div class="container-fluid page-body-wrapper">

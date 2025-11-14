@@ -4,7 +4,7 @@
         font-weight: 600;
         color: #000;
     }
-    p {
+    /* p {
         display: block;
         margin: 0 0 5px;
         font-weight: 400;
@@ -12,16 +12,15 @@
         letter-spacing: normal;
         word-break: break-word;
         color: #000;
-    }
-    .img-fluid{       
+    } */
+    /* .img-fluid{       
         width: 100%;
-        /* background-image: url('foto.jpg'); */
-        background-size: cover;     /* gambar memenuhi area */
-        background-position: center;/* fokus tengah */
+        background-size: cover;     
+        background-position: center;
         background-repeat: no-repeat;
         border: 1px solid gainsboro;
         margin-bottom: 30px;
-    }
+    } */
 
     .styel{
         min-height: 350px;
@@ -69,13 +68,13 @@
         object-fit: contain;
     }
 
-    img{
-        background-size: cover;        /* Gambar menutupi seluruh area */
-        background-position: center;   /* Posisi gambar di tengah */
-        background-repeat: no-repeat;  /* Tidak diulang */
-        background-attachment: fixed;  /* Gambar diam saat scroll (opsional) */
+    /* img{
+        background-size: cover;        
+        background-position: center;   
+        background-repeat: no-repeat;  
+        background-attachment: fixed;  
         width: -webkit-fill-available;
-    }
+    } */
 </style>
 
 <script>

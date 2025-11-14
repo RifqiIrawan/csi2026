@@ -22,7 +22,7 @@ class Info extends CI_Controller {
       $data["data_contact_us"] = $this->M_Info->get_contact_us();    
       $data["data_qlink"] = $this->M_Login->get_qlink();
       $data["data_contact"] = $this->M_Login->get_contact();    
-      $this->template->load('layouts/role','module/Info/visitor_information',$data);
+      $this->template->load('layouts2/role2','module/Info/visitor_information',$data);
     }
   
     public function Form_Visitor_Information(){   
@@ -142,7 +142,7 @@ class Info extends CI_Controller {
     $data["data_contact"] = $this->M_Login->get_contact();    
 
     $data["data_hotel"] = $this->M_Info->get_hotel();
-    $this->template->load('layouts/role','module/Info/hotel_booking',$data);
+    $this->template->load('layouts2/role2','module/Info/hotel_booking',$data);
   }
   
   public function Hotel(){   
@@ -272,7 +272,7 @@ class Info extends CI_Controller {
     $data["data_contact_us"] = $this->M_Info->get_contact_us();    
     $data["data_qlink"] = $this->M_Login->get_qlink();
     $data["data_contact"] = $this->M_Login->get_contact();    
-    $this->template->load('layouts/role','module/Contact/contact_us',$data);
+    $this->template->load('layouts2/role2','module/Contact/contact_us',$data);
   }
 
   public function Form_Contact(){   
@@ -615,7 +615,25 @@ class Info extends CI_Controller {
 
     $data["data_header_news"] = $this->M_Info->get_header_news();
     $data["data_news_update"] = $this->M_Info->get_news_update();
-    $this->template->load('layouts/role','module/Info/news_update',$data);
+    $this->template->load('layouts2/role2','module/Info/news_update',$data);
+  }
+
+  public function News_Update_Content(){
+    error_reporting(0);
+    $url = $this->uri->segment(2);
+    $data["data_carousel"] = $this->M_Home->get_carousel();
+    $data["data_menu"] = $this->M_Home->get_menu();
+    $data["data_profile"] = $this->M_Login->get_profile()->row();
+    $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_contact1"] = $this->M_Info->get_contact1();
+    $data["data_contact2"] = $this->M_Info->get_contact2();
+    $data["data_contact3"] = $this->M_Info->get_contact3();
+    $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+    $data["data_qlink"] = $this->M_Login->get_qlink();
+    $data["data_contact"] = $this->M_Login->get_contact();    
+    $data["data_header_news"] = $this->M_Info->get_header_news();
+    $data["data_news_update1"] = $this->M_Info->get_news_update1($url);
+    $this->template->load('layouts2/role2','module/Info/news_update_content',$data);
   }
 
   public function Form_News_Update(){   
@@ -675,7 +693,7 @@ class Info extends CI_Controller {
     $title = $this->input->post("title");
     $date = $this->input->post("date");
     $img = $this->input->post("img");
-    $descriptions = $this->input->post("descriptions2"); 
+    $description = $this->input->post("descriptions2"); 
     $status = $this->input->post("status");   
     $folder = './assets/images/upload/news_update/';
     $file = $_FILES;
@@ -684,7 +702,7 @@ class Info extends CI_Controller {
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink($folder."".$img);
@@ -705,9 +723,12 @@ class Info extends CI_Controller {
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
       }
+      $img = $config['file_name'];
+    }else{ 
+      $img = $img;
     }
    
-    $insert = $this->M_Info->update_news_update($code,$title,$date,$config['file_name'],$description,$status);
+    $insert = $this->M_Info->update_news_update($code,$title,$date,$img,$description,$status);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Info/Form_News_Update');         

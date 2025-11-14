@@ -129,6 +129,12 @@
   }
 }
 
+
+a {
+    /* color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)); */
+    text-decoration: none;
+}
+
 </style>
 
 <footer class="footer dark-background mt-3"

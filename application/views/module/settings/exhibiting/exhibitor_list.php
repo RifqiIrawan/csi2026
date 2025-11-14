@@ -153,6 +153,23 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+
+.container-fluid {
+  padding-left: 0 !important;
+  padding-right: 10px !important;
+}
+
+.custom-tabs .nav-item {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  border-bottom: none;
+  margin-left: 10px;
+}
+.mt-4, .my-4 {
+  margin-top: 2rem !important;
+  margin-left: 10px;
+}
 </style>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>

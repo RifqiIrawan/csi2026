@@ -4,7 +4,7 @@
         font-weight: 600;
         color: #000;
     }
-    p {
+    /* p {
         display: block;
         margin: 0 0 5px;
         font-weight: 400;
@@ -12,7 +12,7 @@
         letter-spacing: normal;
         word-break: break-word;
         color: #000;
-    }
+    } */
     .img-fluid{       
         width: 100%;
         /* background-image: url('foto.jpg'); */
@@ -69,7 +69,7 @@
         object-fit: contain;
     }
 
-    img{
+    img .card-img-top{
         background-size: cover;        /* Gambar menutupi seluruh area */
         background-position: center;   /* Posisi gambar di tengah */
         background-repeat: no-repeat;  /* Tidak diulang */
@@ -177,7 +177,7 @@
     }
 
     .card-01 .height-fix .card-img-top {
-        width: auto !imporat;
+        width: auto;
     }
 
     .main-nav>ul>li>a,
@@ -294,22 +294,22 @@
     </div>
 </section>
 
-<section class="generic-gallery-isotope mt-5">
+<section class="generic-gallery-isotope mt-4">
     <div class="container">
         <div class="row">
-        <?php foreach($data_news_update as $row){?>
-            <div class="col-lg-3">
-                <div class="card card-01">
-                    <img class="card-img-top" src="<?php echo base_url("./assets/images/upload/news_update/".$row->file_upload."");?>">
-                    <div class="card-body">
-                        <h5 class="card-title text-center"><?php echo $row->title;?></h5>
-                        <p class="card-text text-center"><?php echo $row->date_news;?></p>
-                        <a href="https://coatingshow.com/news/4-tips-for-choosing-quality-paint-coatings-and-ink" class="btn btn-default text-uppercase">Read
-                            More</a>
+            <?php foreach($data_news_update as $row){?>
+                <div class="col-lg-3">
+                    <div class="card card-01">
+                        <img class="card-img-top" src="<?php echo base_url("./assets/images/upload/news_update/".$row->file_upload."");?>">
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><?php echo $row->title;?></h5>
+                            <p class="card-text text-center"><?php echo $row->date_news;?></p>
+                            <a href="<?php echo base_url("News_Update/".$row->id);?>" class="btn btn-default text-uppercase" target="_blank">Read
+                                More</a>
+                        </div>
                     </div>
-                </div>
-            </div>  
-        <?php }?>                                  
+                </div>  
+            <?php }?>                                  
         </div>
     </div>
 </section>

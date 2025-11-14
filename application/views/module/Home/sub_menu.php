@@ -1,0 +1,387 @@
+<?php 
+  if($this->session->flashdata('save')){
+    echo '<script type="text/javascript">
+            $(document).ready(function(){
+              swal({
+                  title: "Save Success",
+                  text: "Data Saved Successfully.",
+                  icon: "success",
+                  timer: 3000,
+                  button: true
+              }).then(function() {      
+              });                   
+            });
+          </script>';
+  }
+  if($this->session->flashdata('not_save')){
+    echo    '<script type="text/javascript">
+                $(document).ready(function(){
+                    swal({
+                      title: "Failed",
+                      text: "Data Failed to Save.",
+                      icon: "error",
+                      timer: 3000,
+                      button: true
+                    }).then(function() {
+                    });
+                });
+            </script>';
+    }
+
+    if($this->session->flashdata('update')){
+        echo    '<script type="text/javascript">
+                    $(document).ready(function(){
+                      swal({
+                        title: "Update Success",
+                        text: "Update Data Successfully.",
+                        icon: "info",
+                        timer: 3000,
+                        button: true
+                      }).then(function() {
+                      });
+                    });
+                </script>';
+      }
+    if($this->session->flashdata('not_update')){
+      echo    '<script type="text/javascript">
+                  $(document).ready(function(){
+                    swal({
+                        title: "Update Failed",
+                        text: "Update Data Failed.",
+                        icon: "error",
+                        timer: 3000,
+                        button: true
+                    }).then(function() {
+                    });
+                  });
+                </script>';
+    }
+?>
+<style type="text/css">
+  .icn{
+    margin-left: -7px;
+    color:black;
+  }
+  .bw{
+    width: 25px;
+  }
+  .btn-edit-icn{
+    background: #00d25b;
+  }
+
+  .btn-hapus-icn{
+    background:#F70D1A;
+    margin-left:0px;
+  }
+
+  .edit-btn{        
+    min-height: 35px;
+  }
+  .btn-admin, .btn-group-lg > .btn, .fc .btn-group-lg > 
+  button, .ajax-upload-dragdrop .btn-group-lg > .ajax-file-upload
+  , .swal2-modal .swal2-buttonswrapper .btn-group-lg > .swal2-styled
+  , .wizard > .actions .btn-group-lg > a {      
+    padding: 0.65rem 0.65rem;
+    background: #00d25b;
+  }
+
+  .modal-body img {
+    object-fit: contain;
+  }
+</style>
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">  
+  $(document).ready(function() {
+
+    // if (document.getElementById('descriptions')) {
+    //   if (CKEDITOR.instances['descriptions']) CKEDITOR.instances['descriptions'].destroy(true);
+    //   CKEDITOR.replace('descriptions', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
+
+    // if (document.getElementsByName('descriptions1').length) {
+    //   if (CKEDITOR.instances['descriptions1']) CKEDITOR.instances['descriptions1'].destroy(true);
+    //   CKEDITOR.replace('descriptions1', {
+    //     customConfig: '/custom/ckeditor_config.js'
+    //   });
+    // }
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    $('#close').on('click', function() {    
+      window.location.reload()   
+    });
+    $('#close_edit').on('click', function() {   
+      window.location.reload()
+    });  
+    $('#close_admin').on('click', function() {   
+      window.location.reload()
+    });  
+    $(".modal").on("hidden.bs.modal", function() {      
+      window.location.reload()
+    });
+  });
+
+  function upd(code,id_menu,name,url,status,description){
+    $("#code").val(code);
+    $("#id_menu").val(id_menu);
+    $("#name").val(name);
+    $("#url").val(url);
+    $("#position").val(position);
+    var desc = description;
+    CKEDITOR.instances.descriptions.setData(desc);
+    var status='#'+status;
+    $(status).prop("checked", true);
+    $('#mdl_edit').modal('show');    
+  }
+  
+  function del(code){
+    var code = code;
+    if (confirm("Do you want to delete this data?")) {
+      $.ajax({
+        url: "<?php echo base_url()?>Home/delete_sub_menu",
+        type: 'post',
+        data: {'code' : code},
+        success: function (data) {
+        //   console.log(data);
+          if(data === "OK"){
+            swal({
+                title: "Delete Success",
+                text: "Delete Data Successfully.",
+                icon: "success",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Sub_Menu";
+            });
+          }else{
+            swal({
+                title: "Delete Failed",
+                text: "Delete Data Failed.",
+                icon: "error",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Sub_Menu";
+            });
+          }
+        },
+        error: function () {
+          alert("Data Failed to be Deleted.");
+        }
+      });
+    }else{
+      alert(code + " Data Failed to be Deleted.");
+    }
+  }  
+</script>
+
+<div class="content-wrapper">
+  <div class="page-header">
+    <h4 class="page-title"><b>Sub Menu</b></h4>
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
+        <li class="breadcrumb-item active" aria-current="page">From news</li> -->
+    </ol>
+    </nav>
+  </div>
+    <div class="row ">
+      <div class="col-lg-12">
+        <div class="car">
+          <div class="card-body btop">                    
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
+              <i class="mdi mdi-account-plus"></i> Add &nbsp;
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                  <tr>
+                    <th width="1%">No</th>
+                    <th>Menu</th>
+                    <th>Sub_Menu</th>
+                    <th>Url/Controller</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th width="15%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                    $no = 1;
+                    foreach ($data_sub_menu as $row) {
+                      switch ($row->status) {
+                        case 'A':
+                          $stat="Active";
+                        break; 
+                        case 'P':
+                          $stat="Passive";
+                        break; 
+                      }//end switch               
+                      echo "<tr>";
+                        echo "<td align=\"center\">".$no."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->sub_name))."</td>";
+                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"center\">".$stat."</td>";  
+                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"center\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->subid."','".$row->menu_id."','".$row->sub_name."','".$row->url."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                    <i class=\"mdi mdi-table-edit icn\"></i>
+                                </button>
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->subid."')\">
+                                    <i class=\"mdi mdi-delete-sweep icn\"></i>
+                                </button>
+                              </td>";   
+                      echo "</tr>";                     
+                      $no++;
+                    }  
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>           
+</div>
+
+<div class="modal fade" id="mdl">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_sub_menu" id="frm_group" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Menu </h4>
+           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Menu</label>
+            <select class="form-control" name="id_menu">
+              <?php 
+                foreach($data_menu as $row){
+                  echo "<option value=\"".$row->id."\">".$row->name."</option>";
+                }
+              ?>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Sub Menu</label>
+            <input type="text" class="form-control" name="name" Placeholder="Entry Sub Menu" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Url/Controller</label>
+            <input type="text" class="form-control" name="url" Placeholder="Entry Url/Controller" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="custom-controls-stacked">
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="A" checked>
+                <span class="custom-control-label">Active</span>
+              </label>
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="P" >
+                <span class="custom-control-label">Passive</span>
+              </label>             
+            </div>
+          </div>       
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions1" rows="9"></textarea>
+          </div>      
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary edit-btn" value="Submit" name="Tambah"> 
+          <input type="button" class="btn btn-danger edit-btn" id="close" value="Cancel" name="close">        
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_edit">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_sub_menu" id="frm_group_edit" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h4 class="modal-title">Update Data Menu </h4>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Menu</label>
+            <input type="hidden" class="form-control" name="code" id="code">
+            <select class="form-control" name="id_menu" id="id_menu">
+              <?php 
+                foreach($get_menu as $row){
+                  echo "<option value=\"".$row->id."\">".$row->name."</option>";
+                }
+              ?>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Menu Name</label>
+            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Url/Controller</label>
+            <input type="text" class="form-control" name="url" id="url" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="custom-controls-stacked">
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="A" id="A">
+                <span class="custom-control-label">Active</span>
+              </label>
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="P" id="P">
+                <span class="custom-control-label">Passive</span>
+              </label>             
+            </div>
+          </div>    
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
+          </div>      
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
+          <input type="button" class="btn btn-danger edit-btn" id="close_edit" value="Cancel" name="close">        
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="mdl_img">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Show Image </h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 text-center" id="get_image"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>

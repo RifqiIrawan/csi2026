@@ -118,7 +118,7 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-$db['ems'] = array(
+$db['pnicheme_ems'] = array(
 	'dsn'		=> '',
 	'hostname' 	=> 'localhost',
 	'username' 	=> 'root',

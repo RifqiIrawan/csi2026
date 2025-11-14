@@ -197,7 +197,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Highlights</b></h4>
+    <h4 class="page-title"><b>Show Highlights Video</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -272,7 +272,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/add_highlights" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Highlights </h4>
+          <h4 class="modal-title">Add Highlights Video </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -316,7 +316,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/update_highlights" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Highlights </h4>
+          <h4 class="modal-title">Update Highlights Video </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

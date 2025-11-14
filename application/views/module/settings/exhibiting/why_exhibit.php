@@ -341,6 +341,20 @@
       box-sizing: border-box;
   }
 
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 10px !important;
+  }
+
+  .custom-tabs .nav-item {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    border-bottom: none;
+    margin-left: 10px;
+  }
+  
+
 
 </style>
 </head>

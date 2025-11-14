@@ -176,7 +176,7 @@
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Support</b></h4>
+    <h4 class="page-title"><b>Supported By</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li> -->
@@ -189,7 +189,7 @@
         <div class="car">
             <div class="card-body btop">                    
               <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-                <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+                <i class="mdi mdi-account-plus"></i> Add &nbsp;
               </button>
             </div>
         </div>
@@ -252,7 +252,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/add_support" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Support </h4>
+          <h4 class="modal-title">Add Supported By </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
@@ -299,7 +299,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Home/update_support" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Data Support </h4>
+          <h4 class="modal-title">Update Supported By </h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

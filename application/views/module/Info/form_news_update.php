@@ -99,8 +99,26 @@
   }
 </style>
 
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
+
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions2' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions2_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });
@@ -120,6 +138,15 @@
     $("#title").val(title);
     $("#date").val(date);
     $("#img").val(img);
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,"text":"news_update"},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        CKEDITOR.instances.descriptions2.setData(jsn.description);       
+      }
+    });
     var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
@@ -165,6 +192,20 @@
     }
   }  
 
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'news_update'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.description);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
+
   function show_image(file){
     var folder = "./assets/images/upload/news_update/";
     var pic = "."+folder+""+file;
@@ -203,6 +244,7 @@
                     <th>Title</th>
                     <th>Date News</th>
                     <th>File</th>
+                    <th>Description</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -224,6 +266,7 @@
                         echo "<td align=\"\">".$row->title."</td>";
                         echo "<td align=\"center\">".$row->date_news."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->file_upload."');\"></td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";   
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->date_news."','".$row->file_upload."','".$row->status."');\">
@@ -311,12 +354,16 @@
           </div> 
           <div class="form-group">
             <label class="form-label">Date News</label>
-            <input type="date" class="form-control" name="date" required>
+            <input type="date" class="form-control" name="date" id="date" required>
           </div> 
           <div class="form-group">
             <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
-          </div>    
+            <input type="file" class="form-control" name="file">
+          </div> 
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions2" rows="9"></textarea>
+          </div>   
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -351,6 +398,22 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-12 text-center" id="get_image"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_text1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Description</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_text1"></div>
         </div>         
       </div>
     </div>
