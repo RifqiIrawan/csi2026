@@ -217,11 +217,6 @@
     margin: 0 10px;
     }
 
-    .social-links {
-    position: relative;
-    left: 21%;
-    }
-
     @media (max-width: 600px) {
     .footer .footer-links,
     .footer .footer-about {
