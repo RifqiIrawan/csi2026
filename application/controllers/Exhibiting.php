@@ -269,6 +269,7 @@ class Exhibiting extends CI_Controller {
             ];
         }
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_sosmed"] = $this->M_Login->get_sosmed();
         $data["data_qlink"] = $this->M_Login->get_qlink();
         $data["data_contact"] = $this->M_Login->get_contact();   
         $this->load->view('layouts/header', $data);
@@ -330,6 +331,7 @@ class Exhibiting extends CI_Controller {
         
         $data['features'] = $features;
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_sosmed"] = $this->M_Login->get_sosmed();
         $data["data_qlink"] = $this->M_Login->get_qlink();
         $data["data_contact"] = $this->M_Login->get_contact();    
 
