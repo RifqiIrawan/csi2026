@@ -9,9 +9,71 @@ class Visiting extends CI_Controller {
         $this->load->library('session');    
         $this->load->model('M_Login');   
         $this->load->model('M_Form');
+        $this->load->model('M_Home');
+        $this->load->model('M_Info');
         $this->load->model('M_Visiting');
         $this->load->model('M_Exhibiting');
         $this->load->library('upload');
+    }
+
+    public function Dashboard(){  
+        error_reporting(0);
+        $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_event"] = $this->M_Login->get_event()->row();
+        $data["data_product"] = $this->M_Login->get_product();
+        $data["data_event_value"] = $this->M_Login->get_event_value();
+        $data["data_support"] = $this->M_Login->get_support();
+        $data["data_content1"] = $this->M_Login->get_content1()->row();
+        $data["data_profile"] = $this->M_Login->get_profile()->row();
+        $data["data_sosmed"] = $this->M_Login->get_sosmed();
+        $data["data_qlink"] = $this->M_Login->get_qlink();
+        $data["data_contact"] = $this->M_Login->get_contact();    
+        $data["data_carousel"] = $this->M_Login->get_carousel();
+        $data["data_video"] = $this->M_Login->get_highlights();
+        $data["data_organizer"] = $this->M_Login->get_organizer();
+        $data["data_sponsors"] = $this->M_Login->get_sponsors();
+        $data["data_coperation"] = $this->M_Login->get_coperation();
+
+        $data["data_footer"] = "../Website/assets/img/ftr.jpg";
+        $this->load->view('dashboard',$data);
+    }
+
+    public function News_Update(){  
+        error_reporting(0);
+        $data["data_carousel"] = $this->M_Home->get_carousel();
+        $data["data_menu"] = $this->M_Home->get_menu();
+        $data["data_profile"] = $this->M_Login->get_profile()->row();
+        $data["data_sosmed"] = $this->M_Login->get_sosmed();
+        $data["data_contact1"] = $this->M_Info->get_contact1();
+        $data["data_contact2"] = $this->M_Info->get_contact2();
+        $data["data_contact3"] = $this->M_Info->get_contact3();
+        $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+        $data["data_qlink"] = $this->M_Login->get_qlink();
+        $data["data_contact"] = $this->M_Login->get_contact();    
+
+        $data["data_header_news"] = $this->M_Info->get_header_news();
+        $data["data_news_update"] = $this->M_Info->get_news_update();
+        
+        $data["data_footer"] = "../Website/assets/img/ftr.jpg";
+        $this->template->load('layouts2/role2','module/Info/news_update',$data);
+    }
+
+    public function Hotel_Booking(){
+        error_reporting(0);
+        $data["data_carousel"] = $this->M_Home->get_carousel();
+        $data["data_menu"] = $this->M_Home->get_menu();
+        $data["data_profile"] = $this->M_Login->get_profile()->row();
+        $data["data_sosmed"] = $this->M_Login->get_sosmed();
+        $data["data_contact1"] = $this->M_Info->get_contact1();
+        $data["data_contact2"] = $this->M_Info->get_contact2();
+        $data["data_contact3"] = $this->M_Info->get_contact3();
+        $data["data_contact_us"] = $this->M_Info->get_contact_us();    
+        $data["data_qlink"] = $this->M_Login->get_qlink();
+        $data["data_contact"] = $this->M_Login->get_contact();    
+    
+        $data["data_hotel"] = $this->M_Info->get_hotel();
+        $data["data_footer"] = "../Website/assets/img/ftr.jpg";
+        $this->template->load('layouts2/role2','module/Info/hotel_booking',$data);
     }
 
 	public function index($submenu = null, $id = null){  
@@ -613,6 +675,9 @@ class Visiting extends CI_Controller {
 
   public function why_visit_banner_update()
   {
+    
+    $this->load->library('upload');	
+    $this->load->helper('file');       
       try {
           $id             = $this->input->post('id');
           $content_year   = $this->input->post('banner_whyvisityear');

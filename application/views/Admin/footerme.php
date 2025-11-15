@@ -1,4 +1,23 @@
-          <footer class="footer">
+<style>
+  .footer .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15%;
+    border: 2px solid
+    color-mix(in srgb, var(--default-color), transparent 0%);
+    font-size: 16px;
+    color: 
+    color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-right: 10px;
+    background: transparent;
+    transition: 0.3s;
+  }
+</style>
+
+<footer class="footer">
             <div class="d-sm-flex justify-content-center">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block text-center"><b>Copyright © <?php echo date("Y")?> PT.Warna Karya Gemilang. All Right Reserved</b></span>
               <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> <b>Versi 1.0</b></span> -->

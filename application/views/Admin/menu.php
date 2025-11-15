@@ -209,11 +209,11 @@
                 </a>
               </li>
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="<?php echo site_url('visiting/conference-schedule-settings'); ?>">
                   <i class="mdi mdi-arrow-right-bold"></i>&nbsp;Conference Schedule
                 </a>
-              </li>
+              </li> -->
 
               <li class="nav-item">
                 <a class="nav-link" href="<?php echo site_url('visiting/post-show-report-settings'); ?>">

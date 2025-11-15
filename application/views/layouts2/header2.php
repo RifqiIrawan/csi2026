@@ -536,11 +536,6 @@
     }
 
     .footer .footer-top {
-      border-top: 1px solid 
-      color-mix(in srgb, var(--default-color), transparent 90%);
-    }
-
-    .footer .footer-top {
       padding-top: 15px;
       border-top: 1px solid
       color-mix(in srgb, var(--default-color), transparent 90%);
@@ -736,7 +731,7 @@
       /* background-color: black; */
       font-size: 15px;
       position: relative;
-      background: url(./Website/assets/img/ftr.jpg);
+      /* background: url('<?php base_url()?>./Website/assets/img/ftr.jpg'); */
       /* background-repeat: no-repeat; */
     }
 
@@ -751,6 +746,9 @@
       }
     }
 
+    .social-links a {
+      background: transparent;
+    }
     
   .sponsors-section .slide-logo img {
     max-width: 100%;
@@ -1231,6 +1229,7 @@
     color-mix(in srgb, var(--default-color), transparent 20%);
     margin-right: 10px;
     transition: 0.3s;
+      background: transparent;
   }
 
   @media (max-width: 600px) {

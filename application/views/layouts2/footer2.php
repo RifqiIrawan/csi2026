@@ -21,8 +21,15 @@
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
           <?php 
             foreach($data_qlink as $row_qlink){ 
+              if($row_qlink->flag == 1){
+                $link = "Exhibiting";
+              }else{
+                $link = $row_qlink->url;
+              }
           ?> 
-            <p style=""><a style="color:white;font-weight:600;font-size:16px" href="<?php echo $row_qlink->url ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a></p>
+            <p style="">
+              <a style="color:white;font-weight:600;font-size:16px" href="<?php echo $link ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a>
+            </p>
           <?php } ?>
         </div>
         <div class="col-lg-3 footer-about mb-1">

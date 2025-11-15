@@ -92,6 +92,11 @@ $route['News_Update'] = 'Info/News_Update';
 $route['News_Update/(:any)'] = 'Info/News_Update_Content';
 
 
+$route['Visiting/Exhibiting'] = $route['exhibiting/(:any)'] ;
+$route['Exhibiting/Exhibiting'] = $route['exhibiting/(:any)'] ;
+
+
+
 
 
 //$route['logout'] = 'login_admin/logout';

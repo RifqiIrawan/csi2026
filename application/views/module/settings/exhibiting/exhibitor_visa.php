@@ -272,7 +272,7 @@
     width: 100%;
     border-bottom: none;
     margin-left: 10px;
-  }
+}
 </style>
 
 </head>

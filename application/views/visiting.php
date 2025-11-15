@@ -310,7 +310,7 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 100, 0, 0.6);
+    /* background: rgba(0, 100, 0, 0.6); */
     }
 
     .hero-content {
@@ -536,7 +536,7 @@
 
 <main class="main">
     <!-- HERO SECTION -->
-    <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
+    <section class="hero-section" style="background-image: url('<?= "../".$hero['background']; ?>');">
         <div class="hero-overlay"></div>
             <div class="hero-content">
                 <a href="<?= $hero['button_link']; ?>" class="hero-btn">
@@ -552,7 +552,7 @@
             <?php foreach ($features as $f): ?>
                 <div class="feature-icon">
                     <!-- <img src="<?= $f['icon']; ?>" alt="<?= $f['title']; ?>"> -->
-                    <img src="<?= $f['icon']; ?>" alt="<?= $f['title']; ?>" style="width:1000px; height:auto; display:block; margin:0 auto;">
+                    <img src="<?= "../".$f['icon']; ?>" alt="<?= $f['title']; ?>" style="width:1000px; height:auto; display:block; margin:0 auto;">
                 </div>
             <?php endforeach; ?>
             </div>
