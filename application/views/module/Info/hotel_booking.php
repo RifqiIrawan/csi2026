@@ -75,6 +75,15 @@
         background-attachment: fixed;  
         width: -webkit-fill-available;
     } */
+
+    .footer {
+        color: black;
+        /* background-color: black; */
+        font-size: 15px;
+        position: relative;
+        background: url('<?php echo $data_footer; ?>');
+        /* background-repeat: no-repeat; */
+    }
 </style>
 
 <script>

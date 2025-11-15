@@ -1,64 +1,66 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-<meta charset="utf-8">
-<title>404 Page Not Found</title>
-<style type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Halaman Tidak Ditemukan</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #00b3ff, #0077ff);
+            color: #fff;
+            text-align: center;
+        }
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+        .container {
+            max-width: 600px;
+        }
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+        h1 {
+            font-size: 110px;
+            margin: 0;
+            font-weight: 700;
+        }
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+        h2 {
+            font-size: 28px;
+            margin-top: -10px;
+        }
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+        p {
+            margin: 15px 0;
+            font-size: 17px;
+        }
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 25px;
+            background: #fff;
+            color: #0077ff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: .3s ease;
+        }
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
+        a:hover {
+            background: #00e1ff;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
-	</div>
+    <div class="container">
+        <h1>404</h1>
+        <h2>SORRY!</h2>
+		<h3 class="font-weight-light">The page you’re looking for was not found.</h3>
+    </div>
 </body>
 </html>

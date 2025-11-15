@@ -538,6 +538,7 @@
     .footer .footer-top {
       border-top: 1px solid 
       color-mix(in srgb, var(--default-color), transparent 90%);
+      padding: 15px;
     }
 
     .footer_top {
@@ -1225,7 +1226,13 @@
     color-mix(in srgb, var(--default-color), transparent 20%);
     margin-right: 10px;
     transition: 0.3s;
+      background: transparent;
   }
+
+  .social-links a {
+      background: transparent;
+    }
+
 
   @media (max-width: 600px) {
     .footer .social-links {

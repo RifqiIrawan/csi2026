@@ -38,6 +38,7 @@ Hero Section
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
+  color: white;
 }
 
 @media (max-width: 768px) {

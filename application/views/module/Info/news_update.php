@@ -286,6 +286,15 @@
         background-color: #5B9D0A;
         color: #FFF;
     }
+
+    .footer {
+        color: black;
+        /* background-color: black; */
+        font-size: 15px;
+        position: relative;
+        background: url('<?php echo $data_footer; ?>');
+        /* background-repeat: no-repeat; */
+    }
 </style>
 
 <section class="inner-banner hero-section" style="background-image: url('<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>'); padding: 7.5rem 0 !important; background-size: cover; background-position: center;" data-desktop_image="<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>" data-mobile_image="<?php echo base_url("./assets/images/upload/header_news/".$data_header_news[0]->file_upload."");?>">

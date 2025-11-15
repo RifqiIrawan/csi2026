@@ -22,6 +22,7 @@ class Info extends CI_Controller {
       $data["data_contact_us"] = $this->M_Info->get_contact_us();    
       $data["data_qlink"] = $this->M_Login->get_qlink();
       $data["data_contact"] = $this->M_Login->get_contact();    
+      $data["data_footer"] = "./Website/assets/img/ftr.jpg";  
       $this->template->load('layouts2/role2','module/Info/visitor_information',$data);
     }
   
@@ -142,6 +143,7 @@ class Info extends CI_Controller {
     $data["data_contact"] = $this->M_Login->get_contact();    
 
     $data["data_hotel"] = $this->M_Info->get_hotel();
+    $data["data_footer"] = "./Website/assets/img/ftr.jpg";
     $this->template->load('layouts2/role2','module/Info/hotel_booking',$data);
   }
   
@@ -271,7 +273,8 @@ class Info extends CI_Controller {
     $data["data_contact3"] = $this->M_Info->get_contact3();
     $data["data_contact_us"] = $this->M_Info->get_contact_us();    
     $data["data_qlink"] = $this->M_Login->get_qlink();
-    $data["data_contact"] = $this->M_Login->get_contact();    
+    $data["data_contact"] = $this->M_Login->get_contact();  
+    $data["data_footer"] = "./Website/assets/img/ftr.jpg";  
     $this->template->load('layouts2/role2','module/Contact/contact_us',$data);
   }
 
@@ -615,6 +618,7 @@ class Info extends CI_Controller {
 
     $data["data_header_news"] = $this->M_Info->get_header_news();
     $data["data_news_update"] = $this->M_Info->get_news_update();
+    $data["data_footer"] = "./Website/assets/img/ftr.jpg";
     $this->template->load('layouts2/role2','module/Info/news_update',$data);
   }
 
