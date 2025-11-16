@@ -159,13 +159,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code){
+  function del(code,file1,file2){
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
         url: "<?php echo base_url()?>Home/delete_book_stand",
         type: 'post',
-        data: {'code' : code},
+        data: {'code' : code,"file1":file1,"file2":file2},
         success: function (data) {
         //   console.log(data);
           if(data === "OK"){
@@ -298,7 +298,7 @@
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->status."','".$row->file_name."','".$row->upload_file."')\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->file_name."','".$row->upload_file."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
@@ -391,12 +391,12 @@
             </div>   
           <div class="form-group">
             <label>Upload Image</label>
-            <input type="file" name="file" class="form-control" required>
+            <input type="file" name="file" class="form-control">
             <input type="hidden" name="file_edit" id="file_edit" class="form-control">
           </div>      
           <div class="form-group">
             <label>Upload File For Download</label>
-            <input type="file" name="file2" class="form-control" required>
+            <input type="file" name="file2" class="form-control">
             <input type="hidden" name="file_edit2" id="file_edit2" class="form-control">
           </div>    
           <div class="form-group">

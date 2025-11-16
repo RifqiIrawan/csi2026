@@ -57,6 +57,7 @@
         position: relative;
         overflow: hidden;
         transition: transform .3s;
+        margin-bottom: 20px;
     }
 
     @media (min-width: 992px) {
@@ -66,6 +67,12 @@
     }
     .modal-body img {
         object-fit: contain;
+        width: 100%;
+        /* height: 400px;   */
+        background-position: center; 
+        background-repeat: no-repeat; 
+        background-size: cover;
+        height: 400px;
     }
 
     /* img{
@@ -84,12 +91,22 @@
         background: url('<?php echo $data_footer; ?>');
         /* background-repeat: no-repeat; */
     }
+
+    .close{
+        position: absolute;
+        left: 92%;
+        margin-top: -15px;
+        border: 1px;
+        font-size: 25px;
+        font-weight: 600;
+        background: transparent;
+    }
 </style>
 
 <script>
     function show(title,file,email,contact,url){
         var file = file;
-        var folder = "./assets/images/upload/hotel/";
+        var folder = "/assets/images/upload/hotel/";
         var pic = "."+folder+""+file;
         var img = $('<img />', {src : pic});
         $('#get_image').empty();

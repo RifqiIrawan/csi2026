@@ -98,8 +98,23 @@
   }
 </style>
 
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
+
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });
@@ -215,6 +230,20 @@
     img.appendTo('#get_image');
     $("#mdl_img").modal('show');
   }
+
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'profile'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.vision);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
   
 </script>
 
@@ -246,15 +275,16 @@
                     <th width="1%">No</th>
                     <th>Company Name</th>
                     <th>Nick Name</th>
+                    <th>Vision</th>
                     <th>Address</th>
-                    <th>Phone</th>
-                    <th>Email</th>
                     <th>Logo</th>
+                    <th>Phone</th>
+                    <th>Status</th>
                     <th>Action</th> 
+                    <th>Email</th>
                     <th>Fax</th>
                     <th>Website</th>
                     <th>Location</th>
-                    <th>Status</th>
                     <!-- <th>Logo</th>-->
                   </tr>
                 </thead>
@@ -273,11 +303,12 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".$row->company_name."</td>";
-                        echo "<td align=\"center\">".$row->nick_name."</td>";
+                        echo "<td align=\"center\">".$row->nick_name."</td>";                        
+                        echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";
                         echo "<td align=\"center\">".$row->address."</td>";
-                        echo "<td align=\"center\">".$row->phone."</td>";
-                        echo "<td align=\"center\">".$row->email."</td>";
-                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->logo."','".$row->folder."');\"></td>";  
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->logo."','".$row->folder."');\"></td>";
+                        echo "<td align=\"center\">".$row->phone."</td>"; 
+                        echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"update('".$row->id."','".$row->company_name."','".$row->logo."'
                                 ,'".$row->nick_name."','".$row->address."','".$row->gmaps."','".$row->phone."','".$row->fax."','".$row->email."','".$row->website."','".$row->status."');\">
@@ -286,11 +317,11 @@
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->logo."')\">
                                   <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
-                              </td>";       
+                              </td>";      
+                        echo "<td align=\"center\">".$row->email."</td>";
                         echo "<td align=\"center\">".$row->fax."</td>";
                         echo "<td align=\"center\">".$row->website."</td>";
                         echo "<td align=\"center\">".$row->gmaps."</td>";
-                        echo "<td align=\"center\">".$stat."</td>";  
                       echo "</tr>";                     
                       $no++;
                     }  
@@ -408,7 +439,7 @@
           
           <div class="form-group">
             <label class="form-label">Vision</label>
-            <textarea class="form-control" name="descriptions_edit" rows="6" id="descriptions_edit" required></textarea>
+            <textarea class="form-control" name="descriptions_edit" rows="6" required></textarea>
           </div>
           <div class="form-group">
             <label class="form-label">Address</label>
@@ -467,6 +498,22 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-12 text-center" id="get_image"></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mdl_text1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Description</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" id="get_text1"></div>
         </div>         
       </div>
     </div>

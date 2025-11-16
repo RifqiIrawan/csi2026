@@ -48,7 +48,10 @@ class Info extends CI_Controller {
       $title2 = $this->input->post("title2");  
       $url = $this->input->post("url");
       $description = $this->input->post("descriptions"); 
-      $status = $this->input->post("status");           
+      $status = $this->input->post("status");          
+      $putid = $this->M_Home->get_max("information");
+      $putid = $putid->row()->this_id;
+      $this->M_Home->update_db("information",$putid); 
       $insert = $this->M_Info->add_information($code,$title1,$title2,$description
                                               ,$url,$number,$status);
       if($insert == true){
@@ -297,7 +300,7 @@ class Info extends CI_Controller {
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -316,9 +319,12 @@ class Info extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
-        $insert = $this->M_Info->add_contact_us($title,$config['file_name'],$status);
       }
     }
+    $putid = $this->M_Home->get_max("contact_bg");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("contact_bg",$putid);
+    $insert = $this->M_Info->add_contact_us($title,$config['file_name'],$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Info/Form_Contact');         
@@ -341,7 +347,7 @@ class Info extends CI_Controller {
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");
@@ -349,6 +355,7 @@ class Info extends CI_Controller {
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("contact_us".date("Ymdhis")).".".$exp[1];
+      $img = $config['file_name']   ;
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -362,8 +369,10 @@ class Info extends CI_Controller {
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
       }
+    }else{
+      $img = $file_edit;
     }
-    $insert = $this->M_Info->update_contact_us($code,$title,$status,$config['file_name']);
+    $insert = $this->M_Info->update_contact_us($code,$title,$status,$img);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Info/Form_Contact');         
@@ -378,9 +387,11 @@ class Info extends CI_Controller {
     $code = $this->input->post("code");
     $folder = './assets/images/upload/contact_us/';
     $file = $this->input->post("file");
-    unlink("".$folder."".$file."");
     $cek_data = $this->M_Info->delete_contact_us($code);
     if ($this->db->affected_rows()) {
+      if(file_exists($folder."".$file)) {
+        unlink("".$folder."".$file."");  
+      }   
       echo "OK";
     }
     else{
@@ -510,7 +521,7 @@ class Info extends CI_Controller {
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -529,9 +540,14 @@ class Info extends CI_Controller {
         $config2 ['create_thumb'] = false;
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);        
-        $insert = $this->M_Info->add_header_news($title,$config['file_name'],$status);
       }
     }
+
+    $putid = $this->M_Home->get_max("header_news");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("header_news",$putid);
+
+    $insert = $this->M_Info->add_header_news($title,$config['file_name'],$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Info/Header_News');         
@@ -555,13 +571,14 @@ class Info extends CI_Controller {
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
     if($_FILES['file']['name'] != ""){
-      $exp = explode(".",$_FILES['file']['name']);
+      $exp = explode(".",$_FILES['file']['name'] || !empty($_FILES['file']['name']));
       $exp = $exp;	
       unlink($folder."".$img);
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("header_news".date("Ymdhis")).".".$exp[1];
+      $img = $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -577,7 +594,7 @@ class Info extends CI_Controller {
       }
     }
    
-    $insert = $this->M_Info->update_header_news($code,$title,$config['file_name'],$status);
+    $insert = $this->M_Info->update_header_news($code,$title,$img,$status);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Info/Header_News');         
@@ -594,7 +611,10 @@ class Info extends CI_Controller {
     $folder = './assets/images/upload/header_news/';
     $cek_data = $this->M_Info->delete_header_news($code);
     if ($this->db->affected_rows()) {
-      unlink($folder."".$img);
+      if(file_exists($folder."".$img)) {
+        unlink($folder."".$img);
+      }  
+      
       echo "OK";
     }
     else{

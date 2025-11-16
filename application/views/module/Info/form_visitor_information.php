@@ -94,8 +94,20 @@
   }
 </style>
 
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions2_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
     $('#close').on('click', function() {    
       window.location.reload()   
     });
@@ -332,7 +344,7 @@
         <div class="car">
             <div class="card-body btop">                    
               <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-                <i class="mdi mdi-account-plus"></i> Add Data &nbsp;
+                <i class="mdi mdi-account-plus"></i> Add &nbsp;
               </button>
             </div>
         </div>
@@ -395,7 +407,7 @@
     <div class="modal-content">
       <form method="post" action="<?php echo base_url(); ?>Info/add_information" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Data Visitor Information </h4>
+          <h4 class="modal-title">Add Visitor Information </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">

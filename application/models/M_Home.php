@@ -3,6 +3,16 @@
 class M_Home extends CI_Model
 {	
 
+  function get_max($text){
+    $res = $this->db->query("SELECT max(id) as this_id from $text "); 
+    return $res;
+  }
+
+  function update_db($select,$code){
+    $res = $this->db->query("UPDATE $select SET status = 'P' WHERE id = '".$code."'"); 
+    return $res;
+  }
+
   function search_text($code,$text){
     $res = $this->db->query("SELECT * from $text
                               where id = '".$code."'"); 
