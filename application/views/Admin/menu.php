@@ -143,7 +143,7 @@
           <div class="collapse" id="menu5">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Header_News');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header News</a></li> 
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/News_Update');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;News Update</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Form_News_Update');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;News Update</a></li> 
 
             </ul>
           </div>

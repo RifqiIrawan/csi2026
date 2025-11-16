@@ -128,7 +128,7 @@
       data: {'code' : code,'text':'content1'},
       success: function (data) {
         var jsn = JSON.parse(data);
-        console.log(jsn);        
+        //console.log(jsn);        
         // var desc = description;
         CKEDITOR.instances.descriptions1_edit.setData(jsn.description);
         // CKEDITOR.instances.descriptions2_edit.setData(jsn.image_title);
@@ -142,13 +142,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code){
+  function del(code,img){
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_date_event",
+        url: "<?php echo base_url()?>Home/delete_content1",
         type: 'post',
-        data: {'code' : code},
+        data: {'code' : code,"img":img},
         success: function (data) {
         //   console.log(data);
           if(data === "OK"){
@@ -159,7 +159,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "date_event";
+              window.location = "Content1";
             });
           }else{
             swal({
@@ -169,7 +169,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "date_event";
+              window.location = "Content1";
             });
           }
         },
@@ -275,7 +275,7 @@
                                 <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->title."','".$row->image."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->image."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
@@ -379,11 +379,11 @@
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
               <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="status" value="A" checked>
+                <input type="radio" class="custom-control-input" name="status" value="A" id="A">
                 <span class="custom-control-label">Active</span>
               </label>
               <label class="custom-control custom-radio custom-control-inline">
-                <input type="radio" class="custom-control-input" name="status" value="P" >
+                <input type="radio" class="custom-control-input" name="status" value="P" id="P">
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>

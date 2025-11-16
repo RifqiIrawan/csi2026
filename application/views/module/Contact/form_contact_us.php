@@ -297,7 +297,7 @@
           </div> 
           <div class="form-group">
             <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
+            <input type="file" class="form-control" name="file">
             <input type="hidden" class="form-control" name="file_edit" id="file_edit">
           </div>    
           <div class="form-group">

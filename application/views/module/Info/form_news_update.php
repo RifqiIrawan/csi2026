@@ -359,6 +359,7 @@
           <div class="form-group">
             <label class="form-label">Upload File</label>
             <input type="file" class="form-control" name="file">
+            <input type="hidden" class="form-control" name="img" id="img">
           </div> 
           <div class="form-group">
             <label>Description</label>

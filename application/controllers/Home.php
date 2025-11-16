@@ -195,6 +195,10 @@ public function delete_sub_menu(){
       // echo "Error : ";
     }
 
+    $putid = $this->M_Home->get_max("event");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("event",$putid);
+
     $insert = $this->M_Home->add_date_event($name,$title1,$description1,$img1,$title2,$description2,$img2,$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
@@ -285,14 +289,25 @@ public function delete_sub_menu(){
   }
 
   public function delete_date_event(){
-      $code = $this->input->post("code");
-      $cek_data = $this->M_Home->delete_date_event($code);
-      if ($this->db->affected_rows()) {
-        echo "OK";
+    $code = $this->input->post("code");
+    $img1 = $this->input->post("img1");
+    $img2 = $this->input->post("img2");
+    $folder1 = "./assets/images/upload/event/image1/";
+    $folder2 = "./assets/images/upload/event/image2/";
+    $cek_data = $this->M_Home->delete_date_event($code);
+    if ($this->db->affected_rows()) {
+      if(file_exists($folder1."".$img1."")) {
+        unlink("".$folder1."".$img1."");
       }
-      else{
-        echo "Failed";
-      }   
+      
+      if(file_exists($folder2."".$img2)) {
+        unlink("".$folder2."".$img2."");  
+      }         
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
   }
 
   public function Content1(){   
@@ -316,21 +331,26 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size'];  
-    $type = explode(".",$_FILES['file']['name']);
-    $typ = $type;
-
-    $config['upload_path']          = $folder;
-    $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
-    $config['file_name']     		= md5("image".date('Ymdhis'));
-    $img = $config['file_name'].".".$typ[1];
-    $this->load->library('upload', $config);
-    $this->upload->initialize($config);		
-    if ($this->upload->do_upload('file')) {
-      echo "OK";
-    }else{
-      $error = array('error' => $this->upload->display_errors());
-      echo "Error : ";
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
+      $type = explode(".",$_FILES['file']['name']);
+      $typ = $type;      
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("image".date('Ymdhis'));
+      $img = $config['file_name'].".".$typ[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);		
+      if ($this->upload->do_upload('file')) {
+        echo "OK";
+      }else{
+        $error = array('error' => $this->upload->display_errors());
+        echo "Error : ";
+      }
     }
+    
+    $putid = $this->M_Home->get_max("content1");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("content1",$putid);
 
     $insert = $this->M_Home->add_content1($title,$description,$image_title,$img,$status);
     if($insert == true){
@@ -397,8 +417,13 @@ public function delete_sub_menu(){
 
   public function delete_content1(){
     $code = $this->input->post("code");
-    $cek_data = $this->M_Home->delete_content1($code);
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/content/';
+    $this->M_Home->delete_content1($code);
     if ($this->db->affected_rows()) {
+      if(file_exists($folder."".$img."")) {
+        unlink("".$folder."".$img."");
+      }
       echo "OK";
     }
     else{
@@ -464,7 +489,6 @@ public function delete_sub_menu(){
 
 
   //profile
-
   public function Profile(){    
     if($this->session->userdata('id_user') == NULL){
       redirect('Login');
@@ -502,7 +526,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       $config['upload_path']          = $folder;
@@ -522,10 +546,15 @@ public function delete_sub_menu(){
         $this->load->library('image_lib', $config2);
         $this->image_lib->initialize($config2);
         $this->image_lib->resize();
-        $this->image_lib->clear();       
-        $insert = $this->M_Home->add_profile($company,$vision,$config['file_name'],$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status);        
+        $this->image_lib->clear();             
       }      
     }
+
+    $putid = $this->M_Home->get_max("profile");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("profile",$putid);
+    
+    $insert = $this->M_Home->add_profile($company,$vision,$config['file_name'],$folder,$nick,$address,$maps,$phone,$fax,$email,$website,$status);  
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Profile');         
@@ -550,13 +579,14 @@ public function delete_sub_menu(){
     $website = $this->input->post("website");
     $status = $this->input->post("status");
     $file_edit = $this->input->post("file_edit");
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("logo_com".date("Ymdhis")).".".$exp[1];
+      $img = $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -573,9 +603,11 @@ public function delete_sub_menu(){
         $this->image_lib->resize();
         $this->image_lib->clear();       
       }      
+    }else{
+      $img = $file_edit;
     }
 
-    $update = $this->M_Home->update_profile($code,$company,$vision,$config['file_name'],$nick,$address,$maps,$phone,$fax,$email,$website,$status);
+    $update = $this->M_Home->update_profile($code,$company,$vision,$img,$nick,$address,$maps,$phone,$fax,$email,$website,$status);
     if($update == true){
       $this->session->set_flashdata('update', 'Data Saved Successfully.');
       redirect('Home/Profile');         
@@ -590,9 +622,12 @@ public function delete_sub_menu(){
     $code = $this->input->post("code");    
     $img = $this->input->post("img");
     $folder = './assets/images/upload/profile/';
-    unlink("".$folder."".$img."");
     $cek_data = $this->M_Home->delete_profile($code);
     if($cek_data == TRUE){           
+      if(file_exists($folder."".$img)) {        
+        unlink("".$folder."".$img."");
+      }    
+      
       echo "OK";     
     }
     else{
@@ -912,16 +947,17 @@ public function delete_sub_menu(){
     $status = $this->input->post("status");
     $description = $this->input->post("descriptions1");
     $description2 = $this->input->post("descriptions2");  
+
     $_FILES['file']['name'];
     $_FILES['file']['type'];
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       $config['upload_path']          = $folder;
-      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|docx|pdf';
       $config['file_name']     		= md5("img".date("Ymdhis")).".".$exp[1];
       $file_1 = $config['file_name'];
       $this->load->library('upload', $config);
@@ -971,9 +1007,12 @@ public function delete_sub_menu(){
       }      
     }   
     
-    $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$file_1,$file_2);
+    $putid = $this->M_Home->get_max("book_stand");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("book_stand",$putid);
 
-    if($insert == true){
+    $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$file_1,$file_2);
+    if($insert == true){     
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Book_Stand');         
     }
@@ -998,7 +1037,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	      
       unlink("".$folder."".$file_edit."");
@@ -1023,14 +1062,16 @@ public function delete_sub_menu(){
         $this->image_lib->initialize($config2);
         // $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
       }      
-    }   
+    }else{
+      $file_1 = $file_edit;
+    }
 
     $_FILES['file2']['name'];
     $_FILES['file2']['type'];
     $_FILES['file2']['tmp_name'];
     $_FILES['file2']['error'];
     $_FILES['file2']['size']; 
-    if($_FILES['file2']['name'] != ""){
+    if($_FILES['file2']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file2']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit2."");
@@ -1054,7 +1095,9 @@ public function delete_sub_menu(){
         $this->image_lib->initialize($config2);
         // $insert = $this->M_Home->add_book_stand($name,$status,$description,$description2,$config['file_name']);
       }      
-    }   
+    }else{
+      $file_2 = $file_edit2;
+    }
     
     $insert = $this->M_Home->update_book_stand($code,$name,$status,$description,$description2,$file_1,$file_2);
     if($insert == true){
@@ -1069,8 +1112,18 @@ public function delete_sub_menu(){
 
   public function delete_book_stand(){
     $code = $this->input->post("code");
-    $cek_data = $this->M_Home->delete_book_stand($code);
+    $file1 = $this->input->post("file1");
+    $file2 = $this->input->post("file2");
+    $folder = './assets/images/upload/book_stand/';
+    $this->M_Home->delete_book_stand($code);
     if ($this->db->affected_rows()) {
+      if(file_exists($folder."".$file1."")) {
+        unlink("".$folder."".$file1."");
+      }
+
+      if(file_exists($folder."".$file2)) {
+        unlink("".$folder."".$file2."");  
+      }    
       echo "OK";
     }
     else{
@@ -1251,6 +1304,10 @@ public function delete_sub_menu(){
     $title = $this->input->post("title");
     $url = $this->input->post("url");
     $status = $this->input->post("status");          
+
+    $putid = $this->M_Home->get_max("link_event");
+    $putid = $putid->row()->this_id;
+    $this->M_Home->update_db("link_event",$putid);
     $insert = $this->M_Home->add_link_event($title,$url,$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');

@@ -295,12 +295,12 @@
           <div class="form-group">
             <label class="form-label">Title</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="hidden" class="form-control" name="img" id="img">
             <input type="text" class="form-control" name="title" id="title" style="text-transform:capitalize" required>
           </div> 
           <div class="form-group">
             <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
+            <input type="file" class="form-control" name="file">
+            <input type="hidden" class="form-control" name="img" id="img">
           </div>    
           <div class="form-group">
             <label class="form-label">Status</label>

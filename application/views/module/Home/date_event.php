@@ -153,13 +153,13 @@
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code){
+  function del(code,img1,img2){
     var code = code;
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
         url: "<?php echo base_url()?>Home/delete_date_event",
         type: 'post',
-        data: {'code' : code},
+        data: {'code' : code,'img1' : img1,'img2' : img2},
         success: function (data) {
         //   console.log(data);
           if(data === "OK"){
@@ -315,7 +315,7 @@
                                 ,'".$row->title2."','".$row->image2."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->image1."','".$row->image2."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
