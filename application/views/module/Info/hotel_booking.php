@@ -129,7 +129,7 @@
   <div class="container style">
       <div class="row"> 
           <div class="col-lg-12 text-center mb-3">
-              <p class="title">Booking Hotel</p>
+              <p class="title">OFFICIAL HOTEL PARTNERS</p>
           </div>
       </div>
       <div class="row">

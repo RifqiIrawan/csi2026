@@ -24,6 +24,7 @@ class Dashboard extends CI_Controller {
     $data["data_carousel"] = $this->M_Login->get_carousel();
     $data["data_video"] = $this->M_Login->get_highlights();
     $data["data_organizer"] = $this->M_Login->get_organizer();
+    $data["data_member"] = $this->M_Login->get_member();
     $data["data_sponsors"] = $this->M_Login->get_sponsors();
     $data["data_coperation"] = $this->M_Login->get_coperation();
 
