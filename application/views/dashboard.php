@@ -179,16 +179,25 @@
     }
     .header {
         color: #000;
-        background-color: #ffffff;
+        background-color: transparent;
         padding: 15px 0;
         transition: all 0.5s;
         z-index: 997;
-        border-bottom: 1px solid gainsboro;
+        /* border-bottom: 1px solid gainsboro; */
     }
 
-    .header .logo img {
+    /* .header .logo img {
       max-height: 45px;
       margin-right: 8px;
+    } */
+
+    .header .logo img {
+      /* max-height: 105px !important; */
+      width: 250px;
+      margin-right: 8px;
+      max-width: 100%;
+      max-height: 100%;
+      height: 115px !important;
     }
 
     @media (min-width: 1200px) {
@@ -1257,29 +1266,24 @@
     border-image-slice: 1;
     border-radius: 8px; /* opsional, untuk sudut lembut */
   }
-    
+  
+  .text-end {
+    text-align: right !important;
+    margin-left: -25px;
+  }
 </style>
 
 
 <body class="index-page">
-    <header id="header" class="header d-flex align-items-center sticky-top">
+  <div class="row">
+    <div class="col-lg-12">
+      <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-        <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
-            <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
-        </a>
-        <nav id="navmenu" class="navmenu">
+          <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
+              <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
+          </a>
+          <nav id="navmenu" class="navmenu">
             <ul>
-              <!-- <li class="dropdown"><a href="#"><span>Home</span></a>
-                <ul>
-                <li><a href="#about">Exhibiting</a></li>
-                <li><a href="#partners">Visiting</a></li>
-                </ul>
-              </li>
-              <li><a href="#product">Exhibiting</a></li>
-              <li><a href="#product">Visiting</a></li>
-              <li><a href="#product">Information</a></li>
-              <li><a href="#product">Contact</a></li>
-              <li><a href="#product">News Upadate </a></li> -->
               <?php foreach ($data_menu as $row): ?>
                 <li class="dropdown">
                   <a href="<?= base_url($row->url) ?>"><span><?= $row->name ?></span></a>
@@ -1303,20 +1307,34 @@
               <?php endforeach; ?>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
+          </nav>
         </div>
-    </header>
+      </header>
+    </div>
+    <!-- <div class="col-lg-4 mt-3 text-center" style="font-family: Montserrat, sans-serif;">
+      <h5><b><?php echo $data_event->name?></b></h5>
+    </div> -->
+    <!-- <div class="col-lg-4 text-end">
+    </div>
+    <div class="col-lg-8 text-end" style="margin-top: -20px !important;">
+      <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a>
+      <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
+      <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
+    </div> -->
+  </div>
+
 
   <main class="main">
     <section id="event_date" class="portfolio section">
       <div class="container">
         <div class="row">
           <div class="col-lg-4 mt-3" style="font-family: Montserrat, sans-serif;">
-            <h5><b><?php echo $data_event->name?></b></h5>
+            <h5><b><?php echo strtoupper($data_event->name); ?></b></h5>
           </div>
           <div class="col-lg-8 mt-3" style="text-align: right;">
-            <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
-            <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
+          <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a>
+          <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
+          <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
           </div>
         </div>
       </div>
@@ -1489,12 +1507,12 @@
 
     <section id="highlights" class="faq section mb-4">
       <div class="container section-title center" >
-        <h3 style="font-size:24px;font-weight:800"><b>HIGHLIGHTS</b></b></h3>
+        <h3 style="font-size:24px;font-weight:800"><b>SHOW HIGHLIGHTS</b></b></h3>
       </div>
       <div class="container">
         <div class="row justify-content-left">
           <div class="col-lg-12">
-            <div class="container mt-3 mb-4">
+            <div class="container mt-3">
               <div class="row mt-3">
               <?php foreach($data_video as $row4){
               ?>   
@@ -1518,7 +1536,7 @@
       </div>
     </section>
 
-    <section style="background-image: url('<?php echo base_url();?>assets/images/upload/event/image1/<?php echo $data_event->image1?>');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
+    <!-- <section style="background-image: url('<?php echo base_url();?>assets/images/upload/event/image1/<?php echo $data_event->image1?>');background-position: bottom;background-repeat: no-repeat;background-size: cover; border-radius: 20px 20px 0px 0px">
       <div class="container" style="padding-top: 4rem; padding-bottom: 4rem">
         <h2 class="text-white text-center" style="text-transform: uppercase;font-size:2rem;;font-weight:800">
           <?php echo $data_event->title1?>
@@ -1541,7 +1559,7 @@
         <b style="color:white"><?php echo $data_event->description2?></b>                     
         <a href=" <?php echo $data_event->link_event?>" target="blank_" class="btn btn-primary btn-md mx-auto d-block" style="padding: 10px 40px;border-radius: 20px;width: fit-content"><b>Visitor Registration</b></a>
       </div>
-    </section>
+    </section> -->
 
     <section id="cooperation" class="faq section">
       <div class="container section-title center" >
@@ -1586,7 +1604,7 @@
       </div>
     </section>
 
-    <section id="organizer" class="faq section">
+    <!-- <section id="organizer" class="faq section">
       <div class="container section-title center" >
         <h3 style="font-size:24px;font-weight:800"><b>ORGANIZER</b></h3>
       </div>
@@ -1626,7 +1644,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section id="sponsors" class="faq section">
       <div class="container section-title center" >
@@ -1718,7 +1736,7 @@
       <div class="row gy-4">
         <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
-          <img width="230" height="200px" style="border-radius: 50%;"  data-src="<?php echo base_url("./Website/assets/img/wrk.png");?>" class="attachment-full size-full lazyload" alt="">
+          <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_organizer[0]->folder_name.$data_organizer[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
           <!-- <div class="social-links d-flex mt-3">
             <?php 
               foreach($data_sosmed as $row_sosmed){ 
@@ -1729,7 +1747,7 @@
         </div>
         <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
-          <img width="230" height="200px" style="border-radius: 50%;" data-src="<?php echo base_url("./Website/assets/img/ieca2.png");?>" class="attachment-full size-full lazyload" alt="">
+          <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_member[0]->folder_name.$data_member[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
         </div>
         <div class="col-lg-3 footer-about mb-1">
           <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
@@ -1785,7 +1803,7 @@
 
       <div class="row">
         <div class="col-lg-12">          
-          <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visotors under age 18 will not be permitted.</b></div>
+          <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visitors under age 18 will not be permitted.</b></div>
         </div>
       </div>
 

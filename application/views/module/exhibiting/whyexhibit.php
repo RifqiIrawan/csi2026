@@ -318,6 +318,7 @@
         font-size: 2rem;        /* lebih besar */
         font-weight: 700;       /* bold */
         margin: 0 0 10px;
+        color: white;
     }
 
     .hero-text {
@@ -472,7 +473,7 @@
     <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
         <!-- <div class="hero-overlay"></div> -->
             <div class="hero-content">
-                <h2 class="hero-title">WHY</h2>
+                <h2 class="hero-title"><?= $hero['button_text']; ?></h2>
                 <p class="hero-text">
                     Exhibiting at Coating Show will provide your company with the perfect platform 
                     to showcase your latest products and services to a range of local and international attendees.
@@ -514,12 +515,12 @@
             <?php endif; ?>
 
             <div style="text-align: center;">
-                <?php if (!empty($visainformation['subtitle'])): ?>
+                <!-- <?php if (!empty($visainformation['subtitle'])): ?>
                     <h3 style="font-weight: bold; margin: 40px auto; max-width: 800px;"><?= $visainformation['subtitle']; ?></h3>
-                <?php endif; ?>
+                <?php endif; ?> -->
 
                 <?= $visainformation['body_text']; ?>
-                <a class="btn primary-btn" 
+                <!-- <a class="btn primary-btn" 
                     href="https://evisa.imigrasi.go.id/" 
                     style="background-color: #4CAF50; 
                             color: white; 
@@ -531,15 +532,29 @@
                             margin: 20px 0;" 
                     target="_blank">
                     Apply for Visa
+                </a> -->
+
+                <a class="btn primary-btn" 
+                    href="<?php echo base_url('Home/Url_Book_Stand');?>" 
+                    style="background-color: #4CAF50; 
+                            color: white; 
+                            padding: 12px 30px; 
+                            text-decoration: none; 
+                            font-weight: bold; 
+                            border-radius: 5px; 
+                            display: inline-block; 
+                            margin: 20px 0;" 
+                    target="_blank">
+                    BOOK YOUR SPACE NOW
                 </a>
-                <p style="margin-top: 15px;">
+                <!-- <p style="margin-top: 15px;">
                     <strong>The organizer is not responsible for those who enter the show with incorrect visas.</strong>
-                </p>
+                </p> -->
             </div>
 
         </div>
 
-        <div style="background-color: #66A80F; padding: 40px 20px; text-align: center; color: white;">
+        <!-- <div style="background-color: #66A80F; padding: 40px 20px; text-align: center; color: white;">
             <div style="display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;">
                 <?php foreach ($paint_stats as $stat): ?>
                     <?php if (!empty($stat['value']) && !empty($stat['label'])): ?>
@@ -554,10 +569,10 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
-        </div>
+        </div> -->
     </section>
 
-    <section>
+    <!-- <section>
 
         <h3 class="text-center"><b>PAINT MANUFACTURERS</b></h3>
         <div class="paint-slider">
@@ -592,7 +607,6 @@
 
     <section id="customer" class="faq section">
         <div class="container section-title center" >
-        <!-- <div class="description-title">Our Customer</div> -->
         <h3>SUPPORTED BY</h3>
         </div>
 
@@ -615,7 +629,6 @@
                             <a href="<?php echo $row5->url ?>" target="_blank" rel="noopener noreferrer">
                                 <img src="<?php echo base_url($img5); ?>" class="day rowsel" title="<?php echo ucwords($row5->name); ?>" alt="<?php echo ucwords($row5->name);?>">
                             </a>
-                            <!-- <h7><?php echo $row4->nam5?></h7> -->
                             </div>
                         </div>                          
                         <?php } ?>
@@ -634,7 +647,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
 </main>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

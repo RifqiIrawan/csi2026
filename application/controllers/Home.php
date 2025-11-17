@@ -7,6 +7,7 @@ class Home extends CI_Controller {
   {
     parent::__construct();
     $this->load->model('M_Home');     
+    $this->load->model('M_Login');     
     $this->load->library('upload');	
     $this->load->helper('file');        
   }
@@ -927,6 +928,23 @@ public function delete_sub_menu(){
   //Book_Stand
   public function Url_Book_Stand(){   
     error_reporting(0);
+    $data["data_menu"] = $this->M_Login->get_menu();
+    $data["data_event"] = $this->M_Login->get_event()->row();
+    $data["data_product"] = $this->M_Login->get_product();
+    $data["data_event_value"] = $this->M_Login->get_event_value();
+    $data["data_support"] = $this->M_Login->get_support();
+    $data["data_content1"] = $this->M_Login->get_content1()->row();
+    $data["data_profile"] = $this->M_Login->get_profile()->row();
+    $data["data_sosmed"] = $this->M_Login->get_sosmed();
+    $data["data_qlink"] = $this->M_Login->get_qlink();
+    $data["data_contact"] = $this->M_Login->get_contact();    
+    $data["data_carousel"] = $this->M_Login->get_carousel();
+    $data["data_video"] = $this->M_Login->get_highlights();
+    $data["data_organizer"] = $this->M_Login->get_organizer();
+    $data["data_member"] = $this->M_Login->get_member();
+    $data["data_sponsors"] = $this->M_Login->get_sponsors();
+    $data["data_coperation"] = $this->M_Login->get_coperation();
+    
     $data["data_book_stand"] = $this->M_Home->get_book_stand();
     // $data["data_menu"] = $this->M_Home->get_menu();
     $this->template->load('layouts/role','module/Home/url_book_stand',$data);

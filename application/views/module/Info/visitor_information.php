@@ -22,6 +22,15 @@
         background-repeat: no-repeat;
         border: 1px solid gainsboro;
     }
+
+    .footer {
+        color: black;
+        /* background-color: black; */
+        font-size: 15px;
+        position: relative;
+        background: url('<?php echo $data_footer; ?>');
+        /* background-repeat: no-repeat; */
+    }
 </style>
 
 <section id="event_date" class="portfolio section">
