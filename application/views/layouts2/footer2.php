@@ -210,7 +210,8 @@
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
 
 
-<script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
-<script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script src="<?php echo base_url();?>assets/coatingshow/flickity.pkgd.js"></script>
+<script src="<?php echo base_url();?>assets/coatingshow/bs-filestyle.js"></script>
+<script type="<?php echo base_url();?>assets/coatingshow/owl.carousel.min.js"></script>
 </html>

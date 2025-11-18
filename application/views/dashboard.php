@@ -1273,6 +1273,172 @@
   }
 </style>
 
+<!-- untuk swipper banner image yg di atas -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>                   
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .heroSwiper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .heroSwiper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .swiper-slide {
+    position: relative;
+  }
+
+  /* Overlay */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.2));
+    z-index: 1;
+  }
+
+  /* Hero Text Animation */
+  .hero-content {
+    position: absolute;
+    bottom: 18%;
+    left: 7%;
+    z-index: 5;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+  }
+
+  .swiper-slide-active .hero-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-content h1 {
+    font-size: 60px;
+    margin: 0;
+    font-weight: 800;
+  }
+
+  .hero-content h2 {
+    font-size: 32px;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  .btn-hero {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 36px;
+    background: #17c459;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    backdrop-filter: blur(6px);
+    transition: .3s;
+  }
+
+  .btn-hero:hover {
+    transform: scale(1.05);
+    letter-spacing: 1px;
+  }
+
+  /* Swiper */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #fff;
+  }
+
+  .swiper-pagination-bullet {
+    background: #fff;
+    opacity: 0.5;
+  }
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+
+  /* Responsive */
+  @media(max-width:768px){
+    .hero-content h1 { font-size: 35px; }
+    .hero-content h2 { font-size: 20px; }
+  }
+
+</style>
+
+<script>
+  // List URL gambar & text
+  const slides = [
+    {
+      image: "https://images.unsplash.com/photo-1522199755839-a2bacb67c546",
+      title: "INDONESIA'S LARGEST EXHIBITION",
+      subtitle: "TEXTILE & GARMENT INDUSTRY",
+      button: "REGISTER NOW"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
+      title: "LIVE MACHINE DEMO",
+      subtitle: "Future Industrial Technology",
+      button: "JOIN EVENT"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1500534623283-312aade485b7",
+      title: "GLOBAL SUPPLIER NETWORK",
+      subtitle: "Connect & Grow",
+      button: "SEE MORE"
+    }
+  ];
+
+  const slideContainer = document.getElementById("dynamic-slides");
+
+  // Generate slides dynamically
+  slides.forEach(item => {
+    slideContainer.innerHTML += `
+      <div class="swiper-slide">
+        <img src="${item.image}">
+        <div class="overlay"></div>
+        <div class="hero-content">
+          <h1>${item.title}</h1>
+          <h2>${item.subtitle}</h2>
+          <a class="btn-hero" href="#">${item.button}</a>
+        </div>
+      </div>
+    `;
+  });
+
+  // Swiper initialization
+  var swiper = new Swiper(".heroSwiper", {
+    effect: "fade",
+    loop: true,
+    autoplay: {
+      delay: 4500,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    fadeEffect: {
+      crossFade: true
+    }
+  });
+
+</script>
+
 
 <body class="index-page">
   <div class="row">
@@ -1340,7 +1506,7 @@
       </div>
     </section>
 
-    <section id="partners" class="portfolio section">
+    <!-- <section id="partners" class="portfolio section">
       <div class="container">
         <div class="row">
           <div class="col-lg-5">
@@ -1349,9 +1515,6 @@
             <?php echo $data_content1->title?>
             </span>
           </p>
-          <!-- <p> -->
-            <?php echo $data_content1->description?>
-          <!-- </p> -->
           </div>
           <div class="col-lg-7" style="text-align:center;">
             <p>
@@ -1363,7 +1526,33 @@
           </div>
         </div>
       </div>
+    </section> -->
+
+
+
+    
+
+
+    
+    <section>
+    <div class="swiper heroSwiper">
+      <div class="swiper-wrapper" id="dynamic-slides">
+      </div>
+
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>
     </section>
+
+
+
+
+
+
+
+
 
     <section id="carousel" class="faq section">
       <div class="container section-title center">
@@ -1863,7 +2052,7 @@
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
 
 
-<script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
-<script src="https://coatingshow.com/js/components/bs-filestyle.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="<?php echo base_url();?>assets/coatingshow/flickity.pkgd.js"></script>
+<script src="<?php echo base_url();?>assets/coatingshow/bs-filestyle.js"></script>
+<script type="<?php echo base_url();?>assets/coatingshow/owl.carousel.min.js"></script>
 </html>

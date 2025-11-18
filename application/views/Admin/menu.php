@@ -88,7 +88,7 @@
           </a>
           <div class="collapse" id="menu2">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organizer By</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organised By</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Member');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Member Of</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Quick_Link');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Quick Link</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact</a></li> 
