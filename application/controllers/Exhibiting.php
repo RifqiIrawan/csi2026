@@ -172,6 +172,8 @@ class Exhibiting extends CI_Controller {
         $r = $data_profile->row();
         $data["folder"] = $r->folder;
 
+        $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_event"] = $this->M_Login->get_event()->row();
         $data["data_product"] = $this->M_Login->get_product();
         $data["data_event_value"] = $this->M_Login->get_event_value();
         $data["data_support"] = $this->M_Login->get_support();
@@ -185,7 +187,7 @@ class Exhibiting extends CI_Controller {
         $data["data_organizer"] = $this->M_Login->get_organizer();
         $data["data_member"] = $this->M_Login->get_member();
         $data["data_sponsors"] = $this->M_Login->get_sponsors();
-        $data["data_coperation"] = $this->M_Login->get_coperation();
+        $data["data_coperation"] = $this->M_Login->get_coperation();   
 
         $dataContents = $this->M_Exhibiting->get_contents([
             'menu_id' => 7,
@@ -331,10 +333,24 @@ class Exhibiting extends CI_Controller {
                 'menu_controller' => $image_controller
             ];
         }
+        
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_event"] = $this->M_Login->get_event()->row();
+        $data["data_product"] = $this->M_Login->get_product();
+        $data["data_event_value"] = $this->M_Login->get_event_value();
+        $data["data_support"] = $this->M_Login->get_support();
+        $data["data_content1"] = $this->M_Login->get_content1()->row();
+        $data["data_profile"] = $this->M_Login->get_profile()->row();
         $data["data_sosmed"] = $this->M_Login->get_sosmed();
         $data["data_qlink"] = $this->M_Login->get_qlink();
-        $data["data_contact"] = $this->M_Login->get_contact();   
+        $data["data_contact"] = $this->M_Login->get_contact();    
+        $data["data_carousel"] = $this->M_Login->get_carousel();
+        $data["data_video"] = $this->M_Login->get_highlights();
+        $data["data_organizer"] = $this->M_Login->get_organizer();
+        $data["data_member"] = $this->M_Login->get_member();
+        $data["data_sponsors"] = $this->M_Login->get_sponsors();
+        $data["data_coperation"] = $this->M_Login->get_coperation();
+
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorlist',$data);
         $this->load->view('layouts/footer', $data);
@@ -393,10 +409,23 @@ class Exhibiting extends CI_Controller {
         ];
         
         $data['features'] = $features;
+       
         $data["data_menu"] = $this->M_Login->get_menu();
+        $data["data_event"] = $this->M_Login->get_event()->row();
+        $data["data_product"] = $this->M_Login->get_product();
+        $data["data_event_value"] = $this->M_Login->get_event_value();
+        $data["data_support"] = $this->M_Login->get_support();
+        $data["data_content1"] = $this->M_Login->get_content1()->row();
+        $data["data_profile"] = $this->M_Login->get_profile()->row();
         $data["data_sosmed"] = $this->M_Login->get_sosmed();
         $data["data_qlink"] = $this->M_Login->get_qlink();
         $data["data_contact"] = $this->M_Login->get_contact();    
+        $data["data_carousel"] = $this->M_Login->get_carousel();
+        $data["data_video"] = $this->M_Login->get_highlights();
+        $data["data_organizer"] = $this->M_Login->get_organizer();
+        $data["data_member"] = $this->M_Login->get_member();
+        $data["data_sponsors"] = $this->M_Login->get_sponsors();
+        $data["data_coperation"] = $this->M_Login->get_coperation();   
 
         $this->load->view('layouts/header', $data);
         $this->load->view('module/exhibiting/exhibitorvisa',$data);

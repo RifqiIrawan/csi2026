@@ -397,10 +397,10 @@
 .scroll-wrapper {
   display: flex;
   gap: 1.5rem;
-  overflow-x: auto;
+  overflow-x: hidden;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   scroll-behavior: smooth; /* smooth scroll when using arrows */
 }
 

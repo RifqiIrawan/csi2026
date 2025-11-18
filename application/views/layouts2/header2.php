@@ -183,12 +183,15 @@
         padding: 15px 0;
         transition: all 0.5s;
         z-index: 997;
-        border-bottom: 1px solid gainsboro;
+        /* border-bottom: 1px solid gainsboro; */
     }
 
     .header .logo img {
-      max-height: 45px;
+      width: 250px;
       margin-right: 8px;
+      max-width: 100%;
+      max-height: 100%;
+      height: 115px !important;
     }
 
     @media (min-width: 1200px) {
