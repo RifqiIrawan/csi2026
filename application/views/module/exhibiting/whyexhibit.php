@@ -571,6 +571,71 @@
 
     </section>
 
+
+
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="testimonial-title">What Exhibitor Says</h2>
+
+            <?php if (!empty($testimonials)): ?>
+
+                <div class="testimonial-slider">
+
+                    <?php foreach ($testimonials as $index => $t): ?>
+
+                        <?php
+                            // Build dynamic author line
+                            $parts = [];
+
+                            if (!empty($t['testimonial_author'])) {
+                                $parts[] = '<strong>' . htmlspecialchars($t['testimonial_author']) . '</strong>';
+                            }
+
+                            if (!empty($t['testimonial_position'])) {
+                                $parts[] = htmlspecialchars($t['testimonial_position']);
+                            }
+
+                            if (!empty($t['testimonial_company'])) {
+                                $parts[] = htmlspecialchars($t['testimonial_company']);
+                            }
+
+                            $author_line = implode(' - ', $parts);
+                        ?>
+
+                        <div class="slide <?= $index === 0 ? 'active' : '' ?>">
+                            <div class="testimonial-icon">
+                                <span><i class="fa fa-quote-right"></i></span>
+                            </div>
+
+                            <p class="testimonial-text">
+                                “<?= htmlspecialchars($t['testimonial_message']); ?>”
+                            </p>
+
+                            <?php if (!empty($author_line)): ?>
+                                <p class="testimonial-author">
+                                    <?= $author_line; ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Dots -->
+                <div class="testimonial-dots">
+                    <?php foreach ($testimonials as $i => $_): ?>
+                        <span class="dot <?= $i === 0 ? 'active' : '' ?>" data-index="<?= $i ?>"></span>
+                    <?php endforeach; ?>
+                </div>
+
+            <?php else: ?>
+
+                <p>No testimonials available.</p>
+
+            <?php endif; ?>
+        </div>
+    </section>
+
     <section>
         <div class="container mt-4">
             <h3><?= $section2['subtitle']; ?></h3>
@@ -591,19 +656,6 @@
                 <?php endif; ?> -->
 
                 <?= $visainformation['body_text']; ?>
-                <!-- <a class="btn primary-btn" 
-                    href="https://evisa.imigrasi.go.id/" 
-                    style="background-color: #4CAF50; 
-                            color: white; 
-                            padding: 12px 30px; 
-                            text-decoration: none; 
-                            font-weight: bold; 
-                            border-radius: 5px; 
-                            display: inline-block; 
-                            margin: 20px 0;" 
-                    target="_blank">
-                    Apply for Visa
-                </a> -->
 
                 <a class="btn primary-btn" 
                     href="<?php echo base_url('Home/Url_Book_Stand');?>" 
@@ -618,29 +670,8 @@
                     target="_blank">
                     BOOK YOUR SPACE NOW
                 </a>
-                <!-- <p style="margin-top: 15px;">
-                    <strong>The organizer is not responsible for those who enter the show with incorrect visas.</strong>
-                </p> -->
             </div>
-
         </div>
-
-        <!-- <div style="background-color: #66A80F; padding: 40px 20px; text-align: center; color: white;">
-            <div style="display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;">
-                <?php foreach ($paint_stats as $stat): ?>
-                    <?php if (!empty($stat['value']) && !empty($stat['label'])): ?>
-                        <div style="min-width: 150px;">
-                            <div style="font-size: 40px; font-weight: bold; margin-bottom: 10px;">
-                                <?= $stat['value']; ?>
-                            </div>
-                            <div style="font-size: 16px;">
-                                <?= $stat['label']; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-        </div> -->
     </section>
 
     <!-- <section>
@@ -719,69 +750,6 @@
             </div>
         </div>
     </section> -->
-
-    <section class="testimonial-section">
-        <div class="container">
-            <h2 class="testimonial-title">What Exhibitor Says</h2>
-
-            <?php if (!empty($testimonials)): ?>
-
-                <div class="testimonial-slider">
-
-                    <?php foreach ($testimonials as $index => $t): ?>
-
-                        <?php
-                            // Build dynamic author line
-                            $parts = [];
-
-                            if (!empty($t['testimonial_author'])) {
-                                $parts[] = '<strong>' . htmlspecialchars($t['testimonial_author']) . '</strong>';
-                            }
-
-                            if (!empty($t['testimonial_position'])) {
-                                $parts[] = htmlspecialchars($t['testimonial_position']);
-                            }
-
-                            if (!empty($t['testimonial_company'])) {
-                                $parts[] = htmlspecialchars($t['testimonial_company']);
-                            }
-
-                            $author_line = implode(' - ', $parts);
-                        ?>
-
-                        <div class="slide <?= $index === 0 ? 'active' : '' ?>">
-                            <div class="testimonial-icon">
-                                <span><i class="fa fa-quote-right"></i></span>
-                            </div>
-
-                            <p class="testimonial-text">
-                                “<?= htmlspecialchars($t['testimonial_message']); ?>”
-                            </p>
-
-                            <?php if (!empty($author_line)): ?>
-                                <p class="testimonial-author">
-                                    <?= $author_line; ?>
-                                </p>
-                            <?php endif; ?>
-                        </div>
-
-                    <?php endforeach; ?>
-                </div>
-
-                <!-- Dots -->
-                <div class="testimonial-dots">
-                    <?php foreach ($testimonials as $i => $_): ?>
-                        <span class="dot <?= $i === 0 ? 'active' : '' ?>" data-index="<?= $i ?>"></span>
-                    <?php endforeach; ?>
-                </div>
-
-            <?php else: ?>
-
-                <p>No testimonials available.</p>
-
-            <?php endif; ?>
-        </div>
-    </section>
 
 
 
