@@ -2,7 +2,40 @@
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* ======================
+        Hero Section
+        ====================== */
+        .hero-section {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
 
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+        }
+
+    </style>
     <style>
     /* ====== General ====== */
     body {
@@ -113,6 +146,11 @@
     <body>
 
     <main class="main">
+        <!-- HERO SECTION -->
+        <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
+            <div class="hero-content">
+            </div>
+        </section>
         <section class="py-5">
             <div class="container">
                 <div class="row justify-content-center">

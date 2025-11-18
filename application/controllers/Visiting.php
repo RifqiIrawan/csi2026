@@ -281,8 +281,28 @@ class Visiting extends CI_Controller {
   public function conference_schedule_index() {
 
     $data['programs'] = $this->M_Visiting->get_event_schedule([]);
+
+    $base_url = base_url();
+
+    $dataContents = $this->M_Exhibiting->get_contents([
+        'menu_id' => 11,
+        'content_year' => 2026,
+        'content_type' => 'banner'
+    ]);
+
+    $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
+    $hero_text = $dataContents['0']['title'];
+
+    // Data Hero Section
+    $data['hero'] = [
+        'background' => $hero_background,
+        'button_text' => $hero_text,
+        'button_link' => '' // scroll ke section features
+    ];
+
+    
     // echo "<pre>";
-    // print_r($dataConference);
+    // print_r($data['hero']);
     // echo "</pre>";
     // die();
     $data["data_menu"] = $this->M_Login->get_menu();
