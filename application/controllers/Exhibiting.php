@@ -294,6 +294,8 @@ class Exhibiting extends CI_Controller {
             ]
         ];
 
+        $data['testimonials'] = $this->M_Exhibiting->get_testimonials();
+
         $data['features'] = $features;
         $data["data_menu"] = $this->M_Login->get_menu();
         $data["data_support"] = $this->M_Login->get_support();

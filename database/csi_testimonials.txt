@@ -1,0 +1,32 @@
+CREATE TABLE `csi_testimonials` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `testimonial_author` VARCHAR(150) NOT NULL,
+  `testimonial_position` VARCHAR(200) DEFAULT NULL,
+  `testimonial_company` VARCHAR(200) DEFAULT NULL,
+  `testimonial_message` TEXT NOT NULL,         
+  `testimonial_order` INT(5) DEFAULT 0,                -- untuk mengatur urutan slider
+  `testimonial_status` TINYINT(1) DEFAULT 1,                -- 1 = active, 0 = inactive
+  `created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `created_by` VARCHAR(50) NOT NULL,
+  `modified_date` DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
+  `modified_by` VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO csi_testimonials (testimonial_author, testimonial_position, testimonial_company, testimonial_message, testimonial_order, testimonial_status, created_date, created_by, modified_date, modified_by)
+VALUES
+("Bernice", "Business Relations Team Lead Bajukertas & Co", ""
+ ,"With the presence of this exhibition, I hope it will support the growth of Indonesia's textile industry and help bring the nation to greater success in the global textile market."
+ , 1, 1, now(), "sysadmin", now(), "sysadmin"),
+
+("Bela Lou", "Founder", "Pola Manufacture"
+ ,"The results went beyond our expectations. Thank you to INATEX & Indo Intertex for providing a platform where we could connect with clients, audiences, and fellow exhibitors."
+ , 2, 1, now(), "sysadmin", now(), "sysadmin"),
+
+("Claudia", "Chief Marketing Officer", "Pukka Indonusa"
+ ,"This year's exhibition has been truly impressive. The visitor traffic has been non-stop, with a constant stream of people stopping by our booth."
+ , 3, 1, now(), "sysadmin", now(), "sysadmin"),
+
+ ("Kurniawan Hendrianto", "Senior Product Manager", "Rudolf Group"
+ ,"Indo Intertex has been an outstanding exhibition. I was surprised by how busy it is this year, especially considering it's an odd numbered year. The number of visitors to the Rudolf booth was remarkable. Our collaboration with Indo Intertex has brought us great value."
+ , 4, 1, now(), "sysadmin", now(), "sysadmin");

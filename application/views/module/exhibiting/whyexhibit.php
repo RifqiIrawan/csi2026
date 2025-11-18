@@ -463,6 +463,77 @@
 
 
 </style>
+<style>
+    .testimonial-section {
+        padding: 80px 20px;
+        text-align: center;
+        /* background: #fff; */
+        background: #f6f6f6;
+    }
+
+    .testimonial-title {
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 40px;
+    }
+
+    .testimonial-icon span {
+        font-size: 70px;
+        color: #0A9D58;
+    }
+
+    .testimonial-text {
+        font-size: 20px;
+        font-style: italic;
+        max-width: 900px;
+        margin: 20px auto;
+        color: #555;
+    }
+
+    .testimonial-author {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+
+    /* Slider base */
+    .testimonial-slider {
+        position: relative;
+        overflow: hidden;
+        min-height: 200px;
+    }
+
+    .slide {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+
+    .slide.active {
+        display: block;
+        opacity: 1;
+    }
+
+    /* DOTs */
+    .testimonial-dots {
+        margin-top: 25px;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        margin: 0 5px;
+        border-radius: 50%;
+        background: #ccc;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .dot.active {
+        background: #333;
+    }
+
+</style>
 <!-- Slick CSS -->
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -649,6 +720,71 @@
         </div>
     </section> -->
 
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="testimonial-title">What Exhibitor Says</h2>
+
+            <?php if (!empty($testimonials)): ?>
+
+                <div class="testimonial-slider">
+
+                    <?php foreach ($testimonials as $index => $t): ?>
+
+                        <?php
+                            // Build dynamic author line
+                            $parts = [];
+
+                            if (!empty($t['testimonial_author'])) {
+                                $parts[] = '<strong>' . htmlspecialchars($t['testimonial_author']) . '</strong>';
+                            }
+
+                            if (!empty($t['testimonial_position'])) {
+                                $parts[] = htmlspecialchars($t['testimonial_position']);
+                            }
+
+                            if (!empty($t['testimonial_company'])) {
+                                $parts[] = htmlspecialchars($t['testimonial_company']);
+                            }
+
+                            $author_line = implode(' - ', $parts);
+                        ?>
+
+                        <div class="slide <?= $index === 0 ? 'active' : '' ?>">
+                            <div class="testimonial-icon">
+                                <span><i class="fa fa-quote-right"></i></span>
+                            </div>
+
+                            <p class="testimonial-text">
+                                “<?= htmlspecialchars($t['testimonial_message']); ?>”
+                            </p>
+
+                            <?php if (!empty($author_line)): ?>
+                                <p class="testimonial-author">
+                                    <?= $author_line; ?>
+                                </p>
+                            <?php endif; ?>
+                        </div>
+
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Dots -->
+                <div class="testimonial-dots">
+                    <?php foreach ($testimonials as $i => $_): ?>
+                        <span class="dot <?= $i === 0 ? 'active' : '' ?>" data-index="<?= $i ?>"></span>
+                    <?php endforeach; ?>
+                </div>
+
+            <?php else: ?>
+
+                <p>No testimonials available.</p>
+
+            <?php endif; ?>
+        </div>
+    </section>
+
+
+
 </main>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -672,6 +808,48 @@ jq(document).ready(function(){
 });
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const slides = document.querySelectorAll(".slide");
+        const dots = document.querySelectorAll(".dot");
+
+        if (slides.length === 0) return; // Tidak ada slide
+
+        let slideIndex = 0;
+
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove("active"));
+            dots.forEach(d => d.classList.remove("active"));
+
+            slides[n].classList.add("active");
+            dots[n].classList.add("active");
+        }
+
+        // Munculkan slide pertama saat load
+        showSlide(0);
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        }
+
+        let autoSlide = setInterval(nextSlide, 3000);
+
+        dots.forEach(dot => {
+            dot.addEventListener("click", () => {
+                clearInterval(autoSlide);
+                slideIndex = parseInt(dot.dataset.index);
+                showSlide(slideIndex);
+                autoSlide = setInterval(nextSlide, 3000);
+            });
+        });
+
+    });
+</script>
+
+
 
 
 </html>

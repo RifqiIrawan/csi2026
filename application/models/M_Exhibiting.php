@@ -839,4 +839,21 @@ class M_Exhibiting extends CI_Model{
 		}
 	}
 
+    public function get_testimonials() {
+        $this->db->select('
+            id
+            , testimonial_author
+            , testimonial_position
+            , testimonial_company
+            , testimonial_message
+            , testimonial_order
+            , testimonial_status
+        ');
+        $this->db->from('csi_testimonials');
+        $this->db->where('testimonial_status', 1);
+        $this->db->order_by('testimonial_order', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 }
