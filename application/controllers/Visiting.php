@@ -147,8 +147,11 @@ class Visiting extends CI_Controller {
             case "why-visit-section-datatable":
                 echo $this->M_Visiting->why_visit_section_datatable();
                 break;
-                case "conference-schedule-settings":
+            case "conference-schedule-settings":
                 $this->conference_schedule_settings();
+                break;
+            case "conference-schedule-datatable":
+                echo $this->M_Visiting->conference_schedule_datatable();
                 break;
             case "post-show-report-settings":
                 $this->post_show_report_settings();
