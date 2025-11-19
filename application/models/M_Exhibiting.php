@@ -556,7 +556,7 @@ class M_Exhibiting extends CI_Model{
 				"id" 		    => $row->id,
 				"content_year" 	=> $row->content_year,
 				// "title" 		=> $row->title,
-				"subtitle" 		=> $row->title,
+				"subtitle" 		=> $row->subtitle,
                 "body_text"     => $row->body_text,
 				"file_path"	  	=> $row->file_path,
                 "status"	  	=> $row->status,
@@ -855,5 +855,112 @@ class M_Exhibiting extends CI_Model{
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function why_exhibit_testimonial_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+		
+        $this->db->select('
+            id
+            , testimonial_author
+            , testimonial_position
+            , testimonial_company
+            , testimonial_message
+            , testimonial_order
+            , testimonial_status
+        ');
+        $this->db->from('csi_testimonials');
+        // where conditions
+        $this->db->where('testimonial_status', 1);
+        $this->db->order_by('testimonial_order', 'ASC');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		             => $i
+                , "id"                   => $row->id
+                , "testimonial_author"   => $row->testimonial_author
+                , "testimonial_position" => $row->testimonial_position
+                , "testimonial_company"  => $row->testimonial_company
+                , "testimonial_message"  => $row->testimonial_message
+                , "testimonial_order"    => $row->testimonial_order
+                , "testimonial_status"   => $row->testimonial_status
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
 
 }

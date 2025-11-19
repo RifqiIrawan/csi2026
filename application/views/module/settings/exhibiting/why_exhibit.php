@@ -357,6 +357,22 @@
 
 
 </style>
+<style>
+  .wrap-text {
+      white-space: normal !important;
+      word-break: break-word !important;
+      max-width: 600px;
+  }
+
+  .ellipsis {
+      display: inline-block;
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+</style>
 </head>
 <body>
 
@@ -378,6 +394,9 @@
         </a>
         <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
           <i class="fa fa-ellipsis-h"></i> Visa Information
+        </a>
+        <a class="nav-link" id="tab-testimonial" data-bs-toggle="tab" href="#content-testimonial" role="tab">
+          <i class="fa fa-comment-dots me-1"></i> Testimonial
         </a>
       </li>
     </ul>
@@ -721,6 +740,124 @@
           </div>
         </div>
 
+        <!-- TAB 4: Testimonial -->
+        <div class="tab-pane fade" id="content-testimonial" role="tabpanel">
+          <button id="addTestimonialBtn" class="btn btn-success mb-3">Add Testimonial</button>
+
+          <!-- DataTable -->
+          <table id="testimonialTable" class="display table table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Author</th>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Testimonial</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <!-- Testimonial Form -->
+          <div id="testimonialFormContainer" class="testimonial-form d-none">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Testimonial Configuration</h5>
+                <form action="<?= base_url('exhibiting/why-exhibit-testimonial-add') ?>" method="post" enctype="multipart/form-data">
+                  <div class="mb-3">
+                    <label for="testimonialAuthor" class="form-label">Author Name</label>
+                    <input type="text" id="testimonialAuthor" class="form-control" name="testimonialauthor" placeholder="Enter author's name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="testimonialPosition" class="form-label">Position / Title</label>
+                    <input type="text" id="testimonialPosition" class="form-control" name="testimonialposition" placeholder="Enter position or title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="testimonialCompany" class="form-label">Company</label>
+                    <input type="text" id="testimonialCompany" class="form-control" name="testimonialcompany" placeholder="Enter company name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="testimonialText" class="form-label">Testimonial</label>
+                    <textarea id="testimonialText" class="form-control" rows="4" name="testimonialtext" placeholder="Write the testimonial here"></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="testimonialOrder" class="form-label">Display Order</label>
+                    <input type="text" id="testimonialOrder" class="form-control" name="testimonialorder" placeholder="Optional: Enter display order or URL">
+                  </div>
+
+                  <div class="mb-3 d-flex gap-3 align-items-center">
+                    <input type="radio" name="testimonialStatus" id="testimonialActive" value="1" checked>
+                    <label for="testimonialActive" class="mb-0">Active</label>
+                    <input type="radio" name="testimonialStatus" id="testimonialPassive" value="0">
+                    <label for="testimonialPassive" class="mb-0">Inactive</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                  <button type="button" id="backTestimonialBtn" class="btn btn-outline-danger">Back</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial Edit Form -->
+          <div id="testimonialEditFormContainer" class="testimonial-form d-none">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Edit Testimonial</h5>
+                <form id="editTestimonialForm" action="<?= base_url('exhibiting/why-exhibit-testimonial-update') ?>" method="post" enctype="multipart/form-data">
+                  
+                  <!-- Hidden field for Testimonial ID -->
+                  <input type="hidden" name="id" id="editTestimonialId">
+
+                  <div class="mb-3">
+                    <label for="editTestimonialAuthor" class="form-label">Author Name</label>
+                    <input type="text" class="form-control" name="testimonialauthor" id="editTestimonialAuthor" placeholder="Enter author name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="editTestimonialPosition" class="form-label">Position / Title</label>
+                    <input type="text" class="form-control" name="testimonialposition" id="editTestimonialPosition" placeholder="Enter position or title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="editTestimonialCompany" class="form-label">Company</label>
+                    <input type="text" class="form-control" name="testimonialcompany" id="editTestimonialCompany" placeholder="Enter company name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="editTestimonialText" class="form-label">Testimonial</label>
+                      <textarea class="form-control" rows="4"
+                        name="testimonialtext"
+                        id="editTestimonialText"
+                        placeholder="Write the testimonial here"></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="editTestimonialOrder" class="form-label">Display Order</label>
+                    <input type="text" class="form-control" name="testimonialorder" id="editTestimonialOrder" placeholder="Optional: Enter display order or URL">
+                  </div>
+
+                  <div class="mb-3 d-flex gap-3 align-items-center">
+                    <input type="radio" name="testimonialstatus" id="editTestimonialActive" value="1">
+                    <label for="editTestimonialActive" class="mb-0">Active</label>
+                    <input type="radio" name="testimonialstatus" id="editTestimonialInactive" value="0">
+                    <label for="editTestimonialInactive" class="mb-0">Inactive</label>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelEditTestimonialBtn" class="btn btn-outline-danger">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -736,7 +873,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 <script>
 
-  let sectionEditor, visainformationEditor;
+  let sectionEditor, visainformationEditor, testimonialEditor;
 
   // 2️⃣ Inisialisasi CKEditor
   document.addEventListener('DOMContentLoaded', function () {
@@ -752,6 +889,14 @@
       .create(document.querySelector('#editVisaInformationDescription'))
       .then(editor => {
           visainformationEditor = editor;
+          console.log('Editor 2 ready');
+      })
+      .catch(error => console.error(error));
+      
+    ClassicEditor
+      .create(document.querySelector('#editTestimonialText'))
+      .then(editor => {
+          testimonialEditor = editor;
           console.log('Editor 2 ready');
       })
       .catch(error => console.error(error));
@@ -1309,10 +1454,17 @@
             { data: "subtitle"
               , width: "10%"
             },
-            { data: "body_text", className: "text-start", render: function(data) {
-                // optional truncate text
-                return data.length > 50 ? data.substr(0, 100) + '...' : data;
-            }},
+            {
+                data: "body_text",
+                className: "text-start",
+                render: function(data) {
+                    // Jika data kosong, return kosong saja
+                    if (!data) return "";
+
+                    // Truncate
+                    return data.length > 50 ? data.substr(0, 100) + '...' : data;
+                }
+            },
             {
                 data: null,
                 orderable: false,
@@ -1433,6 +1585,229 @@
 
   });
 </script>
+<script>
+  var base_url = "<?= base_url(); ?>";
 
+  $(document).ready(function () {
+
+    // DOM Cache
+    const $testimonialTableWrapper = $('#testimonialTable_wrapper');
+    const $TestimonialForm = $('#testimonialFormContainer');
+    const $addTestimonialBtn = $('#addTestimonialBtn');
+    const $backTestimonialBtn = $('#backTestimonialBtn');
+
+    // INIT DATATABLE
+    const testimonialTable = $('#testimonialTable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: base_url + "exhibiting/why-exhibit-testimonial-datatable",
+            type: "POST"
+        },
+        dataType: 'json',
+        order: [[1, "asc"]],
+        columns: [
+            { data: "no", width: "5%" },
+            { data: "testimonial_author", width: "15%" },
+            { data: "testimonial_position", width: "15%" },
+            { data: "testimonial_company", width: "15%" },
+            {
+                data: "testimonial_message",
+                render: function (data, type, row) {
+                    return `<div style="
+                        white-space: normal !important;
+                        word-break: break-word !important;
+                        overflow-wrap: break-word !important;
+                        max-width: 450px;
+                    ">${data}</div>`;
+                }
+            },
+            { data: "testimonial_order", width: "5%" },
+            {
+                data: "testimonial_status",
+                render: function (val) {
+                    return val == 1
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-secondary">Inactive</span>';
+                }
+            },
+            {
+                data: null,
+                orderable: false,
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-primary editTestimonial" data-id="${row.id}" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger deleteTestimonial" data-id="${row.id}" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    // FIX: ketika pindah tab, update width DataTables
+    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
+        setTimeout(() => {
+            testimonialTable.columns.adjust().responsive.recalc();
+        }, 10);
+    });
+
+    // SHOW FORM
+    $addTestimonialBtn.on('click', function () {
+        $('#testimonialTable_wrapper').hide();
+        $testimonialTableWrapper.hide();
+        $addTestimonialBtn.hide();
+        $('#testimonialFormContainer').removeClass('d-none').fadeIn(200);
+    });
+
+    // BACK TO TABLE
+    $backTestimonialBtn.on('click', function () {
+      $TestimonialForm.slideUp(500, function () {
+      $TestimonialForm.addClass('d-none');
+      $testimonialTableWrapper.slideDown(500);
+      $('#testimonialTable_wrapper').show();
+      $addTestimonialBtn.show();
+    });
+    });
+
+    // ACTIVATE TAB IF HASH EXISTS
+    const hash = window.location.hash;
+    if (hash) {
+        const triggerEl = document.querySelector('.nav-link[href="' + hash + '"]');
+        if (triggerEl) new bootstrap.Tab(triggerEl).show();
+    }
+
+    // UPDATE URL HASH ON TAB SWITCH
+    document.querySelectorAll('#formTabs a[data-bs-toggle="tab"]').forEach(tabEl => {
+        tabEl.addEventListener('shown.bs.tab', event => {
+            history.replaceState(null, null, event.target.getAttribute('href'));
+        });
+    });
+  });
+
+  $(document).on('click', '.editTestimonial', function() {
+    let id = $(this).data('id');
+
+    // Example: Fetch banner data from API (adjust URL)
+    $.getJSON("<?= base_url('exhibiting/why-exhibit-testimonial-get-data/') ?>" + id, function(data) {
+
+
+        $("#editTestimonialAuthor").val(data.testimonial_author);
+        $("#editTestimonialPosition").val(data.testimonial_position);
+        $("#editTestimonialCompany").val(data.testimonial_company);
+        $("#editTestimonialOrder").val(data.testimonial_order);
+        // $("#editTestimonialText").val(data.testimonial_message || '');
+
+        if (testimonialEditor) {
+          testimonialEditor.setData(data.testimonial_message || '');
+        }
+
+        if (data.testimonial_status === "1") {
+            $("#editTestimonialActive").prop("checked", true);
+        } else {
+            $("#editTestimonialInactive").prop("checked", true);
+        }
+
+        // Show edit form
+        $("#testimonialFormContainer").addClass("d-none");
+        $("#testimonialEditFormContainer").removeClass("d-none");
+
+        // hide table + button add
+        $('#testimonialTable_wrapper').hide();
+        $('#addTestimonialBtn').hide();
+
+        $('#testimonialEditFormContainer').show();
+    });
+  });
+
+  // Cancel button
+  $("#cancelEditTestimonialBtn").click(function() {
+      $("#testimonialEditFormContainer").addClass("d-none");
+      $('#testimonialTable_wrapper').show();
+      $('#addTestimonialBtn').show();
+  });
+
+  // Preview image sebelum upload
+  $("#editBannerImage").on("change", function(){
+      const [file] = this.files;
+      if (file) {
+          $("#editBannerPreview").attr("src", URL.createObjectURL(file)).show();
+      }
+  });
+  
+  $('#editTestimonialForm').on('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: base_url + "exhibiting/why-exhibit-banner-update",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function(res) {
+            if (res.success) {
+                Swal.fire("Success!", res.message, "success");
+
+                // hide edit form, show table & button add
+                $("#bannerEditFormContainer").hide();
+                $('#testimonialTable_wrapper').show();
+                $('#addTestimonialBtn').show();
+
+                // reload datatable
+                $('#testimonialTable').DataTable().ajax.reload();
+            } else {
+                Swal.fire("Error!", res.message, "error");
+            }
+        },
+        error: function() {
+            Swal.fire("Error!", "Terjadi kesalahan server.", "error");
+        }
+    });
+  });
+
+
+  $(document).on('click', '.deleteTestimonial', function() {
+    const id = $(this).data('id');
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This banner will be permanently deleted!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: base_url + 'exhibiting/why-exhibit-testimonial-delete/' + id,
+                type: 'POST',
+                dataType: 'json',
+                success: function(res) {
+                    Swal.fire({
+                        icon: res.status,
+                        title: res.status.charAt(0).toUpperCase() + res.status.slice(1),
+                        text: res.message
+                    });
+                    if (res.status === 'success') {
+                        // $('#testimonialTable').DataTable().ajax.reload(null, false);
+                        testimonialTable.ajax.reload(null, false); 
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'Failed to connect to server', 'error');
+                }
+            });
+        }
+    });
+  });
+</script>
 </body>
 </html>

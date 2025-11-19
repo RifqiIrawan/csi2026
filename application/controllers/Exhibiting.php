@@ -127,6 +127,13 @@ class Exhibiting extends CI_Controller {
             case "why-exhibit-visa-get-data":
                 $this->why_exhibit_visa_get_data($id);
                 break;
+            /* Part Testimonial */
+            case "why-exhibit-testimonial-datatable":
+                echo $this->M_Exhibiting->why_exhibit_testimonial_datatable();
+                break;
+            case "why-exhibit-testimonial-get-data":
+                $this->why_exhibit_testimonial_get_data($id);
+                break;
             /* Part Exhibitor List */
             case "exhibitor-datatable":
                 echo $this->M_Exhibiting->exhibitor_datatable();
@@ -630,7 +637,7 @@ class Exhibiting extends CI_Controller {
             redirect('exhibiting/why-exhibit-settings');
         }
     }
-
+    
     public function why_exhibit_banner_get_data($id){
 
         $IDBanner = (int) $id;
@@ -1653,6 +1660,38 @@ class Exhibiting extends CI_Controller {
         }
 
         echo json_encode($response);
+    }
+
+    public function why_exhibit_testimonial_get_data($id){
+
+        $IDTestimonial = (int) $id;
+        // $activeTestimonials = $this->M_Exhibiting->get('csi_contents', [
+        //     'id' => $IDTestimonial
+        // ])->row_array();
+
+        $activeTestimonials = $this->M_Exhibiting->fetchData(
+            'csi_testimonials c',
+            ['c.id' => $IDTestimonial],
+            [],
+            'id, testimonial_author, testimonial_position, testimonial_company, testimonial_message, testimonial_order, testimonial_status',
+            ['c.id' => 'DESC']
+        )->row_array();
+        // print_r($activeTestimonials);
+        // die();
+
+        if ($activeTestimonials) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeTestimonials));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
     }
 
 }
