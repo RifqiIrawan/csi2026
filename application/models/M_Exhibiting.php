@@ -675,7 +675,7 @@ class M_Exhibiting extends CI_Model{
 
             $data = array(
 				"no" 		         => $i,
-				"id" 		         => $row->id,
+				"id" 		         => $row->company_profile_id,
                 "menu_id"            => $row->menu_id,
                 "content_year"       => $row->content_year,
                 "content_type"       => $row->content_type,

@@ -203,7 +203,7 @@
     <div class="card tab-card">
       <div class="card-body">
         <h5 class="mb-3 text-success">Add Exhibitor</h5><hr/>
-        <form id="addExhibitor1Form" action="<?= base_url('exhibiting/why-exhibit-exhibitor-add') ?>" method="post" enctype="multipart/form-data">
+        <form id="addExhibitor1Form" action="<?= base_url('exhibiting/exhibitor-list-add') ?>" method="post" enctype="multipart/form-data">
 
           <!-- Company Information -->
           <h6 class="mb-2 text-primary">Company Information</h6>
@@ -217,7 +217,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" name="description" placeholder="Enter Full Company Description"></textarea>
+            <textarea class="form-control" id="description" name="description" placeholder="Enter Full Company Description"></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label">Website</label>
@@ -241,13 +241,6 @@
           <div class="mb-3">
             <label class="form-label">Address</label>
             <textarea class="form-control" name="address" placeholder="Enter Address"></textarea>
-          </div>
-
-          <!-- Products / Services -->
-          <h6 class="mb-2 text-primary">Products / Services</h6>
-          <div class="mb-3">
-            <label class="form-label">Products / Services</label>
-            <textarea class="form-control" name="products" placeholder="Enter Products or Services"></textarea>
           </div>
 
           <!-- Social Media Links -->
@@ -284,14 +277,6 @@
             </div>
           </div>
 
-          <!-- Status -->
-          <div class="mb-3 d-flex gap-3 align-items-center">
-            <input type="radio" name="status" id="statusActive" value="active" checked>
-            <label for="statusActive" class="mb-0">Active</label>
-            <input type="radio" name="status" id="statusInactive" value="inactive">
-            <label for="statusInactive" class="mb-0">Inactive</label>
-          </div>
-
           <!-- Buttons -->
           <button type="submit" class="btn btn-success me-2">Add</button>
           <button type="button" id="backExhibitor1Btn" class="btn btn-outline-danger">Cancel</button>
@@ -300,153 +285,115 @@
     </div>
   </div>
 
-
-  <!-- Edit Exhibitor Form -->
-  <!--
-  <div id="exhibitor1EditFormContainer" class="exhibitor1-form d-none">
-    <div class="card tab-card">
-      <div class="card-body">
-        <h5 class="mb-3 text-primary">Edit Exhibitor</h5>
-        <form id="editExhibitor1Form" action="<?= base_url('exhibiting/why-exhibit-exhibitor-update') ?>" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="id" id="editExhibitor1Id">
-          <div class="mb-3">
-            <label class="form-label">Exhibitor Year</label>
-            <select class="form-control" name="exhibitoryear" id="editExhibitor1Year" required>
-              <option value="">-- Select Exhibitor Year --</option>
-              <?php for($y = $startYear; $y <= $endYear; $y++): ?>
-                <option value="<?= $y; ?>"><?= $y; ?></option>
-              <?php endfor; ?>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Exhibitor Title</label>
-            <input type="text" class="form-control" name="exhibitortitle" id="editExhibitor1Title" placeholder="Enter Exhibitor Title" required style="text-transform:capitalize">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Exhibitor Description</label>
-            <textarea class="form-control" name="exhibitordescription" id="editExhibitor1Description" placeholder="Enter Exhibitor Description"></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Exhibitor Image</label>
-            <input type="file" class="form-control" name="exhibitorimage" id="editExhibitor1Image" accept="image/*">
-            <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
-            <div class="mt-2">
-              <img id="editExhibitor1Preview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
-            </div>
-          </div>
-          <div class="mb-3 d-flex gap-3 align-items-center">
-            <input type="radio" name="exhibitorStatus" id="editExhibitor1Active" value="active">
-            <label for="editExhibitor1Active" class="mb-0">Active</label>
-            <input type="radio" name="exhibitorStatus" id="editExhibitor1Inactive" value="inactive">
-            <label for="editExhibitor1Inactive" class="mb-0">Inactive</label>
-          </div>
-          <button type="submit" class="btn btn-primary me-2">Update</button>
-          <button type="button" id="cancelEditExhibitor1Btn" class="btn btn-outline-danger">Cancel</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  -->
-
   <!-- Edit Exhibitor Form -->
   <div id="exhibitor1EditFormContainer" class="exhibitor1-form d-none mt-3">
     <div class="card tab-card">
       <div class="card-body">
         <h5 class="mb-3 text-warning">Edit Exhibitor</h5><hr/>
-        <form id="editExhibitor1Form" action="<?= base_url('exhibiting/why-exhibit-exhibitor-edit') ?>" method="post" enctype="multipart/form-data">
+        <form id="editExhibitor1Form" action="<?= base_url('exhibiting/exhibitor-list-edit') ?>" method="post" enctype="multipart/form-data">
           
-          <!-- Hidden ID -->
-          <input type="hidden" name="exhibitorId" value="<?= $data['id'] ?>">
-
+          <input type="hidden" name="editExhibitor1Id">
+          <input type="hidden" name="editContentMediaId">
           <!-- Company Information -->
           <h6 class="mb-2 text-primary">Company Information</h6>
+
           <div class="mb-3">
             <label class="form-label">Company Name</label>
-            <input type="text" class="form-control" name="companyName" value="<?= $data['companyName'] ?>" required>
+            <input id="editExCompanyName" type="text" class="form-control"
+                  name="editExCompanyName" required>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Stand</label>
-            <input type="text" class="form-control" name="stand" value="<?= $data['stand'] ?>" required>
+            <input id="editExStand" type="text" class="form-control"
+                  name="editExStand" required>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" name="description"><?= $data['description'] ?></textarea>
+            <textarea id="editExDescription" class="form-control"
+                      name="editExDescription"></textarea>
           </div>
+
           <div class="mb-3">
             <label class="form-label">Website</label>
-            <input type="url" class="form-control" name="website" value="<?= $data['website'] ?>">
+            <input id="editExWebsite" type="url" class="form-control"
+                  name="editExWebsite">
           </div>
 
           <!-- Contact Information -->
           <h6 class="mb-2 text-primary">Contact Information</h6>
+
           <div class="mb-3">
             <label class="form-label">Contact Person</label>
-            <input type="text" class="form-control" name="contactPerson" value="<?= $data['contactPerson'] ?>">
+            <input id="editExContactPerson" type="text" class="form-control"
+                  name="editExContactPerson">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" value="<?= $data['email'] ?>">
+            <input id="editExEmail" type="email" class="form-control"
+                  name="editExEmail">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Phone</label>
-            <input type="text" class="form-control" name="phone" value="<?= $data['phone'] ?>">
+            <input id="editExPhone" type="text" class="form-control"
+                  name="editExPhone">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Address</label>
-            <textarea class="form-control" name="address"><?= $data['address'] ?></textarea>
+            <textarea id="editExAddress" class="form-control"
+                      name="editExAddress"></textarea>
           </div>
 
-          <!-- Products / Services -->
-          <h6 class="mb-2 text-primary">Products / Services</h6>
-          <div class="mb-3">
-            <label class="form-label">Products / Services</label>
-            <textarea class="form-control" name="products"><?= $data['products'] ?></textarea>
-          </div>
+          <!-- Social Media -->
+          <h6 class="mb-2 text-primary">Social Media</h6>
 
-          <!-- Social Media Links -->
-          <h6 class="mb-2 text-primary">Social Media Links</h6>
           <div class="mb-3">
             <label class="form-label">LinkedIn</label>
-            <input type="url" class="form-control" name="linkedinUrl" value="<?= $data['linkedinUrl'] ?>">
+            <input id="editExLinkedinUrl" type="url" class="form-control"
+                  name="editExLinkedinUrl">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Twitter</label>
-            <input type="url" class="form-control" name="twitterUrl" value="<?= $data['twitterUrl'] ?>">
+            <input id="editExTwitterUrl" type="url" class="form-control"
+                  name="editExTwitterUrl">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Facebook</label>
-            <input type="url" class="form-control" name="facebookUrl" value="<?= $data['facebookUrl'] ?>">
+            <input id="editExFacebookUrl" type="url" class="form-control"
+                  name="editExFacebookUrl">
           </div>
+
           <div class="mb-3">
             <label class="form-label">YouTube</label>
-            <input type="url" class="form-control" name="youtubeUrl" value="<?= $data['youtubeUrl'] ?>">
+            <input id="editExYoutubeUrl" type="url" class="form-control"
+                  name="editExYoutubeUrl">
           </div>
+
           <div class="mb-3">
             <label class="form-label">Instagram</label>
-            <input type="url" class="form-control" name="instagramUrl" value="<?= $data['instagramUrl'] ?>">
+            <input id="editExInstagramUrl" type="url" class="form-control"
+                  name="editExInstagramUrl">
           </div>
 
-          <!-- Logo / Image -->
+          <!-- Logo -->
           <h6 class="mb-2 text-primary">Logo / Image</h6>
-          <div class="mb-3">
-            <label class="form-label">Logo / Image</label>
-            <input type="file" class="form-control" name="logoImage" accept="image/*">
-            <small class="form-text text-muted">Max 2MB, JPG/PNG/GIF</small>
-            <div class="mt-2">
-              <?php if(!empty($data['logoImage'])): ?>
-                <img id="logoPreview" src="<?= base_url('uploads/' . $data['logoImage']) ?>" alt="Preview" class="img-thumbnail" style="max-height:120px;">
-              <?php else: ?>
-                <img id="logoPreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
-              <?php endif; ?>
-            </div>
-          </div>
 
-          <!-- Status -->
-          <div class="mb-3 d-flex gap-3 align-items-center">
-            <input type="radio" name="status" id="statusActive" value="active" <?= $data['status'] == 'active' ? 'checked' : '' ?>>
-            <label for="statusActive" class="mb-0">Active</label>
-            <input type="radio" name="status" id="statusInactive" value="inactive" <?= $data['status'] == 'inactive' ? 'checked' : '' ?>>
-            <label for="statusInactive" class="mb-0">Inactive</label>
+          <div class="mb-3">
+            <label class="form-label">Upload Logo</label>
+            <input id="editExLogo" type="file" class="form-control"
+                  name="editExLogo" accept="image/*">
+            <small class="form-text text-muted">Max 2MB, JPG/PNG/GIF</small>
+
+            <div class="mt-2">
+              <img id="editExLogoPreview" src="" class="img-thumbnail"
+                  style="max-height:120px; display:none;">
+            </div>
           </div>
 
           <!-- Buttons -->
@@ -459,10 +406,14 @@
 </div>
 
 <script>
-let exhibitorEditor;
+let exhibitorEditor, exhibitorAdd;
 document.addEventListener('DOMContentLoaded', function () {
-    ClassicEditor.create(document.querySelector('#editExhibitor1Description'))
+    ClassicEditor.create(document.querySelector('#editExDescription'))
       .then(editor => { exhibitorEditor = editor; })
+      .catch(error => console.error(error));
+
+    ClassicEditor.create(document.querySelector('#description'))
+      .then(editor => { exhibitorAdd = editor; })
       .catch(error => console.error(error));
 
     var base_url = "<?= base_url(); ?>";
@@ -520,24 +471,35 @@ document.addEventListener('DOMContentLoaded', function () {
     $(document).on('click', '.editExhibitor', function(){
       let id = $(this).data('id');
 
-      $.getJSON(base_url + "exhibiting/why-exhibit-content-get-data/" + id, function(data){
+      $.getJSON(base_url + "exhibiting/exhibitor-list-get-data/" + id, function(data){
           // Isi field edit form
-          $("#editExhibitor1Id").val(data.id);
-          $("#editExhibitor1Year").val(data.content_year);
-          $("#editExhibitor1Title").val(data.title);
+           // === Isi Form ===
+          $("input[name='editExhibitor1Id']").val(data.id);
+          $("input[name='editContentMediaId']").val(data.content_media_id);
+          $("#editExCompanyName").val(data.company_name);
+          $("#editExStand").val(data.stand_no);
+          // $("#editExDescription").val(data.long_description);
+          $("#editExWebsite").val(data.website_url);
+
+          $("#editExContactPerson").val(data.contact_name);
+          $("#editExEmail").val(data.contact_email);
+          $("#editExPhone").val(data.contact_phone);
+          $("#editExAddress").val(data.address);
+
+          $("#editExLinkedinUrl").val(data.linkedin_url);
+          $("#editExTwitterUrl").val(data.twitter_url);
+          $("#editExFacebookUrl").val(data.facebook_url);
+          $("#editExYoutubeUrl").val(data.youtube_url);
+          $("#editExInstagramUrl").val(data.instagram_url);
 
           if(exhibitorEditor) {
-              exhibitorEditor.setData(data.body_text || '');
+              exhibitorEditor.setData(data.long_description || '');
           }
 
-          data.status === "active" 
-              ? $("#editExhibitor1Active").prop("checked", true) 
-              : $("#editExhibitor1Inactive").prop("checked", true);
-
           if(data.image) {
-              $("#editExhibitor1Preview").attr("src", data.image).show();
+              $("#editExLogoPreview").attr("src", data.image).show();
           } else {
-              $("#editExhibitor1Preview").hide();
+              $("#editExLogoPreview").hide();
           }
 
           // Hide Add form if visible
@@ -566,9 +528,9 @@ document.addEventListener('DOMContentLoaded', function () {
         $addExhibitorBtn.fadeIn(300);
     });
 
-    $("#editExhibitor1Image").on("change", function(){
+    $("#editExLogo").on("change", function(){
         const [file] = this.files;
-        if(file) $("#editExhibitor1Preview").attr("src", URL.createObjectURL(file)).show();
+        if(file) $("#editExLogoPreview").attr("src", URL.createObjectURL(file)).show();
     });
 
     $('#addExhibitor1Form, #editExhibitor1Form').on('submit', function(e){
@@ -601,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(result=>{
             if(result.isConfirmed){
                 $.ajax({
-                    url: base_url+'exhibiting/why-exhibit-exhibitor-delete/'+id,
+                    url: base_url+'exhibiting/exhibitor-list-delete/'+id,
                     type:'POST',
                     dataType:'json',
                     success:function(res){ 

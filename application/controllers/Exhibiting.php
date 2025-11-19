@@ -89,9 +89,26 @@ class Exhibiting extends CI_Controller {
             case "why-exhibit-settings":
                 $this->why_exhibit_settings();
                 break;
+            /* Part Exhibitor List*/
             case "exhibitor-list-settings":
                 $this->exhibitor_list_settings();
                 break;
+            case "exhibitor-datatable":
+                echo $this->M_Exhibiting->exhibitor_datatable();
+                break;
+            case "exhibitor-list-add":
+                $this->exhibitor_list_add();
+                break;
+            case "exhibitor-list-get-data":
+                $this->exhibitor_list_get_data($id);
+                break;
+            case "exhibitor-list-edit":
+                $this->exhibitor_list_edit();
+                break;
+            case "exhibitor-list-delete":
+                $this->exhibitor_list_delete($id);
+                break;
+            /* Part Why Exhibit */
             case "why-exhibit-datatable":
                 echo $this->M_Exhibiting->why_exhibit_datatable();
                 break;
@@ -107,7 +124,7 @@ class Exhibiting extends CI_Controller {
             case "why-exhibit-banner-delete":
                 $this->why_exhibit_banner_delete($id);
                 break;
-            /* Past Content - Section*/
+            /* Part Content - Section*/
             case "why-exhibit-section-datatable":
                 echo $this->M_Exhibiting->why_exhibit_section_datatable();
                 break;
@@ -133,10 +150,6 @@ class Exhibiting extends CI_Controller {
                 break;
             case "why-exhibit-testimonial-get-data":
                 $this->why_exhibit_testimonial_get_data($id);
-                break;
-            /* Part Exhibitor List */
-            case "exhibitor-datatable":
-                echo $this->M_Exhibiting->exhibitor_datatable();
                 break;
             case "exhibitor-visa-settings":
                 $this->exhibitor_visa_settings();
@@ -1693,5 +1706,372 @@ class Exhibiting extends CI_Controller {
                 ]));
         }
     }
+
+    public function exhibitor_list_add(){
+        $companyname   = $this->input->post('companyName');
+        $stand         = $this->input->post('stand');
+        $description   = $this->input->post('description');
+        $website       = $this->input->post('website');
+        $contactperson = $this->input->post('contactPerson');
+        $email         = $this->input->post('email');
+        $phone         = $this->input->post('phone');
+        $address       = $this->input->post('address');
+        $linkedinurl   = $this->input->post('linkedinUrl');
+        $twitterurl    = $this->input->post('twitterUrl');
+        $facebookurl   = $this->input->post('facebookUrl');
+        $youtubeurl    = $this->input->post('youtubeUrl');
+        $instagramurl  = $this->input->post('instagramUrl');
+
+        $content_id    = 5;
+        $sort_order    = 1;
+        $is_main       = 1;
+        $created_date  = date('Y-m-d H:i:s');
+        $created_by    = 'sysadmin';
+
+        $file_path      = './assets/uploads/exhibitor_list/';
+        $file_path_save = 'assets/uploads/exhibitor_list/';
+        
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size']      = 2048;
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $image = null;
+
+        if (!empty($_FILES['logoImage']['name'])) {
+            if (!$this->upload->do_upload('logoImage')) {
+
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            } else {
+                $uploadData = $this->upload->data();
+                $image = $uploadData['file_name'];
+            }
+        }
+
+        try {
+
+            $this->db->trans_begin();
+
+            // Save media
+            $dataMedia = [
+                'content_id'    => $content_id,
+                'media_type'    => 'image',
+                'file_path'     => $file_path_save . $image,
+                'menu_controller'=>'exhibiting/company-profile',
+                'sort_order'    => $sort_order,
+                'is_main'       => $is_main,
+                'created_date'  => $created_date,
+                'created_by'    => $created_by,
+                'modified_date' => $created_date,
+                'modified_by'   => $created_by
+            ];
+
+            $this->db->insert('csi_content_media', $dataMedia);
+            $content_media_id = $this->db->insert_id();
+
+            // Save company profile
+            $dataCompanyProfile = [
+                'content_id'         => $content_id,
+                'content_media_id'   => $content_media_id,
+                'company_name'       => $companyname,
+                'stand_no'           => $stand,
+                // 'short_description'  => $description, // Tidak digunakan saat ini
+                'long_description'   => $description,
+                'contact_name'       => $contactperson,
+                'contact_email'      => $email,
+                'contact_phone'      => $phone,
+                'address'            => $address,
+                'website_url'        => $website,
+                'linkedin_url'       => $linkedinurl,
+                'twitter_url'        => $twitterurl,
+                'facebook_url'       => $facebookurl,
+                'youtube_url'        => $youtubeurl,
+                'instagram_url'      => $instagramurl,
+                'created_date'       => $created_date,
+                'created_by'         => $created_by,
+                'modified_date'      => $created_date,
+                'modified_by'        => $created_by
+            ];
+
+            $this->db->insert('csi_content_company_profile', $dataCompanyProfile);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Exhibitor successfully saved.'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error.'
+            ]);
+            return;
+        }
+    }
+
+    
+    public function exhibitor_list_get_data($id){
+
+        $IDCompany = (int) $id;
+        // $activeCompanies = $this->M_Exhibiting->get('csi_contents', [
+        //     'id' => $IDCompany
+        // ])->row_array();
+
+        $activeCompanies = $this->M_Exhibiting->fetchData(
+            'csi_content_company_profile c',
+            ['c.id' => $IDCompany],
+            [['csi_content_media cm', 'cm.id = c.content_media_id', 'left']],
+            '   c.id
+                , c.content_id
+                , c.content_media_id
+                , c.company_name
+                , c.stand_no
+                , c.long_description
+                , c.contact_name
+                , c.contact_email
+                , c.contact_phone
+                , c.address
+                , c.website_url
+                , c.linkedin_url
+                , c.twitter_url
+                , c.facebook_url
+                , c.youtube_url
+                , c.instagram_url
+                , cm.file_path as image
+                , cm.url_path as link
+            ',
+            ['c.id' => 'DESC']
+        )->row_array();
+        // print_r($activeCompanies);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeCompanies['image'])) {
+            $activeCompanies['image'] = base_url($activeCompanies['image']);
+        }
+        // echo "<pre> activeBanners:";
+		// print_r($activeBanners);
+		// echo "</pre>";
+
+        // die();
+
+        if ($activeCompanies) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeCompanies));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    public function exhibitor_list_edit(){
+        $IDCompany = $this->input->post('editExhibitor1Id');
+        $IDMedia   = $this->input->post('editContentMediaId');
+
+        $companyname   = $this->input->post('editExCompanyName');
+        $stand         = $this->input->post('editExStand');
+        $description   = $this->input->post('editExDescription');
+        $website       = $this->input->post('editExWebsite');
+        $contactperson = $this->input->post('editExContactPerson');
+        $email         = $this->input->post('editExEmail');
+        $phone         = $this->input->post('editExPhone');
+        $address       = $this->input->post('editExAddress');
+        $linkedinurl   = $this->input->post('editExLinkedinUrl');
+        $twitterurl    = $this->input->post('editExTwitterUrl');
+        $facebookurl   = $this->input->post('editExFacebookUrl');
+        $youtubeurl    = $this->input->post('editExYoutubeUrl');
+        $instagramurl  = $this->input->post('editExInstagramUrl');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $file_path      = './assets/uploads/exhibitor_list/';
+        $file_path_save = 'assets/uploads/exhibitor_list/';
+
+        // Ambil data media lama untuk mengetahui file logo sebelumnya
+        $oldMedia = $this->db->get_where('csi_content_media', ['id' => $IDMedia])->row();
+        $oldImage = !empty($oldMedia) ? basename($oldMedia->file_path) : null;
+
+        // Config upload
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size']      = 2048;
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        // Default tetap logo lama
+        $image = $oldImage;
+
+        // Jika upload logo baru
+        if (!empty($_FILES['editExLogo']['name'])) {
+
+            if (!$this->upload->do_upload('editExLogo')) {
+
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+
+            } else {
+                // Hapus file lama jika ada
+                if (!empty($oldImage) && file_exists($file_path . $oldImage)) {
+                    unlink($file_path . $oldImage);
+                }
+
+                $uploadData = $this->upload->data();
+                $image = $uploadData['file_name'];
+            }
+        }
+
+        try {
+            $this->db->trans_begin();
+
+            // UPDATE MEDIA
+            $dataMedia = [
+                'file_path'     => $file_path_save . $image,
+                'modified_date' => $modified_date,
+                'modified_by'   => $modified_by
+            ];
+
+            $this->db->where('id', $IDMedia);
+            $this->db->update('csi_content_media', $dataMedia);
+
+            // UPDATE COMPANY PROFILE
+            $dataCompanyProfile = [
+                'company_name'     => $companyname,
+                'stand_no'         => $stand,
+                'long_description' => $description,
+                'contact_name'     => $contactperson,
+                'contact_email'    => $email,
+                'contact_phone'    => $phone,
+                'address'          => $address,
+                'website_url'      => $website,
+                'linkedin_url'     => $linkedinurl,
+                'twitter_url'      => $twitterurl,
+                'facebook_url'     => $facebookurl,
+                'youtube_url'      => $youtubeurl,
+                'instagram_url'    => $instagramurl,
+                'modified_date'    => $modified_date,
+                'modified_by'      => $modified_by
+            ];
+
+            $this->db->where('id', $IDCompany);
+            $this->db->update('csi_content_company_profile', $dataCompanyProfile);
+
+            // Check DB error
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode(['success' => false, 'message' => 'Database error.']);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Exhibitor successfully updated.'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error.'
+            ]);
+            return;
+        }
+    }
+
+    public function exhibitor_list_delete($id = null){
+        $id = (int) $id;
+
+        try {
+
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            // Ambil data join company + media
+            $this->db->select('cp.id AS company_id, cp.content_media_id, m.file_path');
+            $this->db->from('csi_content_company_profile cp');
+            $this->db->join('csi_content_media m', 'm.id = cp.content_media_id', 'left');
+            $this->db->where('cp.id', $id);
+            $row = $this->db->get()->row();
+            // print_r($row);
+            
+            if (!$row) {
+                throw new Exception('Data not found');
+            }
+
+            $file_path = './' . $row->file_path; // contoh: assets/uploads/exhibitor_list/file.png
+
+            $this->db->trans_begin();
+
+            // Hapus FOLDER IMAGE
+            if (!empty($row->file_path) && file_exists($file_path)) {
+                unlink($file_path);
+            }
+
+            // DELETE MEDIA
+            if (!empty($row->content_media_id)) {
+                $this->db->delete('csi_content_media', ['id' => $row->content_media_id]);
+            }
+
+            // DELETE COMPANY PROFILE
+            $this->db->delete('csi_content_company_profile', ['id' => $row->company_id]);
+
+            // Check status
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception('Failed to delete exhibitor');
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Exhibitor deleted successfully'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+            return;
+        }
+    }
+
 
 }
