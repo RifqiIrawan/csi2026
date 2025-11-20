@@ -132,14 +132,21 @@
     });
   });
 
-  function upd(code,id_menu,name,url,status,description){
+  function upd(code,id_menu,name,url,status){
     $("#code").val(code);
     $("#id_menu").val(id_menu);
     $("#name").val(name);
     $("#url").val(url);
-    $("#position").val(position);
-    var desc = description;
-    CKEDITOR.instances.descriptions.setData(desc);
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'submenu'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+      }
+    });
+
     var status='#'+status;
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
@@ -236,14 +243,14 @@
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->sub_name))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
-                        echo "<td align=\"center\">".$row->description."</td>";      
+                        echo "<td align=\"center\">".preg_replace('/\r\n|\r|\n/', '',$row->description)."</td>";      
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->subid."','".$row->menu_id."','".$row->sub_name."','".$row->url."','".$row->url."','".$row->status."','".preg_replace('/\r\n|\r|\n/', '',$row->description)."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->menu_id."','".$row->sub_name."','".$row->url."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->subid."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
@@ -328,7 +335,7 @@
             <input type="hidden" class="form-control" name="code" id="code">
             <select class="form-control" name="id_menu" id="id_menu">
               <?php 
-                foreach($get_menu as $row){
+                foreach($data_menu as $row){
                   echo "<option value=\"".$row->id."\">".$row->name."</option>";
                 }
               ?>
@@ -357,7 +364,7 @@
           </div>    
           <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" name="descriptions_edit" id="descriptions" rows="9"></textarea>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions_edit" rows="9"></textarea>
           </div>      
         </div>
         <div class="modal-footer">

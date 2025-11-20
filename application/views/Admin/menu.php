@@ -59,6 +59,7 @@
           </a>
           <div class="collapse" id="menu1">
             <ul class="nav flex-column sub-menu">
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Banner_Header');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Banner Header</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Content1');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header Content</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Book_Stand');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Book A Stand</a></li>
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Floor_Plan');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Floor Plan</a></li>
@@ -91,7 +92,6 @@
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Organizer');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Organised By</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Member');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Member Of</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Quick_Link');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Quick Link</a></li> 
-              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Sosmed');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Sosial Media</a></li> 
 
             </ul>
@@ -126,6 +126,7 @@
           <div class="collapse" id="menu4">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Form_Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Header Contact</a></li> 
+              <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Home/Contact');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Contact Us</a></li> 
               <li class="nav-item"><a class="nav-link" href="<?php echo site_url('Info/Submit_Form');?>"><i class="mdi mdi-arrow-right-bold"></i>&nbsp;&nbsp;Submit Form</a></li> 
 
             </ul>

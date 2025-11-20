@@ -80,15 +80,21 @@ class M_Info extends CI_Model
   }
 
   function get_contact2(){
-    $res = $this->db->query("SELECT * from contact
+    $res = $this->db->query("SELECT *,(select count(id) from contact  
+                                        where level = '2' and status = 'A') as count2
+                              from contact
                               where level = '2'
+                              and status = 'A'
                               order by id asc"); 
     return $res->result();
   }
 
   function get_contact3(){
-    $res = $this->db->query("SELECT * from contact
+    $res = $this->db->query("SELECT *,(select count(id) from contact  
+                                        where level = '3' and status = 'A') as count3 
+                              from contact
                               where level = '3'
+                              and status = 'A'
                               order by id asc"); 
     return $res->result();
   }

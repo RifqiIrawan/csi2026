@@ -311,6 +311,19 @@ class Info extends CI_Controller {
     $data["data_contact3"] = $this->M_Info->get_contact3();
     $data["data_contact_us"] = $this->M_Info->get_contact_us();    
     $data["data_footer"] = "./Website/assets/img/ftr.jpg";  
+
+    if(isset($data["data_contact2"][0]->count2) == 1){
+      $data["txt_count"] = "justify-content-center";
+    }else{
+      $data["txt_count"] = "";
+    }
+
+    if(isset($data["data_contact3"][0]->count3) == 1){
+      $data["txt_count2"] = "justify-content-center";
+    }else{
+      $data["txt_count2"] = "";
+    }
+      
     $this->template->load('layouts2/role2','module/Contact/contact_us',$data);
   }
 

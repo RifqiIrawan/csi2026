@@ -55,10 +55,11 @@ class M_Home extends CI_Model
 
   //sub menu
   function get_sub_menu(){
-    $res = $this->db->query("SELECT *,submenu.id as subid from submenu
-                            left join menu 
-                            on submenu.menu_id = menu.id
-                              order by submenu.id asc"); 
+    $res = $this->db->query("SELECT a.*,b.name
+                            from submenu a
+                            left join menu b 
+                            on a.menu_id = b.id
+                            order by a.id asc"); 
     return $res->result();
   }
 
@@ -396,18 +397,18 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_contact($name,$position,$hp,$email,$status){
+  function add_contact($name,$position,$hp,$email,$status,$level){
     $insert = $this->db->query("INSERT INTO 
-                                        contact(name,position,hp,email,status) 
+                                        contact(name,position,hp,email,status,level) 
                                         Values
-                                        ('".$name."','".$position."','".$hp."','".$email."','".$status."')
+                                        ('".$name."','".$position."','".$hp."','".$email."','".$status."','".$level."')
                             ");
     return $insert;
   }
     
-  function update_contact($code,$name,$position,$hp,$email,$status){
+  function update_contact($code,$name,$position,$hp,$email,$status,$level){
     $update = $this->db->query(" UPDATE contact SET name = '".$name."',position = '".$position."'
-                                ,hp = '".$hp."',email = '".$email."'
+                                ,hp = '".$hp."',email = '".$email."',level = '".$level."'
                                 ,status = '".$status."' WHERE id = '".$code."'
                       ");
     return $update;
@@ -670,7 +671,7 @@ class M_Home extends CI_Model
     return $delete;
   }
 
-  // for member
+  // for coperation
   function get_coperation(){
     $res = $this->db->query("SELECT * from coperation
                               order by id asc"); 
@@ -695,6 +696,36 @@ class M_Home extends CI_Model
   
   function delete_coperation($code){
     $delete = $this->db->query(" DELETE FROM coperation WHERE id = '".$code."'
+                      ");
+    return $delete;
+  }
+
+  // for banner
+  function get_banner(){
+    $res = $this->db->query("SELECT * from swiper
+                              order by id asc"); 
+    return $res->result();
+  }
+
+  function add_banner($title,$subtitle,$button,$file,$status){
+    $insert = $this->db->query("INSERT INTO 
+                                        swiper(title,subtitle,button,image,status) 
+                                        Values
+                                        ('".$title."','".$subtitle."','".$button."','".$file."','".$status."')
+                            ");
+    return $insert;
+  }
+    
+  function update_banner($code,$title,$subtitle,$button,$file,$status){
+    $update = $this->db->query(" UPDATE swiper SET title = '".$title."',subtitle = '".$subtitle."',button = '".$button."'
+                                  ,image = '".$file."',status = '".$status."'
+                                  WHERE id = '".$code."'
+                      ");
+    return $update;
+  }
+  
+  function delete_banner($code){
+    $delete = $this->db->query(" DELETE FROM swiper WHERE id = '".$code."'
                       ");
     return $delete;
   }
