@@ -88,10 +88,35 @@
   .modal-body img {
     object-fit: contain;
   }
+  img{
+    width: 100%;
+    
+    /* background-image: url('foto.jpg'); */
+    background-size: cover;       /* kunci: cover */
+    background-position: center;  /* posisi fokus gambar */
+    background-repeat: no-repeat;
+  }
 </style>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">  
   $(document).ready(function() {
+    CKEDITOR.replace( 'title' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'title_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'subtitle' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'subtitle_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+
     $('#close').on('click', function() {    
       window.location.reload()   
     });
@@ -106,25 +131,41 @@
     });
   });
 
-  function upd(code,name,position,hp,email,status,level){
+  function upd(code,title,subtitle,button,file,status){
     $("#code").val(code);
-    $("#name").val(name);
-    $("#position").val(position);
-    $("#hp").val(hp);
-    $("#email").val(email);
-    $("#level").val(level);
-    var status='#'+status;
+    $("#title").val(title);
+    $("#subtitle").val(subtitle);
+    $("#button").val(button);
+    $("#file_edit").val(file);    
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'swiper'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        //console.log(jsn);        
+        // var desc = description;
+        CKEDITOR.instances.title_edit.setData(jsn.title);
+        CKEDITOR.instances.subtitle_edit.setData(jsn.subtitle);
+      }
+    });
+    // $("#ket").val(ket);
+
+    // if(status.length === 0){
+    //   var status = "P";
+    // }else{      
+       var status='#'+status;
+    // }
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
   
-  function del(code){
-    var code = code;
+  function del(code,img){
     if (confirm("Do you want to delete this data?")) {
       $.ajax({
-        url: "<?php echo base_url()?>Home/delete_Contact",
+        url: "<?php echo base_url()?>Home/delete_banner",
         type: 'post',
-        data: {'code' : code},
+        data: {'code' : code, 'img' : img},
         success: function (data) {
         //   console.log(data);
           if(data === "OK"){
@@ -135,7 +176,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Contact";
+              window.location = "Banner_Header";
             });
           }else{
             swal({
@@ -145,7 +186,7 @@
                 timer: 3000,
                 button: true
             }).then(function() {
-              window.location = "Contact";
+              window.location = "Banner_Header";
             });
           }
         },
@@ -157,11 +198,19 @@
       alert(code + " Data Failed to be Deleted.");
     }
   }  
+
+  function show_image(file){
+    var folder = "./assets/images/upload/swiper/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
 </script>
 
 <div class="content-wrapper">
   <div class="page-header">
-    <h4 class="page-title"><b>Contact Us</b></h4>
+    <h4 class="page-title"><b>Banner Header</b></h4>
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <!-- <li class="breadcrumb-item active" aria-current="page"><b>Form</b></li>
@@ -185,11 +234,10 @@
                 <thead>
                   <tr>
                     <th width="1%">No</th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Telephone</th>
-                    <th>Email</th>
-                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Subtitle</th>
+                    <th>Button Action</th>
+                    <th>File</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
                   </tr>
@@ -197,7 +245,7 @@
                 <tbody>
                   <?php 
                     $no = 1;
-                    foreach ($data_contact as $row) {
+                    foreach ($data_banner as $row) {
                       switch ($row->status) {
                         case 'A':
                           $stat="Active";
@@ -205,32 +253,19 @@
                         case 'P':
                           $stat="Passive";
                         break; 
-                      }//end switch    
-                      
-                      switch ($row->level) {
-                        case '1':
-                          $lev="Header";
-                        break; 
-                        case '2':
-                          $lev="Main Agent";
-                        break; 
-                        case '3':
-                          $lev="Sub Agent";
-                        break; 
-                      }//end switch    
+                      }//end switch               
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->position))."</td>";
-                        echo "<td align=\"\">".$row->hp."</td>";
-                        echo "<td align=\"\">".$row->email."</td>";
-                        echo "<td align=\"center\">".$lev."</td>";    
-                        echo "<td align=\"center\">".$stat."</td>";    
+                        echo "<td align=\"\">".preg_replace('/\r\n|\r|\n/', '',$row->title)."</td>";
+                        echo "<td align=\"\">".preg_replace('/\r\n|\r|\n/', '',$row->subtitle)."</td>";
+                        echo "<td align=\"\">".$row->button."</td>";
+                        echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->image."');\"></td>";
+                        echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->position."','".$row->hp."','".$row->email."','".$row->status."','".$row->level."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".preg_replace('/\r\n|\r|\n/', '',$row->title)."','".preg_replace('/\r\n|\r|\n/', '',$row->subtitle)."','".$row->button."','".$row->image."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
-                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
+                                <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->image."')\">
                                     <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
                               </td>";   
@@ -250,37 +285,28 @@
 <div class="modal fade" id="mdl">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/add_Contact" id="frm_group" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/add_banner" id="frm_group" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Add Contact </h4>
+          <h4 class="modal-title">Add Banner Header </h4>
            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Name" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Title</label>
+            <textarea class="form-control" name="title" rows="9"></textarea>
+          </div> 
           <div class="form-group">
-            <label class="form-label">Position</label>
-            <input type="text" class="form-control" name="position" Placeholder="Entry Position" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Subtitle</label>
+            <textarea class="form-control" name="subtitle" rows="9"></textarea>
+          </div> 
           <div class="form-group">
-            <label class="form-label">Telephone</label>
-            <input type="number" class="form-control" name="hp" Placeholder="Entry Telephone" required>
-          </div>  
+            <label class="form-label">Button Action</label>
+            <input type="text" class="form-control" name="button" required>
+          </div> 
           <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" Placeholder="Entry Email"required>
-          </div>  
-          <div class="form-group">
-            <label class="form-label">Category</label>
-            <select class="form-control" name="level">
-              <option value=""> - - Choose Category - -</option>
-              <option value="1"> Header </option>
-              <option value="2"> Main Agent </option>
-              <option value="3"> Sub Agent </option>
-            </select>
-          </div>  
+            <label class="form-label">Upload File</label>
+            <input type="file" class="form-control" name="file" required>
+          </div>      
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -307,38 +333,30 @@
 <div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Home/update_Contact" id="frm_group_edit" enctype="multipart/form-data">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_banner" id="frm_group_edit" enctype="multipart/form-data">
         <div class="modal-header">
-          <h4 class="modal-title">Update Contact </h4>
+          <h4 class="modal-title">Update Banner Header</h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label"> Name</label>
+            <label class="form-label">Title</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
-          </div>
+            <textarea class="form-control" name="title_edit" rows="9"></textarea>
+          </div> 
           <div class="form-group">
-            <label class="form-label">Position</label>
-            <input type="text" class="form-control" name="position" id="position" style="text-transform:capitalize" required>
-          </div>  
+            <label class="form-label">Subtitle</label>
+            <textarea class="form-control" name="subtitle_edit" rows="9"></textarea>
+          </div> 
           <div class="form-group">
-            <label class="form-label">Telephone</label>
-            <input type="number" class="form-control" name="hp" id="hp" required>
-          </div>  
+            <label class="form-label">Button Action</label>
+            <input type="text" class="form-control" name="button" id="button">
+          </div> 
           <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="email" required>
-          </div>  
-          <div class="form-group">
-            <label class="form-label">Category</label>
-            <select class="form-control" name="level" id="level">
-              <option value=""> - - Choose Category - -</option>
-              <option value="1"> Header </option>
-              <option value="2"> Main Agent </option>
-              <option value="3"> Sub Agent </option>
-            </select>
-          </div>  
+            <label class="form-label">Upload File</label>
+            <input type="file" class="form-control" name="file">
+            <input type="hidden" class="form-control" name="file_edit" id="file_edit">
+          </div>      
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -351,7 +369,7 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>     
+          </div>    
         </div>
         <div class="modal-footer">
           <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
@@ -364,7 +382,7 @@
 
 
 <div class="modal fade" id="mdl_img">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Show Image </h4>

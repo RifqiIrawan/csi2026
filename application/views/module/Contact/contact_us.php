@@ -339,7 +339,7 @@
     <div class="container">
         <div class="row mb-4">     
             <?php foreach($data_contact1 as $row){?>       
-                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center">
+                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center mb-4">
                     <p>
                         <strong><?php echo ucwords($row->name)?>, <?php echo ucwords($row->position)?></strong><br>
                         <span>
@@ -365,51 +365,59 @@
                 </p>
             </div> -->
               
-                <div class="row mt-5">
-                    <h2 class="text-center mb-3">Main Agent</h2>
-                    <?php foreach($data_contact2 as $row2){?>    
-                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center mb-2">
-                        <div class="card p-3" style="background-color: #2154B6; border-radius: 24px;">
-                            <p class="text-light">
-                                <strong><?php echo $row2->company?></strong><br>
-                                <strong><?php echo ucwords($row2->name)?></strong><br>
-                                <span>
+            <div class="row mt-5">
+                <h2 class="text-center mb-3">Main Agent</h2>
+                <div class="col-lg-12">
+                    <div class="row <?= $txt_count?>">
+                        <?php foreach($data_contact2 as $row2){?>    
+                        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center mb-2">
+                            <div class="card p-3" style="background-color: #2154B6; border-radius: 24px;">
+                                <p class="text-light">
+                                    <strong><?php echo $row2->company?></strong><br>
+                                    <strong><?php echo ucwords($row2->name)?></strong><br>
+                                    <span>
+                                        
+                                    </span>
+                                    Tel : <?php echo $row2->hp?><br>
                                     
-                                </span>
-                                Tel : <?php echo $row2->hp?><br>
-                                
-                                <span>
-                                    
-                                </span>
-                                <a style="color: #FFF" href="mailto:acifok@163.com"><?php echo $row2->email?></a>
-                            </p>
+                                    <span>
+                                        
+                                    </span>
+                                    <a style="color: #FFF" href="mailto:acifok@163.com"><?php echo $row2->email?></a>
+                                </p>
+                            </div>
                         </div>
+                        <?php } ?>
                     </div>
-                    <?php } ?>
                 </div>
+            </div>
 
 
             <div class="row mt-5">
                 <h2 class="text-center mb-3">Sub Agent</h2>
-                <?php foreach($data_contact3 as $row3){?> 
-                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center mb-2">
-                        <div class="card p-3" style="background-color: #2154B6; border-radius: 24px;">
-                            <p class="text-light">
-                                <strong><?php echo $row3->company?></strong><br>
-                                <strong><?php echo ucwords($row3->name)?></strong><br>
-                                <span>
-                                    
-                                </span>
-                                Tel : <?php echo $row3->hp?><br>
-                                Whatsapp : <?php echo $row3->hp?><br> 
-                                <span>
-                                    
-                                </span>
-                                <a style="color: #FFF" href="mailto:<?php echo $row3->email?>"><?php echo $row3->email?></a>
-                            </p>
-                        </div>
-                    </div>    
-                <?php } ?>            
+                <div class="col-lg-12">
+                    <div class="row <?= $txt_count2?>">
+                        <?php foreach($data_contact3 as $row3){?> 
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 text-center mb-2">
+                                <div class="card p-3" style="background-color: #2154B6; border-radius: 24px;">
+                                    <p class="text-light">
+                                        <strong><?php echo $row3->company?></strong><br>
+                                        <strong><?php echo ucwords($row3->name)?></strong><br>
+                                        <span>
+                                            
+                                        </span>
+                                        Tel : <?php echo $row3->hp?><br>
+                                        Whatsapp : <?php echo $row3->hp?><br> 
+                                        <span>
+                                            
+                                        </span>
+                                        <a style="color: #FFF" href="mailto:<?php echo $row3->email?>"><?php echo $row3->email?></a>
+                                    </p>
+                                </div>
+                            </div>    
+                        <?php } ?>     
+                    </div>
+                </div>       
             </div>
             
             <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4">

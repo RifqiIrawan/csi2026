@@ -753,6 +753,11 @@
           left: 0;
       }
     } 
+
+    table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+      border-bottom-width: 0;
+      vertical-align: baseline;
+    }
   </style>
 
   

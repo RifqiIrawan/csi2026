@@ -1273,9 +1273,10 @@
   }
 </style>
 
+
+
 <!-- untuk swipper banner image yg di atas -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>                   
+
 <style>
   body, html {
     margin: 0;
@@ -1328,12 +1329,14 @@
     font-size: 60px;
     margin: 0;
     font-weight: 800;
+    color: white;
   }
 
   .hero-content h2 {
     font-size: 32px;
     margin-top: 10px;
     font-weight: 600;
+    color: white;
   }
 
   .btn-hero {
@@ -1375,70 +1378,8 @@
   }
 
 </style>
-
-<script>
-  // List URL gambar & text
-  const slides = [
-    {
-      image: "https://images.unsplash.com/photo-1522199755839-a2bacb67c546",
-      title: "INDONESIA'S LARGEST EXHIBITION",
-      subtitle: "TEXTILE & GARMENT INDUSTRY",
-      button: "REGISTER NOW"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
-      title: "LIVE MACHINE DEMO",
-      subtitle: "Future Industrial Technology",
-      button: "JOIN EVENT"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1500534623283-312aade485b7",
-      title: "GLOBAL SUPPLIER NETWORK",
-      subtitle: "Connect & Grow",
-      button: "SEE MORE"
-    }
-  ];
-
-  const slideContainer = document.getElementById("dynamic-slides");
-
-  // Generate slides dynamically
-  slides.forEach(item => {
-    slideContainer.innerHTML += `
-      <div class="swiper-slide">
-        <img src="${item.image}">
-        <div class="overlay"></div>
-        <div class="hero-content">
-          <h1>${item.title}</h1>
-          <h2>${item.subtitle}</h2>
-          <a class="btn-hero" href="#">${item.button}</a>
-        </div>
-      </div>
-    `;
-  });
-
-  // Swiper initialization
-  var swiper = new Swiper(".heroSwiper", {
-    effect: "fade",
-    loop: true,
-    autoplay: {
-      delay: 4500,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    fadeEffect: {
-      crossFade: true
-    }
-  });
-
-</script>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>                   
 
 <body class="index-page">
   <div class="row">
@@ -1498,7 +1439,8 @@
             <h5><b><?php echo strtoupper($data_event->name); ?></b></h5>
           </div>
           <div class="col-lg-8 mt-3" style="text-align: right;">
-          <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a>
+          <button type="button" class="btn btn-warning" style="font-weight: 600;" onclick="registrasi('<?= $start_event;?>','<?= $end_event;?>','<?= date('Y-m-d');?>','<?= $data_event->link_event;?>');">VISITOR REGISTRATION</button>
+          <!-- <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a> -->
           <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
           <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
           </div>
@@ -1528,24 +1470,79 @@
       </div>
     </section> -->
 
-
-
     
+    <section id="banner_swiper">
+      <div class="swiper heroSwiper">
+        <div class="swiper-wrapper" id="dynamic-slides">
+        </div>
 
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
 
-    
-    <section>
-    <div class="swiper heroSwiper">
-      <div class="swiper-wrapper" id="dynamic-slides">
+        <div class="swiper-pagination"></div>
       </div>
-
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-
-      <div class="swiper-pagination"></div>
-    </div>
     </section>
+    
+    
+<script>
+  // List URL gambar & text
+  const slides = [
+                    <?php foreach($data_swiper as $r_sw): ?>
+                    {
+                        image: "<?= base_url($r_sw->folder_name."".$r_sw->image) ?>",
+                        title: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->title)) ?>",
+                        subtitle: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->subtitle)) ?>",
+                        button: "<?= ucwords($r_sw->button) ?>",
+                    },
+                    <?php endforeach; ?>
+                ];
+    // {
+    //   image: "http://localhost:8081/My-Project/pull/csi2026/assets/images/upload/swiper/6.jpg",
+    //   title: "GLOBAL SUPPLIER NETWORK",
+    //   subtitle: "Connect & Grow",
+    //   button: "SEE MORE"
+    // }
+  // ];
 
+  const slideContainer = document.getElementById("dynamic-slides");
+
+  // Generate slides dynamically
+  slides.forEach(item => {
+    slideContainer.innerHTML += `
+      <div class="swiper-slide">
+        <img src="${item.image}">
+        <div class="overlay"></div>
+        <div class="hero-content">
+          <h1>${item.title}</h1>
+          <h2>${item.subtitle}</h2>
+          <a class="btn-hero" href="#">${item.button}</a>
+        </div>
+      </div>
+    `;
+  });
+
+  // Swiper initialization
+  var swiper = new Swiper(".heroSwiper", {
+    effect: "fade",
+    loop: true,
+    autoplay: {
+      delay: 4500,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    fadeEffect: {
+      crossFade: true
+    }
+  });
+
+</script>
 
 
 
@@ -2046,7 +2043,40 @@
 
     
   });  
+
+  function registrasi(start,end,now,url){
+    // alert(start+' - '+end+' - '+now+' - '+url);
+    if(now < start || now > end){
+      alert(now+' - '+start);
+      swal({
+        title: "Attention",
+        content: {
+          element: "p",
+          attributes: {
+            innerHTML: "Stay tuned - registration opens three months before the event.",
+            style: "font-size:22px;color:#000;"
+          }
+        },
+        icon: "warning",
+        timer: 3000,
+        button: false,
+      }).then(function() {
+        // window.location = "Banner_Header";
+      });
+    }else{
+      // alert('Event start');
+      window.open(url, "_blank");
+    }
+  }
 </script>
+
+<style>
+  .swal-title-custom {
+    font-size: 26px;
+    font-weight: bold;
+    color: #d9534f;
+  }
+</style>
 
 <script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>

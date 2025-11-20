@@ -109,6 +109,7 @@ public function add_sub_menu(){
 
 public function update_sub_menu(){
     $code = $this->input->post("code");
+    $id_menu = $this->input->post("id_menu");
     $name = $this->input->post("name");
     $url = $this->input->post("url");
     $status = $this->input->post("status");
@@ -1216,8 +1217,9 @@ public function delete_sub_menu(){
     $position = $this->input->post("position");
     $hp = $this->input->post("hp");
     $email = $this->input->post("email");
+    $level = $this->input->post("level");
     $status = $this->input->post("status");            
-    $insert = $this->M_Home->add_contact($name,$position,$hp,$email,$status);
+    $insert = $this->M_Home->add_contact($name,$position,$hp,$email,$status,$level);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Contact');         
@@ -1234,9 +1236,9 @@ public function delete_sub_menu(){
     $position = $this->input->post("position");
     $hp = $this->input->post("hp");
     $email = $this->input->post("email");
-    $status = $this->input->post("status");      
-    $status = $this->input->post("status");           
-    $insert = $this->M_Home->update_contact($code,$name,$position,$hp,$email,$status);
+    $level = $this->input->post("level");
+    $status = $this->input->post("status");     
+    $insert = $this->M_Home->update_contact($code,$name,$position,$hp,$email,$status,$level);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Contact');         
@@ -2165,6 +2167,128 @@ public function add_highlights(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
     $folder = './assets/images/upload/coperation/';
+    unlink("".$folder."".$img."");
+    $cek_data = $this->M_Home->delete_coperation($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+   // for banner header  
+   public function Banner_Header(){   
+    if($this->session->userdata('id_user') == NULL){
+        redirect('Login');
+    }        
+    $data["data_banner"] = $this->M_Home->get_banner();
+    $this->template->load('Admin/role','module/Home/banner_header',$data);
+  }
+
+  public function add_banner(){
+    $title = $this->input->post("title");
+    $subtitle = $this->input->post("subtitle");
+    $button = $this->input->post("button");
+    $status = $this->input->post("status");  
+    $file = $_FILES;
+    $folder = './assets/images/upload/swiper/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png';
+      $config['file_name']     		= md5("swiper".date("Ymdhis")).".".$exp[1];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);      
+        $this->image_lib->resize();
+        $this->image_lib->clear();         
+        $insert = $this->M_Home->add_banner($title,$subtitle,$button,$config['file_name'],$status);
+      }
+    }
+    if($insert == true){
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+      redirect('Home/Banner_Header');         
+    }
+    else{
+      $this->session->set_flashdata('not_save', 'Data Failed to Save.');
+      redirect('Home/Banner_Header');
+    } 
+  }
+
+  public function update_banner(){ 
+    $code = $this->input->post("code");
+    $title = $this->input->post("title_edit");
+    $subtitle = $this->input->post("subtitle_edit");
+    $button = $this->input->post("button");
+    $status = $this->input->post("status");   
+    $file_edit = $this->input->post("file_edit");   
+    $file = $_FILES;
+    $folder = './assets/images/upload/swiper/';
+    $_FILES['file']['name'];
+    $_FILES['file']['type'];
+    $_FILES['file']['tmp_name'];
+    $_FILES['file']['error'];
+    $_FILES['file']['size']; 
+    if($_FILES['file']['name'] != ""){
+      $exp = explode(".",$_FILES['file']['name']);
+      $exp = $exp;	
+      unlink("".$folder."".$file_edit."");  
+      // print_r($exp[1]);die();
+      $config['upload_path']          = $folder;
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
+      $config['file_name']     		= md5("swiper".date("Ymdhis")).".".$exp[1];
+      $file_edit = $config['file_name'];
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);	
+      if (!$this->upload->do_upload('file')) {
+          $error = array('error' => $this->upload->display_errors());
+      } else {
+        // menambil nilai value yang di upload  
+        $config2['image_library'] = 'gd2';
+        $config2['source_image'] = $folder."/".$config['file_name']; 
+        $config2['maintain_ratio'] = true;
+        $config2['quality'] = '90%';      
+        $config2 ['create_thumb'] = false;
+        $this->load->library('image_lib', $config2);
+        $this->image_lib->initialize($config2);   
+        $this->image_lib->resize();
+        $this->image_lib->clear();            
+      }
+    }
+
+    $insert = $this->M_Home->update_banner($code,$title,$subtitle,$button,$file_edit,$status);
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Banner_Header');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Banner_Header');
+    } 
+  }
+
+  public function delete_banner(){
+    $code = $this->input->post("code");
+    $img = $this->input->post("img");
+    $folder = './assets/images/upload/swiper/';
     unlink("".$folder."".$img."");
     $cek_data = $this->M_Home->delete_coperation($code);
     if ($this->db->affected_rows()) {

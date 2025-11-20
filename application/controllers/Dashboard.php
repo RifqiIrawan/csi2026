@@ -27,6 +27,12 @@ class Dashboard extends CI_Controller {
     $data["data_member"] = $this->M_Login->get_member();
     $data["data_sponsors"] = $this->M_Login->get_sponsors();
     $data["data_coperation"] = $this->M_Login->get_coperation();
+    $data["data_swiper"] = $this->M_Login->get_swiper();
+    $data["data_EMS"] = $this->M_Login->get_EMS();
+
+    $data["start_event"] = $data["data_EMS"][0]->opened;
+    $data["end_event"] = $data["data_EMS"][0]->end_date;
+    // print_r($data["data_EMS"][0]->opened); die();
 
     $data["data_footer"] = "./Website/assets/img/ftr.jpg";    
     // print_r($data["data_event"]);die();
