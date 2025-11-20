@@ -327,9 +327,26 @@ class Exhibiting extends CI_Controller {
     public function exhibitorlist_index() {
         $uri = $this->uri->segment(2);
         $url = $this->uri->segment(3);
-        $base_url = base_url(); 
-        // echo "<pre> base_url:";
-        // print_r($base_url);
+        $base_url = base_url();
+        
+        
+        $dataContents = $this->M_Exhibiting->get_contents([
+            'menu_id' => 8,
+            'content_year' => 2026,
+            'content_type' => 'banner'
+        ]);
+
+        $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
+        $hero_text = $dataContents['0']['title'];
+
+        // Data Hero Section
+        $data['hero'] = [
+            'background' => $hero_background,
+            'button_text' => $hero_text,
+            'button_link' => '' // scroll ke section features
+        ];
+        // echo "<pre>data";
+        // print_r($data['hero']);
         // echo "</pre>";
         // die();
 

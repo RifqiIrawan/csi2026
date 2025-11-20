@@ -134,13 +134,51 @@ section,
 
 
 </style>
+<style>
+    /* ======================
+    Hero Section
+    ====================== */
+    .hero-section {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+    }
 
+    .hero-content {
+        max-width: 900px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 1.6rem;
+        }
+    }
+
+</style>
 <!-- Slick CSS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
 <main class="main">
+  <!-- HERO SECTION -->
+  <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
+      <div class="hero-content">
+      </div>
+  </section>
   <section>
     <!-- Container grid hanya 9 kolom dan center -->
     <div class="container">
