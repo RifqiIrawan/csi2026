@@ -657,7 +657,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -708,7 +708,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");
@@ -779,8 +779,7 @@ public function delete_sub_menu(){
     $folder = './assets/images/upload/support/';
     $name = $this->input->post("name");
     $url = $this->input->post("url");
-    $status = $this->input->post("status");
-    $position = $this->input->post("position"); 
+    $status = $this->input->post("status"); 
        
     $get_code = $this->M_Home->get_code_support();    
     $row = $get_code->row();      
@@ -797,7 +796,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       $config['upload_path']          = $folder;
@@ -820,7 +819,7 @@ public function delete_sub_menu(){
         $this->image_lib->initialize($config2);
         $this->image_lib->resize();
         $this->image_lib->clear();       
-        $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$number,$status,$position);        
+        $insert = $this->M_Home->add_support($name,$config['file_name'],$url,$folder,$status,$number);        
       }      
     }
 
@@ -832,16 +831,6 @@ public function delete_sub_menu(){
       $this->session->set_flashdata('not_save', 'Data Failed to Save.');
       redirect('Home/Support');
     }   
-
-    // $insert = $this->M_Unit->tambah($code,$name);
-    // if($insert == true){
-    //   $this->session->set_flashdata('simpan', 'Data berhasil disimpan');
-    //   redirect('Unit');         
-    // }
-    // else{
-    //   $this->session->set_flashdata('tidak', 'Data tidak berhasil disimpan');
-    //   redirect('Unit');
-    // }   
   }
   public function update_support(){   
     $file = $_FILES;
@@ -849,7 +838,8 @@ public function delete_sub_menu(){
     $name = $this->input->post("name");
     $url = $this->input->post("url");
     $status = $this->input->post("status");     
-    $position = $this->input->post("position");      
+    $position = $this->input->post("position");       
+    $file_edit = $this->input->post("file_edit");       
     //$file = count($_FILES['file']['name']);
     //for($i = 0; $i < $file; $i++){  
     $_FILES['file']['name'];
@@ -857,7 +847,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $sql = $this->db->query(" SELECT * from support
                               where id = '".$code."'
                             ");
@@ -875,6 +865,7 @@ public function delete_sub_menu(){
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		=  md5(date("Ymdhis")).".".$exp[1];
+      $file_edit = $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -892,9 +883,10 @@ public function delete_sub_menu(){
         $this->image_lib->initialize($config2);
         $this->image_lib->resize();
         $this->image_lib->clear();
-        $update = $this->M_Home->update_support($code,$name,$config['file_name'],$url,$status,$position);
       }      
     }
+    
+    $update = $this->M_Home->update_support($code,$name,$file_edit,$url,$status,$position);
 
     if($update == true){
       $this->session->set_flashdata('update', 'Data Saved Successfully.');
@@ -1385,7 +1377,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -1431,7 +1423,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");
@@ -1514,7 +1506,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -1565,7 +1557,7 @@ public function delete_sub_menu(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");
@@ -1694,7 +1686,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -1744,7 +1736,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");   
@@ -1817,7 +1809,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -1867,7 +1859,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");  
@@ -1948,7 +1940,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       $config['upload_path']          = $folder;
@@ -1999,7 +1991,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){   
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){   
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");   
@@ -2007,6 +1999,7 @@ public function add_highlights(){
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		=  md5(date("Ymdhis")).".".$exp[1];
+      $file_edit =  $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -2024,10 +2017,10 @@ public function add_highlights(){
         $this->image_lib->initialize($config2);
         $this->image_lib->resize();
         $this->image_lib->clear();       
-        $update = $this->M_Home->update_sponsors($code,$name,$url,$config['file_name'],$position,$status);
-      }      
+      } 
     }
-
+    
+    $update = $this->M_Home->update_sponsors($code,$name,$url,$file_edit,$position,$status);
     if($update == true){
       $this->session->set_flashdata('update', 'Data Saved Successfully.');
       redirect('Home/Sponsors');         
@@ -2074,7 +2067,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -2124,7 +2117,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");  
@@ -2198,7 +2191,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       // print_r($exp[1]);die();
@@ -2247,7 +2240,7 @@ public function add_highlights(){
     $_FILES['file']['tmp_name'];
     $_FILES['file']['error'];
     $_FILES['file']['size']; 
-    if($_FILES['file']['name'] != ""){
+    if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
       unlink("".$folder."".$file_edit."");  

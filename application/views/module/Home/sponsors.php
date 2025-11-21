@@ -204,6 +204,7 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title Name</th>
+                    <th>Link/Url</th>
                     <th>Position</th>
                     <th>Upload</th>
                     <th>Status</th>
@@ -225,6 +226,7 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
+                        echo "<td align=\"center\">".$row->url."</td>";
                         echo "<td align=\"center\">".$row->position."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"cursor:pointer;\" title=\"Show Image\" onclick=\"show_image('".$row->file_name."','".$row->folder_name."')\"></i></td>";
                         echo "<td align=\"center\">".$stat."</td>";    
@@ -313,13 +315,13 @@
           </div>
           <div class="form-group">
             <label class="form-label">Link/URL</label>
-            <input type="text" class="form-control" name="url" id="url" required>
+            <input type="text" class="form-control" name="url" id="url">
           </div>
           <div class="form-group">
             <label>File upload</label>
             <input type="file" name="img[]" class="file-upload-default">
             <div class="input-group col-xs-12">
-              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()" required>
+              <input type="file" class="form-control file-upload-info" name="file" id="file2" onchange="return validasiEkstensi2()">
               <input type="hidden" class="form-control" name="file_edit" id="file_edit">
             </div>
           </div>
