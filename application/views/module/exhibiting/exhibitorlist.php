@@ -166,6 +166,13 @@ section,
             font-size: 1.6rem;
         }
     }
+    
+
+    .title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #000;
+    }
 
 </style>
 <!-- Slick CSS -->
@@ -174,12 +181,23 @@ section,
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
 <main class="main">
+
   <!-- HERO SECTION -->
-  <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
+  <!-- <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
       <div class="hero-content">
       </div>
-  </section>
+  </section> --> 
+  <!-- di hide si om -->
+
+  
   <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center mt-4 mb-4">
+            <p class="title"><?= $hero['button_text']; ?></p>
+        </div>
+      </div>
+    </div>
     <!-- Container grid hanya 9 kolom dan center -->
     <div class="container">
       <div class="row justify-content-center">
