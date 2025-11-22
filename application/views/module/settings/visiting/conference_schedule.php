@@ -253,11 +253,14 @@
     <ul class="nav custom-tabs" id="formTabs" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
-          <i class="fa fa-tags"></i> Banner Conference Schedule
+          <i class="fa fa-list"></i> Banner
+        </a>
+        <a class="nav-link" id="tab-showhighlights" data-bs-toggle="tab" href="#showhighlights" role="tab">
+          <i class="fa fa-tags"></i> Highlights
         </a>
       </li>
     </ul>
-
+    
     <div class="col-md-12">
       <div class="tab-content" id="formTabsContent">
 
@@ -378,6 +381,85 @@
 
         </div>
         <!-- END TAB -->
+        <div class="tab-pane fade" id="showhighlights" role="tabpanel">
+          <button id="addHighlightBtn" class="btn btn-success mb-3">Add Highlight</button>
+          <!-- DataTable -->
+          <table id="highlightTable" class="display table table-bordered" style="width: 100%;">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <!-- Add Content Form -->
+          <div id="highlightFormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-success">Show Highlight Configuration</h5>
+
+                <form id="addformhighlight" action="<?= base_url('visiting/conference-highlight-add') ?>" method="post" enctype="multipart/form-data">
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="addhighlighttitle" placeholder="Enter Image Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="addhighlightimage" id="addhighlightimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="addhighlightimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-success me-2">Add</button>
+                  <button type="button" id="backButtonHighlight" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          
+          <!-- Edit Content Form -->
+          <div id="highlightEditFormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Edit SHow Highlight</h5>
+
+                <form id="editformhighlight" action="<?= base_url('visiting/conference-highlight-update') ?>" method="post" enctype="multipart/form-data">
+                  <!-- Hidden field for Banner ID -->
+                  <input type="hidden" name="highlightid" id="editHighlightId">
+                  <input type="hidden" name="highlightmediaid" id="editHighlightMediaId">
+
+                  <div class="mb-3">
+                      <label class="form-label">Section Title</label>
+                      <input type="text" class="form-control" name="edithighlighttitle" id="edithighlighttitle" placeholder="Enter Banner Title" required style="text-transform:capitalize">
+                    </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="edithighlightimage" id="edithighlightimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="edithighlightimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelButtonHighlight" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -724,6 +806,178 @@
       $('#addSection1Form_conference')[0].reset();
       $('#addSection1Preview_conference').hide();
     }
+  });
+</script>
+<script>
+  var base_url = "<?= base_url(); ?>";
+
+  $(document).ready(function() {
+
+      var $highlightTableWrapper = $('#highlightTable_wrapper');
+      var $highlightForm = $('#highlightFormContainer');
+      var $addHighlightBtn = $('#addHighlightBtn');
+      var $backButtonHighlight = $('#backButtonHighlight');
+
+      // ========================================
+      // DATATABLE
+      // ========================================
+      var highlightTable = $('#highlightTable').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+          url: base_url + "visiting/conference-highlight-datatable",
+          type: "POST",
+          dataSrc: function (json) {
+            return json.data || [];
+          }
+        },
+        order: [[1, "asc"]],
+        columns: [
+          { data: "no" },
+          { data: "title" },
+          { data: "file_path" },
+          { data: null }
+        ],
+        columnDefs: [
+          {
+            targets: 2, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          },
+          {
+            targets: 3, // Actions
+            orderable: false,
+            render: function (data, type, row) {
+              return `
+                <button class="btn btn-sm btn-primary editHighlight" 
+                        data-id="${row.id}" title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteSection_conference" 
+                        data-id="${row.id}" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>`;
+            }
+          }
+        ]
+      });
+
+      // ========================================
+      // SHOW FORM - HIDE TABLE
+      // ========================================
+      $addHighlightBtn.on('click', function() {
+          $('#highlightTable_wrapper').hide();
+          $highlightTableWrapper.hide();
+          $addHighlightBtn.hide();
+          $highlightForm.removeClass('d-none').hide().fadeIn(200);
+      });
+
+      // ========================================
+      // BACK TO TABLE
+      // ========================================
+      $backButtonHighlight.on('click', function() {
+        $highlightForm.slideUp(200, function () {
+          $highlightForm.addClass('d-none');
+          $highlightTableWrapper.slideDown(200);
+          $('#highlightTable_wrapper').show();
+            $addHighlightBtn.show();
+        });
+      });
+
+      $(document).on('click', '.editHighlight', function(){
+        let id = $(this).data('id');
+
+        $.getJSON(base_url + "visiting/conference-highlight-get-data/" + id, function(data){
+            // Isi field edit form
+
+            // edithighlighttitle edithighlightimage edithighlightimagepreview
+            // === Isi Form ===
+            $("input[name='highlightid']").val(data.id);
+            $("input[name='highlightmediaid']").val(data.content_media_id);
+            $("#edithighlighttitle").val(data.title);
+
+            if(data.image) {
+                $("#edithighlightimagepreview").attr("src", data.image).show();
+            } else {
+                $("#edithighlightimagepreview").hide();
+            }
+
+
+            // Hide DataTable and Add button
+            $addHighlightBtn.fadeOut(200);
+            $('#highlightTable_wrapper').hide();
+            $('#highlightTable').hide();
+
+            // Show Edit form
+            $("#highlightEditFormContainer").slideDown(300).removeClass('d-none');
+        });
+      });
+
+      // cancelButtonHighlight
+      // ====== CANCEL EDIT FORM ======
+      $("#cancelButtonHighlight").click(function(){
+          // Hide the Edit Exhibitor form
+          $("#highlightEditFormContainer").slideUp(200, function(){
+              $("#highlightEditFormContainer").addClass('d-none');
+          });
+
+          // Show the DataTable and Add button again
+          $('#highlightTable_wrapper').show();
+          $('#highlightTable').show();
+          $addHighlightBtn.fadeIn(300);
+      });
+
+      $('#addformhighlight, #editformhighlight').on('submit', function(e){
+          e.preventDefault();
+          var formData = new FormData(this);
+          $.ajax({
+              url: $(this).attr('action'),
+              type: "POST",
+              data: formData,
+              processData:false,
+              contentType:false,
+              dataType:"json",
+              success:function(res){ 
+                  if(res.success) Swal.fire("Success!", res.message,"success").then(()=>{ location.reload(); });
+                  else Swal.fire("Error!", res.message,"error");
+              },
+              error:function(){ Swal.fire("Error!","Server error","error"); }
+          });
+      });
+      // END
+
+      // ========================================
+      // ACTIVATE TAB BASED ON URL HASH
+      // ========================================
+      var hash = window.location.hash;
+      if(hash){
+          var triggerEl = document.querySelector('.nav-link[href="' + hash + '"]');
+          if(triggerEl){
+              var tab = new bootstrap.Tab(triggerEl);
+              tab.show();
+          }
+      }
+
+      // ========================================
+      // FIX DATATABLE WHEN SWITCH TABS
+      // ========================================
+      $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+          history.replaceState(null, null, e.target.getAttribute('href'));
+          setTimeout(function () {
+              $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+          }, 150);
+      });
+
   });
 </script>
 

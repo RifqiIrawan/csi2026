@@ -142,9 +142,59 @@
       /* background-repeat: no-repeat; */
     }
     </style>
+    <style>
+        .modern-carousel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            animation: autoScroll 18s linear infinite;
+        }
+
+        .carousel-item {
+            min-width: 250px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 15px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            transition: transform 0.4s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 14px;
+        }
+
+        .feature-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .title {
+        font-weight: 600;
+        color: #333;
+        }
+
+        /* Animation untuk bergerak ke kanan otomatis */
+        @keyframes autoScroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+        }
+
+    </style>
     </head>
     <body>
-
+    
     <main class="main">
         <!-- HERO SECTION -->
         <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
@@ -159,9 +209,9 @@
                             <?php foreach ($programs as $prog): ?>
                                 <div class="col-md-4 col-sm-6 col-12">
                                     <div class="program-card">
-                                        <span class="badge-type <?= strtolower($prog['program_type']) === 'seminar' ? 'badge-seminar' : 'badge-workshop' ?>">
+                                        <!-- <span class="badge-type <?= strtolower($prog['program_type']) === 'seminar' ? 'badge-seminar' : 'badge-workshop' ?>">
                                             <?= strtoupper($prog['program_type']); ?>
-                                        </span>
+                                        </span> -->
 
                                         <div class="icon-text">
                                             <i class="bi bi-calendar-date"></i>
@@ -188,19 +238,14 @@
                                             <i class="bi bi-geo-alt me-1"></i> Location :
                                         </p>
                                         <p class="text-secondary mb-4"><?= $prog['program_location']; ?></p>
-
+                                        <!--
                                         <div class="mt-auto text-center">
-                                            <!--
-                                            <a href="<?= $prog['program_register_link']; ?>" class="btn btn-register">
-                                            REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
-                                            -->
                                             <a href="<?= base_url('visiting/conference-schedule-validation/' . $prog['program_id']); ?>" 
                                                 class="btn btn-register">
                                                 REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
                                             </a>
-
-                                            </a>
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -209,8 +254,67 @@
                 </div>
             </div>
         </section>
+
+        <section id="show-features" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5 fw-bold">Show Features</h2>
+
+                <div class="modern-carousel">
+                    <div class="carousel-track" id="carouselTrack">
+
+                        <?php foreach ($show_features as $sf): ?>
+                            <div class="">
+                                <div class="feature-card">
+
+                                    <?php if (!empty($sf['file_path'])): ?>
+                                        <?php 
+                                            $imgUrl = base_url() . $sf['file_path'];
+                                            // Remove accidental colon after domain
+                                            $imgUrl = str_replace('local:/', 'local/', $imgUrl);
+                                        ?>
+                                        <img src="<?= $imgUrl ?>" alt="Feature Image" class="feature-image">
+
+                                    <?php endif; ?>
+
+                                    <!-- <?php if (!empty($sf['title'])): ?>
+                                        <h5 class="title mt-3"><?= $sf['title'] ?></h5>
+                                    <?php endif; ?> -->
+
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    const track = document.getElementById("carouselTrack");
+
+    let scrollAmount = 0;
+    let speed = 1; // lebih besar = lebih cepat
+
+    function autoScroll() {
+        scrollAmount += speed;
+        track.scrollLeft = scrollAmount;
+
+        // Jika sudah mencapai akhir, reset ke awal
+        if (scrollAmount >= track.scrollWidth - track.clientWidth) {
+            scrollAmount = 0;
+        }
+
+        requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
+
+
+</script>
 <script>
     <?php
         $flashdata_all = $this->session->flashdata();

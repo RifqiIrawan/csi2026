@@ -147,12 +147,26 @@ class Visiting extends CI_Controller {
             case "why-visit-section-datatable":
                 echo $this->M_Visiting->why_visit_section_datatable();
                 break;
+            /* Part Conference Shedule */
             case "conference-schedule-settings":
                 $this->conference_schedule_settings();
                 break;
             case "conference-schedule-datatable":
                 echo $this->M_Visiting->conference_schedule_datatable();
                 break;
+            case "conference-highlight-datatable":
+                echo $this->M_Visiting->conference_highlight_datatable();
+                break;
+            case "conference-highlight-get-data":
+                $this->conference_highlight_get_data($id);
+                break;
+            case "conference-highlight-add":
+                $this->conference_highlight_add();
+                break;
+            case "conference-highlight-update":
+                $this->conference_highlight_update();
+                break;
+            /* Part Post Show Report */
             case "post-show-report-settings":
                 $this->post_show_report_settings();
                 break;
@@ -949,4 +963,245 @@ class Visiting extends CI_Controller {
         }
     }
 
+    public function conference_highlight_get_data($id){
+
+        $IDBanner = (int) $id;
+
+        $activeHighlights = $this->M_Exhibiting->fetchData(
+            'csi_contents c',
+            ['c.id' => $IDBanner],
+            [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
+            '   c.id
+                , c.content_year
+                , c.content_type
+                , c.title
+                , c.subtitle
+                , c.status
+                , cm.id as content_media_id
+                , cm.file_path as image
+                , cm.url_path as link'
+            ,
+            ['c.id' => 'DESC']
+        )->row_array();
+        // print_r($activeHighlights);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeHighlights['image'])) {
+            $activeHighlights['image'] = base_url($activeHighlights['image']);
+        }
+        // echo "<pre> activeHighlights:";
+		// print_r($activeHighlights);
+		// echo "</pre>";
+
+        // die();
+
+        if ($activeHighlights) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeHighlights));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    public function conference_highlight_add(){
+        $addhighlighttitle     = trim($this->input->post('addhighlighttitle'));
+
+        // Validasi minimal
+        if (empty($addhighlighttitle)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Banner year dan title wajib diisi.'
+            ]);
+            return;
+        }
+
+        // Konfigurasi upload
+        $file_path      = './assets/uploads/conference_schedule/';
+        $file_path_save = 'assets/uploads/conference_schedule/';
+
+        if (!file_exists($file_path)) {
+            mkdir($file_path, 0775, true);
+        }
+
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = 3072; // 3 MB
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $bannerImage = null;
+
+        // Upload file jika ada
+        if (!empty($_FILES['addhighlightimage']['name'])) {
+
+            if (!$this->upload->do_upload('addhighlightimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            $upload = $this->upload->data();
+            $bannerImage = $upload['file_name'];
+        }
+
+        // Set audit fields
+        $menu_id = 11;
+        $created_date = date('Y-m-d H:i:s');
+        $created_by = 'sysadmin';
+        $banneryear = 2026;
+        $bannertype = 'show-feature';
+        $body_text = '';
+        $content_id = 0;
+
+        try {
+
+            $this->db->trans_begin();
+
+            // Data untuk diinsert ke tabel banner
+            $data = [
+                'menu_id'       => $menu_id,
+                'content_year'  => $banneryear,
+                'content_type'  => $bannertype,
+                'title'         => $addhighlighttitle,
+                'created_date'  => $created_date,
+                'created_by'    => $created_by,
+                'modified_date' => $created_date,
+                'modified_by'   => $created_by
+            ];
+
+            $this->db->insert('csi_contents', $data);
+            $content_id = $this->db->insert_id();
+
+            $sort_order = 1;
+            $is_main = 1;
+            
+            $dataMedia = [
+                'content_id'      => $content_id,
+                'media_type'      => 'image',
+                'file_path'       => $file_path_save . $bannerImage,
+                'sort_order'      => $sort_order,
+                'is_main'         => $is_main,
+                'created_date'    => $created_date,
+                'created_by'      => $created_by,
+                'modified_date'   => $created_date,
+                'modified_by'     => $created_by
+            ];
+
+            // Simpan ke DB lewat model
+            $this->db->insert('csi_content_media', $dataMedia);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Banner berhasil disimpan.'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error.'
+            ]);
+            return;
+        }
+    }
+
+    public function conference_highlight_update(){
+        // print_r($this->input->post());
+        // print_r($_FILES);
+        // die();
+        $highlightid = $this->input->post('highlightid');
+        $highlightmediaid  = $this->input->post('highlightmediaid');
+
+        $highlighttitle  = $this->input->post('edithighlighttitle');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $file_path      = './assets/uploads/conference_schedule/';
+        $file_path_save = 'assets/uploads/conference_schedule/';
+
+        // ===== Ambil Data Lama ===== //
+        $oldMedia = $this->db->get_where('csi_content_media', ['id' => $highlightmediaid])->row();
+        $oldImage = !empty($oldMedia) ? basename($oldMedia->file_path) : null;
+
+        // ===== Upload Config ===== //
+        $config = [
+            'upload_path'   => $file_path,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 2048,
+            'encrypt_name'  => TRUE
+        ];
+        $this->upload->initialize($config);
+
+        // Default tetap pakai file lama
+        $image = $oldImage;
+
+        // ===== Jika Upload Gambar Baru ===== //
+        if (!empty($_FILES['edithighlightimage']['name'])) {
+
+            if (!$this->upload->do_upload('edithighlightimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            // Hapus gambar lama
+            if (!empty($oldImage) && file_exists($file_path . $oldImage)) {
+                unlink($file_path . $oldImage);
+            }
+
+            // File baru
+            $uploadData = $this->upload->data();
+            $image = $uploadData['file_name'];
+        }
+
+        $dataMedia = [
+            'file_path'     => $file_path_save . $image,
+            'modified_date' => $modified_date,
+            'modified_by'   => $modified_by
+        ];
+
+        $this->db->where('id', $highlightmediaid);
+        $this->db->update('csi_content_media', $dataMedia);
+
+        $data = [
+            'title'         => $highlighttitle,
+            'modified_date' => $created_date,
+            'modified_by'   => $created_by
+        ];
+
+        // Update DB
+        $this->db->where('id', $highlightid);
+        $this->db->update('csi_contents', $data);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Banner successfully updated.'
+        ]);
+    }
 }
