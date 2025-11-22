@@ -187,7 +187,7 @@ section,
       <div class="hero-content">
       </div>
   </section> --> 
-  <!-- di hide si om -->
+  <!-- di hide si om ya -->
 
   
   <section>
