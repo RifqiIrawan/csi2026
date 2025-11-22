@@ -93,6 +93,23 @@ class Exhibiting extends CI_Controller {
             case "exhibitor-list-settings":
                 $this->exhibitor_list_settings();
                 break;
+            // Banner
+            case "exhibitor-banner-datatable":
+                echo $this->M_Exhibiting->exhibitor_banner_datatable();
+                break;
+            case "exhibitor-banner-add":
+                $this->exhibitor_banner_add();
+                break;
+            case "exhibitor-banner-edit":
+                $this->exhibitor_banner_edit();
+                break;
+            case "exhibitor-banner-get-data":
+                $this->exhibitor_banner_get_data($id);
+                break;
+            case "exhibitor-banner-delete":
+                $this->exhibitor_banner_delete($id);
+                break;
+            // List
             case "exhibitor-datatable":
                 echo $this->M_Exhibiting->exhibitor_datatable();
                 break;
@@ -1723,7 +1740,7 @@ class Exhibiting extends CI_Controller {
                 ]));
         }
     }
-
+    
     public function exhibitor_list_add(){
         $companyname   = $this->input->post('companyName');
         $stand         = $this->input->post('stand');
@@ -1846,7 +1863,6 @@ class Exhibiting extends CI_Controller {
         }
     }
 
-    
     public function exhibitor_list_get_data($id){
 
         $IDCompany = (int) $id;
@@ -1906,7 +1922,7 @@ class Exhibiting extends CI_Controller {
                 ]));
         }
     }
-
+    
     public function exhibitor_list_edit(){
         $IDCompany = $this->input->post('editExhibitor1Id');
         $IDMedia   = $this->input->post('editContentMediaId');
@@ -2027,7 +2043,7 @@ class Exhibiting extends CI_Controller {
             return;
         }
     }
-
+    
     public function exhibitor_list_delete($id = null){
         $id = (int) $id;
 
@@ -2090,5 +2106,320 @@ class Exhibiting extends CI_Controller {
         }
     }
 
+    public function exhibitor_banner_add(){
+        $banneryear     = trim($this->input->post('banneryear'));
+        $bannertitle    = trim($this->input->post('bannertitle'));
+        $bannersubtitle = trim($this->input->post('bannersubtitle'));
+        $bannerStatus   = trim($this->input->post('bannerStatus'));
 
+        // Validasi minimal
+        if (empty($banneryear) || empty($bannertitle)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Banner year dan title wajib diisi.'
+            ]);
+            return;
+        }
+
+        // Konfigurasi upload
+        $file_path      = './assets/uploads/exhibitor_list/';
+        $file_path_save = 'assets/uploads/exhibitor_list/';
+
+        if (!file_exists($file_path)) {
+            mkdir($file_path, 0775, true);
+        }
+
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = 3072; // 3 MB
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $bannerImage = null;
+
+        // Upload file jika ada
+        if (!empty($_FILES['bannerimage']['name'])) {
+
+            if (!$this->upload->do_upload('bannerimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            $upload = $this->upload->data();
+            $bannerImage = $upload['file_name'];
+        }
+
+        // Set audit fields
+        $menu_id = 8;
+        $created_date = date('Y-m-d H:i:s');
+        $created_by = 'sysadmin';
+        $cbannertype = 'banner';
+        $body_text = '';
+        $content_id = 0;
+
+        try {
+
+            $this->db->trans_begin();
+
+            // Data untuk diinsert ke tabel banner
+            $data = [
+                'menu_id'       => $menu_id,
+                'content_year'  => $banneryear,
+                'content_type'  => $cbannertype,
+                'title'         => $bannertitle,
+                'subtitle'      => $bannersubtitle,
+                'body_text'     => $body_text,
+                'created_date'  => $created_date,
+                'created_by'    => $created_by,
+                'modified_date' => $created_date,
+                'modified_by'   => $created_by
+            ];
+
+            $this->db->insert('csi_contents', $data);
+            $content_id = $this->db->insert_id();
+
+            $sort_order = 1;
+            $is_main = 1;
+            
+            $dataMedia = [
+                'content_id'      => $content_id,
+                'media_type'      => 'image',
+                'file_path'       => $file_path_save . $bannerImage,
+                'sort_order'      => $sort_order,
+                'is_main'         => $is_main,
+                'created_date'    => $created_date,
+                'created_by'      => $created_by,
+                'modified_date'   => $created_date,
+                'modified_by'     => $created_by
+            ];
+
+            // Simpan ke DB lewat model
+            $this->db->insert('csi_content_media', $dataMedia);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Banner berhasil disimpan.'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error.'
+            ]);
+            return;
+        }
+    }
+
+    public function exhibitor_banner_edit(){
+
+        $IDBanner = $this->input->post('id');
+        $IDMedia  = $this->input->post('bannermediaid');
+
+        $bannerYear   = $this->input->post('banneryear');
+        $bannerTitle  = $this->input->post('bannertitle');
+        $bannerSub    = $this->input->post('bannersubtitle');
+        $bannerStatus = $this->input->post('bannerStatus');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $file_path      = './assets/uploads/exhibitor_list/';
+        $file_path_save = 'assets/uploads/exhibitor_list/';
+
+        // ===== Ambil Data Lama ===== //
+        $oldMedia = $this->db->get_where('csi_content_media', ['id' => $IDMedia])->row();
+        $oldImage = !empty($oldMedia) ? basename($oldMedia->file_path) : null;
+
+        // ===== Upload Config ===== //
+        $config = [
+            'upload_path'   => $file_path,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 2048,
+            'encrypt_name'  => TRUE
+        ];
+        $this->upload->initialize($config);
+
+        // Default tetap pakai file lama
+        $image = $oldImage;
+
+        // ===== Jika Upload Gambar Baru ===== //
+        if (!empty($_FILES['image']['name'])) {
+
+            if (!$this->upload->do_upload('image')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            // Hapus gambar lama
+            if (!empty($oldImage) && file_exists($file_path . $oldImage)) {
+                unlink($file_path . $oldImage);
+            }
+
+            // File baru
+            $uploadData = $this->upload->data();
+            $image = $uploadData['file_name'];
+        }
+
+        $dataMedia = [
+            'file_path'     => $file_path_save . $image,
+            'modified_date' => $modified_date,
+            'modified_by'   => $modified_by
+        ];
+
+        $this->db->where('id', $IDMedia);
+        $this->db->update('csi_content_media', $dataMedia);
+
+        $data = [
+            'content_year'  => $bannerYear,
+            'title'         => $bannerTitle,
+            'subtitle'      => $bannerSub,
+            'created_date'  => $created_date,
+            'created_by'    => $created_by,
+            'modified_date' => $created_date,
+            'modified_by'   => $created_by
+        ];
+
+        // Update DB
+        $this->db->where('id', $IDBanner);
+        $this->db->update('csi_contents', $data);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Banner successfully updated.'
+        ]);
+    }
+
+
+    public function exhibitor_banner_get_data($id){
+
+        $IDBanner = (int) $id;
+        // echo "exhibitor_banner_get_data:";
+
+        $activeBanners = $this->M_Exhibiting->fetchData(
+            'csi_contents c',
+            ['c.id' => $IDBanner],
+            [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
+            '   c.id
+                , c.content_year
+                , c.content_type
+                , c.title
+                , c.subtitle
+                , c.status
+                , cm.id as content_media_id
+                , cm.file_path as image
+                , cm.url_path as link'
+            ,
+            ['c.id' => 'DESC']
+        )->row_array();
+        // print_r($activeBanners);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeBanners['image'])) {
+            $activeBanners['image'] = base_url($activeBanners['image']);
+        }
+        // echo "<pre> activeBanners:";
+		// print_r($activeBanners);
+		// echo "</pre>";
+
+        // die();
+
+        if ($activeBanners) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeBanners));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    public function exhibitor_banner_delete($id = null){
+        $id = (int) $id;
+        // print_r($id);
+        // die();
+        try {
+
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            // Ambil data join company + media
+            $this->db->select('cc.id, m.id as content_media_id, m.file_path');
+            $this->db->from('csi_contents cc');
+            $this->db->join('csi_content_media m', 'm.content_id = cc.id', 'left');
+            $this->db->where('cc.id', $id);
+            $row = $this->db->get()->row();
+            // print_r($row);
+            // die();
+            
+            if (!$row) {
+                throw new Exception('Data not found');
+            }
+
+            $file_path = './' . $row->file_path; // contoh: assets/uploads/exhibitor_list/file.png
+
+            $this->db->trans_begin();
+
+            // Hapus FOLDER IMAGE
+            if (!empty($row->file_path) && file_exists($file_path)) {
+                unlink($file_path);
+            }
+
+            // DELETE MEDIA
+            if (!empty($row->content_media_id)) {
+                $this->db->delete('csi_content_media', ['id' => $row->content_media_id]);
+            }
+
+            // DELETE COMPANY PROFILE
+            $this->db->delete('csi_contents', ['id' => $row->id]);
+
+            // Check status
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception('Failed to delete exhibitor');
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Exhibitor deleted successfully'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+            return;
+        }
+    }
 }
