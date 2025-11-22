@@ -544,7 +544,7 @@
 
 <main class="main">
     <!-- HERO SECTION -->
-    <section class="hero-section" style="background-image: url('<?= "../".$hero['background']; ?>');">
+    <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
         <div class="hero-overlay"></div>
             <div class="hero-content">
                 <a href="<?= $hero['button_link']; ?>" class="hero-btn">
@@ -560,7 +560,7 @@
             <?php foreach ($features as $f): ?>
                 <div class="feature-icon">
                     <!-- <img src="<?= $f['icon']; ?>" alt="<?= $f['title']; ?>"> -->
-                    <img src="<?= "../".$f['icon']; ?>" alt="<?= $f['title']; ?>" style="width:1000px; height:auto; display:block; margin:0 auto;">
+                    <img src="<?= $f['icon']; ?>" alt="<?= $f['title']; ?>" style="width:1000px; height:auto; display:block; margin:0 auto;">
                 </div>
             <?php endforeach; ?>
             </div>
@@ -568,32 +568,32 @@
     </section>
 
     <!-- SHOW FEATURES (HORIZONTAL SCROLL) -->
-<section id="show-features" class="show-feature-section py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Show Features</h2>
+    <section id="show-features" class="show-feature-section py-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Show Features</h2>
 
-    <div class="scroll-container">
-      <!-- Left Button -->
-      <button class="scroll-btn left" onclick="scrollFeatures(-1)">
-        <i class="bi bi-chevron-left"></i>
-      </button>
+        <div class="scroll-container">
+          <!-- Left Button -->
+          <button class="scroll-btn left" onclick="scrollFeatures(-1)">
+            <i class="bi bi-chevron-left"></i>
+          </button>
 
-      <div class="scroll-wrapper" id="scrollWrapper">
-        <?php foreach ($show_features as $sf): ?>
-          <div class="show-feature-item text-center">
-            <img src="<?= $sf['image'] ?>" alt="<?= $sf['title'] ?>" class="img-fluid rounded shadow">
-            <h5 class="mt-3"><?= $sf['title'] ?></h5>
+          <div class="scroll-wrapper" id="scrollWrapper">
+            <?php foreach ($show_features as $sf): ?>
+              <div class="show-feature-item text-center">
+                <img src="<?= $sf['image'] ?>" alt="<?= $sf['title'] ?>" class="img-fluid rounded shadow">
+                <h5 class="mt-3"><?= $sf['title'] ?></h5>
+              </div>
+            <?php endforeach; ?>
           </div>
-        <?php endforeach; ?>
-      </div>
 
-      <!-- Right Button -->
-      <button class="scroll-btn right" onclick="scrollFeatures(1)">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</section>
+          <!-- Right Button -->
+          <button class="scroll-btn right" onclick="scrollFeatures(1)">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
 
 </main>
 

@@ -168,6 +168,7 @@ class Visiting extends CI_Controller {
     }
 
     public function visiting_index() {
+        $base_url = base_url();
         $data_profile = $this->M_Form->get_profile_dashboard();
         $r = $data_profile->row();
         $data["folder"] = $r->folder;
@@ -184,8 +185,8 @@ class Visiting extends CI_Controller {
             'content_type' => 'section'
         ]);
         
-        // echo "<pre> sectionDataContents: ";
-        // print_r($sectionDataContents);
+        // echo "<pre> dataContents: ";
+        // print_r($dataContents);
         // echo "</pre>";
         // die();
 
@@ -303,9 +304,17 @@ class Visiting extends CI_Controller {
         'button_link' => '' // scroll ke section features
     ];
 
+    $dataShowHighlights = $this->M_Exhibiting->get_contents([
+        'menu_id' => 11,
+        'content_year' => 2026,
+        'content_type' => 'show-feature'
+    ]);
+
+    $data['show_features'] = $dataShowHighlights;
+
     
     // echo "<pre>";
-    // print_r($data['hero']);
+    // print_r($dataShowHighlights);
     // echo "</pre>";
     // die();
     $data["data_menu"] = $this->M_Login->get_menu();
