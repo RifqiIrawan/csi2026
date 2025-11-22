@@ -666,6 +666,27 @@
               }
               return data;
             }
+          },
+          {
+            targets: 4, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          },
+          {
+            targets: 5, // Status
+            render: function (data) {
+              const badgeClass = data === "Active" ? "success" : "secondary";
+              return `<span class="badge bg-${badgeClass}">${data}</span>`;
+            }
           }
         ]
     });

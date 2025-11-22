@@ -290,7 +290,7 @@
               <div class="card-body">
                 <h5 class="mb-3 text-success">Banner Conference Schedule Configuration</h5>
 
-                <form id="addSection1Form_conference" action="<?= base_url('exhibiting/why-exhibit-section-add') ?>" method="post" enctype="multipart/form-data">
+                <form id="addSection1Form_conference" action="<?= base_url('visiting/conference-banner-add') ?>" method="post" enctype="multipart/form-data">
 
                   <div class="mb-3">
                     <label class="form-label">Section Year</label>
@@ -303,8 +303,8 @@
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label">Section Description</label>
-                    <textarea class="form-control" rows="4" name="addsectiondescription" id="addSection1Description_conference" placeholder="Enter Section Description"></textarea>
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="addsectiontitle" placeholder="Enter Image Title" required style="text-transform:capitalize">
                   </div>
 
                   <div class="mb-3">
@@ -337,8 +337,9 @@
               <div class="card-body">
                 <h5 class="mb-3 text-primary">Edit Banner Conference Schedule</h5>
 
-                <form id="editSection1Form_conference" action="<?= base_url('exhibiting/why-exhibit-section-update') ?>" method="post" enctype="multipart/form-data">
-                  <input type="hidden" name="id" id="editSection1Id_conference">
+                <form id="editSection1Form_conference" action="<?= base_url('visiting/conference-banner-update') ?>" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="contentid" id="editSection1Id_conference">
+                  <input type="hidden" name="mediaid" id="editSection1MediaId_conference">
 
                   <div class="mb-3">
                     <label class="form-label">Section Year</label>
@@ -351,8 +352,8 @@
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label">Section Description</label>
-                    <textarea class="form-control" rows="4" name="sectiondescription" id="editSection1Description_conference" placeholder="Enter Section Description"></textarea>
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="sectiontitle" id="editSection1Title_conference" placeholder="Enter Image Title" required style="text-transform:capitalize">
                   </div>
 
                   <div class="mb-3">
@@ -558,7 +559,7 @@
       columns: [
         { data: "no" },
         { data: "content_year" },
-        { data: "body_text" },
+        { data: "title" },
         { data: "file_path" },
         { data: "status" },
         { data: null }
@@ -643,41 +644,13 @@
       });
     });
 
-    // ====== ADD FORM SUBMIT ======
-    $('#addSection1Form_conference').on('submit', function (e) {
-      e.preventDefault();
-
-      const formData = new FormData(this);
-      $.ajax({
-        url: base_url + "exhibiting/why-exhibit-section-add",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (res) {
-          if (res.success) {
-            Swal.fire("Success!", res.message, "success").then(() => {
-              sectionTable.ajax.reload(null, false);
-              resetAddForm();
-              $backBtn.click();
-            });
-          } else {
-            Swal.fire("Error!", res.message, "error");
-          }
-        },
-        error: function () {
-          Swal.fire("Error!", "Server error occurred.", "error");
-        }
-      });
-    });
-
     // ====== EDIT SECTION ======
     $(document).on('click', '.editSection_conference', function () {
       const id = $(this).data('id');
 
       $.getJSON(base_url + "exhibiting/why-exhibit-content-get-data/" + id, function (data) {
         $("#editSection1Id_conference").val(data.id);
+        $("#editSection1MediaId_conference").val(data.content_media_id);
         $("#editSection1Year_conference").val(data.content_year);
         $("#editSection1Title_conference").val(data.title);
         $("#editSection1Description_conference").val(data.body_text || '');
@@ -726,32 +699,23 @@
     });
 
     // ====== EDIT FORM SUBMIT ======
-    $('#editSection1Form_conference').on('submit', function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-
-      $.ajax({
-        url: base_url + "exhibiting/why-exhibit-section-update",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (res) {
-          if (res.success) {
-            Swal.fire("Updated!", res.message, "success").then(() => {
-              sectionTable.ajax.reload(null, false);
-              $cancelEditBtn.click();
-            });
-          } else {
-            Swal.fire("Error!", res.message, "error");
-          }
-        },
-        error: function () {
-          Swal.fire("Error!", "Server error occurred.", "error");
-        }
+    $('#addSection1Form_conference, #editSection1Form_conference').on('submit', function(e){
+          e.preventDefault();
+          var formData = new FormData(this);
+          $.ajax({
+              url: $(this).attr('action'),
+              type: "POST",
+              data: formData,
+              processData:false,
+              contentType:false,
+              dataType:"json",
+              success:function(res){ 
+                  if(res.success) Swal.fire("Success!", res.message,"success").then(()=>{ location.reload(); });
+                  else Swal.fire("Error!", res.message,"error");
+              },
+              error:function(){ Swal.fire("Error!","Server error","error"); }
+          });
       });
-    });
 
     // ====== DELETE SECTION ======
     $(document).on('click', '.deleteSection_conference', function () {

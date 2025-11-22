@@ -868,7 +868,7 @@ class Exhibiting extends CI_Controller {
             'csi_contents c',
             ['c.id' => $IDContent],
             [['csi_content_media cm', 'cm.content_id = c.id', 'left']],
-            'c.id, c.content_year, c.content_type, c.title, c.subtitle, c.body_text, c.status, cm.file_path as image, cm.url_path as link',
+            'c.id, c.content_year, c.content_type, c.title, c.subtitle, c.body_text, c.status, cm.id as content_media_id, cm.file_path as image, cm.url_path as link',
             ['c.id' => 'DESC']
         )->row_array();
         // print_r($activeContent);

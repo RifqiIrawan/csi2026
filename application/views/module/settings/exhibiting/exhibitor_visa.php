@@ -533,8 +533,19 @@
   </div>
 </div>
 
-
-
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img id="previewImage" src="" class="img-fluid rounded" alt="Preview Image">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- jQuery + DataTables + Bootstrap JS Bundle -->
 <!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> -->
@@ -674,9 +685,36 @@
             return data;
           },
         },
+        {
+          targets: 4, // Image column
+          render: function (data) {
+            if (!data) return "-";
+            const imageUrl = data.startsWith("http") ? data : base_url + data;
+            return `
+              <img src="${imageUrl}" 
+                  class="img-thumbnail preview-img" 
+                  alt="Thumbnail"
+                  style="max-height:60px; cursor:pointer; object-fit:cover;"
+                  data-full="${imageUrl}">
+            `;
+          }
+        },
+        {
+          targets: 5, // Status
+          render: function (data) {
+            const badgeClass = data === "Active" ? "success" : "secondary";
+            return `<span class="badge bg-${badgeClass}">${data}</span>`;
+          }
+        }
       ],
     });
-
+    // 🖼️ Handle image click to show modal
+    $(document).on("click", ".preview-img", function () {
+      const imageUrl = $(this).data("full");
+      $("#previewImage").attr("src", imageUrl);
+      const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
+      modal.show();
+    });
     // ==============================
     // BUTTON ACTIONS
     // ==============================
@@ -896,6 +934,31 @@
               return `<span class="ellipsis" title="${data}">${data}</span>`;
             }
             return data;
+          }
+        },
+        {
+  targets: 4, // Image column
+  render: function (data) {
+    if (!data || data.trim() === "") {
+      return "-"; // Jangan tampilkan <img> sama sekali
+    }
+
+    const imageUrl = data.startsWith("http") ? data : base_url + data;
+    return `
+      <img src="${imageUrl}" 
+           class="img-thumbnail preview-img" 
+           alt=""
+           style="max-height:60px; cursor:pointer; object-fit:cover;"
+           data-full="${imageUrl}">
+    `;
+  }
+}
+,
+        {
+          targets: 5, // Status
+          render: function (data) {
+            const badgeClass = data === "Active" ? "success" : "secondary";
+            return `<span class="badge bg-${badgeClass}">${data}</span>`;
           }
         }
       ]
