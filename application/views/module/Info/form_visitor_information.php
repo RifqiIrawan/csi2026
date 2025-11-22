@@ -101,13 +101,10 @@
       customConfig : '/custom/ckeditor_config.js'
     });
 
-    CKEDITOR.replace( 'descriptions1_edit' , {
+    CKEDITOR.replace( 'descriptions_edit' , {
       customConfig : '/custom/ckeditor_config.js'
     });
 
-    CKEDITOR.replace( 'descriptions2_edit' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
     $('#close').on('click', function() {    
       window.location.reload()   
     });
@@ -119,17 +116,76 @@
     });  
   });
 
-  function upd(code,name,description,status){
+  function upd(id,code,title1,title2,status){
     $("#code").val(code);
-    $("#name").val(name);
-    var desc = description;
-    CKEDITOR.instances.description2.setData(desc);
+    $("#title1").val(title1);
+    $("#title2").val(title2);
 
-    if(status.length === 0){
-      var status = "P";
-    }else{      
-      var status='#'+status;
-    }
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_detail'},
+      success: function (data) {
+        // console.log(data);
+        var jsn = JSON.parse(data);
+        for(i=0; i < jsn.length; i++){
+          if(i == 0){
+            var hr = "";
+          }else{
+            var hr = "<hr>";
+          }
+          var html = "<tr>"
+                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg\"  class=\"form-control\" value=\""+jsn[i].kategori+"\">"
+                            +"<input type=\"text\" name=\"logo[]\" class=\"form-control\" value=\""+jsn[i].icon+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
+                      +"</td>"
+                    +"</tr>"
+                    +"<tr>"
+                      +"<td><input type=\"text\" name=\"name[]\" class=\"form-control\" value=\""+jsn[i].text+"\" style=\"text-transform:capitalize\"></td>"
+                    +"</tr>";          
+          $("#add_input_edit").append(html);
+        }
+      }
+    });
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_hours'},
+      success: function (data) {
+        // console.log(data);
+        var jsn = JSON.parse(data);
+        for(i=0; i < jsn.length; i++){
+          if(i == 0){
+            var hr = "";
+          }else{
+            var hr = "<hr>";
+          }
+          var html = "<tr>"
+                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg2\" class=\"form-control\" value=\""+jsn[i].kategori+"\">"
+                            +"<input type=\"text\" name=\"time[]\" class=\"form-control\" value=\""+jsn[i].times+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
+                      +"</td>"
+                    +"</tr>"
+                    +"<tr>"
+                      +"<td><input type=\"text\" name=\"date[]\" class=\"form-control\" value=\""+jsn[i].date_text+"\" style=\"text-transform:capitalize\"></td>"
+                    +"</tr>";          
+          $("#add_input2_edit").append(html);
+        }
+      }
+    });
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : id,'text':'information'},
+      success: function (data) {
+        console.log(data);
+        var jsn = JSON.parse(data);
+        $("#url").val(jsn.link_maps);
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+      }
+    });
+     
+    var status='#'+status;    
     $(status).prop("checked", true);
     $('#mdl_edit').modal('show');    
   }
@@ -194,6 +250,26 @@
     $("#add_input2").append(text);
   }  
 
+  function add_input_edit(){
+    var text = "<tr>"
+                    +"<td>"
+                        +"<hr><input type=\"text\" class=\"form-control\" name=\"logo[]\" placeholder=\"Entry Text Icon/Logo\" style=\"margin-bottom:10px;\" required>"
+                        +"<input type=\"text\" class=\"form-control\" name=\"name[]\" placeholder=\"Entry Name/Description\" style=\"text-transform:capitalize\" required>"
+                    +"</td>"
+                +"</tr>";
+    $("#add_input_edit").append(text);
+  }
+
+  function add_input2_edit(){
+    var text = "<tr>"
+                  +"<td>"
+                    +"<hr><input type=\"text\" class=\"form-control\" name=\"time[]\" placeholder=\"Entry Exhibition Times/Hours\" style=\"margin-bottom:10px;\" required>"
+                    +"<input type=\"text\" class=\"form-control\" name=\"date[]\" placeholder=\"Entry Exhibition Date\" required>"
+                  +"</td>"
+                +"</tr>";
+    $("#add_input2_edit").append(text);
+  }  
+
   function show_list(code){
     $.ajax({
       url: "<?php echo base_url()?>attention/show_list",
@@ -246,7 +322,7 @@
     $.ajax({
       url: "<?php echo base_url()?>Home/search_text",
       type: 'post',
-      data: {'code' : code,'text':'content1'},
+      data: {'code' : code,'text':'information'},
       success: function (data) {
         var jsn = JSON.parse(data);
         // console.log(jsn);               
@@ -385,6 +461,9 @@
                         echo "<td align=\"center\">".$row->link_maps."</td>";
                         echo "<td align=\"center\">".$stat."</td>";
                         echo "<td align=\"center\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->code."','".$row->title1."','".$row->title2."','".$row->status."')\">
+                                    <i class=\"mdi mdi-table-edit icn\"></i>
+                                </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->code."')\">
                                   <i class=\"mdi mdi-delete-sweep icn\"></i>
                                 </button>
@@ -413,7 +492,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Title 1</label>
-            <input type="text" class="form-control" name="title1" id="title" placeholder="Entry Title" style="text-transform:capitalize">
+            <input type="text" class="form-control" name="title1" placeholder="Entry Title" style="text-transform:capitalize">
           </div>
           <div class="form-group">
             <label class="form-label">Visiting <i class="mdi mdi-plus-box" onclick="add_input()"  style="position: absolute;margin-left: 10px;font-size: 20px;margin-top: -8px;color: darkgreen"></i></label>
@@ -478,24 +557,54 @@
   </div>
 </div>
 
-<!-- <div class="modal fade" id="mdl_edit">
+<div class="modal fade" id="mdl_edit">
   <div class="modal-dialog ">
     <div class="modal-content">
-      <form method="post" action="<?php echo base_url(); ?>Info/Visitor Information/upd" id="frm_group_edit">
+      <form method="post" action="<?php echo base_url(); ?>Info/update_information" id="frm_group_edit">
         <div class="modal-header">
           <h4 class="modal-title">Update Data Visitor Information</h4>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Visitor Information Name</label>
+            <label class="form-label">Title 1</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize">
+            <input type="text" class="form-control" name="title1" id="title1" style="text-transform:capitalize">
           </div>
           <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="description2" rows="6"></textarea>
+            <label class="form-label">Visiting <i class="mdi mdi-plus-box" onclick="add_input_edit()"  style="position: absolute;margin-left: 10px;font-size: 20px;margin-top: -8px;color: darkgreen"></i></label>
+            <table width="100%">
+              <tbody id="add_input_edit">
+               
+              </tbody>
+            </table>
           </div>
+          <div class="form-group">
+            <label class="form-label">Title 2</label>
+            <input type="text" class="form-control" name="title2" id="title2" style="text-transform:capitalize">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Exhibition Hours <i class="mdi mdi-plus-box" onclick="add_input2_edit()" style="position: absolute;margin-left: 10px;font-size: 20px;margin-top: -8px;color: darkgreen"></i></label>
+            <table width="100%">
+              <tbody id="add_input2_edit">
+                <!-- <tr>
+                  <td>                  
+                    <input type="hidden" class="form-control" name="ktg2" style="margin-bottom:10px;" value="2" required>
+                    <input type="text" class="form-control" name="time[]" placeholder="Entry Exhibition Times/Hours" style="margin-bottom:10px;" required>
+                    <input type="text" class="form-control" name="date[]" placeholder="Entry Exhibition Date" required>
+                  </td>                  
+                </tr> -->
+              </tbody>
+            </table>
+          </div> 
+          <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="descriptions_edit" id="descriptions_edit" rows="9"></textarea>
+          </div>    
+          <div class="form-group">
+            <label class="form-label">Link/URL Maps</label>
+            <textarea class="form-control" name="url" id="url" rows="9"></textarea>
+          </div>   
           <div class="form-group">
             <label class="form-label">Status</label>
             <div class="custom-controls-stacked">
@@ -508,10 +617,9 @@
                 <span class="custom-control-label">Passive</span>
               </label>             
             </div>
-          </div>  
+          </div> 
         </div>
-        <div class="modal-footer">
-         
+        <div class="modal-footer">         
         <button type="submit" class="btn btn-primary edit-btn"><i class="mdi mdi-content-save-settings"></i> Sumbit </button>
           <button type="button" class="btn btn-danger edit-btn" id="close_edit"><i class="mdi mdi-close"></i> Cancel </button>        
         </div>
@@ -520,7 +628,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="mdl_show_image">
+<!-- <div class="modal fade" id="mdl_show_image">
   <div class="modal-dialog ">
     <div class="modal-content">
       <div class="modal-header">

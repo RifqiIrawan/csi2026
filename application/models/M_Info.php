@@ -28,9 +28,9 @@ class M_Info extends CI_Model
     return $insert;
   }
     
-  function update_information($code,$name,$url,$status,$description){
-    $update = $this->db->query(" UPDATE information SET name = '".$name."',url = '".$url."',status = '".$status."'
-                            ,description = '".$description."' WHERE id = '".$code."'
+  function update_information($code,$title1,$title2,$link_maps,$description,$status){
+    $update = $this->db->query(" UPDATE information SET title1 = '".$title1."',title2 = '".$title2."',link_maps = '".$link_maps."'
+                            ,description = '".$description."',status = '".$status."' WHERE code = '".$code."'
                       ");
     return $update;
   }

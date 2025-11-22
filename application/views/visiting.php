@@ -470,6 +470,14 @@
   background: url(../Website/assets/img/footer.jpg);
   /* background-repeat: no-repeat; */
 }
+
+.scroll-btn.right {
+  right: -5%;
+}
+
+.scroll-btn.left {
+    left: -36px;
+}
 </style>
 
 

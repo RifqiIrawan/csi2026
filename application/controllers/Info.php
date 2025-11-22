@@ -108,12 +108,52 @@ class Info extends CI_Controller {
     }
   
     public function update_information(){
-      $code = $this->input->post("code");
-      $name = $this->input->post("name");
-      $url = $this->input->post("url");
-      $status = $this->input->post("status");
-      $description = $this->input->post("descriptions_edit");            
-      $insert = $this->M_Info->update_information($code,$name,$url,$status,$description);
+      $code = $this->input->post("code");     
+      $title1 = $this->input->post("title1");   
+      $title2 = $this->input->post("title2");  
+      $link_maps = $this->input->post("url");
+      $description = $this->input->post("descriptions_edit"); 
+      $status = $this->input->post("status");          
+      $insert = $this->M_Info->update_information($code,$title1,$title2,$link_maps,$description,$status);
+      $tables = array('information_detail', 'information_hours');
+      foreach ($tables as $table) {
+        $parm = "id_header";        
+        $this->db->where_in($parm, $code);
+        $this->db->delete($table);
+      }
+
+      $ktg = $this->input->post("ktg"); 
+      $icon = $this->input->post("logo");
+      $text = $this->input->post("name");
+      $i = 0;
+      foreach($icon as $key=>$val)
+      {
+        $data[$i]['id_header'] = $code;
+        $data[$i]['kategori'] = $ktg;
+        $data[$i]['icon'] = $icon[$key];
+        $data[$i]['text'] = $text[$key];
+        $data[$i]['datecreated'] = date("Y-m-d H:i:s");
+        $i++;
+      }
+      $this->db->insert_batch('information_detail', $data);
+
+      $ktg2 = $this->input->post("ktg2");
+      $time = $this->input->post("time");
+      $date = $this->input->post("date");  
+      foreach($date as $key2=>$val2)
+      {
+        $data2[$i]['id_header'] = $code;
+        $data2[$i]['kategori'] = $ktg2;
+        $data2[$i]['times'] = $time[$key2];
+        $data2[$i]['date_text'] = $date[$key2];
+        $data2[$i]['datecreated'] = date("Y-m-d H:i:s");
+        $i++;
+      }
+      $this->db->insert_batch('information_hours', $data2);
+      $this->session->set_flashdata('save', 'Data Saved Successfully.');
+
+
+
       if($insert == true){
         $this->session->set_flashdata('update', 'Update Data Successfully.');
         redirect('Info/Form_Visitor_Information');         

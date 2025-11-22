@@ -295,8 +295,8 @@ class M_Home extends CI_Model
                                 support(name,file_name,folder_name,url,datecreated,createdby,status,position) 
                                 Values
                                 ('".$name."','".$file."','".$folder."','".$url."'
-                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."','".$position."'
-                                ,'".$status."')
+                                ,CURRENT_TIME(),'".$this->session->userdata('id_user')."'
+                                ,'".$status."','".$position."')
                             ");
     return $insert;
   }
