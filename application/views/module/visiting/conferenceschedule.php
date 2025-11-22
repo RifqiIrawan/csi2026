@@ -180,9 +180,15 @@
         box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
-        .title {
+        /* .title {
         font-weight: 600;
         color: #333;
+        } */
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #000;
         }
 
         /* Animation untuk bergerak ke kanan otomatis */
@@ -197,11 +203,20 @@
     
     <main class="main">
         <!-- HERO SECTION -->
+        <!--
         <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
             <div class="hero-content">
             </div>
         </section>
+        -->
         <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12 text-center mt-4 mb-4">
+                        <p class="title"><?= $hero['button_text']; ?></p>
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
