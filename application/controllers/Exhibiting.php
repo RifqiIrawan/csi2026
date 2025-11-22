@@ -932,14 +932,14 @@ class Exhibiting extends CI_Controller {
                 if (!empty($_FILES['sectionimage']['name'])) {
                     $config['upload_path']   = FCPATH . $file_path;
                     $config['allowed_types'] = 'jpg|jpeg|png|gif';
-                    $config['max_size']      = 2048;
+                    $config['max_size']      = 3072; // 3 MB
                     $config['encrypt_name']  = TRUE;
                     $this->upload->initialize($config);
                     if (!$this->upload->do_upload('sectionimage')) {
                         throw new Exception($this->upload->display_errors());
                     } else {
                         $uploadData = $this->upload->data();
-                        if ($uploadData['file_size'] > 2048) {
+                        if ($uploadData['file_size'] > 3072) {
                             unlink($uploadData['full_path']); // delete if oversized
                             $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
                         }

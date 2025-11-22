@@ -325,7 +325,7 @@
           <button id="addExhibitor1Btn" class="btn btn-success mb-3">Add Exhibitor</button>
 
           <!-- DataTable -->
-          <table id="exhibitor1Table" class="display table table-bordered">
+          <table id="exhibitor1Table" class="display table table-bordered" style="width: 100%;">
             <thead>
               <tr>
                 <th>No</th>
@@ -552,6 +552,19 @@
     </div>
   </div>
 </div>
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img id="previewImage" src="" class="img-fluid rounded" alt="Preview Image">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   var base_url = "<?= base_url(); ?>";
 
@@ -603,8 +616,37 @@
               }
               return data;
             }
+          },
+          {
+            targets: 4, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          },
+          {
+            targets: 5, // Status
+            render: function (data) {
+              const badgeClass = data === "Active" ? "success" : "secondary";
+              return `<span class="badge bg-${badgeClass}">${data}</span>`;
+            }
           }
         ]
+    });
+
+    // 🖼️ Handle image click to show modal
+    $(document).on("click", ".preview-img", function () {
+      const imageUrl = $(this).data("full");
+      $("#previewImage").attr("src", imageUrl);
+      const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
+      modal.show();
     });
 
     // 🔹 Baru ambil wrapper setelah DataTable selesai inisialisasi

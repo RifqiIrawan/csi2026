@@ -422,18 +422,6 @@
               </tr>
             </thead>
             <tbody>
-              <!-- <tr>
-                <td>1</td>
-                <td>Sample Banner</td>
-                <td><img src="https://via.placeholder.com/150x50" alt="Banner" style="width:150px;"></td>
-                <td>https://example.com</td>
-                <td>Active</td>
-                <td>This is a sample banner</td>
-                <td>
-                  <button class="btn btn-sm btn-primary">Edit</button>
-                  <button class="btn btn-sm btn-danger">Delete</button>
-                </td>
-              </tr> -->
             </tbody>
           </table>
 
@@ -863,6 +851,20 @@
   </div>
 </div>
 
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img id="previewImage" src="" class="img-fluid rounded" alt="Preview Image">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <!-- jQuery + DataTables + Bootstrap JS Bundle -->
@@ -870,37 +872,97 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
 <script>
 
   let sectionEditor, visainformationEditor, testimonialEditor;
 
   // 2️⃣ Inisialisasi CKEditor
   document.addEventListener('DOMContentLoaded', function () {
-    ClassicEditor
-      .create(document.querySelector('#editSection1Description'))
-      .then(editor => {
-        sectionEditor = editor;
-        console.log('CKEditor ready');
-      })
-      .catch(error => console.error(error));
 
-    ClassicEditor
-      .create(document.querySelector('#editVisaInformationDescription'))
-      .then(editor => {
-          visainformationEditor = editor;
-          console.log('Editor 2 ready');
-      })
-      .catch(error => console.error(error));
-      
-    ClassicEditor
-      .create(document.querySelector('#editTestimonialText'))
-      .then(editor => {
-          testimonialEditor = editor;
-          console.log('Editor 2 ready');
-      })
-      .catch(error => console.error(error));
-  });
+    const baseConfig = {
+        removePlugins: [
+            // COLLABORATION FEATURES
+            'RealTimeCollaborativeComments',
+            'RealTimeCollaborativeTrackChanges',
+            'RealTimeCollaborativeRevisionHistory',
+            'PresenceList',
+            'Comments',
+            'TrackChanges',
+            'TrackChangesData',
+            'RevisionHistory',
+            'Pagination',
+            'WProofreader',
+
+            // PREMIUM FEATURES (LICENSE REQUIRED)
+            'CaseChange',
+            'PasteFromOfficeEnhanced',
+            'SlashCommand',
+            'Template',
+            'FormatPainter',
+            'TableOfContents',
+            'DocumentOutline',
+            'DocumentActions',
+            'AIAssistant',
+            'LinkCard',
+            'FileTypeIcon',
+            'ExportPdf',
+            'ExportWord',
+            'ImportWord',
+            'ImportPdf',
+            'MultiLevelList',
+            'PowerPaste',
+            'Mention',
+            'MentionCustomization',
+            'ContentTemplates'
+        ]
+    };
+
+    // EDITOR 1
+    CKEDITOR.ClassicEditor
+        .create(document.querySelector('#editSection1Description'), {
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'underline', '|',
+                'alignment:left', 'alignment:center', 'alignment:right', 'alignment:justify', '|',
+                'link', 'bulletedList', 'numberedList', '|',
+                'undo', 'redo'
+            ],
+            alignment: {
+                options: ['left', 'center', 'right', 'justify']
+            },
+            ...baseConfig
+        })
+        .then(editor => {
+            sectionEditor = editor;
+            console.log('CKEditor 1 ready');
+        })
+        .catch(error => console.error(error));
+
+    // EDITOR 2
+    CKEDITOR.ClassicEditor
+        .create(document.querySelector('#editVisaInformationDescription'), {
+            ...baseConfig
+        })
+        .then(editor => {
+            visainformationEditor = editor;
+            console.log('CKEditor 2 ready');
+        })
+        .catch(error => console.error(error));
+
+    // EDITOR 3
+    CKEDITOR.ClassicEditor
+        .create(document.querySelector('#editTestimonialText'), {
+            ...baseConfig
+        })
+        .then(editor => {
+            testimonialEditor = editor;
+            console.log('CKEditor 3 ready');
+        })
+        .catch(error => console.error(error));
+
+});
+
 
 </script>
 <script>
@@ -954,6 +1016,27 @@
               }
               return data;
             }
+          },
+          {
+            targets: 4, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          },
+          {
+            targets: 5, // Status
+            render: function (data) {
+              const badgeClass = data === "Active" ? "success" : "secondary";
+              return `<span class="badge bg-${badgeClass}">${data}</span>`;
+            }
           }
         ]
         // lengthChange: true,
@@ -961,6 +1044,14 @@
         // scrollX: true,
         // lengthMenu: [[10,25,50,100,-1],[10,25,50,100,"All"]],
         // info: true
+    });
+
+    // 🖼️ Handle image click to show modal
+    $(document).on("click", ".preview-img", function () {
+      const imageUrl = $(this).data("full");
+      $("#previewImage").attr("src", imageUrl);
+      const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
+      modal.show();
     });
 
     // 🔹 Baru ambil wrapper setelah DataTable selesai inisialisasi
@@ -1234,6 +1325,27 @@
                     }
                     return data;
                 }
+            },
+            {
+              targets: 4, // Image column
+              render: function (data) {
+                if (!data) return "-";
+                const imageUrl = data.startsWith("http") ? data : base_url + data;
+                return `
+                  <img src="${imageUrl}" 
+                      class="img-thumbnail preview-img" 
+                      alt="Thumbnail"
+                      style="max-height:60px; cursor:pointer; object-fit:cover;"
+                      data-full="${imageUrl}">
+                `;
+              }
+            },
+            {
+              targets: 5, // Status
+              render: function (data) {
+                const badgeClass = data === "Active" ? "success" : "secondary";
+                return `<span class="badge bg-${badgeClass}">${data}</span>`;
+              }
             }
         ]
     });
@@ -1651,11 +1763,11 @@
     });
 
     // FIX: ketika pindah tab, update width DataTables
-    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
-        setTimeout(() => {
-            testimonialTable.columns.adjust().responsive.recalc();
-        }, 10);
-    });
+    // $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
+    //     setTimeout(() => {
+    //         testimonialTable.columns.adjust().responsive.recalc();
+    //     }, 10);
+    // });
 
     // SHOW FORM
     $addTestimonialBtn.on('click', function () {
