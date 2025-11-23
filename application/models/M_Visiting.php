@@ -769,4 +769,115 @@ class M_Visiting extends CI_Model{
 			);
 		}
 	}
+
+	public function show_feature_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+        $this->db->select('
+            csi_contents.id,
+            csi_contents.menu_id,
+            csi_contents.content_year,
+            csi_contents.content_type,
+            csi_contents.title,
+            csi_contents.subtitle,
+            csi_contents.body_text,
+            csi_contents.status,
+			csi_content_media.sort_order,
+            csi_content_media.file_path
+        ');
+        $this->db->from('csi_contents');
+        $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
+        // where conditions
+        $this->db->where('csi_contents.content_type', 'show-feature');
+        $this->db->where('csi_contents.menu_id', 10);
+        $this->db->where('csi_content_media.media_type', 'image');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+
+            // echo "<pre> RESULT:";
+            // print_r($row);
+            // echo "</pre>";
+            // die();
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    => $i,
+				"id" 		    => $row->id,
+				"content_year" 	=> $row->content_year,
+				"title" 		=> $row->title,
+                "order"     	=> $row->sort_order,
+				"file_path"	  	=> $row->file_path,
+                "status"	  	=> $row->status,
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+        // $total = $query->num_rows();
+
+		// $q = "SELECT count(id) as total FROM master_karyawan $where";
+		// $queryTotal 	= $this->hdb->query($q, $qWhere);
+		// if($queryTotal -> num_rows() > 0) {
+		// 	$qTotal = $queryTotal->row();
+		// }
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
 }

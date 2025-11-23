@@ -147,6 +147,21 @@ class Visiting extends CI_Controller {
             case "why-visit-section-datatable":
                 echo $this->M_Visiting->why_visit_section_datatable();
                 break;
+            case "show-feature-datatable":
+                echo $this->M_Visiting->show_feature_datatable();
+                break;
+            case "show-feature-add":
+                $this->show_feature_add();
+                break;
+            case "show-feature-update":
+                $this->show_feature_update();
+                break;
+            case "show-feature-update":
+                $this->show_feature_update();
+                break;
+            case "show-feature-delete":
+                $this->show_feature_delete();
+                break;
             /* Part Conference Shedule */
             case "conference-schedule-settings":
                 $this->conference_schedule_settings();
@@ -204,9 +219,15 @@ class Visiting extends CI_Controller {
             'content_year' => 2026,
             'content_type' => 'section'
         ]);
+
+        $dataShowFeatures = $this->M_Exhibiting->get_contents([
+            'menu_id' => 10,
+            'content_year' => 2026,
+            'content_type' => 'show-feature'
+        ]);
         
-        // echo "<pre> dataContents: ";
-        // print_r($dataContents);
+        // echo "<pre> showFeatures: ";
+        // print_r($showFeatures);
         // echo "</pre>";
         // die();
 
@@ -217,13 +238,19 @@ class Visiting extends CI_Controller {
         $feature_text = $sectionDataContents['0']['title'];
         $feature_desc = $sectionDataContents['0']['subtitle'];
 
+        $show_features = [];
 
-        // echo "<pre> hero_background: ";
-        // print_r($hero_background);
-        // echo "</pre>";
+        if (!empty($dataShowFeatures)) {
+            foreach ($dataShowFeatures as $item) {
+                $show_features[] = [
+                    'image' => !empty($item['file_path']) ? $base_url . $item['file_path'] : '',
+                    'title' => $item['title'] ?? ''
+                ];
+            }
+        }
 
-        // echo "<pre> hero_text: ";
-        // print_r($hero_text);
+        // echo "<pre> show_features: ";
+        // print_r($show_features);
         // echo "</pre>";
         // die();
 
@@ -242,7 +269,13 @@ class Visiting extends CI_Controller {
             ]
         ];
 
+        // echo "<pre> features: ";
+        // print_r($features);
+        // echo "</pre>";
+        // die();
+
         // Data bisa diambil dari database, untuk contoh hardcode array
+        /*
         $show_features = [
             [
                 'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
@@ -277,6 +310,7 @@ class Visiting extends CI_Controller {
                 'title' => 'Industry Conference',
             ],
         ];
+        */
         $data['features'] = $features;
         $data['show_features'] = $show_features;
 
@@ -984,6 +1018,7 @@ class Visiting extends CI_Controller {
                 , c.subtitle
                 , c.status
                 , cm.id as content_media_id
+                , cm.sort_order as order
                 , cm.file_path as image
                 , cm.url_path as link'
             ,
@@ -1016,7 +1051,7 @@ class Visiting extends CI_Controller {
                 ]));
         }
     }
-
+    
     public function conference_highlight_add(){
         $addhighlighttitle     = trim($this->input->post('addhighlighttitle'));
 
@@ -1133,7 +1168,7 @@ class Visiting extends CI_Controller {
             return;
         }
     }
-
+    
     public function conference_highlight_update(){
         // print_r($this->input->post());
         // print_r($_FILES);
@@ -1409,5 +1444,241 @@ class Visiting extends CI_Controller {
             'message' => 'Banner successfully updated.'
         ]);
     }
-  
+
+    public function show_feature_add(){
+        // print_r($this->input->post());
+        // print_r($_FILES);
+        // die();
+        $addshowfeaturetitle   = trim($this->input->post('addshowfeaturetitle'));
+        $addshowfeatureorder   = trim($this->input->post('addshowfeatureorder'));
+        $showfeatureStatus     = trim($this->input->post('showfeatureStatus'));
+
+        // Validasi minimal
+        if (empty($addshowfeaturetitle)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Banner year dan title wajib diisi.'
+            ]);
+            return;
+        }
+
+        // Konfigurasi upload
+        $file_path      = './assets/uploads/why_visit/';
+        $file_path_save = 'assets/uploads/why_visit/';
+
+        if (!file_exists($file_path)) {
+            mkdir($file_path, 0775, true);
+        }
+
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = 3072; // 3 MB
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $Image = null;
+
+        // Upload file jika ada
+        if (!empty($_FILES['addshowfeatureimage']['name'])) {
+
+            if (!$this->upload->do_upload('addshowfeatureimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            $upload = $this->upload->data();
+            $Image = $upload['file_name'];
+        }
+
+        // Set audit fields
+        $menu_id = 10;
+        $created_date = date('Y-m-d H:i:s');
+        $created_by = 'sysadmin';
+        $banneryear = 2026;
+        $bannertype = 'show-feature';
+        $body_text = '';
+        $content_id = 0;
+
+        try {
+
+            $this->db->trans_begin();
+
+            // Data untuk diinsert ke tabel banner
+            $data = [
+                'menu_id'       => $menu_id,
+                'content_year'  => $banneryear,
+                'content_type'  => $bannertype,
+                'title'         => $addshowfeaturetitle,
+                'status'        => $showfeatureStatus,
+                'created_date'  => $created_date,
+                'created_by'    => $created_by,
+                'modified_date' => $created_date,
+                'modified_by'   => $created_by
+            ];
+
+            $this->db->insert('csi_contents', $data);
+            $content_id = $this->db->insert_id();
+
+            $sort_order = (int) $addshowfeatureorder;
+            $is_main = 1;
+            
+            $dataMedia = [
+                'content_id'      => $content_id,
+                'media_type'      => 'image',
+                'file_path'       => $file_path_save . $Image,
+                'sort_order'      => $sort_order,
+                'is_main'         => $is_main,
+                'created_date'    => $created_date,
+                'created_by'      => $created_by,
+                'modified_date'   => $created_date,
+                'modified_by'     => $created_by
+            ];
+
+            // Simpan ke DB lewat model
+            $this->db->insert('csi_content_media', $dataMedia);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Show feature berhasil disimpan.'
+            ]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error.'
+            ]);
+            return;
+        }
+    }
+    
+    public function show_feature_update(){
+        // print_r($this->input->post());
+        // print_r($_FILES);
+        // die();
+        $showfeatureid = $this->input->post('showfeatureid');
+        $showfeaturemediaid  = $this->input->post('showfeaturemediaid');
+
+        $editshowfeaturetitle  = $this->input->post('editshowfeaturetitle');
+        $editshowfeatureorder  = $this->input->post('editshowfeatureorder');
+        $editshowfeaturestatus = $this->input->post('editshowfeatureStatus');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $file_path      = './assets/uploads/why_visit/';
+        $file_path_save = 'assets/uploads/why_visit/';
+
+        // ===== Ambil Data Lama ===== //
+        $oldMedia = $this->db->get_where('csi_content_media', ['id' => $showfeaturemediaid])->row();
+        $oldImage = !empty($oldMedia) ? basename($oldMedia->file_path) : null;
+
+        // ===== Upload Config ===== //
+        $config = [
+            'upload_path'   => $file_path,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 2048,
+            'encrypt_name'  => TRUE
+        ];
+        $this->upload->initialize($config);
+
+        // Default tetap pakai file lama
+        $image = $oldImage;
+
+        // ===== Jika Upload Gambar Baru ===== //
+        if (!empty($_FILES['editshowfeatureimage']['name'])) {
+
+            if (!$this->upload->do_upload('editshowfeatureimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            // Hapus gambar lama
+            if (!empty($oldImage) && file_exists($file_path . $oldImage)) {
+                unlink($file_path . $oldImage);
+            }
+
+            // File baru
+            $uploadData = $this->upload->data();
+            $image = $uploadData['file_name'];
+        }
+
+        $dataMedia = [
+            'file_path'     => $file_path_save . $image,
+            'sort_order'    => (int) $editshowfeatureorder,
+            'modified_date' => $modified_date,
+            'modified_by'   => $modified_by
+        ];
+
+        $this->db->where('id', $showfeaturemediaid);
+        $this->db->update('csi_content_media', $dataMedia);
+
+        $data = [
+            'title'         => $editshowfeaturetitle,
+            'status'        => $editshowfeaturestatus,
+            'modified_date' => $created_date,
+            'modified_by'   => $created_by
+        ];
+
+        // Update DB
+        $this->db->where('id', $showfeatureid);
+        $this->db->update('csi_contents', $data);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Banner successfully updated.'
+        ]);
+    }
+
+    public function show_feature_delete()
+    {
+        $id = $this->input->post('id');
+
+        if (empty($id)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid ID'
+            ]);
+            return;
+        }
+
+        // ===== Ambil Data Content ===== //
+        $content = $this->db->get_where('csi_contents', ['id' => $id])->row();
+
+        if (!$content) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data not found'
+            ]);
+            return;
+        }
+
+        // ===== Hapus row content ===== //
+        $this->db->delete('csi_contents', ['id' => $id]);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Show Feature successfully deleted.'
+        ]);
+    }
+
 }

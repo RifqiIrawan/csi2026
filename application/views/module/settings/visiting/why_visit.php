@@ -216,9 +216,7 @@
   #banner_whyvisitTable_wrapper,
   #banner_whyvisitTable,
   #section1Table_whyvisit_wrapper,
-  #section1Table_whyvisit,
-  #visainformationTable_wrapper,
-  #visainformationTable {
+  #section1Table_whyvisit{
       width: 100% !important;
       box-sizing: border-box; /* ensures padding/border won't break full width */
   }
@@ -267,7 +265,7 @@
         <!-- <a class="nav-link" id="tab-content_whyvisit" data-bs-toggle="tab" href="#content-content_whyvisit" role="tab">
           <i class="fa fa-tags"></i> Content
         </a> -->
-        <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
+        <a class="nav-link" id="tab-showfeature" data-bs-toggle="tab" href="#showshowfeatures" role="tab">
           <i class="fa fa-ellipsis-h"></i> Show Features
         </a>
       </li>
@@ -544,7 +542,131 @@
             </div>
         </div>
         
-        <!-- content-content and content-visainformation -->
+        <!-- TAB 3: Show Features -->
+        <div class="tab-pane fade" id="showshowfeatures" role="tabpanel">
+          <button id="addShowFeatureBtn" class="btn btn-success mb-3">Add Show Feature</button>
+          <!-- DataTable -->
+          <table id="showfeatureTable" class="display table table-bordered" style="width: 100%;">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Title</th>
+                <th>Order</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <!-- Add Content Form -->
+          <div id="showfeatureFormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-success">Show Feature Configuration</h5>
+
+                <form id="addformshowfeature" action="<?= base_url('visiting/show-feature-add') ?>" method="post" enctype="multipart/form-data">
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="addshowfeaturetitle" placeholder="Enter Image Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Order</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      name="addshowfeatureorder" 
+                      placeholder="Enter Image Order" 
+                      required 
+                      min="1"
+                    >
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="addshowfeatureimage" id="addshowfeatureimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="addshowfeatureimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <div class="mb-3 d-flex gap-3 align-items-center">
+                      <input type="radio" name="showfeatureStatus" id="showfeatureActive" value="active" checked>
+                      <label for="showfeatureActive" class="mb-0">Active</label>
+                      <input type="radio" name="showfeatureStatus" id="showfeaturePassive" value="inactive">
+                      <label for="showfeaturePassive" class="mb-0">Passive</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-success me-2">Add</button>
+                  <button type="button" id="backButtonShowFeature" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit Content Form -->
+          <div id="showfeatureEditFormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-primary">Edit SHow Show Feature</h5>
+
+                <form id="editformshowfeature" action="<?= base_url('visiting/show-feature-update') ?>" method="post" enctype="multipart/form-data">
+                  <!-- Hidden field for Banner ID -->
+                  <input type="hidden" name="showfeatureid" id="editShowFeatureId">
+                  <input type="hidden" name="showfeaturemediaid" id="editShowFeatureMediaId">
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="editshowfeaturetitle" id="editshowfeaturetitle" placeholder="Enter Banner Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Section Order</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      name="editshowfeatureorder" 
+                      id="editshowfeatureorder"
+                      placeholder="Enter Image Order" 
+                      required 
+                      min="1"
+                    >
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="editshowfeatureimage" id="editshowfeatureimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="editshowfeatureimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <div class="mb-3 d-flex gap-3 align-items-center">
+                      <input type="radio" name="editshowfeatureStatus" id="editshowfeatureActive" value="active" checked>
+                      <label for="editshowfeatureActive" class="mb-0">Active</label>
+                      <input type="radio" name="editshowfeatureStatus" id="editshowfeaturePassive" value="inactive">
+                      <label for="editshowfeaturePassive" class="mb-0">Passive</label>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelButtonShowFeature" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -575,9 +697,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 <script>
 
-  let sectionEditorWhyVisit, visainformationEditor, edit_whyvisitsubtitle;
-
-  let add_whyvisitsubtitle = '';
+  let sectionEditorWhyVisit, add_whyvisitsubtitle, edit_whyvisitsubtitle;
 
   // 2️⃣ Inisialisasi CKEditor
   document.addEventListener('DOMContentLoaded', function () {
@@ -605,13 +725,7 @@
       })
       .catch(error => console.error(error));
       
-    // ClassicEditor
-    //   .create(document.querySelector('#editVisaInformationDescription'))
-    //   .then(editor => {
-    //       visainformationEditor = editor;
-    //       console.log('Editor 2 ready');
-    //   })
-    //   .catch(error => console.error(error));
+
   });
 
 </script>
@@ -1169,165 +1283,234 @@ $(document).ready(function () {
   }
 });
 </script>
-
-
-
 <script>
+  var base_url = "<?= base_url(); ?>";
+
   $(document).ready(function() {
 
-    var base_url = "<?= base_url(); ?>";
+      var $showfeatureTableWrapper = $('#showfeatureTable_wrapper');
+      var $showfeatureForm = $('#showfeatureFormContainer');
+      var $addShowFeatureBtn = $('#addShowFeatureBtn');
+      var $backButtonShowFeature = $('#backButtonShowFeature');
 
-    // SECTION VARIABLES
-    var $visainformationTableWrapper = $('#visainformationTable_wrapper');
-    var $visainformationFormContainer = $('#visainformationFormContainer');
-    var $addVisaInformationBtn = $('#visainformationBtn');
-    // var $backSectionBtn = $('#backSection1Btn');
-
-    // Hide form on load
-    $visainformationFormContainer.addClass('d-none');
-
-    // Initialize Section DataTable
-    var sectionTable = $('#visainformationTable').DataTable({
+      // ========================================
+      // DATATABLE
+      // ========================================
+      var showfeatureTable = $('#showfeatureTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
         ajax: {
-            url: base_url + "exhibiting/why-exhibit-visa-datatable",
-            type: "POST"
+          url: base_url + "visiting/show-feature-datatable",
+          type: "POST",
+          dataSrc: function (json) {
+            return json.data || [];
+          }
         },
-        dataType: 'json',
         order: [[1, "asc"]],
         columns: [
-            { data: "no"
-              , width: "5%"
-            },
-            { data: "subtitle"
-              , width: "10%"
-            },
-            { data: "body_text", className: "text-start", render: function(data) {
-                // optional truncate text
-                return data.length > 50 ? data.substr(0, 100) + '...' : data;
-            }},
-            {
-                data: null,
-                orderable: false,
-                render: function(data, type, row) {
-                    return `
-                        <button class="btn btn-sm btn-primary editVisaInformation" data-id="${row.id}" title="Edit">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    `;
-                }
-            }
+          { data: "no" },
+          { data: "title"},
+          { data: "order"},
+          { data: "file_path" },
+          { data: "status" },
+          {
+            data: null
+          }
         ],
         columnDefs: [
-            {
-                targets: 3, // Subtitle
-                render: function(data, type, row) {
-                    if (type === 'display') {
-                        return '<span class="ellipsis" title="'+data+'">'+data+'</span>';
-                    }
-                    return data;
-                }
+          {
+            targets: 3, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
             }
+          },
+          {
+            targets: 5, // Actions
+            orderable: false,
+            render: function (data, type, row) {
+              return `
+                <button class="btn btn-sm btn-primary editShowFeature" 
+                        data-id="${row.id}" title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteShowFeature" 
+                        data-id="${row.id}" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>`;
+            }
+          }
         ]
-    });
-    // Setelah DataTable siap, ambil wrapper-nya
-    $visainformationTableWrapper = $('#visainformationTable_wrapper');
-    
-   // === EVENT TOMBOL ADD SECTION ===
-    $addVisaInformationBtn.on('click', function () {
-      $visainformationTableWrapper.hide();
-      $addVisaInformationBtn.hide();
-      $visainformationFormContainer.removeClass('d-none').hide().fadeIn(200);
-    });
+      });
 
-    // $backSectionBtn.on('click', function() {
-    //   $visainformationFormContainer.slideUp(function() {
-    //       $visainformationFormContainer.addClass('d-none');
-    //   });
-    //   $visainformationTableWrapper.removeClass('d-none').hide().slideDown();
-    //   $addVisaInformationBtn.show();
-    // });
+      // ========================================
+      // SHOW FORM - HIDE TABLE
+      // ========================================
+      $addShowFeatureBtn.on('click', function() {
+          $('#showfeatureTable_wrapper').hide();
+          $showfeatureTableWrapper.hide();
+          $addShowFeatureBtn.hide();
+          $showfeatureForm.removeClass('d-none').hide().fadeIn(200);
+      });
 
-    // ============ EDIT VISA INFORMATION ============
-    $(document).on('click', '.editVisaInformation', function() {
+      // ========================================
+      // BACK TO TABLE
+      // ========================================
+      $backButtonShowFeature.on('click', function() {
+        $showfeatureForm.slideUp(200, function () {
+          $showfeatureForm.addClass('d-none');
+          $showfeatureTableWrapper.slideDown(200);
+          $('#showfeatureTable_wrapper').show();
+            $addShowFeatureBtn.show();
+        });
+      });
+
+      $(document).on('click', '.editShowFeature', function(){
         let id = $(this).data('id');
 
-        $.getJSON(base_url + "exhibiting/why-exhibit-visa-get-data/" + id, function(data) {
-            $("#visainformationId").val(data.id);
-            $("#visainformationTitle").val(data.subtitle);
-            if (visainformationEditor) {
-              visainformationEditor.setData(data.body_text || '');
+        $.getJSON(base_url + "visiting/conference-highlight-get-data/" + id, function(data){
+            // Isi field edit form
+
+            // editShowFeatureId, editShowFeatureMediaId, editshowfeaturetitle, editshowfeatureorder, editshowfeatureimage, editshowfeatureimagepreview
+            // === Isi Form ===
+            
+            $("#editShowFeatureId").val(data.id);
+            $("#editShowFeatureMediaId").val(data.content_media_id);
+            $("#editshowfeaturetitle").val(data.title);
+            $("#editshowfeatureorder").val(data.order);
+            
+            if(data.image) {
+                $("#editshowfeatureimagepreview").attr("src", data.image).show();
+            } else {
+                $("#editshowfeatureimagepreview").hide();
             }
 
-            // Show edit form
-            $("#visainformationFormContainer").addClass("d-none");
-            $("#visainformationEditFormContainer").removeClass("d-none");
+            if (data.status === "active") {
+              $("#editshowfeatureActive").prop("checked", true);
+            } else {
+              $("#editshowfeaturePassive").prop("checked", true);
+            }
 
-            // Hide table & add button
-            $('#visainformationTable_wrapper').hide();
-            $('#visainformationBtn').hide();
+
+            // Hide DataTable and Add button
+            $addShowFeatureBtn.fadeOut(200);
+            $('#showfeatureTable_wrapper').hide();
+            $('#showfeatureTable').hide();
+
+            // Show Edit form
+            $("#showfeatureEditFormContainer").slideDown(300).removeClass('d-none');
         });
-    });
+      });
 
-    // Cancel Edit
-    $("#cancelvisainformationBtn").click(function() {
-        $("#visainformationEditFormContainer").addClass("d-none");
-        $("#visainformationFormContainer").removeClass("d-none");
+      // ====== CANCEL EDIT FORM ======
+      $("#cancelButtonShowFeature").click(function(){
+          // Hide the Edit Exhibitor form
+          $("#highlightEditFormContainer").slideUp(200, function(){
+              $("#highlightEditFormContainer").addClass('d-none');
+          });
 
-        $('#visainformationTable_wrapper').show();
-        $('#visainformationBtn').show();
-    });
+          // Show the DataTable and Add button again
+          $('#highlightTable_wrapper').show();
+          $('#highlightTable').show();
+          $addShowFeatureBtn.fadeIn(300);
+      });
 
-    // Image preview
-    $("#editSection1Image").on("change", function(){
+      $("#editshowfeatureimage").on("change", function () {
         const [file] = this.files;
         if (file) {
-            $("#editSection1Preview").attr("src", URL.createObjectURL(file)).show();
+          $("#editshowfeatureimagepreview").attr("src", URL.createObjectURL(file)).show();
         }
-    });
+      });
 
-    // Submit Edit Form
-    $('#editVisaInformationForm').on('submit', function(e) {
-        e.preventDefault(); // <-- prevent default form submission
-        
-        var formData = new FormData(this);
+      $('#addformshowfeature, #editformshowfeature').on('submit', function(e){
+          e.preventDefault();
+          var formData = new FormData(this);
+          $.ajax({
+              url: $(this).attr('action'),
+              type: "POST",
+              data: formData,
+              processData:false,
+              contentType:false,
+              dataType:"json",
+              success:function(res){ 
+                  if(res.success) Swal.fire("Success!", res.message,"success").then(()=>{ location.reload(); });
+                  else Swal.fire("Error!", res.message,"error");
+              },
+              error:function(){ Swal.fire("Error!","Server error","error"); }
+          });
+      });
 
-        $.ajax({
-            url: base_url + "exhibiting/why-exhibit-section-update",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            success: function(res) {
-              console.log("ANJING",res);
-              // return false;
-                if (res.success) {
+      // deleteShowFeature
+      // DELETE Show Feature
+      $(document).on("click", ".deleteShowFeature", function () {
+          let id = $(this).data("id");
 
-                    Swal.fire("Success!", res.message, "success").then(() => {
-                        window.location.href = base_url + "exhibiting/why-exhibit-settings";
-                    });
-                    // $("#visainformationEditFormContainer").hide();
-                    // $('#visainformationTable_wrapper').show();
-                    // $('#visainformationBtn').show();
+          Swal.fire({
+              title: "Are you sure?",
+              text: "This item will be permanently deleted!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
 
-                    // sectionTable.ajax.reload();
-                } else {
-                    Swal.fire("Error!", res.message, "error");
-                }
-            },
-            error: function(err) {
-                console.log("ERR ANJING",err);
-                // return false;
-                Swal.fire("Error!", "Terjadi kesalahan server.", "error");
-            }
-        });
-    });
+                  $.ajax({
+                      url: base_url + "visiting/show-feature-delete",
+                      type: "POST",
+                      data: { id: id },
+                      dataType: "json",
+                      success: function (response) {
+                          if (response.success) {
+                              Swal.fire("Deleted!", response.message, "success");
+                              $("#showfeatureTable").DataTable().ajax.reload();
+                          } else {
+                              Swal.fire("Failed!", response.message, "error");
+                          }
+                      },
+                      error: function () {
+                          Swal.fire("Error!", "Something went wrong", "error");
+                      }
+                  });
+
+              }
+          });
+      });
+
+      // END
+
+      // ========================================
+      // ACTIVATE TAB BASED ON URL HASH
+      // ========================================
+      var hash = window.location.hash;
+      if(hash){
+          var triggerEl = document.querySelector('.nav-link[href="' + hash + '"]');
+          if(triggerEl){
+              var tab = new bootstrap.Tab(triggerEl);
+              tab.show();
+          }
+      }
+
+      // ========================================
+      // FIX DATATABLE WHEN SWITCH TABS
+      // ========================================
+      $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+          history.replaceState(null, null, e.target.getAttribute('href'));
+          setTimeout(function () {
+              $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+          }, 150);
+      });
 
   });
 </script>
-
 </body>
 </html>
