@@ -156,9 +156,6 @@ class Visiting extends CI_Controller {
             case "show-feature-update":
                 $this->show_feature_update();
                 break;
-            case "show-feature-update":
-                $this->show_feature_update();
-                break;
             case "show-feature-delete":
                 $this->show_feature_delete();
                 break;

@@ -293,13 +293,14 @@
     }
     /* Here */
     .hero-section {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    height: 350px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        height: 350px;
+        display: flex;
+        justify-content: flex-start; /* horizontal ke kiri */
+        align-items: center;         /* vertical tetap di tengah */
+        padding-left: 190px;      
     }
 
     .hero-overlay {
@@ -546,8 +547,7 @@
             <div class="hero-content">
                 <h2 class="hero-title"><?= $hero['button_text']; ?></h2>
                 <p class="hero-text">
-                    Exhibiting at Coating Show will provide your company with the perfect platform 
-                    to showcase your latest products and services to a range of local and international attendees.
+                    <?= $hero['button_subtext']; ?>
                 </p>
             </div>
 
@@ -575,7 +575,7 @@
 
     <section class="testimonial-section">
         <div class="container">
-            <h2 class="testimonial-title">What Exhibitor Says</h2>
+            <h2 class="testimonial-title">EXHIBITOR TESTIMONIALS</h2>
 
             <?php if (!empty($testimonials)): ?>
 

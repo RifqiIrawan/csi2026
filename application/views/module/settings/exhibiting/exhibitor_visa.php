@@ -436,7 +436,7 @@
         <div class="tab-pane fade" id="content-contentvisa" role="tabpanel">
           <button id="addSection1VisaBtn" class="btn btn-success mb-3">Add Section</button>
 
-          <table id="section1VisaTable" class="display table table-bordered">
+          <table id="section1VisaTable" class="display table table-bordered" style="width: 100%;">
             <thead>
               <tr>
                 <th>No</th>

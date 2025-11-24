@@ -755,7 +755,7 @@
             <div class="card tab-card">
               <div class="card-body">
                 <h5 class="mb-3 text-primary">Testimonial Configuration</h5>
-                <form action="<?= base_url('exhibiting/why-exhibit-testimonial-add') ?>" method="post" enctype="multipart/form-data">
+                <form id="addTestimonialForm" action="<?= base_url('exhibiting/why-exhibit-testimonial-add') ?>" method="post" enctype="multipart/form-data">
                   <div class="mb-3">
                     <label for="testimonialAuthor" class="form-label">Author Name</label>
                     <input type="text" id="testimonialAuthor" class="form-control" name="testimonialauthor" placeholder="Enter author's name" required style="text-transform:capitalize">
@@ -782,9 +782,9 @@
                   </div>
 
                   <div class="mb-3 d-flex gap-3 align-items-center">
-                    <input type="radio" name="testimonialStatus" id="testimonialActive" value="1" checked>
+                    <input type="radio" name="testimonialstatus" id="testimonialActive" value="1" checked>
                     <label for="testimonialActive" class="mb-0">Active</label>
-                    <input type="radio" name="testimonialStatus" id="testimonialPassive" value="0">
+                    <input type="radio" name="testimonialstatus" id="testimonialPassive" value="0">
                     <label for="testimonialPassive" class="mb-0">Inactive</label>
                   </div>
                   <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -803,6 +803,7 @@
                   
                   <!-- Hidden field for Testimonial ID -->
                   <input type="hidden" name="id" id="editTestimonialId">
+                  <input type="hidden" name="pasttestimonialtext" id="pasttestimonialtext">
 
                   <div class="mb-3">
                     <label for="editTestimonialAuthor" class="form-label">Author Name</label>
@@ -1807,13 +1808,13 @@
 
     // Example: Fetch banner data from API (adjust URL)
     $.getJSON("<?= base_url('exhibiting/why-exhibit-testimonial-get-data/') ?>" + id, function(data) {
-
-
+        console.log("data",data);
+        $("#editTestimonialId").val(data.id);
         $("#editTestimonialAuthor").val(data.testimonial_author);
         $("#editTestimonialPosition").val(data.testimonial_position);
         $("#editTestimonialCompany").val(data.testimonial_company);
         $("#editTestimonialOrder").val(data.testimonial_order);
-        // $("#editTestimonialText").val(data.testimonial_message || '');
+        $("#pasttestimonialtext").val(data.testimonial_message || '');
 
         if (testimonialEditor) {
           testimonialEditor.setData(data.testimonial_message || '');
@@ -1851,39 +1852,25 @@
           $("#editBannerPreview").attr("src", URL.createObjectURL(file)).show();
       }
   });
-  
-  $('#editTestimonialForm').on('submit', function(e) {
-    e.preventDefault();
 
-    var formData = new FormData(this);
-
-    $.ajax({
-        url: base_url + "exhibiting/why-exhibit-banner-update",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function(res) {
-            if (res.success) {
-                Swal.fire("Success!", res.message, "success");
-
-                // hide edit form, show table & button add
-                $("#bannerEditFormContainer").hide();
-                $('#testimonialTable_wrapper').show();
-                $('#addTestimonialBtn').show();
-
-                // reload datatable
-                $('#testimonialTable').DataTable().ajax.reload();
-            } else {
-                Swal.fire("Error!", res.message, "error");
-            }
-        },
-        error: function() {
-            Swal.fire("Error!", "Terjadi kesalahan server.", "error");
-        }
+  // ====== EDIT FORM SUBMIT ======
+  $('#addTestimonialForm, #editTestimonialForm').on('submit', function(e){
+        e.preventDefault();
+        var formData = new FormData(this);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: "POST",
+            data: formData,
+            processData:false,
+            contentType:false,
+            dataType:"json",
+            success:function(res){ 
+                if(res.success) Swal.fire("Success!", res.message,"success").then(()=>{ location.reload(); });
+                else Swal.fire("Error!", res.message,"error");
+            },
+            error:function(){ Swal.fire("Error!","Server error","error"); }
+        });
     });
-  });
 
 
   $(document).on('click', '.deleteTestimonial', function() {
@@ -1891,7 +1878,7 @@
 
     Swal.fire({
         title: 'Are you sure?',
-        text: 'This banner will be permanently deleted!',
+        text: 'This testimonial will be permanently deleted!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
@@ -1909,8 +1896,8 @@
                         text: res.message
                     });
                     if (res.status === 'success') {
-                        // $('#testimonialTable').DataTable().ajax.reload(null, false);
-                        testimonialTable.ajax.reload(null, false); 
+                        $('#testimonialTable').DataTable().ajax.reload(null, false);
+                        // testimonialTable.ajax.reload(null, false); 
                     }
                 },
                 error: function() {

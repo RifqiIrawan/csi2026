@@ -881,7 +881,7 @@ class M_Exhibiting extends CI_Model{
         ');
         $this->db->from('csi_testimonials');
         // where conditions
-        $this->db->where('testimonial_status', 1);
+        // $this->db->where('testimonial_status', 1);
         $this->db->order_by('testimonial_order', 'ASC');
         // limit & offset
         $this->db->limit($limit, $start);
@@ -902,11 +902,6 @@ class M_Exhibiting extends CI_Model{
 		$isedit	= "";
         
 		foreach($r as $row) {
-
-            // echo "<pre> RESULT:";
-            // print_r($row);
-            // echo "</pre>";
-            // die();
             
 			$menu  = "<div style='text-align: center;'>";
             $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
@@ -935,13 +930,6 @@ class M_Exhibiting extends CI_Model{
 			array_push($obj , $data);
 			$i++;
 		}
-        // $total = $query->num_rows();
-
-		// $q = "SELECT count(id) as total FROM master_karyawan $where";
-		// $queryTotal 	= $this->hdb->query($q, $qWhere);
-		// if($queryTotal -> num_rows() > 0) {
-		// 	$qTotal = $queryTotal->row();
-		// }
 
 		if($query -> num_rows() > 0) {
 			return json_encode(

@@ -168,6 +168,15 @@ class Exhibiting extends CI_Controller {
             case "why-exhibit-testimonial-get-data":
                 $this->why_exhibit_testimonial_get_data($id);
                 break;
+            case "why-exhibit-testimonial-add":
+                $this->why_exhibit_testimonial_add();
+                break;
+            case "why-exhibit-testimonial-update":
+                $this->why_exhibit_testimonial_update();
+                break;
+            case "why-exhibit-testimonial-delete";
+                $this->why_exhibit_testimonial_delete($id);
+                break;
             case "exhibitor-visa-settings":
                 $this->exhibitor_visa_settings();
                 break;
@@ -231,6 +240,8 @@ class Exhibiting extends CI_Controller {
             'content_year' => 2026,
             'content_type' => 'banner'
         ]);
+        // print_r($dataContents);
+        // die();
 
         $sectionDataContents = $this->M_Exhibiting->get_contents([
             'menu_id' => 7,
@@ -246,11 +257,13 @@ class Exhibiting extends CI_Controller {
 
         $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
         $hero_text = $dataContents['0']['title'];
+        $hero_subtext = $dataContents['0']['subtitle'];
 
         // Data Hero Section
         $data['hero'] = [
             'background' => $hero_background,
             'button_text' => $hero_text,
+            'button_subtext' => $hero_subtext,
             'button_link' => '' // scroll ke section features
         ];
 
@@ -349,7 +362,6 @@ class Exhibiting extends CI_Controller {
         
         $dataContents = $this->M_Exhibiting->get_contents([
             'menu_id' => 8,
-            'content_year' => 2026,
             'content_type' => 'banner'
         ]);
 
@@ -459,7 +471,7 @@ class Exhibiting extends CI_Controller {
         // $section_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
         
         $data['section'] = [
-            'subtitle' => $sectionDataContents[0]['subtitle']
+            'subtitle' => $sectionDataContents[0]['title']
             , 'body_text' => $sectionDataContents[0]['body_text']
             , 'body_img' => ''
         ];
@@ -1680,7 +1692,7 @@ class Exhibiting extends CI_Controller {
             redirect('exhibiting/exhibitor-visa-settings');
         }
     }
-
+    
     public function exhibitor_visa_banner_delete($id = null)
     {
         $id = (int) $id;
@@ -2293,6 +2305,7 @@ class Exhibiting extends CI_Controller {
             'content_year'  => $bannerYear,
             'title'         => $bannerTitle,
             'subtitle'      => $bannerSub,
+            'status'        => $bannerStatus,
             'created_date'  => $created_date,
             'created_by'    => $created_by,
             'modified_date' => $created_date,
@@ -2422,4 +2435,141 @@ class Exhibiting extends CI_Controller {
             return;
         }
     }
+    
+    public function why_exhibit_testimonial_update() {
+        try {
+            // Collect POST data
+            $testimonialid      = $this->input->post('id');
+            $testimonialauthor  = $this->input->post('testimonialauthor');
+            $testimonialposition= $this->input->post('testimonialposition');
+            $testimonialcompany = $this->input->post('testimonialcompany');
+            $testimonialtext    = $this->input->post('testimonialtext');
+            $pasttestimonialtext= $this->input->post('pasttestimonialtext');
+            $testimonialorder   = $this->input->post('testimonialorder');
+            $testimonialstatus  = $this->input->post('testimonialstatus');
+
+            $testimonialtext = empty($testimonialtext) ? $pasttestimonialtext : $testimonialtext;
+
+            // Validate required fields
+            if (!$testimonialid || !$testimonialauthor || !$testimonialtext) {
+                throw new Exception("Required fields are missing.");
+            }
+
+            // Set modified info
+            $modified_date = date('Y-m-d H:i:s');
+            $modified_by = 'sysadmin';
+
+            $dataTestimonial = [
+                'testimonial_author'   => $testimonialauthor,
+                'testimonial_position' => $testimonialposition,
+                'testimonial_company'  => $testimonialcompany,
+                'testimonial_message'  => $testimonialtext,
+                'testimonial_order'    => $testimonialorder,
+                'testimonial_status'   => $testimonialstatus,
+                'modified_date'        => $modified_date,
+                'modified_by'          => $modified_by
+            ];
+
+            // Update database
+            $this->db->where('id', $testimonialid);
+            $updated = $this->db->update('csi_testimonials', $dataTestimonial);
+
+            if (!$updated) {
+                throw new Exception("Failed to update testimonial.");
+            }
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Testimonial successfully updated.'
+            ]);
+
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function why_exhibit_testimonial_add(){
+        try {
+            // Collect POST data
+            $testimonialauthor   = $this->input->post('testimonialauthor');
+            $testimonialposition = $this->input->post('testimonialposition');
+            $testimonialcompany  = $this->input->post('testimonialcompany');
+            $testimonialtext     = $this->input->post('testimonialtext');
+            $testimonialorder    = $this->input->post('testimonialorder');
+            $testimonialstatus   = $this->input->post('testimonialstatus');
+
+            // Validate required fields
+            if (!$testimonialauthor || !$testimonialtext) {
+                throw new Exception("Required fields are missing.");
+            }
+
+            // Set created info
+            $created_date = date('Y-m-d H:i:s');
+            $created_by   = 'sysadmin';
+
+            $dataInsert = [
+                'testimonial_author'   => $testimonialauthor,
+                'testimonial_position' => $testimonialposition,
+                'testimonial_company'  => $testimonialcompany,
+                'testimonial_message'  => $testimonialtext,
+                'testimonial_order'    => $testimonialorder,
+                'testimonial_status'   => $testimonialstatus,
+                'created_date'         => $created_date,
+                'created_by'           => $created_by,
+                'modified_date'        => $created_date,
+                'modified_by'          => $created_by
+            ];
+
+            // Insert into database
+            $inserted = $this->db->insert('csi_testimonials', $dataInsert);
+
+            if (!$inserted) {
+                throw new Exception("Failed to add testimonial.");
+            }
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Testimonial successfully added.'
+            ]);
+
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function why_exhibit_testimonial_delete($id = null)
+    {
+        $id = (int) $id;
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            $deleted = $this->M_Exhibiting->delete('csi_testimonials', ['id' => $id]);
+
+            if (!$deleted) {
+                throw new Exception('Failed to delete testimonial');
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Testimonial deleted successfully'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
+
 }
