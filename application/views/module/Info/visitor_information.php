@@ -3,6 +3,7 @@
         font-size: 28px;
         font-weight: 600;
         color: #000;
+        text-transform:uppercase;
     }
     /* p {
         display: block;

@@ -173,8 +173,8 @@ class M_Login extends CI_Model{
     $this->edb 	= $this->load->database('pnicheme_ems', TRUE);
     $res = $this->edb->query("SELECT id,name_event, CAST(start_date AS DATE) AS start_date,CAST(end_date AS DATE) AS end_date
                                   ,DATE_SUB(CAST(start_date AS DATE), INTERVAL 90 DAY) AS opened
-                              FROM EVENT
-                              WHERE id = (SELECT MAX(id) FROM EVENT WHERE STATUS = 'A')
+                              FROM event
+                              WHERE id = (SELECT MAX(id) FROM event WHERE STATUS = 'A')
                               ORDER BY id
                               LIMIT 1
                             ")->result(); 

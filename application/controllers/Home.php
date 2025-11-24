@@ -571,7 +571,7 @@ public function delete_sub_menu(){
     $code = $this->input->post("code");
     $folder = './assets/images/upload/profile/';
     $company = $this->input->post("company");
-    $vision = $this->input->post("descriptions");
+    $vision = $this->input->post("descriptions_edit");
     $nick = $this->input->post("nick");
     $address = $this->input->post("address");
     $maps = $this->input->post("maps");
@@ -716,6 +716,7 @@ public function delete_sub_menu(){
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
       $config['file_name']     		= md5(date("Ymdhis")).".".$exp[1];
+      $file_edit = $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -735,7 +736,7 @@ public function delete_sub_menu(){
         $this->image_lib->clear();          
       }
     }   
-    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description,$config['file_name']);
+    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description,$file_edit);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Product');         
@@ -1206,12 +1207,13 @@ public function delete_sub_menu(){
 
   public function add_contact(){
     $name = $this->input->post("name");
+    $company = $this->input->post("company");
     $position = $this->input->post("position");
     $hp = $this->input->post("hp");
     $email = $this->input->post("email");
     $level = $this->input->post("level");
     $status = $this->input->post("status");            
-    $insert = $this->M_Home->add_contact($name,$position,$hp,$email,$status,$level);
+    $insert = $this->M_Home->add_contact($name,$company,$position,$hp,$email,$status,$level);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Contact');         
@@ -1225,12 +1227,13 @@ public function delete_sub_menu(){
   public function update_contact(){
     $code = $this->input->post("code");
     $name = $this->input->post("name");
+    $company = $this->input->post("company");
     $position = $this->input->post("position");
     $hp = $this->input->post("hp");
     $email = $this->input->post("email");
     $level = $this->input->post("level");
     $status = $this->input->post("status");     
-    $insert = $this->M_Home->update_contact($code,$name,$position,$hp,$email,$status,$level);
+    $insert = $this->M_Home->update_contact($code,$name,$company,$position,$hp,$email,$status,$level);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Contact');         
@@ -2181,8 +2184,8 @@ public function add_highlights(){
 
   public function add_banner(){
     $title = $this->input->post("title");
-    $subtitle = $this->input->post("subtitle");
-    $button = $this->input->post("button");
+    // $subtitle = $this->input->post("subtitle");
+    // $button = $this->input->post("button");
     $status = $this->input->post("status");  
     $file = $_FILES;
     $folder = './assets/images/upload/swiper/';
@@ -2213,9 +2216,9 @@ public function add_highlights(){
         $this->image_lib->initialize($config2);      
         $this->image_lib->resize();
         $this->image_lib->clear();         
-        $insert = $this->M_Home->add_banner($title,$subtitle,$button,$config['file_name'],$status);
       }
     }
+    $insert = $this->M_Home->add_banner($title,$config['file_name'],$status);
     if($insert == true){
       $this->session->set_flashdata('save', 'Data Saved Successfully.');
       redirect('Home/Banner_Header');         
@@ -2229,8 +2232,8 @@ public function add_highlights(){
   public function update_banner(){ 
     $code = $this->input->post("code");
     $title = $this->input->post("title_edit");
-    $subtitle = $this->input->post("subtitle_edit");
-    $button = $this->input->post("button");
+    // $subtitle = $this->input->post("subtitle_edit");
+    // $button = $this->input->post("button");
     $status = $this->input->post("status");   
     $file_edit = $this->input->post("file_edit");   
     $file = $_FILES;
@@ -2267,7 +2270,7 @@ public function add_highlights(){
       }
     }
 
-    $insert = $this->M_Home->update_banner($code,$title,$subtitle,$button,$file_edit,$status);
+    $insert = $this->M_Home->update_banner($code,$title,$file_edit,$status);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Banner_Header');         
@@ -2281,10 +2284,10 @@ public function add_highlights(){
   public function delete_banner(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
-    $folder = './assets/images/upload/swiper/';
-    unlink("".$folder."".$img."");
-    $cek_data = $this->M_Home->delete_coperation($code);
+    $cek_data = $this->M_Home->delete_banner($code);
     if ($this->db->affected_rows()) {
+      $folder = './assets/images/upload/swiper/';
+      unlink("".$folder."".$img."");
       echo "OK";
     }
     else{

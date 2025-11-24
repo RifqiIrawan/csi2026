@@ -243,7 +243,7 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->title))."</td>";
-                        echo "<td align=\"\">".ucwords(strtolower($row->url))."</td>";
+                        echo "<td align=\"\">".$row->url."</td>";
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\"><i class=\"mdi mdi-eye\" style=\"font-size: 16px;cursor:pointer\" onclick=\"text1('".$row->id."');\"></td>";    
                         echo "<td align=\"center\">

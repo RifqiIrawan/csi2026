@@ -762,61 +762,7 @@
 
   
   <script type="text/javascript">
-    $(document).ready(function() {
-      // CKEDITOR.replace( 'descriptions' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-      // CKEDITOR.replace( 'descriptions_edit' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-
-      // CKEDITOR.replace( 'descriptions1' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-      // CKEDITOR.replace( 'descriptions1_edit' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-
-      // CKEDITOR.replace( 'descriptions2' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-      // CKEDITOR.replace( 'descriptions2_edit' , {
-      //   customConfig : '/custom/ckeditor_config.js'
-      // });
-      $('#master_data').on("click", function() { 
-      });
-
-      $('#acc').on("click", function() { 
-        // $("#acc").attr("collapse");
-      });
-
-      $('#ftr').on("click", function() { 
-      });
-
-      $('#test').on("click", function() { 
-        $("#test").attr("collapse");
-      });
-
-      $('#upd').on("click", function() { 
-      });
-
-      $('#add_menu').on("click", function() { 
-        $( "#get_menu" ).toggleClass( "active" );
-      });
-
-      $('#setting').on("click", function() { 
-      });
-
-      $('#post_logo').on("click", function() { 
-        alert();
-      });
-      
-
-      $('#search_form').on("change", function() { 
-        var id = $("#search_form").val();
-        window.location.href=""+id;
-      });
-      
+    $(document).ready(function() {      
       new DataTable('#example', {
          "responsive": true, 
               "bLengthChange": true,
