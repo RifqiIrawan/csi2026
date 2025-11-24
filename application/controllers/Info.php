@@ -759,6 +759,7 @@ class Info extends CI_Controller {
     $this->template->load('layouts2/role2','module/Info/news_update_content',$data);
   }
 
+  //form news update
   public function Form_News_Update(){   
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');
@@ -874,5 +875,36 @@ class Info extends CI_Controller {
     else{
       echo "Failed";
     }   
+  }
+
+  public function upload_ckeditor(){
+    if (isset($_FILES['upload']['name'])) {
+      
+      echo "<pre>";
+      print_r($_FILES);
+      echo "</pre>";
+      die();
+      $config['upload_path']   = './upload/ckeditor/';
+      $config['allowed_types'] = 'jpg|jpeg|png|gif';
+      $config['max_size']      = 2048;
+      $config['encrypt_name']  = TRUE;
+
+      $this->load->library('upload', $config);
+
+      if (!$this->upload->do_upload('upload')) {
+          $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['uploaded' => false, 'error' => $this->upload->display_errors()]));
+      } else {
+          $file = $this->upload->data();
+          $url  = base_url('upload/ckeditor/' . $file['file_name']);
+
+          echo json_encode([
+              "uploaded" => 1,
+              "fileName" => $file['file_name'],
+              "url"      => $url
+          ]);
+      }
+  }
   }
 }

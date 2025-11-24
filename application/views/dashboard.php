@@ -193,7 +193,7 @@
 
     .header .logo img {
       /* max-height: 105px !important; */
-      width: 250px;
+      width: 100%;
       margin-right: 8px;
       max-width: 100%;
       max-height: 100%;
@@ -1377,7 +1377,27 @@
     .hero-content h2 { font-size: 20px; }
   }
 
+  @media (max-width: 1199px) {
+    .mobile-nav-toggle {
+        color: var(--nav-color);
+        font-size: 28px;
+        line-height: 0;
+        margin-right: 0px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    .navmenu {
+      padding: 0;
+      z-index: 9997;
+      margin-top: -15px;
+    }
+  }
+
 </style>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>                   
 
@@ -1387,7 +1407,7 @@
       <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
           <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
-              <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" alt="<?php echo base_url($nick_name);?>">
+              <img width="190" height="70" src="<?php echo base_url($data_profile->folder."".$data_profile->logo);?>" alt="<?php echo base_url($data_profile->nick_name);?>">
           </a>
           <nav id="navmenu" class="navmenu">
             <ul>
@@ -1483,74 +1503,6 @@
       </div>
     </section>
     
-    
-<script>
-  // List URL gambar & text
-  const slides = [
-                    <?php foreach($data_swiper as $r_sw): ?>
-                    {
-                        image: "<?= base_url($r_sw->folder_name."".$r_sw->image) ?>",
-                        title: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->title)) ?>",
-                        subtitle: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->subtitle)) ?>",
-                        button: "<?= ucwords($r_sw->button) ?>",
-                    },
-                    <?php endforeach; ?>
-                ];
-    // {
-    //   image: "http://localhost:8081/My-Project/pull/csi2026/assets/images/upload/swiper/6.jpg",
-    //   title: "GLOBAL SUPPLIER NETWORK",
-    //   subtitle: "Connect & Grow",
-    //   button: "SEE MORE"
-    // }
-  // ];
-
-  const slideContainer = document.getElementById("dynamic-slides");
-
-  // Generate slides dynamically
-  slides.forEach(item => {
-    slideContainer.innerHTML += `
-      <div class="swiper-slide">
-        <img src="${item.image}">
-        <div class="overlay"></div>
-        <div class="hero-content">
-          <h1>${item.title}</h1>
-          <h2>${item.subtitle}</h2>
-          <a class="btn-hero" href="#">${item.button}</a>
-        </div>
-      </div>
-    `;
-  });
-
-  // Swiper initialization
-  var swiper = new Swiper(".heroSwiper", {
-    effect: "fade",
-    loop: true,
-    autoplay: {
-      delay: 4500,
-      disableOnInteraction: false,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    fadeEffect: {
-      crossFade: true
-    }
-  });
-
-</script>
-
-
-
-
-
-
-
-
     <section id="carousel" class="faq section">
       <div class="container section-title center">
         <h3 style="font-size:24px;font-weight:800"><b>CAROUSEL</b></h3>
@@ -1613,13 +1565,13 @@
       </div>
       <div class="container ">
         <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">           
-          <div class="row gy-4 isotope-container mt-2" data-aos-delay="200" style="position: relative; height: 419.667px;">
+          <div class="row gy-4 isotope-container mt-2" data-aos-delay="200" style="position: relative; ">
             <?php 
               foreach($data_product as $row2){ 
                 $file2 = $row2->folder_name."".$row2->file_upload;
                 $img2 = "".$file2."";
             ?>     
-            <div class="col-lg-2 col-md-3 portfolio-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;min-height: 250px;">
+            <div class="col-lg-2 col-md-3 portfolio-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;min-height: 260px;gap: 20px">
               <div class="portfolio-content h-00">                                
                 <img data-src="<?php echo base_url($img2); ?>" class="img-fluid img-product lazyload" alt="">
                 <div class="portfolio-info">
@@ -1701,12 +1653,14 @@
             <div class="container mt-3">
               <div class="row mt-3">
               <?php foreach($data_video as $row4){
+                $url_now = $row4->url;
+                $yt_url = explode("=",$url_now);
               ?>   
                   
-              <div class="col-lg-4">
+              <div class="col-lg-4 mb-3">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
                   <iframe 
-                    src="https://www.youtube.com/embed/<?php echo $row4->url?>" 
+                    src="https://www.youtube.com/embed/<?php echo $yt_url[1]?>" 
                     title="YouTube video player" 
                     frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -2047,7 +2001,7 @@
   function registrasi(start,end,now,url){
     // alert(start+' - '+end+' - '+now+' - '+url);
     if(now < start || now > end){
-      alert(now+' - '+start);
+      // alert(now+' - '+start);
       swal({
         title: "Attention",
         content: {
@@ -2077,6 +2031,65 @@
     color: #d9534f;
   }
 </style>
+
+    
+<script>
+  // List URL gambar & text
+  const slides = [
+                    <?php foreach($data_swiper as $r_sw): ?>
+                    {
+                        image: "<?= base_url($r_sw->folder_name."".$r_sw->image) ?>",
+                        title: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->title)) ?>",
+                        subtitle: "<?= ucwords(preg_replace('/\r\n|\r|\n/', '',$r_sw->subtitle)) ?>",
+                        button: "<?= ucwords($r_sw->button) ?>",
+                    },
+                    <?php endforeach; ?>
+                ];
+    // {
+    //   image: "http://localhost:8081/My-Project/pull/csi2026/assets/images/upload/swiper/6.jpg",
+    //   title: "GLOBAL SUPPLIER NETWORK",
+    //   subtitle: "Connect & Grow",
+    //   button: "SEE MORE"
+    // }
+  // ];
+
+  const slideContainer = document.getElementById("dynamic-slides");
+
+  // Generate slides dynamically
+  slides.forEach(item => {
+    slideContainer.innerHTML += `
+      <div class="swiper-slide">
+        <img src="${item.image}">
+        <div class="overlay"></div>
+        <div class="hero-content">
+          
+        </div>
+      </div>
+    `;
+  });
+
+  // Swiper initialization
+  var swiper = new Swiper(".heroSwiper", {
+    effect: "fade",
+    loop: true,
+    autoplay: {
+      delay: 4500,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    fadeEffect: {
+      crossFade: true
+    }
+  });
+
+</script>
 
 <script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>

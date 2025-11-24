@@ -106,9 +106,10 @@
     });
   });
 
-  function upd(code,name,position,hp,email,status,level){
+  function upd(code,name,company,position,hp,email,status,level){
     $("#code").val(code);
     $("#name").val(name);
+    $("#company").val(company);
     $("#position").val(position);
     $("#hp").val(hp);
     $("#email").val(email);
@@ -186,6 +187,7 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Name</th>
+                    <th>Company</th>
                     <th>Position</th>
                     <th>Telephone</th>
                     <th>Email</th>
@@ -221,13 +223,14 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->name))."</td>";
+                        echo "<td align=\"\">".$row->company."</td>";
                         echo "<td align=\"\">".ucwords(strtolower($row->position))."</td>";
                         echo "<td align=\"\">".$row->hp."</td>";
                         echo "<td align=\"\">".$row->email."</td>";
                         echo "<td align=\"center\">".$lev."</td>";    
                         echo "<td align=\"center\">".$stat."</td>";    
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->position."','".$row->hp."','".$row->email."','".$row->status."','".$row->level."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".$row->name."','".$row->company."','".$row->position."','".$row->hp."','".$row->email."','".$row->status."','".$row->level."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."')\">
@@ -259,6 +262,10 @@
           <div class="form-group">
             <label class="form-label">Name</label>
             <input type="text" class="form-control" name="name" Placeholder="Entry Name" style="text-transform:capitalize" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Company</label>
+            <input type="text" class="form-control" name="company" Placeholder="Entry Company" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Position</label>
@@ -317,7 +324,11 @@
             <label class="form-label"> Name</label>
             <input type="hidden" class="form-control" name="code" id="code">
             <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
-          </div>
+          </div> 
+          <div class="form-group">
+            <label class="form-label">Company</label>
+            <input type="text" class="form-control" name="company" id="company" required>
+          </div>  
           <div class="form-group">
             <label class="form-label">Position</label>
             <input type="text" class="form-control" name="position" id="position" style="text-transform:capitalize" required>

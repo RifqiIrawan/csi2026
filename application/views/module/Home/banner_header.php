@@ -131,11 +131,11 @@
     });
   });
 
-  function upd(code,title,subtitle,button,file,status){
+  function upd(code,title,file,status){
     $("#code").val(code);
     $("#title").val(title);
-    $("#subtitle").val(subtitle);
-    $("#button").val(button);
+    // $("#subtitle").val(subtitle);
+    // $("#button").val(button);
     $("#file_edit").val(file);    
     $.ajax({
       url: "<?php echo base_url()?>Home/search_text",
@@ -146,7 +146,7 @@
         //console.log(jsn);        
         // var desc = description;
         CKEDITOR.instances.title_edit.setData(jsn.title);
-        CKEDITOR.instances.subtitle_edit.setData(jsn.subtitle);
+        // CKEDITOR.instances.subtitle_edit.setData(jsn.subtitle);
       }
     });
     // $("#ket").val(ket);
@@ -235,8 +235,8 @@
                   <tr>
                     <th width="1%">No</th>
                     <th>Title</th>
-                    <th>Subtitle</th>
-                    <th>Button Action</th>
+                    <!-- <th>Subtitle</th>
+                    <th>Button Action</th> -->
                     <th>File</th>
                     <th>Status</th>
                     <th width="15%">Action</th>
@@ -257,12 +257,12 @@
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".preg_replace('/\r\n|\r|\n/', '',$row->title)."</td>";
-                        echo "<td align=\"\">".preg_replace('/\r\n|\r|\n/', '',$row->subtitle)."</td>";
-                        echo "<td align=\"\">".$row->button."</td>";
+                        // echo "<td align=\"\">".preg_replace('/\r\n|\r|\n/', '',$row->subtitle)."</td>";
+                        // echo "<td align=\"\">".$row->button."</td>";
                         echo "<td align=\"center\"><i class=\"mdi mdi-folder-image\" style=\"font-size: 16px;cursor:pointer\" onclick=\"show_image('".$row->image."');\"></td>";
                         echo "<td align=\"center\">".$stat."</td>";  
                         echo "<td align=\"center\">
-                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".preg_replace('/\r\n|\r|\n/', '',$row->title)."','".preg_replace('/\r\n|\r|\n/', '',$row->subtitle)."','".$row->button."','".$row->image."','".$row->status."');\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd('".$row->id."','".preg_replace('/\r\n|\r|\n/', '',$row->title)."','".$row->image."','".$row->status."');\">
                                     <i class=\"mdi mdi-table-edit icn\"></i>
                                 </button>
                                 <button type=\"button\" class=\"btn btn-hapus-icn bw\"  title=\"Delete\" onclick=\"del('".$row->id."','".$row->image."')\">
@@ -295,14 +295,14 @@
             <label class="form-label">Title</label>
             <textarea class="form-control" name="title" rows="9"></textarea>
           </div> 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-label">Subtitle</label>
             <textarea class="form-control" name="subtitle" rows="9"></textarea>
           </div> 
           <div class="form-group">
             <label class="form-label">Button Action</label>
             <input type="text" class="form-control" name="button" required>
-          </div> 
+          </div>  -->
           <div class="form-group">
             <label class="form-label">Upload File</label>
             <input type="file" class="form-control" name="file" required>
@@ -344,14 +344,14 @@
             <input type="hidden" class="form-control" name="code" id="code">
             <textarea class="form-control" name="title_edit" rows="9"></textarea>
           </div> 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="form-label">Subtitle</label>
             <textarea class="form-control" name="subtitle_edit" rows="9"></textarea>
           </div> 
           <div class="form-group">
             <label class="form-label">Button Action</label>
-            <input type="text" class="form-control" name="button" id="button">
-          </div> 
+            <input type="text" class="form-control" name="button" id="button"> 
+          </div> -->
           <div class="form-group">
             <label class="form-label">Upload File</label>
             <input type="file" class="form-control" name="file">

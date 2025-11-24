@@ -397,17 +397,17 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_contact($name,$position,$hp,$email,$status,$level){
+  function add_contact($name,$company,$position,$hp,$email,$status,$level){
     $insert = $this->db->query("INSERT INTO 
-                                        contact(name,position,hp,email,status,level) 
+                                        contact(name,company,position,hp,email,status,level) 
                                         Values
-                                        ('".$name."','".$position."','".$hp."','".$email."','".$status."','".$level."')
+                                        ('".$name."','".$company."','".$position."','".$hp."','".$email."','".$status."','".$level."')
                             ");
     return $insert;
   }
     
-  function update_contact($code,$name,$position,$hp,$email,$status,$level){
-    $update = $this->db->query(" UPDATE contact SET name = '".$name."',position = '".$position."'
+  function update_contact($code,$name,$company,$position,$hp,$email,$status,$level){
+    $update = $this->db->query(" UPDATE contact SET name = '".$name."',company = '".$company."',position = '".$position."'
                                 ,hp = '".$hp."',email = '".$email."',level = '".$level."'
                                 ,status = '".$status."' WHERE id = '".$code."'
                       ");
@@ -707,17 +707,17 @@ class M_Home extends CI_Model
     return $res->result();
   }
 
-  function add_banner($title,$subtitle,$button,$file,$status){
+  function add_banner($title,$file,$status){
     $insert = $this->db->query("INSERT INTO 
-                                        swiper(title,subtitle,button,image,status) 
-                                        Values
-                                        ('".$title."','".$subtitle."','".$button."','".$file."','".$status."')
+                                swiper(title,image,status) 
+                                Values
+                                ('".$title."','".$file."','".$status."')
                             ");
     return $insert;
   }
     
-  function update_banner($code,$title,$subtitle,$button,$file,$status){
-    $update = $this->db->query(" UPDATE swiper SET title = '".$title."',subtitle = '".$subtitle."',button = '".$button."'
+  function update_banner($code,$title,$file,$status){
+    $update = $this->db->query(" UPDATE swiper SET title = '".$title."'
                                   ,image = '".$file."',status = '".$status."'
                                   WHERE id = '".$code."'
                       ");

@@ -33,7 +33,7 @@ class Dashboard extends CI_Controller {
     $data["start_event"] = $data["data_EMS"][0]->opened;
     $data["end_event"] = $data["data_EMS"][0]->end_date;
     // print_r($data["data_EMS"][0]->opened); die();
-
+    
     $data["data_footer"] = "./Website/assets/img/ftr.jpg";    
     // print_r($data["data_event"]);die();
     $this->load->view('dashboard',$data);

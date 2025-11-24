@@ -270,7 +270,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">Product Sector Name</label>
-            <input type="text" class="form-control" name="name" Placeholder="Entry Product Name" style="text-transform:capitalize" required>
+            <input type="text" class="form-control" name="name" maxlength="30" Placeholder="Entry Product Name" style="text-transform:capitalize" required>
           </div>  
           <div class="form-group">
             <label class="form-label">Upload File</label>
@@ -319,11 +319,11 @@
           <div class="form-group">
             <label class="form-label">Product Sector Name</label>
             <input type="hidden" class="form-control" name="code" id="code">
-            <input type="text" class="form-control" name="name" id="name" style="text-transform:capitalize" required>
+            <input type="text" class="form-control" name="name" maxlength="30" id="name" style="text-transform:capitalize" required>
           </div>
           <div class="form-group">
             <label class="form-label">Upload File</label>
-            <input type="file" class="form-control" name="file" required>
+            <input type="file" class="form-control" name="file">
             <input type="hidden" class="form-control" name="file_edit" id="file_edit">
           </div>
           <div class="form-group">
