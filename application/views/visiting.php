@@ -478,6 +478,17 @@
 .scroll-btn.left {
     left: -36px;
 }
+
+.hero-text {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: normal;
+  word-break: break-word;
+  color: #ffffff;
+}
+
 </style>
 
 
@@ -550,6 +561,9 @@
                 <a href="<?= $hero['button_link']; ?>" class="hero-btn">
                     <?= $hero['button_text']; ?>
                 </a>
+                <p class="hero-text">
+                    <?= $hero['button_subtext']; ?>
+                </p>
             </div>
     </section>
 

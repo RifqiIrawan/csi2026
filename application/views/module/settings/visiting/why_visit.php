@@ -849,8 +849,12 @@
         $("#editBannerWhyvisitId").val(data.id);
         $("#editBannerWhyvisitYear").val(data.content_year);
         $("#editBannerWhyvisitTitle").val(data.title);
-        $("#editBannerWhyvisitsubtitle").val(data.subtitle);
+        // $("#editBannerWhyvisitsubtitle").val(data.subtitle);
         $("#editBannerWhyvisitLink").val(data.link);
+
+        if(edit_whyvisitsubtitle) {
+            edit_whyvisitsubtitle.setData(data.subtitle || '');
+        }
 
         if (data.status === "active") {
             $("#editBannerWhyvisitActive").prop("checked", true);
@@ -879,7 +883,6 @@
   // Cancel edit
   $("#cancelEditBannerWhyvisitBtn").click(function() {
       $("#banner_whyvisitEditFormContainer").addClass("d-none");
-      $("#banner_whyvisitFormContainer").removeClass("d-none");
 
       $('#banner_whyvisitTable_wrapper').show();
       $('#addBannerWhyvisitBtn').show();

@@ -236,6 +236,7 @@ class Visiting extends CI_Controller {
 
         $hero_background = (!empty($dataContents)) ? $base_url . $dataContents[0]['file_path'] : '';
         $hero_text = $dataContents['0']['title'];
+        $hero_subtext = $dataContents['0']['subtitle'];
 
         $feature_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
         $feature_text = $sectionDataContents['0']['title'];
@@ -261,6 +262,7 @@ class Visiting extends CI_Controller {
         $data['hero'] = [
             'background' => $hero_background,
             'button_text' => $hero_text,
+            'button_subtext' => str_replace(["<p>", "</p>"], "", $hero_subtext),
             'button_link' => '#features' // scroll ke section features
         ];
 
@@ -272,48 +274,6 @@ class Visiting extends CI_Controller {
             ]
         ];
 
-        // echo "<pre> features: ";
-        // print_r($features);
-        // echo "</pre>";
-        // die();
-
-        // Data bisa diambil dari database, untuk contoh hardcode array
-        /*
-        $show_features = [
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
-                'title' => 'Global Suppliers',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
-                'title' => 'Live Demonstration',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
-                'title' => 'Webinar Presentation',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
-                'title' => 'Industry Conference',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-1.jpg',
-                'title' => 'Global Suppliers',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/02/exhibit-2.jpg',
-                'title' => 'Live Demonstration',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/seminar.jpg',
-                'title' => 'Webinar Presentation',
-            ],
-            [
-                'image' => 'https://indointertex.com/wp-content/uploads/2021/05/industry-conference.jpg',
-                'title' => 'Industry Conference',
-            ],
-        ];
-        */
         $data['features'] = $features;
         $data['show_features'] = $show_features;
 
@@ -802,7 +762,8 @@ class Visiting extends CI_Controller {
               throw new Exception("ID tidak ditemukan.");
           }
 
-          $file_path  = 'assets/uploads/why_visit/';
+          $file_path      = './assets/uploads/why_visit/';
+          $file_path_save = 'assets/uploads/why_visit/';
           $image_path = null;
 
           // === Ambil data lama (untuk hapus gambar lama jika ada upload baru) ===
@@ -810,7 +771,7 @@ class Visiting extends CI_Controller {
 
           // === Jika ada file diupload ===
           if (!empty($_FILES['image']['name'])) {
-              $config['upload_path']   = FCPATH . $file_path;
+              $config['upload_path']   = $file_path;
               $config['allowed_types'] = 'jpg|jpeg|png|gif';
               $config['max_size']      = 2048;
               $config['encrypt_name']  = TRUE;
@@ -827,10 +788,10 @@ class Visiting extends CI_Controller {
                       throw new Exception('File size exceeds the 2MB limit.');
                   }
 
-                  $image_path = $file_path . $uploadData['file_name'];
+                  $image_path = $file_path_save . $uploadData['file_name'];
 
                   // === Hapus file lama jika ada ===
-                  if (!empty($oldMedia->file_path) && file_exists(FCPATH . $oldMedia->file_path)) {
+                  if (!empty($oldMedia->file_path) && file_exists('./' . $oldMedia->file_path)) {
                       unlink(FCPATH . $oldMedia->file_path);
                   }
               }
