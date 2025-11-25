@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row"> 
             <div class="col-lg-12 text-center mb-3">
-                <p class="title">Visitor Information</p>
+                <p class="title"><?= strtoupper($data_information[0]->header_title)?></p>
             </div>
         </div>
         <div class="row">

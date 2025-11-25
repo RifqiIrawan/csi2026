@@ -132,7 +132,8 @@
 
     .card-img, .card-img-bottom, .card-img-top {
         width: 100%;
-        max-height: 200px;
+        max-height: 250px;
+        min-height: 250px;
     }
 
     .card:hover {
@@ -143,7 +144,9 @@
 
     .card-01 .card-body {
         position: relative;
-        padding-top: 0px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        min-height: 220px;
     }
 
     h5{
@@ -313,6 +316,9 @@
                         <div class="card-body">
                             <h5 class="card-title text-center"><?php echo $row->title;?></h5>
                             <p class="card-text text-center"><?php echo $row->date_news;?></p>
+                           
+                        </div>
+                        <div class="card-body" style="min-height: 10px;">
                             <a href="<?php echo base_url("News_Update/".$row->id);?>" class="btn btn-default text-uppercase" target="_blank">Read
                                 More</a>
                         </div>

@@ -99,104 +99,7 @@
   }
 </style>
 <script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">  
-  $(document).ready(function() {
-    CKEDITOR.replace( 'descriptions' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
 
-    CKEDITOR.replace( 'descriptions_edit' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
-
-    CKEDITOR.replace( 'descriptions1' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
-
-    $('#close').on('click', function() {    
-      window.location.reload()   
-    });
-    $('#close_edit').on('click', function() {   
-      window.location.reload()
-    });  
-    $('#close_admin').on('click', function() {   
-      window.location.reload()
-    });  
-    $(".modal").on("hidden.bs.modal", function() {      
-      window.location.reload()
-    });
-  });
-
-  function upd(code,title,file,status){
-    $("#code").val(code);
-    $("#title").val(title);
-    $("#file_edit").val(file);    
-
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text",
-      type: 'post',
-      data: {'code' : code,'text':'carousel'},
-      success: function (data) {
-        var jsn = JSON.parse(data);
-        console.log(jsn);        
-        // var desc = description;
-        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
-      }
-    });
-
-    var status='#'+status;
-    $(status).prop("checked", true);
-    $('#mdl_edit').modal('show');    
-  }
-  
-  function del(code){
-    var code = code;
-    if (confirm("Do you want to delete this data?")) {
-      $.ajax({
-        url: "<?php echo base_url()?>Home/delete_carousel",
-        type: 'post',
-        data: {'code' : code},
-        success: function (data) {
-        //   console.log(data);
-          if(data === "OK"){
-            swal({
-                title: "Delete Success",
-                text: "Delete Data Successfully.",
-                icon: "success",
-                timer: 3000,
-                button: true
-            }).then(function() {
-              window.location = "Carousel";
-            });
-          }else{
-            swal({
-                title: "Delete Failed",
-                text: "Delete Data Failed.",
-                icon: "error",
-                timer: 3000,
-                button: true
-            }).then(function() {
-              window.location = "Carousel";
-            });
-          }
-        },
-        error: function () {
-          alert("Data Failed to be Deleted.");
-        }
-      });
-    }else{
-      alert(code + " Data Failed to be Deleted.");
-    }
-  }  
-
-  function show_image(file){
-    var folder = "./assets/images/upload/carousel/";
-    var pic = "."+folder+""+file;
-    var img = $('<img />', {src : pic});
-    img.appendTo('#get_image');
-    $("#mdl_img").modal('show');
-  }
-</script>
 
 <div class="content-wrapper">
   <div class="page-header">
@@ -210,16 +113,24 @@
   </div>
     <div class="row ">
       <div class="col-lg-12">
-        <div class="car">
-          <div class="card-body btop">                    
+        <button type="button" class="btn btn-info btn-lg" id="show_data" >
+          <i class="mdi mdi-format-list-bulleted"></i> Show Data &nbsp;
+        </button>
+        <button type="button" class="btn btn-success btn-lg" id="update_title" >
+          <i class="mdi mdi-repeat"></i> Update Header &nbsp;
+        </button>
+      </div>
+      <div class="col-lg-12">
+        <div class="car"  id="add_data">
+          <div class="card-body btop"> 
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
-              <i class="mdi mdi-account-plus"></i> Add &nbsp;
-            </button>
+              <i class="mdi mdi-account-plus"></i> Add Carousel &nbsp;
+            </button>           
           </div>
         </div>
         <div class="card">
           <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" id="tbl_data">
               <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
@@ -258,6 +169,43 @@
                                 </button>
                               </td>";   
                       echo "</tr>";                     
+                      $no++;
+                    }  
+                  ?>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive" id="tbl_title">
+              <table id="example2" class="table table-striped table-bordered" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th width="1%">No</th>
+                    <th>Title Name</th>    
+                    <th>Status</th>                   
+                    <th width="15%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                    $no = 1;
+                    foreach ($data_carousel as $row) {
+                      if($row->status_header == 0){
+                        $s_h = "Active";
+                      }else{
+                        $s_h = "Passive";
+                      }
+                      if(isset($row->header_title) !="" || !empty($row->header_title) && isset($row->status_header) == 0){
+                        echo "<tr>";
+                          echo "<td align=\"center\">".$no."</td>";
+                          echo "<td align=\"\">".$row->header_title."</td>";
+                          echo "<td align=\"center\">".$s_h."</td>";
+                          echo "<td align=\"center\">
+                                  <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd2('".$row->id."','".$row->header_title."','".$row->status_header."');\">
+                                      <i class=\"mdi mdi-table-edit icn\"></i>
+                                  </button>
+                                </td>";   
+                        echo "</tr>";  
+                      }                   
                       $no++;
                     }  
                   ?>
@@ -360,6 +308,43 @@
   </div>
 </div>
 
+<div class="modal fade" id="mdl_edit2">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <form method="post" action="<?php echo base_url(); ?>Home/update_carousel2" id="frm_group_edit" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h4 class="modal-title">Update Header Carousel</h4>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <input type="hidden" class="form-control" name="code" id="code2">
+            <input type="text" class="form-control" name="header_title" id="header_title" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="custom-controls-stacked">
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="0" id="0">
+                <span class="custom-control-label">Active</span>
+              </label>
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="1" id="1">
+                <span class="custom-control-label">Passive</span>
+              </label>             
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
+          <input type="button" class="btn btn-danger edit-btn" id="close_edit" value="Cancel" name="close">        
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="mdl_img">
   <div class="modal-dialog">
@@ -376,3 +361,166 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">  
+  $(document).ready(function() {
+    $("#tbl_title").css("display","none");
+    $("#show_data").show();
+    // $("#add_data").hide();
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions1' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    $('#close').on('click', function() {    
+      window.location.reload()   
+    });
+    $('#close_edit').on('click', function() {   
+      window.location.reload()
+    });  
+    $('#close_admin').on('click', function() {   
+      window.location.reload()
+    });  
+    $(".modal").on("hidden.bs.modal", function() {      
+      window.location.reload()
+    });
+
+    $("#update_title").on('click', function() {     
+      $("#tbl_title").css("display","block");
+      $("#tbl_data").css("display","none");
+      $("#add_data").hide();
+    });
+
+    $("#show_data").on('click', function() {    
+      $("#tbl_data").show(); 
+      $("#show_data").show();
+      $("#add_data").show();
+    });
+  });
+
+  function upd(code,title,file,status){
+    $("#code").val(code);
+    $("#title").val(title);
+    $("#file_edit").val(file);    
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'carousel'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);        
+        // var desc = description;
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+      }
+    });
+
+    var status='#'+status;
+    $(status).prop("checked", true);
+    $('#mdl_edit').modal('show');    
+  }
+
+  function upd2(code,header,status){
+    $("#code2").val(code);
+    $("#header_title").val(header);  
+
+    var status='#'+status;
+    $(status).prop("checked", true);
+    $('#mdl_edit2').modal('show');    
+  }
+  
+  function del(code){
+    var code = code;
+    if (confirm("Do you want to delete this data?")) {
+      $.ajax({
+        url: "<?php echo base_url()?>Home/delete_carousel",
+        type: 'post',
+        data: {'code' : code},
+        success: function (data) {
+        //   console.log(data);
+          if(data === "OK"){
+            swal({
+                title: "Delete Success",
+                text: "Delete Data Successfully.",
+                icon: "success",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Carousel";
+            });
+          }else{
+            swal({
+                title: "Delete Failed",
+                text: "Delete Data Failed.",
+                icon: "error",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Carousel";
+            });
+          }
+        },
+        error: function () {
+          alert("Data Failed to be Deleted.");
+        }
+      });
+    }else{
+      alert(code + " Data Failed to be Deleted.");
+    }
+  } 
+  
+  function del2(code){
+    var code = code;
+    if (confirm("Do you want to delete this data?")) {
+      $.ajax({
+        url: "<?php echo base_url()?>Home/delete_carousel2",
+        type: 'post',
+        data: {'code' : code},
+        success: function (data) {
+        //   console.log(data);
+          if(data === "OK"){
+            swal({
+                title: "Delete Success",
+                text: "Delete Data Successfully.",
+                icon: "success",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Carousel";
+            });
+          }else{
+            swal({
+                title: "Delete Failed",
+                text: "Delete Data Failed.",
+                icon: "error",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Carousel";
+            });
+          }
+        },
+        error: function () {
+          alert("Data Failed to be Deleted.");
+        }
+      });
+    }else{
+      alert(code + " Data Failed to be Deleted.");
+    }
+  } 
+
+  function show_image(file){
+    var folder = "./assets/images/upload/carousel/";
+    var pic = "."+folder+""+file;
+    var img = $('<img />', {src : pic});
+    img.appendTo('#get_image');
+    $("#mdl_img").modal('show');
+  }
+</script>

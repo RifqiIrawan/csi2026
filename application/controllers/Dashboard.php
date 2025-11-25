@@ -36,7 +36,8 @@ class Dashboard extends CI_Controller {
     
     $data["data_footer"] = "./Website/assets/img/ftr.jpg";    
     // print_r($data["data_event"]);die();
-    $this->load->view('dashboard',$data);
+    // $this->load->view('dashboard',$data);
+    $this->template->load('dashboard/role','dashboard',$data);
 	}
 
   public function Login(){   

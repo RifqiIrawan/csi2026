@@ -184,6 +184,36 @@ class Info extends CI_Controller {
         echo "Failed";
       }   
     }
+
+    public function update_information2(){
+      $code = $this->input->post("code");
+      $title = $this->input->post("header_title");
+      $status = $this->input->post("status");  
+      $insert = $this->db->query(" UPDATE information SET header_title = '".$title."',status_header = '".$status."'
+                                      WHERE id = '".$code."'
+                                  ");
+      if($insert == true){
+        $this->session->set_flashdata('update', 'Update Data Successfully.');
+        redirect('Info/Form_Visitor_Information');         
+      }
+      else{
+        $this->session->set_flashdata('not_update', 'Update Data Failed.');
+        redirect('Info/Form_Visitor_Information');
+      } 
+    }
+
+    public function delete_information2(){
+      $code = $this->input->post("code");
+      $this->db->query(" UPDATE information SET status_header = '1'
+                            WHERE id = '".$code."'
+                        ");
+      if ($this->db->affected_rows()) {
+        echo "OK";
+      }
+      else{
+        echo "Failed";
+      }   
+    }
   
 
   // for Hotel_Booking (download file)
