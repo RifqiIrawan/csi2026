@@ -95,293 +95,6 @@
 </style>
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/vendors/ckeditor/ckeditor.js"></script>
-<script type="text/javascript">  
-  $(document).ready(function() {
-    CKEDITOR.replace( 'descriptions' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
-
-    CKEDITOR.replace( 'descriptions_edit' , {
-      customConfig : '/custom/ckeditor_config.js'
-    });
-
-    $('#close').on('click', function() {    
-      window.location.reload()   
-    });
-    $('#close_edit').on('click', function() {   
-      window.location.reload()
-    });  
-    $('#close_admin').on('click', function() {   
-      window.location.reload()
-    });  
-  });
-
-  function upd(id,code,title1,title2,status){
-    $("#code").val(code);
-    $("#title1").val(title1);
-    $("#title2").val(title2);
-
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text2",
-      type: 'post',
-      data: {'code' : code,'text':'information_detail'},
-      success: function (data) {
-        // console.log(data);
-        var jsn = JSON.parse(data);
-        for(i=0; i < jsn.length; i++){
-          if(i == 0){
-            var hr = "";
-          }else{
-            var hr = "<hr>";
-          }
-          var html = "<tr>"
-                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg\"  class=\"form-control\" value=\""+jsn[i].kategori+"\">"
-                            +"<input type=\"text\" name=\"logo[]\" class=\"form-control\" value=\""+jsn[i].icon+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
-                      +"</td>"
-                    +"</tr>"
-                    +"<tr>"
-                      +"<td><input type=\"text\" name=\"name[]\" class=\"form-control\" value=\""+jsn[i].text+"\" style=\"text-transform:capitalize\"></td>"
-                    +"</tr>";          
-          $("#add_input_edit").append(html);
-        }
-      }
-    });
-
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text2",
-      type: 'post',
-      data: {'code' : code,'text':'information_hours'},
-      success: function (data) {
-        // console.log(data);
-        var jsn = JSON.parse(data);
-        for(i=0; i < jsn.length; i++){
-          if(i == 0){
-            var hr = "";
-          }else{
-            var hr = "<hr>";
-          }
-          var html = "<tr>"
-                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg2\" class=\"form-control\" value=\""+jsn[i].kategori+"\">"
-                            +"<input type=\"text\" name=\"time[]\" class=\"form-control\" value=\""+jsn[i].times+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
-                      +"</td>"
-                    +"</tr>"
-                    +"<tr>"
-                      +"<td><input type=\"text\" name=\"date[]\" class=\"form-control\" value=\""+jsn[i].date_text+"\" style=\"text-transform:capitalize\"></td>"
-                    +"</tr>";          
-          $("#add_input2_edit").append(html);
-        }
-      }
-    });
-
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text",
-      type: 'post',
-      data: {'code' : id,'text':'information'},
-      success: function (data) {
-        console.log(data);
-        var jsn = JSON.parse(data);
-        $("#url").val(jsn.link_maps);
-        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
-      }
-    });
-     
-    var status='#'+status;    
-    $(status).prop("checked", true);
-    $('#mdl_edit').modal('show');    
-  }
-  
-  function del(code){
-    var code = code;
-    if (confirm("Do you want delete this data?")) {
-      $.ajax({
-        url: "<?php echo base_url()?>Info/delete_information",
-        type: 'post',
-        data: {'code' : code},
-        success: function (data) {
-          console.log(data);
-          if(data === "OK"){
-            swal({
-                title: "Delete Success",
-                text: "Delete data successfully",
-                icon: "success",
-                timer: 3000,
-                button: true
-            }).then(function() {
-              window.location = "Form_Visitor_Information";
-            });
-          }else{
-            swal({
-                title: "Delete Failed",
-                text: "Delete data not successfully",
-                icon: "error",
-                timer: 3000,
-                button: true
-            }).then(function() {
-              window.location = "Form_Visitor_Information";
-            });
-          }
-        },
-        error: function () {
-          alert('Data tidak berhasil dihapus');
-        }
-      });
-    }else{
-      alert(code + " tidak berhasil dihapus");
-    }
-  }
-
-  function add_input(){
-    var text = "<tr>"
-                    +"<td>"
-                        +"<hr><input type=\"text\" class=\"form-control\" name=\"logo[]\" placeholder=\"Entry Text Icon/Logo\" style=\"margin-bottom:10px;\" required>"
-                        +"<input type=\"text\" class=\"form-control\" name=\"name[]\" placeholder=\"Entry Name/Description\" style=\"text-transform:capitalize\" required>"
-                    +"</td>"
-                +"</tr>";
-    $("#add_input").append(text);
-  }
-
-  function add_input2(){
-    var text = "<tr>"
-                  +"<td>"
-                    +"<hr><input type=\"text\" class=\"form-control\" name=\"time[]\" placeholder=\"Entry Exhibition Times/Hours\" style=\"margin-bottom:10px;\" required>"
-                    +"<input type=\"text\" class=\"form-control\" name=\"date[]\" placeholder=\"Entry Exhibition Date\" required>"
-                  +"</td>"
-                +"</tr>";
-    $("#add_input2").append(text);
-  }  
-
-  function add_input_edit(){
-    var text = "<tr>"
-                    +"<td>"
-                        +"<hr><input type=\"text\" class=\"form-control\" name=\"logo[]\" placeholder=\"Entry Text Icon/Logo\" style=\"margin-bottom:10px;\" required>"
-                        +"<input type=\"text\" class=\"form-control\" name=\"name[]\" placeholder=\"Entry Name/Description\" style=\"text-transform:capitalize\" required>"
-                    +"</td>"
-                +"</tr>";
-    $("#add_input_edit").append(text);
-  }
-
-  function add_input2_edit(){
-    var text = "<tr>"
-                  +"<td>"
-                    +"<hr><input type=\"text\" class=\"form-control\" name=\"time[]\" placeholder=\"Entry Exhibition Times/Hours\" style=\"margin-bottom:10px;\" required>"
-                    +"<input type=\"text\" class=\"form-control\" name=\"date[]\" placeholder=\"Entry Exhibition Date\" required>"
-                  +"</td>"
-                +"</tr>";
-    $("#add_input2_edit").append(text);
-  }  
-
-  function show_list(code){
-    $.ajax({
-      url: "<?php echo base_url()?>attention/show_list",
-      type: 'post',
-      data: {'code' : code},
-      success: function (data) {
-        console.log(data);
-        var jsn = JSON.parse(data);
-        var text = "";
-        var x = 1;
-        for(i=0;i<jsn.length;i++){          
-          var text = "<p style=\"vertical-align: top;white-space: pre-wrap;\">"+x+". "+capitalize(jsn[i].name)+"</p>";
-          $("#get_list").append(text);
-          x++;
-        }
-        $("#mdl_show_list").modal('show');          
-      }
-    });
-  }
-
-  function show_image(folder){
-    var pic = '<?php echo base_url()?>' + folder;
-    $.ajax({
-      url: "<?php echo base_url()?>attention/loc_folder",
-      type: 'post',
-      data: {'folder' : folder},
-      success: function (data) {
-        var jsn = JSON.parse(data);
-        for(i=0;i<jsn.length;i++){          
-          console.log(pic+""+jsn[i].image);
-          var dir = pic+""+jsn[i].image;
-          var img = $('<img />', {src : dir}).css("width","-webkit-fill-available","height","150px","text-align","center");
-          img.appendTo('#get_image');
-        }
-        $("#mdl_show_image").modal('show');          
-      }
-    });    
-  }
-
-  function capitalize(str) {
-    strVal = '';
-    str = str.split(' ');
-    for (var chr = 0; chr < str.length; chr++) {
-        strVal += str[chr].substring(0, 1).toUpperCase() + str[chr].substring(1, str[chr].length) + ' '
-    }
-    return strVal
-  }
-
-  function text1(code){
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text",
-      type: 'post',
-      data: {'code' : code,'text':'information'},
-      success: function (data) {
-        var jsn = JSON.parse(data);
-        // console.log(jsn);               
-        $("#get_text1").html(jsn.description);
-      }
-    });
-    $('#mdl_text1').modal('show'); 
-  }
-
-  function dtl1(code,title){
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text2",
-      type: 'post',
-      data: {'code' : code,'text': 'information_detail'},
-      success: function (data) {
-        var jsn = JSON.parse(data);
-        console.log(jsn);    
-        var i;
-        var html = "";
-        var n = 1;
-        for(i=0;i<jsn.length;i++){
-          var html = "<p style=\"margin-top: 5px;\">"+n+". "
-                    +"<span><i class=\"bi bi-"+jsn[i].icon+" ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
-                      +"<span style=\"margin-left:10px;\">"+jsn[i].text+"</span>"
-                  +"</p>";
-          $("#get_dtl1").append(html);
-          n++;
-        }        
-        $("#get_title1").html(title);
-      }
-    });
-    $('#mdl_dtl1').modal('show'); 
-  }
-
-  function dtl2(code,title){
-    $.ajax({
-      url: "<?php echo base_url()?>Home/search_text2",
-      type: 'post',
-      data: {'code' : code,'text':'information_hours'},
-      success: function (data) {
-        var jsn = JSON.parse(data);
-        // console.log(jsn);    
-        var i;
-        var html = "";
-        var n = 1;
-        for(i=0;i<jsn.length;i++){
-          var html = "<p style=\"margin-top: 5px;\">"+n+". "                   
-                      +"<span><i class=\"bi bi-clock ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
-                      +"<span style=\"margin-left:10px;\">"+jsn[i].date_text+"</span>"
-                  +"</p>";
-          $("#get_dtl2").append(html);
-          n++;
-        }        
-        $("#get_title2").html(title);
-      }
-    });
-    $('#mdl_dtl2').modal('show'); 
-  }
-</script>
 
 <style>
   .btn-float {
@@ -417,7 +130,15 @@
   </div>
     <div class="row ">
       <div class="col-lg-12">
-        <div class="car">
+        <button type="button" class="btn btn-info btn-lg" id="show_data" >
+          <i class="mdi mdi-format-list-bulleted"></i> Show Data &nbsp;
+        </button>
+        <button type="button" class="btn btn-success btn-lg" id="update_title" >
+          <i class="mdi mdi-repeat"></i> Update Header &nbsp;
+        </button>
+      </div>
+      <div class="col-lg-12">
+        <div class="car" id="add_data">
             <div class="card-body btop">                    
               <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#mdl" >
                 <i class="mdi mdi-account-plus"></i> Add &nbsp;
@@ -426,7 +147,7 @@
         </div>
         <div class="card">
           <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" id="tbl_data">
               <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                   <tr>
@@ -472,6 +193,43 @@
                       $no++;
                     }  
                   ?>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-responsive" id="tbl_title">
+              <table id="example2" class="table table-striped table-bordered" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th width="1%">No</th>
+                    <th>Title Name</th>    
+                    <th>Status</th>                   
+                    <th width="15%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php 
+                  $no = 1;
+                  foreach ($data_information as $row) {
+                    if($row->status_header == 0){
+                      $s_h = "Active";
+                    }else{
+                      $s_h = "Passive";
+                    }
+                    if(isset($row->header_title) !="" || !empty($row->header_title) && isset($row->status_header) == 0){
+                      echo "<tr>";
+                        echo "<td align=\"center\">".$no."</td>";
+                        echo "<td align=\"\">".$row->header_title."</td>";
+                        echo "<td align=\"center\">".$s_h."</td>";
+                        echo "<td align=\"center\">
+                                <button type=\"button\" class=\"btn btn-edit-icn bw\"  title=\"Update\" onclick=\"upd2('".$row->id."','".$row->header_title."','".$row->status_header."');\">
+                                    <i class=\"mdi mdi-table-edit icn\"></i>
+                                </button>                               
+                              </td>";   
+                      echo "</tr>";  
+                    }                   
+                    $no++;
+                  }  
+                ?>
                 </tbody>
               </table>
             </div>
@@ -628,6 +386,44 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="mdl_edit2">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <form method="post" action="<?php echo base_url(); ?>Info/update_information2" id="frm_group_edit" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h4 class="modal-title">Update Header Visitor Information</h4>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Title</label>
+            <input type="hidden" class="form-control" name="code" id="code2">
+            <input type="text" class="form-control" name="header_title" id="header_title" required>
+          </div>  
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <div class="custom-controls-stacked">
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="0" id="0">
+                <span class="custom-control-label">Active</span>
+              </label>
+              <label class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" name="status" value="1" id="1">
+                <span class="custom-control-label">Passive</span>
+              </label>             
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-primary edit-btn"  value="Submit" name="Ubah"> 
+          <input type="button" class="btn btn-danger edit-btn" id="close_edit" value="Cancel" name="close">        
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- <div class="modal fade" id="mdl_show_image">
   <div class="modal-dialog ">
     <div class="modal-content">
@@ -709,3 +505,355 @@
     </div>
   </div>
 </div>
+
+
+<script type="text/javascript">  
+  $(document).ready(function() {
+    $("#tbl_title").css("display","none");
+    $("#show_data").show();
+    CKEDITOR.replace( 'descriptions' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    CKEDITOR.replace( 'descriptions_edit' , {
+      customConfig : '/custom/ckeditor_config.js'
+    });
+
+    $('#close').on('click', function() {    
+      window.location.reload()   
+    });
+    $('#close_edit').on('click', function() {   
+      window.location.reload()
+    });  
+    $('#close_admin').on('click', function() {   
+      window.location.reload()
+    });  
+
+    $("#update_title").on('click', function() {     
+      $("#tbl_title").css("display","block");
+      $("#tbl_data").css("display","none");
+      $("#add_data").hide();
+    });
+
+    $("#show_data").on('click', function() {    
+      $("#tbl_data").show(); 
+      $("#show_data").show();
+      $("#add_data").show();
+    });
+  });
+
+  function upd(id,code,title1,title2,status){
+    $("#code").val(code);
+    $("#title1").val(title1);
+    $("#title2").val(title2);
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_detail'},
+      success: function (data) {
+        // console.log(data);
+        var jsn = JSON.parse(data);
+        for(i=0; i < jsn.length; i++){
+          if(i == 0){
+            var hr = "";
+          }else{
+            var hr = "<hr>";
+          }
+          var html = "<tr>"
+                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg\"  class=\"form-control\" value=\""+jsn[i].kategori+"\">"
+                            +"<input type=\"text\" name=\"logo[]\" class=\"form-control\" value=\""+jsn[i].icon+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
+                      +"</td>"
+                    +"</tr>"
+                    +"<tr>"
+                      +"<td><input type=\"text\" name=\"name[]\" class=\"form-control\" value=\""+jsn[i].text+"\" style=\"text-transform:capitalize\"></td>"
+                    +"</tr>";          
+          $("#add_input_edit").append(html);
+        }
+      }
+    });
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_hours'},
+      success: function (data) {
+        // console.log(data);
+        var jsn = JSON.parse(data);
+        for(i=0; i < jsn.length; i++){
+          if(i == 0){
+            var hr = "";
+          }else{
+            var hr = "<hr>";
+          }
+          var html = "<tr>"
+                      +"<td>"+hr+"<input type=\"hidden\" name=\"ktg2\" class=\"form-control\" value=\""+jsn[i].kategori+"\">"
+                            +"<input type=\"text\" name=\"time[]\" class=\"form-control\" value=\""+jsn[i].times+"\" style=\"text-transform:capitalize;margin-bottom:5px\">"
+                      +"</td>"
+                    +"</tr>"
+                    +"<tr>"
+                      +"<td><input type=\"text\" name=\"date[]\" class=\"form-control\" value=\""+jsn[i].date_text+"\" style=\"text-transform:capitalize\"></td>"
+                    +"</tr>";          
+          $("#add_input2_edit").append(html);
+        }
+      }
+    });
+
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : id,'text':'information'},
+      success: function (data) {
+        console.log(data);
+        var jsn = JSON.parse(data);
+        $("#url").val(jsn.link_maps);
+        CKEDITOR.instances.descriptions_edit.setData(jsn.description);
+      }
+    });
+     
+    var status='#'+status;    
+    $(status).prop("checked", true);
+    $('#mdl_edit').modal('show');    
+  }
+
+  function upd2(code,header,status){
+    $("#code2").val(code);
+    $("#header_title").val(header);  
+
+    var status='#'+status;
+    $(status).prop("checked", true);
+    $('#mdl_edit2').modal('show');    
+  }
+  
+  function del(code){
+    var code = code;
+    if (confirm("Do you want delete this data?")) {
+      $.ajax({
+        url: "<?php echo base_url()?>Info/delete_information",
+        type: 'post',
+        data: {'code' : code},
+        success: function (data) {
+          console.log(data);
+          if(data === "OK"){
+            swal({
+                title: "Delete Success",
+                text: "Delete data successfully",
+                icon: "success",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Form_Visitor_Information";
+            });
+          }else{
+            swal({
+                title: "Delete Failed",
+                text: "Delete data not successfully",
+                icon: "error",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Form_Visitor_Information";
+            });
+          }
+        },
+        error: function () {
+          alert('Data tidak berhasil dihapus');
+        }
+      });
+    }else{
+      alert(code + " tidak berhasil dihapus");
+    }
+  }
+
+  function del2(code){
+    var code = code;
+    if (confirm("Do you want to delete this data?")) {
+      $.ajax({
+        url: "<?php echo base_url()?>Info/delete_information2",
+        type: 'post',
+        data: {'code' : code},
+        success: function (data) {
+        //   console.log(data);
+          if(data === "OK"){
+            swal({
+                title: "Delete Success",
+                text: "Delete Data Successfully.",
+                icon: "success",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Form_Visitor_Information";
+            });
+          }else{
+            swal({
+                title: "Delete Failed",
+                text: "Delete Data Failed.",
+                icon: "error",
+                timer: 3000,
+                button: true
+            }).then(function() {
+              window.location = "Form_Visitor_Information";
+            });
+          }
+        },
+        error: function () {
+          alert("Data Failed to be Deleted.");
+        }
+      });
+    }else{
+      alert(code + " Data Failed to be Deleted.");
+    }
+  } 
+
+  function add_input(){
+    var text = "<tr>"
+                    +"<td>"
+                        +"<hr><input type=\"text\" class=\"form-control\" name=\"logo[]\" placeholder=\"Entry Text Icon/Logo\" style=\"margin-bottom:10px;\" required>"
+                        +"<input type=\"text\" class=\"form-control\" name=\"name[]\" placeholder=\"Entry Name/Description\" style=\"text-transform:capitalize\" required>"
+                    +"</td>"
+                +"</tr>";
+    $("#add_input").append(text);
+  }
+
+  function add_input2(){
+    var text = "<tr>"
+                  +"<td>"
+                    +"<hr><input type=\"text\" class=\"form-control\" name=\"time[]\" placeholder=\"Entry Exhibition Times/Hours\" style=\"margin-bottom:10px;\" required>"
+                    +"<input type=\"text\" class=\"form-control\" name=\"date[]\" placeholder=\"Entry Exhibition Date\" required>"
+                  +"</td>"
+                +"</tr>";
+    $("#add_input2").append(text);
+  }  
+
+  function add_input_edit(){
+    var text = "<tr>"
+                    +"<td>"
+                        +"<hr><input type=\"text\" class=\"form-control\" name=\"logo[]\" placeholder=\"Entry Text Icon/Logo\" style=\"margin-bottom:10px;\" required>"
+                        +"<input type=\"text\" class=\"form-control\" name=\"name[]\" placeholder=\"Entry Name/Description\" style=\"text-transform:capitalize\" required>"
+                    +"</td>"
+                +"</tr>";
+    $("#add_input_edit").append(text);
+  }
+
+  function add_input2_edit(){
+    var text = "<tr>"
+                  +"<td>"
+                    +"<hr><input type=\"text\" class=\"form-control\" name=\"time[]\" placeholder=\"Entry Exhibition Times/Hours\" style=\"margin-bottom:10px;\" required>"
+                    +"<input type=\"text\" class=\"form-control\" name=\"date[]\" placeholder=\"Entry Exhibition Date\" required>"
+                  +"</td>"
+                +"</tr>";
+    $("#add_input2_edit").append(text);
+  }  
+
+  function show_list(code){
+    $.ajax({
+      url: "<?php echo base_url()?>attention/show_list",
+      type: 'post',
+      data: {'code' : code},
+      success: function (data) {
+        console.log(data);
+        var jsn = JSON.parse(data);
+        var text = "";
+        var x = 1;
+        for(i=0;i<jsn.length;i++){          
+          var text = "<p style=\"vertical-align: top;white-space: pre-wrap;\">"+x+". "+capitalize(jsn[i].name)+"</p>";
+          $("#get_list").append(text);
+          x++;
+        }
+        $("#mdl_show_list").modal('show');          
+      }
+    });
+  }
+
+  function show_image(folder){
+    var pic = '<?php echo base_url()?>' + folder;
+    $.ajax({
+      url: "<?php echo base_url()?>attention/loc_folder",
+      type: 'post',
+      data: {'folder' : folder},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        for(i=0;i<jsn.length;i++){          
+          console.log(pic+""+jsn[i].image);
+          var dir = pic+""+jsn[i].image;
+          var img = $('<img />', {src : dir}).css("width","-webkit-fill-available","height","150px","text-align","center");
+          img.appendTo('#get_image');
+        }
+        $("#mdl_show_image").modal('show');          
+      }
+    });    
+  }
+
+  function capitalize(str) {
+    strVal = '';
+    str = str.split(' ');
+    for (var chr = 0; chr < str.length; chr++) {
+        strVal += str[chr].substring(0, 1).toUpperCase() + str[chr].substring(1, str[chr].length) + ' '
+    }
+    return strVal
+  }
+
+  function text1(code){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text",
+      type: 'post',
+      data: {'code' : code,'text':'information'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);               
+        $("#get_text1").html(jsn.description);
+      }
+    });
+    $('#mdl_text1').modal('show'); 
+  }
+
+  function dtl1(code,title){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text': 'information_detail'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        console.log(jsn);    
+        var i;
+        var html = "";
+        var n = 1;
+        for(i=0;i<jsn.length;i++){
+          var html = "<p style=\"margin-top: 5px;\">"+n+". "
+                    +"<span><i class=\"bi bi-"+jsn[i].icon+" ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
+                      +"<span style=\"margin-left:10px;\">"+jsn[i].text+"</span>"
+                  +"</p>";
+          $("#get_dtl1").append(html);
+          n++;
+        }        
+        $("#get_title1").html(title);
+      }
+    });
+    $('#mdl_dtl1').modal('show'); 
+  }
+
+  function dtl2(code,title){
+    $.ajax({
+      url: "<?php echo base_url()?>Home/search_text2",
+      type: 'post',
+      data: {'code' : code,'text':'information_hours'},
+      success: function (data) {
+        var jsn = JSON.parse(data);
+        // console.log(jsn);    
+        var i;
+        var html = "";
+        var n = 1;
+        for(i=0;i<jsn.length;i++){
+          var html = "<p style=\"margin-top: 5px;\">"+n+". "                   
+                      +"<span><i class=\"bi bi-clock ml-2\" style=\"color:#20B2AA;-webkit-text-stroke: 1px currentColor;\"></i></span>"
+                      +"<span style=\"margin-left:10px;\">"+jsn[i].date_text+"</span>"
+                  +"</p>";
+          $("#get_dtl2").append(html);
+          n++;
+        }        
+        $("#get_title2").html(title);
+      }
+    });
+    $('#mdl_dtl2').modal('show'); 
+  }
+</script>

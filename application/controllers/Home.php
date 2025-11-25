@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+error_reporting(0);
 class Home extends CI_Controller {
 
   public function __construct()
@@ -1603,6 +1603,36 @@ public function delete_sub_menu(){
     $code = $this->input->post("code");
     $cek_data = $this->M_Home->delete_carousel($code);
     if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+
+  public function update_carousel2(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("header_title");
+    $status = $this->input->post("status");  
+    $insert = $this->db->query(" UPDATE carousel SET header_title = '".$title."',status_header = '".$status."'
+                                    WHERE id = '".$code."'
+                                ");
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Carousel');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Carousel');
+    } 
+  }
+
+  public function delete_carousel2(){
+    $code = $this->input->post("code");
+    $del == $this->db->query(" UPDATE carousel SET status_header = '1'
+                            WHERE id = '".$code."'
+                        ");
+    if($del == true){
       echo "OK";
     }
     else{

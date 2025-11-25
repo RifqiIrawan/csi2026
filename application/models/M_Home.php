@@ -531,6 +531,13 @@ class M_Home extends CI_Model
                       ");
     return $update;
   }
+
+  // function update_carousel2($code,$title,$status){
+  //   $update = $this->db->query(" UPDATE carousel SET header_title = '".$title."',status_header = '".$status."'
+  //                                 WHERE id = '".$code."'
+  //                     ");
+  //   return $update;
+  // }
   
   function delete_carousel($code){
     $delete = $this->db->query(" DELETE FROM carousel WHERE id = '".$code."'
