@@ -482,7 +482,7 @@
 .hero-text {
   display: block;
   margin-bottom: 15px;
-  font-weight: 400;
+  font-weight: 600; /* bold */
   line-height: 1.75;
   letter-spacing: normal;
   word-break: break-word;
