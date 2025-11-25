@@ -272,7 +272,7 @@
 
         <section id="show-features" class="py-5 bg-light">
             <div class="container">
-                <h2 class="text-center mb-5 fw-bold">Show Features</h2>
+                <h2 class="text-center mb-5 fw-bold"><?= $title_show_features; ?></h2>
 
                 <div class="modern-carousel">
                     <div class="carousel-track" id="carouselTrack">

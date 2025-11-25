@@ -184,6 +184,12 @@ class Visiting extends CI_Controller {
             case "conference-highlight-update":
                 $this->conference_highlight_update();
                 break;
+            case "conference-title-highlight":
+                $this->conference_title_highlight();
+                break;
+            case "conference-title-highlight-update":
+                $this->conference_title_highlight_update();
+                break;
             /* Part Post Show Report */
             case "post-show-report-settings":
                 $this->post_show_report_settings();
@@ -363,11 +369,14 @@ class Visiting extends CI_Controller {
 
     $data['show_features'] = $dataShowHighlights;
 
-    
-    // echo "<pre>";
-    // print_r($dataShowHighlights);
-    // echo "</pre>";
-    // die();
+    $dataTitleHighlights = $this->M_Exhibiting->get_contents([
+        'menu_id' => 11,
+        'content_year' => 2026,
+        'content_type' => 'header'
+    ]);
+
+    $data['title_show_features'] = !empty($dataTitleHighlights) ? $dataTitleHighlights[0]['title'] : 'CONFERENCE HIGHLIGHTS';
+
     $data["data_menu"] = $this->M_Login->get_menu();
     $data["data_event"] = $this->M_Login->get_event()->row();
     $data["data_product"] = $this->M_Login->get_product();
@@ -399,7 +408,7 @@ class Visiting extends CI_Controller {
     $data = [];
     $this->template->load('Admin/roleme','module/settings/visiting/why_visit',$data);
   }
-
+  
   public function why_visit_banner_get_data($id){
 
     $IDBanner = (int) $id;
@@ -1677,5 +1686,54 @@ class Visiting extends CI_Controller {
             'message' => 'Show Feature successfully deleted.'
         ]);
     }
+    
+    public function conference_title_highlight(){
+        $titleHeader = $this->M_Exhibiting->fetchData(
+            'csi_contents',
+            ['menu_id' => 11, 'content_year' => 2026, 'content_type' => 'header'],
+            [],
+            'id, menu_id, content_year, content_type, title',
+            ['id' => 'DESC']
+        )->row_array();
 
+        if ($titleHeader) {
+            $response = [
+                'status' => true,
+                'data' => $titleHeader
+            ];
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'Banner not found'
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
+    }
+
+    public function conference_title_highlight_update(){
+        
+        $titlehighlightid = $this->input->post('titlehighlightid');
+        $inputtitlehighlight  = $this->input->post('inputtitlehighlight');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $data = [
+            'title'         => $inputtitlehighlight,
+            'modified_date' => $modified_date,
+            'modified_by'   => $modified_by
+        ];
+
+        // Update DB
+        $this->db->where('id', $titlehighlightid);
+        $this->db->update('csi_contents', $data);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Banner successfully updated.'
+        ]);
+    }
 }

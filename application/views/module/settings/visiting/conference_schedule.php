@@ -238,7 +238,16 @@
     margin-left: 10px;
   }
 </style>
-
+<style>
+    .config-header {
+        color: #0d6efd;           /* warna primary Bootstrap */
+        font-weight: 600;         /* sedikit tebal */
+        border-left: 4px solid #0d6efd;
+        padding-left: 10px;       /* jarak dari border */
+        text-transform: uppercase; /* opsional */
+        letter-spacing: .5px;      /* opsional */
+    }
+</style>
 </head>
 <body>
 
@@ -256,7 +265,10 @@
           <i class="fa fa-list"></i> Banner
         </a>
         <a class="nav-link" id="tab-showhighlights" data-bs-toggle="tab" href="#showhighlights" role="tab">
-          <i class="fa fa-tags"></i> Highlights
+          <i class="fa fa-star"></i> Highlights
+        </a>
+        <a class="nav-link" id="tab-titlehighlights" data-bs-toggle="tab" href="#titlehighlights" role="tab">
+          <i class="fa fa-heading"></i> Title Highlights
         </a>
       </li>
     </ul>
@@ -461,6 +473,30 @@
             </div>
           </div>
         </div>
+
+        <div class="tab-pane fade" id="titlehighlights" role="tabpanel">
+          <!-- Edit Content Form -->
+          <div id="highlightTitleFormContainer" class="section1-form mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="config-header mb-3">Title Highlight</h5>
+
+                <form id="editformtitlehighlight" action="<?= base_url('visiting/conference-title-highlight-update') ?>" method="post" enctype="multipart/form-data">
+                  <!-- Hidden field for Banner ID -->
+                  <input type="hidden" name="titlehighlightid" id="titlehighlightid">
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="inputtitlehighlight" id="inputtitlehighlight" placeholder="Enter Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -489,43 +525,6 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
-<script>
-
-  let sectionEditorWhyVisit, visainformationEditor, edit_conferencesubtitle;
-
-  let add_conferencesubtitle = '';
-
-  // 2️⃣ Inisialisasi CKEditor
-  document.addEventListener('DOMContentLoaded', function () {
-    ClassicEditor
-      .create(document.querySelector('#editSection1Description_conference'))
-      .then(editor => {
-        sectionEditorWhyVisit = editor;
-        console.log('CKEditor ready');
-      })
-      .catch(error => console.error(error));
-    
-
-    // ClassicEditor
-    //   .create(document.querySelector('#editBannerWhyvisitsubtitle'))
-    //   .then(editor => {
-    //     edit_whyvisitsubtitle = editor;
-    //     console.log('CKEditor ready');
-    //   })
-    //   .catch(error => console.error(error));
-      
-    // ClassicEditor
-    //   .create(document.querySelector('#editVisaInformationDescription'))
-    //   .then(editor => {
-    //       visainformationEditor = editor;
-    //       console.log('Editor 2 ready');
-    //   })
-    //   .catch(error => console.error(error));
-  });
-
-</script>
-
 <script>
   $(document).ready(function () {
     const base_url = "<?= base_url(); ?>";
@@ -654,10 +653,6 @@
         $("#editSection1Year_conference").val(data.content_year);
         $("#editSection1Title_conference").val(data.title);
         $("#editSection1Description_conference").val(data.body_text || '');
-
-        if (sectionEditorWhyVisit) {
-          sectionEditorWhyVisit.setData(data.body_text || '');
-        }
 
         if (data.status === "active") {
           $("#editSection1Active_conference").prop("checked", true);
@@ -901,7 +896,7 @@
           $addHighlightBtn.fadeIn(300);
       });
 
-      $('#addformhighlight, #editformhighlight').on('submit', function(e){
+      $('#addformhighlight, #editformhighlight, #editformtitlehighlight').on('submit', function(e){
           e.preventDefault();
           var formData = new FormData(this);
           $.ajax({
@@ -935,15 +930,68 @@
       // ========================================
       // FIX DATATABLE WHEN SWITCH TABS
       // ========================================
+      /*
       $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
           history.replaceState(null, null, e.target.getAttribute('href'));
           setTimeout(function () {
               $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
           }, 150);
       });
+      */
+      $(document).ready(function () {
 
+        $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+            // Update URL (hash)
+            history.replaceState(null, null, e.target.getAttribute('href'));
+
+            // Adjust DataTables after animation
+            setTimeout(function () {
+                $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+            }, 150);
+
+            // Detect tab ID
+            var target = $(e.target).attr("id");
+
+            // Call AJAX when tab Title Highlights activated
+            if (target === "tab-titlehighlights") {
+                loadTitleHighlights();
+            }
+        });
+        // =========================
+        // Run on page reload/refresh
+        // =========================
+        let activeTab = $('#formTabs a.active').attr('id');
+
+        if (activeTab === "tab-titlehighlights") {
+            loadTitleHighlights();
+        }
+      });
   });
 </script>
+<script>
+  function loadTitleHighlights() {
+    $.ajax({
+        url: "<?= base_url('visiting/conference-title-highlight') ?>",
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () {
+            console.log("Loading Title Highlights...");
+        },
+        success: function (res) {
 
+            if (res.status === true) {
+                $("#titlehighlightid").val(res.data.id);
+                $("#inputtitlehighlight").val(res.data.title);
+            } else {
+                alert(res.message || "Data not found");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+  }
+</script>
 </body>
 </html>
