@@ -180,6 +180,9 @@ class Exhibiting extends CI_Controller {
             case "exhibitor-visa-settings":
                 $this->exhibitor_visa_settings();
                 break;
+            case "exhibitor-visa-banner-datatable":
+                echo $this->M_Exhibiting->exhibitor_visa_banner_datatable();
+                break;
             case "exhibitor-visa-datatable":
                 echo $this->M_Exhibiting->exhibitor_visa_datatable();
                 break;
@@ -1492,12 +1495,15 @@ class Exhibiting extends CI_Controller {
                 throw new Exception("ID tidak ditemukan.");
             }
 
-            $file_path = 'assets/uploads/exhibitor_visa/';
-
+            $file_path      = './assets/uploads/exhibitor_visa/';
+            $file_path_save = 'assets/uploads/exhibitor_visa/';
             $image_path = null;
+
+            // === Ambil data lama (untuk hapus gambar lama jika ada upload baru) ===
+            $oldMedia = $this->db->get_where('csi_content_media', ['content_id' => $id])->row();
             
             if (!empty($_FILES['image']['name'])) {
-                $config['upload_path']   = FCPATH . $file_path;
+                $config['upload_path']   = $file_path;
                 $config['allowed_types'] = 'jpg|jpeg|png|gif';
                 $config['max_size']      = 2048;
                 $config['encrypt_name']  = TRUE;
@@ -1510,7 +1516,12 @@ class Exhibiting extends CI_Controller {
                         unlink($uploadData['full_path']); // delete if oversized
                         $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
                     }
-                    $image_path = $file_path . $uploadData['file_name'];
+                    $image_path = $file_path_save . $uploadData['file_name'];
+
+                    // === Hapus file lama jika ada ===
+                    if (!empty($oldMedia->file_path) && file_exists('./' . $oldMedia->file_path)) {
+                        unlink(FCPATH . $oldMedia->file_path);
+                    }
                 }
             }
             

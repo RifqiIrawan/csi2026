@@ -938,6 +938,9 @@
   $('#editBannerWhyvisitForm').on('submit', function(e) {
     e.preventDefault();
 
+    // WAJIB: update textarea dengan data CKEditor 5
+    $('#editBannerWhyvisitsubtitle').val(edit_whyvisitsubtitle.getData());
+
     var formData = new FormData(this);
 
     $.ajax({

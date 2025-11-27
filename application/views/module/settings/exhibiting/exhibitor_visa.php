@@ -649,7 +649,7 @@
       processing: true,
       serverSide: true,
       ajax: {
-        url: base_url + "exhibiting/why-exhibit-datatable",
+        url: base_url + "exhibiting/exhibitor-visa-banner-datatable",
         type: "POST",
       },
       dataType: "json",

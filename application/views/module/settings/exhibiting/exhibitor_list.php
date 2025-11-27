@@ -947,6 +947,15 @@
 
       $('#addExhibitor1Form, #editExhibitor1Form').on('submit', function(e){
           e.preventDefault();
+
+          // --- Sync CKEditor ke textarea --- //
+          if ($(this).attr('id') === 'addExhibitor1Form') {
+              $('#description').val(addDescEditor.getData());
+          }
+          if ($(this).attr('id') === 'editExhibitor1Form') {
+              $('#editExDescription').val(editDescEditor.getData());
+          }
+          
           var formData = new FormData(this);
           $.ajax({
               url: $(this).attr('action'),
