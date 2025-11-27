@@ -295,46 +295,43 @@
             flex: 0 0 100%;
         }
     }
-    /* Here */
+    /* HERO SECTION WRAPPER */
     .hero-section {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    height: 350px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-        margin-top: 150px;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        height: 350px;
+        display: flex;
+        justify-content: flex-start; /* horizontal ke kiri */
+        align-items: center;         /* vertical tetap di tengah */
+        padding-left: 190px;  
+        margin-top: 150px;    
     }
 
     .hero-overlay {
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    /* background: rgba(0, 100, 0, 0.6); */
+    background: rgba(0, 100, 0, 0.6);
     }
 
     .hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
+        max-width: 900px;       /* biar teks tidak terlalu melebar */
+        color: #fff;            /* teks putih */
     }
 
-    .hero-btn {
-    display: inline-block;
-    padding: 12px 30px;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none !important;
-    transition: all 0.3s ease;
+    .hero-title {
+        font-size: 2rem;        /* lebih besar */
+        font-weight: 700;       /* bold */
+        margin: 0 0 10px;
+        color: white;
     }
 
-    .hero-btn:hover {
-    background: #fff;
-    color: #2e7d32;
+    .hero-text {
+        font-size: 1.2rem;
+        font-weight: 600;       /* semi-bold agar konsisten tebal */
+        line-height: 1.5;
+        margin: 0;
     }
 
 
@@ -480,15 +477,6 @@
     left: -36px;
 }
 
-.hero-text {
-  display: block;
-  margin-bottom: 15px;
-  font-weight: 600; /* bold */
-  line-height: 1.75;
-  letter-spacing: normal;
-  word-break: break-word;
-  color: #ffffff;
-}
 
 </style>
 
@@ -556,16 +544,16 @@
 
 <main class="main">
     <!-- HERO SECTION -->
+    <!-- HERO SECTION -->
     <section class="hero-section" style="background-image: url('<?= $hero['background']; ?>');">
-        <div class="hero-overlay"></div>
+        <!-- <div class="hero-overlay"></div> -->
             <div class="hero-content">
-                <a href="<?= $hero['button_link']; ?>" class="hero-btn">
-                    <?= $hero['button_text']; ?>
-                </a>
+                <h2 class="hero-title"><?= $hero['button_text']; ?></h2>
                 <p class="hero-text">
                     <?= $hero['button_subtext']; ?>
                 </p>
             </div>
+
     </section>
 
     <!-- FEATURES SECTION -->
