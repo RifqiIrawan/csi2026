@@ -28,6 +28,7 @@ Hero Section
   align-items: center;
   color: #fff;
   text-align: center;
+  margin-top: 150px;
 }
 
 .hero-content {

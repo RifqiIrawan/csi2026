@@ -26,6 +26,7 @@ section,
   padding: 20px 0;
   scroll-margin-top: 85px;
   overflow: clip;
+        margin-top: 150px;
 }
 
 .section-title h2 {

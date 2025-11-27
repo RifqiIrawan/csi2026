@@ -179,15 +179,23 @@
     }
     .header {
         color: #000;
-        background-color: #ffffff;
+        background-color: white;
         padding: 15px 0;
         transition: all 0.5s;
         z-index: 997;
         /* border-bottom: 1px solid gainsboro; */
+        position: fixed;
+        width: -webkit-fill-available;
     }
 
+    /* .header .logo img {
+      max-height: 45px;
+      margin-right: 8px;
+    } */
+
     .header .logo img {
-      width: 250px;
+      /* max-height: 105px !important; */
+      width: 100%;
       margin-right: 8px;
       max-width: 100%;
       max-height: 100%;

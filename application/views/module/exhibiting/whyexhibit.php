@@ -300,7 +300,8 @@
         display: flex;
         justify-content: flex-start; /* horizontal ke kiri */
         align-items: center;         /* vertical tetap di tengah */
-        padding-left: 190px;      
+        padding-left: 190px;  
+        margin-top: 150px;    
     }
 
     .hero-overlay {
