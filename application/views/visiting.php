@@ -304,6 +304,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+        margin-top: 150px;
     }
 
     .hero-overlay {
