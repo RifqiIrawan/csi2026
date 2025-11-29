@@ -215,7 +215,7 @@
                     }else{
                       $s_h = "Passive";
                     }
-                    if(isset($row->header_title) !="" || !empty($row->header_title) && isset($row->status_header) == 0){
+                    if($row->header_title !="" || !empty($row->header_title) && $row->status_header == 0){
                       echo "<tr>";
                         echo "<td align=\"center\">".$no."</td>";
                         echo "<td align=\"\">".$row->header_title."</td>";
@@ -539,6 +539,7 @@
       $("#tbl_data").show(); 
       $("#show_data").show();
       $("#add_data").show();
+      $("#tbl_title").css("display","none");
     });
   });
 
