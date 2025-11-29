@@ -264,6 +264,9 @@
         <a class="nav-link active" id="tab-conferences" data-bs-toggle="tab" href="#conferences" role="tab">
           <i class="fa fa-list me-1"></i> Conferences
         </a>
+        <a class="nav-link" id="tab-titleconferences" data-bs-toggle="tab" href="#titleconferences" role="tab">
+          <i class="fa fa-heading"></i> Title Conferences
+        </a>
         <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
           <i class="fa fa-list"></i> Banner
         </a>
@@ -278,7 +281,7 @@
     
     <div class="col-md-12">
       <div class="tab-content" id="formTabsContent">
-
+         <!-- TAB: Content Conference Schedule -->
         <div class="tab-pane fade show active" id="conferences" role="tabpanel">
           <button id="addConferenceBtn" class="btn btn-success mb-3">Add Conference</button>
           <!-- DataTable -->
@@ -405,7 +408,30 @@
 
         </div>
 
-        <!-- TAB: Content Conference Schedule -->
+        <div class="tab-pane fade" id="titleconferences" role="tabpanel">
+          <!-- Edit Content Form -->
+          <div id="highlightTitleFormContainer" class="section1-form mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="config-header mb-3">Title Conference</h5>
+
+                <form id="addformtitleconference" action="<?= base_url('visiting/conference-title-update') ?>" method="post">
+                  <!-- Hidden field for Banner ID -->
+                  <input type="hidden" name="titleconferenceid" id="titleconferenceid">
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="inputtitleconference" id="inputtitleconference" placeholder="Enter Title" required style="text-transform:capitalize">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="tab-pane fade" id="content-content-whyvisit" role="tabpanel">
 
           <button id="addSection1Btn_conference" class="btn btn-success mb-3">Add Banner</button>
@@ -522,7 +548,7 @@
           </div>
 
         </div>
-        <!-- END TAB -->
+        
         <div class="tab-pane fade" id="showhighlights" role="tabpanel">
           <button id="addHighlightBtn" class="btn btn-success mb-3">Add Highlight</button>
           <!-- DataTable -->
@@ -806,7 +832,7 @@
         }
       });
 
-      $('#addformconference, #editformconference').on('submit', function(e){
+      $('#addformconference, #editformconference, #addformtitleconference').on('submit', function(e){
           e.preventDefault();
           var formData = new FormData(this);
           $.ajax({
@@ -894,7 +920,37 @@
           }, 150);
       });
 
+      let activeTab = $('#formTabs a.active').attr('id');
+
+      if (activeTab === "tab-titleconferences") {
+          loadTitleConferences();
+      }
+
   });
+</script>
+<script>
+  function loadTitleConferences() {
+    $.ajax({
+        url: "<?= base_url('visiting/conference-title') ?>",
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () {
+            console.log("Loading Title Conference...");
+        },
+        success: function (res) {
+
+            if (res.status === true) {
+                $("#titleconferenceid").val(res.data.id);
+                $("#inputtitleconference").val(res.data.conference_title);
+            } else {
+                alert(res.message || "Data not found");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error);
+        }
+    });
+  }
 </script>
 <script>
   $(document).ready(function () {

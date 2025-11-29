@@ -196,6 +196,12 @@ class Visiting extends CI_Controller {
             case "conference-get-data":
                 $this->conference_get_data($id);
                 break;
+            case "conference-title":
+                $this->conference_title();
+                break;
+            case "conference-title-update":
+                $this->conference_title_update();
+                break;
             case "conference-banner-add":
                 $this->conference_banner_add();
                 break;
@@ -333,7 +339,10 @@ class Visiting extends CI_Controller {
 
     // $data['programs'] = $this->M_Visiting->get_event_schedule([]);
     // $data['programs'] = $this->M_Visiting->get_conference_schedule([]);
-    $data['programs'] = $this->M_Visiting->get_data_conference_schedule([]);
+    $data['programs'] = $this->M_Visiting->get_data_conference_schedule([
+        'conference_type' => 'conference',
+        'conference_status' => 'active'
+    ]);
 
     $base_url = base_url();
 
@@ -368,7 +377,16 @@ class Visiting extends CI_Controller {
     ]);
 
     $data['title_show_features'] = !empty($dataTitleHighlights) ? $dataTitleHighlights[0]['title'] : 'CONFERENCE HIGHLIGHTS';
+    
 
+    $dataTitleConferences = $this->M_Visiting->get_data_conference_schedule([
+        'conference_year' => 2026,
+        'conference_type' => 'header',
+        'conference_status' => 'active'
+    ]);
+    
+    $data['title_conference'] = !empty($dataTitleConferences) ? $dataTitleConferences[0]['conference_title'] : 'CONFERENCE SCHEDULE';
+    
     $data["data_menu"] = $this->M_Login->get_menu();
     $data["data_event"] = $this->M_Login->get_event()->row();
     $data["data_product"] = $this->M_Login->get_product();
@@ -1701,7 +1719,7 @@ class Visiting extends CI_Controller {
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
     }
-
+    
     public function conference_title_highlight_update(){
         
         $titlehighlightid = $this->input->post('titlehighlightid');
@@ -2231,4 +2249,53 @@ class Visiting extends CI_Controller {
         echo json_encode($response);
     }
 
+    public function conference_title(){
+        $titleHeader = $this->M_Exhibiting->fetchData(
+            'csi_conference_schedule',
+            ['conference_year' => 2026, 'conference_type' => 'header'],
+            [],
+            'id, conference_year, conference_type, conference_title',
+            ['id' => 'DESC']
+        )->row_array();
+
+        if ($titleHeader) {
+            $response = [
+                'status' => true,
+                'data' => $titleHeader
+            ];
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'Conference title not found'
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
+    }
+    
+    public function conference_title_update(){
+
+        $titleconferenceid = $this->input->post('titleconferenceid');
+        $inputtitleconference  = $this->input->post('inputtitleconference');
+
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        $data = [
+            'conference_title' => $inputtitleconference,
+            'modified_date' => $modified_date,
+            'modified_by'   => $modified_by
+        ];
+
+        // Update DB
+        $this->db->where('id', $titleconferenceid);
+        $this->db->update('csi_conference_schedule', $data);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Title Conference successfully updated.'
+        ]);
+    }
 }
