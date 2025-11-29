@@ -261,7 +261,10 @@
   <div class="row">
     <ul class="nav custom-tabs" id="formTabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
+        <a class="nav-link active" id="tab-programs" data-bs-toggle="tab" href="#programs" role="tab">
+          <i class="fa fa-list me-1"></i> Programs
+        </a>
+        <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
           <i class="fa fa-list"></i> Banner
         </a>
         <a class="nav-link" id="tab-showhighlights" data-bs-toggle="tab" href="#showhighlights" role="tab">
@@ -276,8 +279,120 @@
     <div class="col-md-12">
       <div class="tab-content" id="formTabsContent">
 
+        <div class="tab-pane fade show active" id="programs" role="tabpanel">
+          <button id="addProgramBtn" class="btn btn-success mb-3">Add Programs</button>
+          <table id="programTable" class="display table table-bordered" style="width: 100%;">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Event Name</th>
+                <th>Event Date</th>
+                <th>Speaker Name</th>
+                <th>Location</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+          <div id="programFormContainer" class="section1-form d-none mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-success">Program Configuration</h5>
+
+                <form id="addformprogram" action="<?= base_url('visiting/conference-program-add') ?>" method="post">
+
+                  <div class="mb-3">
+                      <label class="form-label" for="event_name">Event Name</label>
+                      <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter Event Name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                      <label class="form-label" for="event_date">Event Date</label>
+                      <input type="date" class="form-control" id="event_date" name="event_date" required>
+                  </div>
+
+                  <div class="mb-3">
+                      <label class="form-label" for="event_start_time">Event Start Time</label>
+                      <input type="time" class="form-control" id="event_start_time" name="event_start_time" required>
+                  </div>
+
+                  <div class="mb-3">
+                      <label class="form-label" for="event_end_time">Event End Time</label>
+                      <input type="time" class="form-control" id="event_end_time" name="event_end_time" required>
+                  </div>
+
+                  <div class="mb-3">
+                      <label class="form-label" for="speaker_name">Speaker Name</label>
+                      <input type="text" class="form-control" id="speaker_name" name="speaker_name" placeholder="Enter Speaker Name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                      <label class="form-label" for="location">Location</label>
+                      <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location" required style="text-transform:capitalize">
+                  </div>
+
+                  <button type="submit" class="btn btn-success me-2">Add</button>
+                  <button type="button" id="backButtonProgram" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+          <div id="programEditFormContainer" class="section1-form mt-3">
+            <div class="card tab-card">
+              <div class="card-body">
+                <h5 class="mb-3 text-success">Edit Program Configuration</h5>
+
+                <form id="editFormProgram" action="<?= base_url('visiting/conference-program-update') ?>" method="post">
+
+                  <!-- Hidden field for program ID -->
+                  <input type="hidden" id="program_id" name="program_id">
+
+                  <div class="mb-3">
+                    <label class="form-label" for="event_name">Event Name</label>
+                    <input type="text" class="form-control" id="edit_event_name" name="event_name" placeholder="Enter Event Name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="event_date">Event Date</label>
+                    <input type="date" class="form-control" id="edit_event_date" name="event_date" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="event_start_time">Event Start Time</label>
+                    <input type="time" class="form-control" id="edit_event_start_time" name="event_start_time" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="event_end_time">Event End Time</label>
+                    <input type="time" class="form-control" id="edit_event_end_time" name="event_end_time" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="speaker_name">Speaker Name</label>
+                    <input type="text" class="form-control" id="edit_speaker_name" name="speaker_name" placeholder="Enter Speaker Name" required style="text-transform:capitalize">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input type="text" class="form-control" id="edit_location" name="location" placeholder="Enter Location" required style="text-transform:capitalize">
+                  </div>
+
+                  <button type="submit" class="btn btn-success me-2">Update</button>
+                  <button type="button" id="cancelButtonProgram" class="btn btn-outline-danger">Cancel</button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
         <!-- TAB: Content Conference Schedule -->
-        <div class="tab-pane fade show active" id="content-content-whyvisit" role="tabpanel">
+        <div class="tab-pane fade" id="content-content-whyvisit" role="tabpanel">
 
           <button id="addSection1Btn_conference" class="btn btn-success mb-3">Add Banner</button>
 
@@ -525,6 +640,215 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  var base_url = "<?= base_url(); ?>";
+
+  $(document).ready(function() {
+
+      var $programTableWrapper = $('#programTable_wrapper');
+      var $programForm = $('#programFormContainer');
+      var $addProgramBtn = $('#addProgramBtn');
+      var $backButtonProgram = $('#backButtonProgram');
+      $("#programEditFormContainer").addClass('d-none');
+
+      // ========================================
+      // DATATABLE
+      // ========================================
+      var programTable = $('#programTable').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+          url: base_url + "visiting/conference-program-datatable",
+          type: "POST",
+          dataSrc: function (json) {
+            return json.data || [];
+          }
+        },
+        order: [[1, "asc"]],
+        columns: [
+          { data: "no" },
+          { data: "event_name" },
+          { data: "program_date" },
+          { data: "speaker_name" },
+          { data: "program_location" },
+          { data: null }
+        ],
+        columnDefs: [
+          {
+            targets: 5, // Actions
+            orderable: false,
+            render: function (data, type, row) {
+              return `
+                <button class="btn btn-sm btn-primary editProgram" 
+                        data-id="${row.id}" title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteProgram" 
+                        data-id="${row.id}" title="Delete">
+                  <i class="bi bi-trash"></i>
+                </button>`;
+            }
+          }
+        ]
+      });
+
+      // ========================================
+      // SHOW FORM - HIDE TABLE
+      // ========================================
+      $addProgramBtn.on('click', function() {
+          $('#programTable_wrapper').hide();
+          $programTableWrapper.hide();
+          $addProgramBtn.hide();
+          $programForm.removeClass('d-none').hide().fadeIn(200);
+      });
+
+      // ========================================
+      // BACK TO TABLE
+      // ========================================
+      $backButtonProgram.on('click', function() {
+        $programForm.slideUp(200, function () {
+          $programForm.addClass('d-none');
+          $programTableWrapper.slideDown(200);
+          $('#programTable_wrapper').show();
+            $addProgramBtn.show();
+        });
+      });
+      
+      // ====== CANCEL EDIT FORM ======
+      $("#cancelButtonProgram").click(function(){
+          // Hide the Edit Exhibitor form
+          $("#programEditFormContainer").slideUp(200, function(){
+              $("#programEditFormContainer").addClass('d-none');
+          });
+
+          $programTableWrapper.hide();
+          $addProgramBtn.hide();
+
+          // Show the DataTable and Add button again
+          $('#programTable_wrapper').show();
+          $addProgramBtn.fadeIn(300);
+      });
+
+      $(document).on('click', '.editProgram', function(){
+        let id = $(this).data('id');
+
+        $.getJSON(base_url + "visiting/conference-program-get-data/" + id, function(data){
+            
+            $("#program_id").val(data.id);
+            $("#edit_event_name").val(data.event_name);
+            $("#edit_event_date").val(data.program_date);
+            $("#edit_event_start_time").val(data.program_start_time.substring(0,5));
+            $("#edit_event_end_time").val(data.program_end_time.substring(0,5));
+
+            $("#edit_speaker_name").val(data.speaker_name);
+            $("#edit_location").val(data.program_location);
+
+            // Hide DataTable and Add button
+            $addProgramBtn.fadeOut(200);
+            $('#programTable_wrapper').hide();
+            $('#programTableWrapper').hide();
+
+            // Show Edit form
+            $("#programEditFormContainer").slideDown(300).removeClass('d-none');
+            $('#programEditFormContainer').show();
+        });
+      });
+
+      $('#addformprogram, #editFormProgram').on('submit', function(e){
+          e.preventDefault();
+          var formData = new FormData(this);
+          $.ajax({
+              url: $(this).attr('action'),
+              type: "POST",
+              data: formData,
+              processData:false,
+              contentType:false,
+              dataType:"json",
+              success:function(res){ 
+                  if(res.success) Swal.fire("Success!", res.message,"success").then(()=>{ location.reload(); });
+                  else Swal.fire("Error!", res.message,"error");
+              },
+              error:function(){ Swal.fire("Error!","Server error","error"); }
+          });
+      });
+      
+      $(document).on('click', '.deleteProgram', function () {
+        const id = $(this).data('id');
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'This section will be permanently deleted!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        }).then(result => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: base_url + 'visiting/conference-program-delete/' + id,
+              type: 'POST',
+              dataType: 'json',
+              success: function (res) {
+                Swal.fire({
+                  icon: res.status,
+                  title: res.status === 'success' ? 'Deleted!' : 'Error',
+                  text: res.message
+                });
+                if (res.status === 'success') $("#programTable").DataTable().ajax.reload();;
+              },
+              error: function () {
+                Swal.fire('Error', 'Failed to connect to server', 'error');
+              }
+            });
+          }
+        });
+      });
+
+      // ========================================
+      // ACTIVATE TAB BASED ON URL HASH
+      // ========================================
+      var hash = window.location.hash;
+      if(hash){
+          var triggerEl = document.querySelector('.nav-link[href="' + hash + '"]');
+          if(triggerEl){
+              var tab = new bootstrap.Tab(triggerEl);
+              tab.show();
+          }
+      }
+
+      $(document).ready(function () {
+
+        $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+            // Update URL (hash)
+            history.replaceState(null, null, e.target.getAttribute('href'));
+
+            // Adjust DataTables after animation
+            setTimeout(function () {
+                $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+            }, 150);
+
+            // Detect tab ID
+            var target = $(e.target).attr("id");
+
+            // Call AJAX when tab Title Highlights activated
+            if (target === "tab-titlehighlights") {
+                loadTitleHighlights();
+            }
+        });
+        // =========================
+        // Run on page reload/refresh
+        // =========================
+        let activeTab = $('#formTabs a.active').attr('id');
+
+        if (activeTab === "tab-titlehighlights") {
+            loadTitleHighlights();
+        }
+      });
+  });
+</script>
 <script>
   $(document).ready(function () {
     const base_url = "<?= base_url(); ?>";

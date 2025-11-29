@@ -166,6 +166,21 @@ class Visiting extends CI_Controller {
             case "conference-schedule-datatable":
                 echo $this->M_Visiting->conference_schedule_datatable();
                 break;
+            case "conference-program-datatable":
+                echo $this->M_Visiting->conference_program_datatable();
+                break;
+            case "conference-program-add":
+                $this->conference_program_add();
+                break;
+            case "conference-program-get-data":
+                $this->conference_program_get_data($id);
+                break;
+            case "conference-program-update":
+                $this->conference_program_update();
+                break;
+            case "conference-program-delete":
+                $this->conference_program_delete($id);
+                break;
             case "conference-banner-add":
                 $this->conference_banner_add();
                 break;
@@ -301,7 +316,8 @@ class Visiting extends CI_Controller {
 
   public function conference_schedule_index() {
 
-    $data['programs'] = $this->M_Visiting->get_event_schedule([]);
+    // $data['programs'] = $this->M_Visiting->get_event_schedule([]);
+    $data['programs'] = $this->M_Visiting->get_conference_schedule([]);
 
     $base_url = base_url();
 
@@ -969,7 +985,7 @@ class Visiting extends CI_Controller {
             redirect('event'); // fallback redirect
         }
     }
-
+    
     public function conference_highlight_get_data($id){
 
         $IDBanner = (int) $id;
@@ -1413,9 +1429,7 @@ class Visiting extends CI_Controller {
     }
 
     public function show_feature_add(){
-        // print_r($this->input->post());
-        // print_r($_FILES);
-        // die();
+
         $addshowfeaturetitle   = trim($this->input->post('addshowfeaturetitle'));
         $addshowfeatureorder   = trim($this->input->post('addshowfeatureorder'));
         $showfeatureStatus     = trim($this->input->post('showfeatureStatus'));
@@ -1536,9 +1550,7 @@ class Visiting extends CI_Controller {
     }
     
     public function show_feature_update(){
-        // print_r($this->input->post());
-        // print_r($_FILES);
-        // die();
+
         $showfeatureid = $this->input->post('showfeatureid');
         $showfeaturemediaid  = $this->input->post('showfeaturemediaid');
 
@@ -1697,4 +1709,238 @@ class Visiting extends CI_Controller {
             'message' => 'Banner successfully updated.'
         ]);
     }
+
+    public function conference_program_add() {
+        // Get POST data
+        $post = $this->input->post();
+
+        $event_name       = trim($post['event_name'] ?? '');
+        $program_date     = trim($post['event_date'] ?? '');
+        $program_start    = trim($post['event_start_time'] ?? '');
+        $program_end      = trim($post['event_end_time'] ?? '');
+        $speaker_name     = trim($post['speaker_name'] ?? '');
+        $program_location = trim($post['location'] ?? '');
+
+        // Minimal validation
+        if (empty($event_name) || empty($program_date) || empty($speaker_name)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Event name, event date, and speaker name are required.'
+            ]);
+            return;
+        }
+
+        // Optional: validate time format
+        if (!empty($program_start) && !preg_match('/^\d{2}:\d{2}$/', $program_start)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid start time format.']);
+            return;
+        }
+
+        if (!empty($program_end) && !preg_match('/^\d{2}:\d{2}$/', $program_end)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid end time format.']);
+            return;
+        }
+
+        // Audit fields
+        $created_date = date('Y-m-d H:i:s');
+        $created_by   = 'sysadmin'; // replace with session user if available
+
+        try {
+            $this->db->trans_begin();
+
+            $data = [
+                'event_name'        => $event_name,
+                'program_type'      => 'Seminar', // default value, can be from POST if needed
+                'program_date'      => $program_date,
+                'program_start_time'=> $program_start,
+                'program_end_time'  => $program_end,
+                'speaker_name'      => $speaker_name,
+                'program_location'  => $program_location,
+                'created_date'      => $created_date,
+                'created_by'        => $created_by,
+                'modified_date'     => $created_date,
+                'modified_by'       => $created_by
+            ];
+
+            $this->db->insert('csi_conferences', $data);
+            $insert_id = $this->db->insert_id();
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error while saving conference.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Conference program successfully added.',
+                'id'      => $insert_id
+            ]);
+            return;
+
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error: ' . $e->getMessage()
+            ]);
+            return;
+        }
+    }
+
+    public function conference_program_get_data($id){
+
+        $IDProgram = (int) $id;
+        // var_dump($IDProgram);
+        // die();
+
+        $activePrograms = $this->M_Exhibiting->fetchData(
+            'csi_conferences',
+            ['id' => $IDProgram],
+            [],
+            '*'
+            ,
+            ['id' => 'DESC']
+        )->row_array();
+        // print_r($activePrograms);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activePrograms['image'])) {
+            $activePrograms['image'] = base_url($activePrograms['image']);
+        }
+
+        if ($activePrograms) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activePrograms));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+    
+    public function conference_program_update() {
+        // Get POST data
+        $post = $this->input->post();
+        // print_r($post);
+        // die();
+
+        $id               = trim($post['program_id'] ?? '');
+        $event_name       = trim($post['event_name'] ?? '');
+        $program_date     = trim($post['event_date'] ?? '');
+        $program_start    = trim($post['event_start_time'] ?? '');
+        $program_end      = trim($post['event_end_time'] ?? '');
+        $speaker_name     = trim($post['speaker_name'] ?? '');
+        $program_location = trim($post['location'] ?? '');
+
+        // Validate required fields
+        if (empty($id) || empty($event_name) || empty($program_date) || empty($speaker_name)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'ID, event name, event date, and speaker name are required.'
+            ]);
+            return;
+        }
+
+        // Optional: validate time format
+        if (!empty($program_start) && !preg_match('/^\d{2}:\d{2}$/', $program_start)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid start time format.']);
+            return;
+        }
+
+        if (!empty($program_end) && !preg_match('/^\d{2}:\d{2}$/', $program_end)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid end time format.']);
+            return;
+        }
+
+        // Audit fields
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin'; // replace with session user if available
+
+        try {
+            $this->db->trans_begin();
+
+            $data = [
+                'event_name'        => $event_name,
+                'program_type'      => 'Seminar', // default or from POST
+                'program_date'      => $program_date,
+                'program_start_time'=> $program_start,
+                'program_end_time'  => $program_end,
+                'speaker_name'      => $speaker_name,
+                'program_location'  => $program_location,
+                'modified_date'     => $modified_date,
+                'modified_by'       => $modified_by
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('csi_conferences', $data);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error while updating conference.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Conference program successfully updated.',
+                'id'      => $id
+            ]);
+            return;
+
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error: ' . $e->getMessage()
+            ]);
+            return;
+        }
+    }
+
+    public function conference_program_delete($id = null)
+    {
+        $id = (int) $id;
+        
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            $deleted = $this->M_Exhibiting->delete('csi_conferences', ['id' => $id]);
+
+            if (!$deleted) {
+                throw new Exception('Failed to delete conference program');
+            }
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Conference Program deleted successfully'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
 }
