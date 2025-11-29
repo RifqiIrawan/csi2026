@@ -261,8 +261,8 @@
   <div class="row">
     <ul class="nav custom-tabs" id="formTabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="tab-programs" data-bs-toggle="tab" href="#programs" role="tab">
-          <i class="fa fa-list me-1"></i> Programs
+        <a class="nav-link active" id="tab-conferences" data-bs-toggle="tab" href="#conferences" role="tab">
+          <i class="fa fa-list me-1"></i> Conferences
         </a>
         <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
           <i class="fa fa-list"></i> Banner
@@ -279,16 +279,18 @@
     <div class="col-md-12">
       <div class="tab-content" id="formTabsContent">
 
-        <div class="tab-pane fade show active" id="programs" role="tabpanel">
-          <button id="addProgramBtn" class="btn btn-success mb-3">Add Programs</button>
-          <table id="programTable" class="display table table-bordered" style="width: 100%;">
+        <div class="tab-pane fade show active" id="conferences" role="tabpanel">
+          <button id="addConferenceBtn" class="btn btn-success mb-3">Add Conference</button>
+          <!-- DataTable -->
+          <table id="conferenceTable" class="display table table-bordered" style="width: 100%;">
             <thead>
               <tr>
                 <th>No</th>
-                <th>Event Name</th>
-                <th>Event Date</th>
-                <th>Speaker Name</th>
-                <th>Location</th>
+                <th>Year</th>
+                <th>Title</th>
+                <th>Order</th>
+                <th>Image</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -296,93 +298,105 @@
             </tbody>
           </table>
 
-          <div id="programFormContainer" class="section1-form d-none mt-3">
+          <!-- Add Content Form -->
+          <div id="conferenceFormContainer" class="section1-form d-none mt-3">
             <div class="card tab-card">
               <div class="card-body">
-                <h5 class="mb-3 text-success">Program Configuration</h5>
+                <h5 class="mb-3 text-success">Conference Configuration</h5>
 
-                <form id="addformprogram" action="<?= base_url('visiting/conference-program-add') ?>" method="post">
+                <form id="addformconference" action="<?= base_url('visiting/conference-add') ?>" method="post" enctype="multipart/form-data">
 
                   <div class="mb-3">
-                      <label class="form-label" for="event_name">Event Name</label>
-                      <input type="text" class="form-control" id="event_name" name="event_name" placeholder="Enter Event Name" required style="text-transform:capitalize">
+                    <label class="form-label">Conference Title</label>
+                    <input type="text" class="form-control" name="addconferencetitle" placeholder="Enter Image Title" required style="text-transform:capitalize">
                   </div>
 
                   <div class="mb-3">
-                      <label class="form-label" for="event_date">Event Date</label>
-                      <input type="date" class="form-control" id="event_date" name="event_date" required>
+                    <label class="form-label">Conference Order</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      name="addconferenceorder" 
+                      placeholder="Enter Image Order" 
+                      required 
+                      min="1"
+                    >
                   </div>
 
                   <div class="mb-3">
-                      <label class="form-label" for="event_start_time">Event Start Time</label>
-                      <input type="time" class="form-control" id="event_start_time" name="event_start_time" required>
+                    <label class="form-label">Conference Image</label>
+                    <input type="file" class="form-control" name="addconferenceimage" id="addconferenceimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="addconferenceimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
                   </div>
-
                   <div class="mb-3">
-                      <label class="form-label" for="event_end_time">Event End Time</label>
-                      <input type="time" class="form-control" id="event_end_time" name="event_end_time" required>
+                    <label class="form-label">Conference Status</label>
+                    <div class="mb-3 d-flex gap-3 align-items-center">
+                      <input type="radio" name="conferencestatus" id="conferenceActive" value="active" checked>
+                      <label for="conferenceActive" class="mb-0">Active</label>
+                      <input type="radio" name="conferencestatus" id="conferencePassive" value="inactive">
+                      <label for="conferencePassive" class="mb-0">Passive</label>
+                    </div>
                   </div>
-
-                  <div class="mb-3">
-                      <label class="form-label" for="speaker_name">Speaker Name</label>
-                      <input type="text" class="form-control" id="speaker_name" name="speaker_name" placeholder="Enter Speaker Name" required style="text-transform:capitalize">
-                  </div>
-
-                  <div class="mb-3">
-                      <label class="form-label" for="location">Location</label>
-                      <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location" required style="text-transform:capitalize">
-                  </div>
-
                   <button type="submit" class="btn btn-success me-2">Add</button>
-                  <button type="button" id="backButtonProgram" class="btn btn-outline-danger">Cancel</button>
+                  <button type="button" id="backButtonConference" class="btn btn-outline-danger">Cancel</button>
                 </form>
 
               </div>
             </div>
           </div>
 
-          <div id="programEditFormContainer" class="section1-form mt-3">
+          <!-- Edit Content Form -->
+          <div id="conferenceEditFormContainer" class="section1-form d-none mt-3">
             <div class="card tab-card">
               <div class="card-body">
-                <h5 class="mb-3 text-success">Edit Program Configuration</h5>
+                <h5 class="mb-3 text-primary">Edit SHow Show Feature</h5>
 
-                <form id="editFormProgram" action="<?= base_url('visiting/conference-program-update') ?>" method="post">
-
-                  <!-- Hidden field for program ID -->
-                  <input type="hidden" id="program_id" name="program_id">
-
+                <form id="editformconference" action="<?= base_url('visiting/conference-update') ?>" method="post" enctype="multipart/form-data">
+                  <!-- Hidden field for Banner ID -->
+                  <input type="hidden" name="conferenceid" id="editconferenceid">
+                  
                   <div class="mb-3">
-                    <label class="form-label" for="event_name">Event Name</label>
-                    <input type="text" class="form-control" id="edit_event_name" name="event_name" placeholder="Enter Event Name" required style="text-transform:capitalize">
+                    <label class="form-label">Section Title</label>
+                    <input type="text" class="form-control" name="editconferencetitle" id="editconferencetitle" placeholder="Enter Banner Title" required style="text-transform:capitalize">
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label" for="event_date">Event Date</label>
-                    <input type="date" class="form-control" id="edit_event_date" name="event_date" required>
+                    <label class="form-label">Section Order</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      name="editconferenceorder" 
+                      id="editconferenceorder"
+                      placeholder="Enter Order" 
+                      required 
+                      min="1"
+                    >
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Section Image</label>
+                    <input type="file" class="form-control" name="editconferenceimage" id="editconferenceimage" accept="image/*">
+                    <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                    <div class="mt-2">
+                      <img id="editconferenceimagepreview" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                    </div>
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label" for="event_start_time">Event Start Time</label>
-                    <input type="time" class="form-control" id="edit_event_start_time" name="event_start_time" required>
+                    <label class="form-label">Status</label>
+                    <div class="mb-3 d-flex gap-3 align-items-center">
+                      <input type="radio" name="editconferencestatus" id="editconferenceActive" value="active" checked>
+                      <label for="editconferenceActive" class="mb-0">Active</label>
+                      <input type="radio" name="editconferencestatus" id="editconferencePassive" value="inactive">
+                      <label for="editconferencePassive" class="mb-0">Passive</label>
+                    </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label class="form-label" for="event_end_time">Event End Time</label>
-                    <input type="time" class="form-control" id="edit_event_end_time" name="event_end_time" required>
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label" for="speaker_name">Speaker Name</label>
-                    <input type="text" class="form-control" id="edit_speaker_name" name="speaker_name" placeholder="Enter Speaker Name" required style="text-transform:capitalize">
-                  </div>
-
-                  <div class="mb-3">
-                    <label class="form-label" for="location">Location</label>
-                    <input type="text" class="form-control" id="edit_location" name="location" placeholder="Enter Location" required style="text-transform:capitalize">
-                  </div>
-
-                  <button type="submit" class="btn btn-success me-2">Update</button>
-                  <button type="button" id="cancelButtonProgram" class="btn btn-outline-danger">Cancel</button>
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
+                  <button type="button" id="cancelButtonConference" class="btn btn-outline-danger">Cancel</button>
                 </form>
 
               </div>
@@ -646,21 +660,20 @@
 
   $(document).ready(function() {
 
-      var $programTableWrapper = $('#programTable_wrapper');
-      var $programForm = $('#programFormContainer');
-      var $addProgramBtn = $('#addProgramBtn');
-      var $backButtonProgram = $('#backButtonProgram');
-      $("#programEditFormContainer").addClass('d-none');
+      var $conferenceTableWrapper = $('#conferenceTable_wrapper');
+      var $conferenceForm = $('#conferenceFormContainer');
+      var $addConferenceBtn = $('#addConferenceBtn');
+      var $backButtonConference = $('#backButtonConference');
 
       // ========================================
       // DATATABLE
       // ========================================
-      var programTable = $('#programTable').DataTable({
+      var conferenceTable = $('#conferenceTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
         ajax: {
-          url: base_url + "visiting/conference-program-datatable",
+          url: base_url + "visiting/conference-datatable",
           type: "POST",
           dataSrc: function (json) {
             return json.data || [];
@@ -669,23 +682,47 @@
         order: [[1, "asc"]],
         columns: [
           { data: "no" },
-          { data: "event_name" },
-          { data: "program_date" },
-          { data: "speaker_name" },
-          { data: "program_location" },
-          { data: null }
+          { data: "conference_year"},
+          { data: "conference_title"},
+          { data: "conference_order"},
+          { data: "conference_path" },
+          { data: "conference_status" },
+          {
+            data: null
+          }
         ],
         columnDefs: [
           {
-            targets: 5, // Actions
+            targets: 4, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          },
+          {
+            targets: 5, // Status
+            render: function (data) {
+              const badgeClass = data === "active" ? "success" : "secondary";
+              return `<span class="badge bg-${badgeClass}">${data}</span>`;
+            }
+          },
+          {
+            targets: 6, // Actions
             orderable: false,
             render: function (data, type, row) {
               return `
-                <button class="btn btn-sm btn-primary editProgram" 
+                <button class="btn btn-sm btn-primary editConference" 
                         data-id="${row.id}" title="Edit">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-sm btn-danger deleteProgram" 
+                <button class="btn btn-sm btn-danger deleteConference" 
                         data-id="${row.id}" title="Delete">
                   <i class="bi bi-trash"></i>
                 </button>`;
@@ -697,66 +734,79 @@
       // ========================================
       // SHOW FORM - HIDE TABLE
       // ========================================
-      $addProgramBtn.on('click', function() {
-          $('#programTable_wrapper').hide();
-          $programTableWrapper.hide();
-          $addProgramBtn.hide();
-          $programForm.removeClass('d-none').hide().fadeIn(200);
+      $addConferenceBtn.on('click', function() {
+          $('#conferenceTable_wrapper').hide();
+          $conferenceTableWrapper.hide();
+          $addConferenceBtn.hide();
+          $conferenceForm.removeClass('d-none').hide().fadeIn(200);
       });
 
       // ========================================
       // BACK TO TABLE
       // ========================================
-      $backButtonProgram.on('click', function() {
-        $programForm.slideUp(200, function () {
-          $programForm.addClass('d-none');
-          $programTableWrapper.slideDown(200);
-          $('#programTable_wrapper').show();
-            $addProgramBtn.show();
+      $backButtonConference.on('click', function() {
+        $conferenceForm.slideUp(200, function () {
+          $conferenceForm.addClass('d-none');
+          $conferenceTableWrapper.slideDown(200);
+          $('#conferenceTable_wrapper').show();
+            $addConferenceBtn.show();
         });
       });
-      
-      // ====== CANCEL EDIT FORM ======
-      $("#cancelButtonProgram").click(function(){
-          // Hide the Edit Exhibitor form
-          $("#programEditFormContainer").slideUp(200, function(){
-              $("#programEditFormContainer").addClass('d-none');
-          });
 
-          $programTableWrapper.hide();
-          $addProgramBtn.hide();
-
-          // Show the DataTable and Add button again
-          $('#programTable_wrapper').show();
-          $addProgramBtn.fadeIn(300);
-      });
-
-      $(document).on('click', '.editProgram', function(){
+      $(document).on('click', '.editConference', function(){
         let id = $(this).data('id');
 
-        $.getJSON(base_url + "visiting/conference-program-get-data/" + id, function(data){
-            
-            $("#program_id").val(data.id);
-            $("#edit_event_name").val(data.event_name);
-            $("#edit_event_date").val(data.program_date);
-            $("#edit_event_start_time").val(data.program_start_time.substring(0,5));
-            $("#edit_event_end_time").val(data.program_end_time.substring(0,5));
+        $.getJSON(base_url + "visiting/conference-get-data/" + id, function(data){
+            // Isi field edit form
 
-            $("#edit_speaker_name").val(data.speaker_name);
-            $("#edit_location").val(data.program_location);
+            $("#editconferenceid").val(data.id);
+            $("#editconferencetitle").val(data.conference_title);
+            $("#editconferenceorder").val(data.conference_order);
+            
+            if(data.conference_path) {
+                $("#editconferenceimagepreview").attr("src", data.conference_path).show();
+            } else {
+                $("#editconferenceimagepreview").hide();
+            }
+
+            if (data.conference_status === "active") {
+              $("#editconferenceActive").prop("checked", true);
+            } else {
+              $("#editconferencePassive").prop("checked", true);
+            }
+
 
             // Hide DataTable and Add button
-            $addProgramBtn.fadeOut(200);
-            $('#programTable_wrapper').hide();
-            $('#programTableWrapper').hide();
+            $addConferenceBtn.fadeOut(200);
+            $('#conferenceTable_wrapper').hide();
+            $('#conferenceTable').hide();
 
             // Show Edit form
-            $("#programEditFormContainer").slideDown(300).removeClass('d-none');
-            $('#programEditFormContainer').show();
+            $("#conferenceEditFormContainer").slideDown(300).removeClass('d-none');
         });
       });
 
-      $('#addformprogram, #editFormProgram').on('submit', function(e){
+      // ====== CANCEL EDIT FORM ======
+      $("#cancelButtonConference").click(function(){
+          // Hide the Edit Exhibitor form
+          $("#conferenceEditFormContainer").slideUp(200, function(){
+              $("#conferenceEditFormContainer").addClass('d-none');
+          });
+
+          // Show the DataTable and Add button again
+          $('#conferenceTable_wrapper').show();
+          $('#conferenceTable').show();
+          $addShowFeatureBtn.fadeIn(300);
+      });
+
+      $("#editconferenceimage").on("change", function () {
+        const [file] = this.files;
+        if (file) {
+          $("#editconferenceimagepreview").attr("src", URL.createObjectURL(file)).show();
+        }
+      });
+
+      $('#addformconference, #editformconference').on('submit', function(e){
           e.preventDefault();
           var formData = new FormData(this);
           $.ajax({
@@ -773,38 +823,54 @@
               error:function(){ Swal.fire("Error!","Server error","error"); }
           });
       });
-      
-      $(document).on('click', '.deleteProgram', function () {
-        const id = $(this).data('id');
 
-        Swal.fire({
-          title: 'Are you sure?',
-          text: 'This section will be permanently deleted!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, delete it!',
-          cancelButtonText: 'Cancel'
-        }).then(result => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: base_url + 'visiting/conference-program-delete/' + id,
-              type: 'POST',
-              dataType: 'json',
-              success: function (res) {
-                Swal.fire({
-                  icon: res.status,
-                  title: res.status === 'success' ? 'Deleted!' : 'Error',
-                  text: res.message
-                });
-                if (res.status === 'success') $("#programTable").DataTable().ajax.reload();;
-              },
-              error: function () {
-                Swal.fire('Error', 'Failed to connect to server', 'error');
+      // deleteConference
+      // DELETE Show Feature
+      $(document).on("click", ".deleteConference", function () {
+          let id = $(this).data("id");
+
+          Swal.fire({
+              title: "Are you sure?",
+              text: "This item will be permanently deleted!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+
+                  $.ajax({
+                      url: base_url + "visiting/conference-delete",
+                      type: "POST",
+                      data: { id: id },
+                      dataType: "json",
+                      success: function (response) {
+                          if (response.success) {
+                              Swal.fire({
+                                  title: "Success!",
+                                  text: response.message,
+                                  icon: "success",
+                                  timer: 1200,
+                                  showConfirmButton: false
+                              }).then(() => {
+                                  window.location.reload();
+                              });
+                              
+                          } else {
+                              Swal.fire("Failed!", response.message, "error");
+                          }
+                      },
+                      error: function () {
+                          Swal.fire("Error!", "Something went wrong", "error");
+                      }
+                  });
+
               }
-            });
-          }
-        });
+          });
       });
+
+      // END
 
       // ========================================
       // ACTIVATE TAB BASED ON URL HASH
@@ -818,35 +884,16 @@
           }
       }
 
-      $(document).ready(function () {
-
-        $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-            // Update URL (hash)
-            history.replaceState(null, null, e.target.getAttribute('href'));
-
-            // Adjust DataTables after animation
-            setTimeout(function () {
-                $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
-            }, 150);
-
-            // Detect tab ID
-            var target = $(e.target).attr("id");
-
-            // Call AJAX when tab Title Highlights activated
-            if (target === "tab-titlehighlights") {
-                loadTitleHighlights();
-            }
-        });
-        // =========================
-        // Run on page reload/refresh
-        // =========================
-        let activeTab = $('#formTabs a.active').attr('id');
-
-        if (activeTab === "tab-titlehighlights") {
-            loadTitleHighlights();
-        }
+      // ========================================
+      // FIX DATATABLE WHEN SWITCH TABS
+      // ========================================
+      $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+          history.replaceState(null, null, e.target.getAttribute('href'));
+          setTimeout(function () {
+              $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+          }, 150);
       });
+
   });
 </script>
 <script>

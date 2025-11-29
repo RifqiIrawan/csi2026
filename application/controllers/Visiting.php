@@ -181,6 +181,21 @@ class Visiting extends CI_Controller {
             case "conference-program-delete":
                 $this->conference_program_delete($id);
                 break;
+            case "conference-datatable":
+                echo $this->M_Visiting->conference_datatable();
+                break;
+            case "conference-add":
+                $this->conference_add();
+                break;
+            case "conference-update":
+                $this->conference_update();
+                break;
+            case "conference-delete":
+                $this->conference_delete();
+                break;
+            case "conference-get-data":
+                $this->conference_get_data($id);
+                break;
             case "conference-banner-add":
                 $this->conference_banner_add();
                 break;
@@ -317,7 +332,8 @@ class Visiting extends CI_Controller {
   public function conference_schedule_index() {
 
     // $data['programs'] = $this->M_Visiting->get_event_schedule([]);
-    $data['programs'] = $this->M_Visiting->get_conference_schedule([]);
+    // $data['programs'] = $this->M_Visiting->get_conference_schedule([]);
+    $data['programs'] = $this->M_Visiting->get_data_conference_schedule([]);
 
     $base_url = base_url();
 
@@ -1427,7 +1443,7 @@ class Visiting extends CI_Controller {
             'message' => 'Banner successfully updated.'
         ]);
     }
-
+    
     public function show_feature_add(){
 
         $addshowfeaturetitle   = trim($this->input->post('addshowfeaturetitle'));
@@ -1709,7 +1725,7 @@ class Visiting extends CI_Controller {
             'message' => 'Banner successfully updated.'
         ]);
     }
-
+    
     public function conference_program_add() {
         // Get POST data
         $post = $this->input->post();
@@ -1913,7 +1929,7 @@ class Visiting extends CI_Controller {
             return;
         }
     }
-
+    
     public function conference_program_delete($id = null)
     {
         $id = (int) $id;
@@ -1936,6 +1952,278 @@ class Visiting extends CI_Controller {
         } catch (Exception $e) {
             $response = [
                 'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
+    
+    public function conference_add() {
+        // Get POST data
+        $post = $this->input->post();
+
+        $addconferencetitle = trim($post['addconferencetitle'] ?? '');
+        $addconferenceorder = trim($post['addconferenceorder'] ?? 0);
+        $conferencestatus = trim($post['conferencestatus'] ?? 'inactive');
+
+        // Konfigurasi upload
+        $file_path      = './assets/uploads/conference_schedule/';
+        $file_path_save = 'assets/uploads/conference_schedule/';
+
+        if (!file_exists($file_path)) {
+            mkdir($file_path, 0775, true);
+        }
+
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = 3072; // 3 MB
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $Image = null;
+
+        // Upload file jika ada
+        if (!empty($_FILES['addconferenceimage']['name'])) {
+
+            if (!$this->upload->do_upload('addconferenceimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            $upload = $this->upload->data();
+            $Image = $upload['file_name'];
+        }
+
+        // Audit fields
+        $conferenceyear = 2026;
+        $conferencetype = 'conference';
+        $created_date = date('Y-m-d H:i:s');
+        $created_by   = 'sysadmin';
+
+        try {
+            $this->db->trans_begin();
+
+            $data = [
+                'conference_year'     => $conferenceyear
+                , 'conference_type'   => $conferencetype
+                , 'conference_title'  => $addconferencetitle
+                , 'conference_path'   => $file_path_save . $Image
+                , 'conference_order'  => $addconferenceorder
+                , 'conference_status' => $conferencestatus
+                , 'created_date'      => $created_date
+                , 'created_by'        => $created_by
+                , 'modified_date'     => $created_date
+                , 'modified_by'       => $created_by
+            ];
+
+            $this->db->insert('csi_conference_schedule', $data);
+            $insert_id = $this->db->insert_id();
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error while saving conference.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Conference schedule successfully added.',
+                'id'      => $insert_id
+            ]);
+            return;
+
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error: ' . $e->getMessage()
+            ]);
+            return;
+        }
+    }
+
+    public function conference_get_data($id){
+
+        $IDConference = (int) $id;
+        // var_dump($IDConference);
+        // die();
+
+        $activeConference = $this->M_Exhibiting->fetchData(
+            'csi_conference_schedule',
+            ['id' => $IDConference],
+            [],
+            '*',
+            ['id' => 'DESC']
+        )->row_array();
+        // print_r($activeConference);
+        // die();
+        
+        // Tambahkan base_url di sini
+        if (!empty($activeConference['conference_path'])) {
+            $activeConference['conference_path'] = base_url($activeConference['conference_path']);
+        }
+
+        if ($activeConference) {
+            // kembalikan data JSON
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($activeConference));
+        } else {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'message' => 'Banner not found'
+                ]));
+        }
+    }
+
+    public function conference_update()
+    {
+        // Get POST data
+        $post = $this->input->post();
+
+        $id = (int) ($post['conferenceid'] ?? 0);
+        if ($id <= 0) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid conference ID'
+            ]);
+            return;
+        }
+
+        $conferencetitle  = trim($post['editconferencetitle'] ?? '');
+        $conferenceorder  = trim($post['editconferenceorder'] ?? 0);
+        $conferencestatus = trim($post['editconferencestatus'] ?? 'inactive');
+
+        // Get old data (untuk delete file lama)
+        $old = $this->db->get_where('csi_conference_schedule', ['id' => $id])->row();
+        if (!$old) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Conference schedule not found.'
+            ]);
+            return;
+        }
+
+        // Konfigurasi upload
+        $file_path      = './assets/uploads/conference_schedule/';
+        $file_path_save = 'assets/uploads/conference_schedule/';
+
+        if (!file_exists($file_path)) {
+            mkdir($file_path, 0775, true);
+        }
+
+        $config['upload_path']   = $file_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = 3072; // 3 MB
+        $config['encrypt_name']  = TRUE;
+
+        $this->upload->initialize($config);
+
+        $Image = $old->conference_path; // Default pakai image lama
+
+        // Upload file baru jika ada
+        if (!empty($_FILES['editconferenceimage']['name'])) {
+
+            if (!$this->upload->do_upload('editconferenceimage')) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => strip_tags($this->upload->display_errors())
+                ]);
+                return;
+            }
+
+            if (!empty($Image) && file_exists('./' . $Image)) {
+                unlink('./' . $Image);
+            }
+
+            // Replace image dengan yang baru
+            $upload = $this->upload->data();
+            $Image = $file_path_save . $upload['file_name'];
+        }
+
+        // Audit fields
+        $modified_date = date('Y-m-d H:i:s');
+        $modified_by   = 'sysadmin';
+
+        try {
+            $this->db->trans_begin();
+
+            $data = [
+                'conference_title'  => $conferencetitle,
+                'conference_path'   => $Image,
+                'conference_order'  => $conferenceorder,
+                'conference_status' => $conferencestatus,
+                'modified_date'     => $modified_date,
+                'modified_by'       => $modified_by
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('csi_conference_schedule', $data);
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Database error while updating conference.'
+                ]);
+                return;
+            }
+
+            $this->db->trans_commit();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Conference schedule successfully updated.',
+                'id'      => $id
+            ]);
+            return;
+
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unexpected server error: ' . $e->getMessage()
+            ]);
+            return;
+        }
+    }
+    
+    public function conference_delete()
+    {
+        $post = $this->input->post();
+
+        $id = (int) ($post['id'] ?? 0);
+        
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            $deleted = $this->M_Exhibiting->delete('csi_conference_schedule', ['id' => $id]);
+
+            if (!$deleted) {
+                throw new Exception('Failed to delete conference schedule');
+            }
+
+            $response = [
+                'success' => true,
+                'message' => 'Delete Conference Schedule Successfully'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
                 'message' => $e->getMessage()
             ];
         }

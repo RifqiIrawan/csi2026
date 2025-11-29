@@ -61,6 +61,7 @@
         flex-direction: column;
         padding: 24px;
         position: relative;
+        /* height: 350px; */
     }
 
     .program-card:hover {
@@ -194,9 +195,23 @@
 
         /* Animation untuk bergerak ke kanan otomatis */
         @keyframes autoScroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
+
+        /* .program-image-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .program-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        } */
+
 
     </style>
     </head>
@@ -210,6 +225,7 @@
             </div>
         </section>
         -->
+
         <section class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
@@ -217,51 +233,21 @@
                         <p class="title"><?= $hero['button_text']; ?></p>
                     </div>
                 </div>
-            </div>
-            <div class="container">
+
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
                         <div class="row g-4">
                             <?php foreach ($programs as $prog): ?>
-                                <div class="col-md-4 col-sm-6 col-12">
-                                    <div class="program-card">
-                                        <!-- <span class="badge-type <?= strtolower($prog['program_type']) === 'seminar' ? 'badge-seminar' : 'badge-workshop' ?>">
-                                            <?= strtoupper($prog['program_type']); ?>
-                                        </span> -->
-
-                                        <div class="icon-text">
-                                            <i class="bi bi-calendar-date"></i>
-                                            <?= date('l, d F Y', strtotime($prog['program_date'])); ?>
+                                <div class="col-md-6 col-sm-6 col-12">
+                                    <div class="program-card text-center">
+                                        <div class="program-image-wrapper">
+                                            <img 
+                                                src="<?= base_url($prog['conference_path']); ?>"
+                                                alt="<?= $prog['conference_title']; ?>"
+                                                class="img-fluid rounded program-image clickable-image"
+                                                data-img="<?= base_url($prog['conference_path']); ?>"
+                                                style="cursor:pointer;">
                                         </div>
-                                        <div class="icon-text">
-                                            <i class="bi bi-clock"></i>
-                                            <?= date('H:i', strtotime($prog['program_start_time'])) . ' - ' . date('H:i', strtotime($prog['program_end_time'])); ?> WIB
-                                        </div>
-
-                                        <h5><?= $prog['program_title']; ?></h5>
-
-                                        <?php if (!empty($prog['speaker_name'])): ?>
-                                            <p class="mb-1 fw-semibold">
-                                                <i class="bi bi-person-circle"></i> Speaker :
-                                            </p>
-                                            <p class="text-secondary mb-2">
-                                            <?= $prog['speaker_name']; ?>
-                                            <?= !empty($prog['speaker_organization']) ? ' - ' . $prog['speaker_organization'] : ''; ?>
-                                            </p>
-                                        <?php endif; ?>
-
-                                        <p class="mb-1 fw-semibold">
-                                            <i class="bi bi-geo-alt me-1"></i> Location :
-                                        </p>
-                                        <p class="text-secondary mb-4"><?= $prog['program_location']; ?></p>
-                                        <!--
-                                        <div class="mt-auto text-center">
-                                            <a href="<?= base_url('visiting/conference-schedule-validation/' . $prog['program_id']); ?>" 
-                                                class="btn btn-register">
-                                                REGISTER HERE <i class="bi bi-arrow-right ms-1"></i>
-                                            </a>
-                                        </div>
-                                        -->
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -270,6 +256,7 @@
                 </div>
             </div>
         </section>
+
 
         <section id="show-features" class="py-5 bg-light">
             <div class="container">
@@ -305,9 +292,31 @@
             </div>
         </section>
 
+        <!-- Image Preview Modal -->
+        <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content bg-transparent border-0 shadow-none">
+                    <img id="modalPreviewImage" class="img-fluid rounded" alt="">
+                </div>
+            </div>
+        </div>
 
     </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        const modalImg = document.getElementById('modalPreviewImage');
+
+        document.querySelectorAll(".clickable-image").forEach(img => {
+            img.addEventListener("click", function () {
+                modalImg.src = this.dataset.img;
+                modal.show();
+            });
+        });
+    });
+    </script>
+
 <script>
 
     const track = document.getElementById("carouselTrack");
