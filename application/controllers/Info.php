@@ -184,8 +184,8 @@ class Info extends CI_Controller {
         echo "Failed";
       }   
     }
-
-    public function update_information2(){
+    
+     public function update_information2(){
       $code = $this->input->post("code");
       $title = $this->input->post("header_title");
       $status = $this->input->post("status");  
@@ -349,6 +349,36 @@ class Info extends CI_Controller {
     $folder = './assets/images/upload/hotel/';
     unlink("".$folder."".$img."");
     $cek_data = $this->M_Info->delete_hotel($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+  
+  public function update_hotel2(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("header_title");
+    $status = $this->input->post("status");  
+    $insert = $this->db->query(" UPDATE hotel SET header_title = '".$title."',status_header = '".$status."'
+                                    WHERE id = '".$code."'
+                                ");
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Info/Hotel');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Info/Hotel');
+    } 
+  }
+
+  public function delete_hotel2(){
+    $code = $this->input->post("code");
+    $this->db->query(" UPDATE hotel SET status_header = '1'
+                          WHERE id = '".$code."'
+                      ");
     if ($this->db->affected_rows()) {
       echo "OK";
     }
@@ -789,7 +819,6 @@ class Info extends CI_Controller {
     $this->template->load('layouts2/role2','module/Info/news_update_content',$data);
   }
 
-  //form news update
   public function Form_News_Update(){   
     if($this->session->userdata('id_user') == NULL){
         redirect('Login');
@@ -905,36 +934,5 @@ class Info extends CI_Controller {
     else{
       echo "Failed";
     }   
-  }
-
-  public function upload_ckeditor(){
-    if (isset($_FILES['upload']['name'])) {
-      
-      echo "<pre>";
-      print_r($_FILES);
-      echo "</pre>";
-      die();
-      $config['upload_path']   = './upload/ckeditor/';
-      $config['allowed_types'] = 'jpg|jpeg|png|gif';
-      $config['max_size']      = 2048;
-      $config['encrypt_name']  = TRUE;
-
-      $this->load->library('upload', $config);
-
-      if (!$this->upload->do_upload('upload')) {
-          $this->output
-              ->set_content_type('application/json')
-              ->set_output(json_encode(['uploaded' => false, 'error' => $this->upload->display_errors()]));
-      } else {
-          $file = $this->upload->data();
-          $url  = base_url('upload/ckeditor/' . $file['file_name']);
-
-          echo json_encode([
-              "uploaded" => 1,
-              "fileName" => $file['file_name'],
-              "url"      => $url
-          ]);
-      }
-  }
   }
 }

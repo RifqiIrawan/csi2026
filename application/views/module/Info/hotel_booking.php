@@ -101,6 +101,9 @@
         font-weight: 600;
         background: transparent;
     }
+    section{
+        margin-top: 150px;
+    }
 </style>
 
 <script>
@@ -129,7 +132,7 @@
   <div class="container style">
       <div class="row"> 
           <div class="col-lg-12 text-center mb-3">
-              <p class="title">OFFICIAL HOTEL PARTNERS</p>
+              <p class="title"><?= strtoupper($data_hotel[0]->header_title)?></p>
           </div>
       </div>
       <div class="row">

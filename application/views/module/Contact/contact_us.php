@@ -327,6 +327,9 @@
         background: url('<?php echo $data_footer; ?>');
         /* background-repeat: no-repeat; */
     }
+    section{
+        margin-top: 150px;
+    }
 </style>
 
 <section class="inner-banner hero-section" style="background-image: url('<?php echo base_url("./assets/images/upload/contact_us/".$data_contact_us[0]->file_upload."");?>'); padding: 7.5rem 0 !important; background-size: cover; background-position: center;" data-desktop_image="https://coatingshow.com/bg-header.jpg" data-mobile_image="https://coatingshow.com/bg-header.jpg">

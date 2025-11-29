@@ -24,10 +24,9 @@ Hero Section
   background-position: center;
   height: 350px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  color: #fff;
-  text-align: center;
+  padding-left: 190px;
   margin-top: 150px;
 }
 
