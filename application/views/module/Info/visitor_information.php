@@ -32,6 +32,9 @@
         background: url('<?php echo $data_footer; ?>');
         /* background-repeat: no-repeat; */
     }
+    section{
+        margin-top: 150px;
+    }
 </style>
 
 <section id="event_date" class="portfolio section">

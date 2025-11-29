@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-error_reporting(0);
+
 class Home extends CI_Controller {
 
   public function __construct()
@@ -716,7 +716,6 @@ public function delete_sub_menu(){
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
       $config['file_name']     		= md5(date("Ymdhis")).".".$exp[1];
-      $file_edit = $config['file_name'];
       $this->load->library('upload', $config);
       $this->upload->initialize($config);	
       if (!$this->upload->do_upload('file')) {
@@ -736,7 +735,7 @@ public function delete_sub_menu(){
         $this->image_lib->clear();          
       }
     }   
-    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description,$file_edit);
+    $insert = $this->M_Home->update_product($code,$name,$position,$status,$description,$config['file_name']);
     if($insert == true){
       $this->session->set_flashdata('update', 'Update Data Successfully.');
       redirect('Home/Product');         
@@ -760,6 +759,36 @@ public function delete_sub_menu(){
       echo "Failed";
     }   
     $cek_data = $this->M_Home->delete_product($code);
+    if ($this->db->affected_rows()) {
+      echo "OK";
+    }
+    else{
+      echo "Failed";
+    }   
+  }
+  
+  public function update_product2(){
+    $code = $this->input->post("code");
+    $title = $this->input->post("header_title");
+    $status = $this->input->post("status");  
+    $insert = $this->db->query(" UPDATE product SET header_title = '".$title."',status_header = '".$status."'
+                                    WHERE id = '".$code."'
+                                ");
+    if($insert == true){
+      $this->session->set_flashdata('update', 'Update Data Successfully.');
+      redirect('Home/Product');         
+    }
+    else{
+      $this->session->set_flashdata('not_update', 'Update Data Failed.');
+      redirect('Home/Product');
+    } 
+  }
+
+  public function delete_product2(){
+    $code = $this->input->post("code");
+    $this->db->query(" UPDATE product SET status_header = '1'
+                          WHERE id = '".$code."'
+                      ");
     if ($this->db->affected_rows()) {
       echo "OK";
     }
@@ -1205,7 +1234,7 @@ public function delete_sub_menu(){
     $this->template->load('Admin/role','module/Home/contact',$data);
   }
 
-  public function add_contact(){
+   public function add_contact(){
     $name = $this->input->post("name");
     $company = $this->input->post("company");
     $position = $this->input->post("position");
@@ -1243,6 +1272,7 @@ public function delete_sub_menu(){
       redirect('Home/Contact');
     } 
   }
+
 
   public function delete_contact(){
     $code = $this->input->post("code");
@@ -1609,7 +1639,7 @@ public function delete_sub_menu(){
       echo "Failed";
     }   
   }
-
+  
   public function update_carousel2(){
     $code = $this->input->post("code");
     $title = $this->input->post("header_title");
