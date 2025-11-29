@@ -2,7 +2,7 @@
 
 class M_Visiting extends CI_Model{	
 
-    function get_conference_schedule($params) {
+    function get_conference_schedule_($params) {
         
         $this->db->select('
             p.id AS program_id,
@@ -329,11 +329,6 @@ class M_Visiting extends CI_Model{
 		$qWhere = array();
 		$qTotal = 0;
 
-		$userid = $this->session->userdata('userid');
-		$user   = $this->session->userdata('username');
-		$type   = $this->session->userdata('usertype');
-		$nik    = $this->session->userdata('nik');
-		
         $this->db->select('
             csi_contents.id,
             csi_contents.menu_id,
@@ -880,4 +875,245 @@ class M_Visiting extends CI_Model{
 			);
 		}
 	}
+
+	public function conference_program_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+        $this->db->select('
+            *
+        ');
+        $this->db->from('csi_conferences');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    => $i,
+				"id" 		    => $row->id,
+				"event_name" 	=> $row->event_name,
+				"speaker_name" 	=> $row->speaker_name,
+                "program_date"  => $row->program_date,
+				"program_location" => $row->program_location
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
+
+	function get_conference_schedule($params = []) {
+
+        $this->db->select('
+            e.id AS program_id,
+            e.event_name AS program_title,
+            "Seminar" AS program_type,
+            e.program_date AS program_date,
+            e.program_start_time AS program_start_time,
+            e.program_end_time AS program_end_time,
+            e.program_location AS program_location,
+            e.program_register_link AS program_register_link,
+            e.speaker_name AS speaker_name,
+            "" AS speaker_organization,
+            e.event_name,
+            YEAR(e.program_date) AS event_year
+        ');
+        $this->db->from('csi_conferences e');
+
+		if (!empty($params)) {
+			foreach ($params as $key => $value) {
+				if ($value === '' || $value === null) continue;
+
+				switch ($key) {
+					case 'event_id':
+						$this->db->where('e.id', $value);
+						break;
+					default:
+						$this->db->where($key, $value);
+						break;
+				}
+			}
+		}
+
+
+        $this->db->order_by('e.program_date', 'DESC');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+
+	public function conference_datatable() {
+		
+		$filter = $this->input->post('filter') ?? "";
+		$start  = $this->input->post('start');
+		$limit  = $this->input->post('length');
+		$search = strtolower($this->input->post('search')['value'] ?? '');
+		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
+		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
+		
+		$where  = "";
+		$orderq = "";
+		$qWhere = array();
+		$qTotal = 0;
+
+        $this->db->select('*');
+        $this->db->from('csi_conference_schedule');
+        // where conditions
+        $this->db->where('conference_type', 'conference');
+        $this->db->where('conference_status', 'active');
+        // order by
+		$this->db->order_by('conference_order', 'ASC');
+        // limit & offset
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        // $result = $query->result();
+        // print_r($query->row);
+        // echo $this->db->last_query();
+		// echo "<pre> RESULT:";
+        // print_r($query->result());
+        // echo "</pre>";
+        // die();
+		$r = $query->result();
+		$obj 	= array();
+		$i 		= 1;
+		$menu 	= "";
+		$tag 	= "";
+		$isedit	= "";
+        
+		foreach($r as $row) {
+            
+			$menu  = "<div style='text-align: center;'>";
+            $menu .= "<div class='buttons is-right is-small' style='display: inline-flex; gap: 0.25rem;'>";
+			// Edit button
+            $menu .= "<button class='button is-small is-info' onclick='edit($row->id)' title='Edit this record'>
+					<span class='icon is-small'><i class='fas fa-edit'></i></span>
+				</button>";
+
+			// Delete button
+            $menu .= "<button class='button is-small is-danger' onclick='hapus($row->id)' title='Delete this record'>
+					<span class='icon is-small'><i class='fas fa-trash'></i></span>
+				</button>";
+
+            $menu .= "</div></div>";
+
+            $data = array(
+				"no" 		    	=> $i,
+				"id" 		    	=> $row->id,
+				"conference_year" 	=> $row->conference_year,
+				"conference_title" 	=> $row->conference_title,
+                "conference_path"   => $row->conference_path,
+				"conference_order"	=> $row->conference_order,
+                "conference_status"	=> $row->conference_status,
+			);
+			array_push($obj , $data);
+			$i++;
+		}
+
+		if($query -> num_rows() > 0) {
+			return json_encode(
+				array(
+					'recordsTotal' => $query->num_rows(),
+					'recordsFiltered' => $query->num_rows(),
+					'data' 		=> $obj
+				)
+			);
+		}
+		else {
+			return json_encode(
+				array(
+					'recordsTotal' 		=> 0,
+					'recordsFiltered' 	=> 0,
+					'data' => ''
+				)
+			);
+		}
+	}
+
+	function get_data_conference_schedule($params = []) {
+
+        $this->db->select('*');
+        $this->db->from('csi_conference_schedule cs');
+
+		if (!empty($params)) {
+			foreach ($params as $key => $value) {
+				if ($value === '' || $value === null) continue;
+
+				switch ($key) {
+					case 'event_id':
+						$this->db->where('cs.id', $value);
+						break;
+					default:
+						$this->db->where($key, $value);
+						break;
+				}
+			}
+		}
+
+
+        $this->db->order_by('cs.conference_order', 'ASC');
+
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
 }
