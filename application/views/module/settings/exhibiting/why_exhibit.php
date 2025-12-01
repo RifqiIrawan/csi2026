@@ -508,15 +508,6 @@
                     <textarea class="form-control" rows="4" name="bannersubtitle" id="editBannerSubtitle" placeholder="Enter banner subtitle"></textarea>
                   </div>
 
-                  <!-- <div class="mb-3">
-                    <label class="form-label">Banner Image</label>
-                    <input type="file" class="form-control" name="bannerimage" accept="image/*">
-                    <small class="form-text text-muted">Recommended size: 1200x400px</small>
-                    <div class="mt-2">
-                      <img id="editBannerPreview" src="" alt="Current Banner" class="img-thumbnail" style="max-height:120px; display:none;">
-                    </div>
-                  </div> -->
-
                   <div class="mb-3">
                       <label class="form-label">Banner Image</label>
                       <input type="file" class="form-control" name="image" id="editBannerImage" accept="image/*">
@@ -821,11 +812,8 @@
                   </div>
 
                   <div class="mb-3">
-                      <label for="editTestimonialText" class="form-label">Testimonial</label>
-                      <textarea class="form-control" rows="4"
-                        name="testimonialtext"
-                        id="editTestimonialText"
-                        placeholder="Write the testimonial here"></textarea>
+                    <label for="testimonialText" class="form-label">Testimonial</label>
+                    <textarea id="editTestimonialText" class="form-control" rows="4" name="testimonialtext" placeholder="Write the testimonial here"></textarea>
                   </div>
 
                   <div class="mb-3">
@@ -876,7 +864,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
 <script>
 
-  let sectionEditor, visainformationEditor, testimonialEditor;
+  let sectionEditor, visainformationEditor;
 
   // 2️⃣ Inisialisasi CKEditor
   document.addEventListener('DOMContentLoaded', function () {
@@ -952,15 +940,15 @@
         .catch(error => console.error(error));
 
     // EDITOR 3
-    CKEDITOR.ClassicEditor
-        .create(document.querySelector('#editTestimonialText'), {
-            ...baseConfig
-        })
-        .then(editor => {
-            testimonialEditor = editor;
-            console.log('CKEditor 3 ready');
-        })
-        .catch(error => console.error(error));
+    // CKEDITOR.ClassicEditor
+    //     .create(document.querySelector('#editTestimonialText'), {
+    //         ...baseConfig
+    //     })
+    //     .then(editor => {
+    //         testimonialEditor = editor;
+    //         console.log('CKEditor 3 ready');
+    //     })
+    //     .catch(error => console.error(error));
 
 });
 
@@ -1463,6 +1451,10 @@
     // Submit Edit Form
     $('#editSection1Form').on('submit', function(e) {
         e.preventDefault(); // <-- prevent default form submission
+
+        if ($(this).attr('id') === 'editSection1Form') {
+            $('#editSection1Description').val(sectionEditor.getData());
+        }
         
         var formData = new FormData(this);
 
@@ -1661,7 +1653,9 @@
     // Submit Edit Form
     $('#editVisaInformationForm').on('submit', function(e) {
         e.preventDefault(); // <-- prevent default form submission
-        
+        if ($(this).attr('id') === 'editVisaInformationForm') {
+            $('#editVisaInformationDescription').val(visainformationEditor.getData());
+        }
         var formData = new FormData(this);
 
         $.ajax({
@@ -1815,10 +1809,12 @@
         $("#editTestimonialCompany").val(data.testimonial_company);
         $("#editTestimonialOrder").val(data.testimonial_order);
         $("#pasttestimonialtext").val(data.testimonial_message || '');
+        $("#editTestimonialText").val(data.testimonial_message);
+        
 
-        if (testimonialEditor) {
-          testimonialEditor.setData(data.testimonial_message || '');
-        }
+        // if (testimonialEditor) {
+        //   testimonialEditor.setData(data.testimonial_message || '');
+        // }
 
         if (data.testimonial_status === "1") {
             $("#editTestimonialActive").prop("checked", true);
@@ -1856,6 +1852,9 @@
   // ====== EDIT FORM SUBMIT ======
   $('#addTestimonialForm, #editTestimonialForm').on('submit', function(e){
         e.preventDefault();
+        // if ($(this).attr('id') === 'editTestimonialForm') {
+        //     $('#editTestimonialText').val(testimonialEditor.getData());
+        // }
         var formData = new FormData(this);
         $.ajax({
             url: $(this).attr('action'),
