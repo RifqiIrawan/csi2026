@@ -2223,7 +2223,8 @@ class Visiting extends CI_Controller {
         $post = $this->input->post();
 
         $id = (int) ($post['id'] ?? 0);
-        
+        $get = $this->M_Exhibiting->get('csi_conference_schedule', ['id' => $id]);
+        unlink("./".$get->row()->conference_path);
         try {
             if (!$id) {
                 throw new Exception('Invalid ID');

@@ -211,7 +211,13 @@
             height: 100%;
             object-fit: cover;
         } */
-
+        
+        .modern-carousel {
+            /* width: 100%; */
+            /* overflow: hidden; */
+            width: max-content;
+            /* position: relative; */
+        }
 
     </style>
     </head>
@@ -228,8 +234,8 @@
 
         <section class="py-5">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12 text-center mt-4 mb-4">
+                <div class="row justify-content-center" style="margin-top: 150px;margin-bottom:30px">
+                    <div class="col-lg-12 text-center mb-2">
                         <p class="title"><?= $title_conference; ?></p>
                     </div>
                 </div>

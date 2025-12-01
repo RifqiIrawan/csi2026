@@ -609,7 +609,7 @@
                             </div>
 
                             <p class="testimonial-text">
-                                “<?= htmlspecialchars($t['testimonial_message']); ?>”
+                                “<?= htmlspecialchars(str_replace(['<p>', '</p>'], '',$t['testimonial_message'])); ?>”
                             </p>
 
                             <?php if (!empty($author_line)): ?>
