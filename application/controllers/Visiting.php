@@ -220,6 +220,9 @@ class Visiting extends CI_Controller {
             case "conference-highlight-update":
                 $this->conference_highlight_update();
                 break;
+            case "conference-highlight-delete":
+                $this->conference_highlight_delete($id);
+                break;
             case "conference-title-highlight":
                 $this->conference_title_highlight();
                 break;
@@ -1262,6 +1265,49 @@ class Visiting extends CI_Controller {
             'message' => 'Banner successfully updated.'
         ]);
     }
+
+    public function conference_highlight_delete($id){
+        
+        $highlightid      = (int) $id;
+        
+        if (!$highlightid) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid data.'
+            ]);
+            return;
+        }
+
+        $file_path = './assets/uploads/conference_schedule/';
+        
+        // ===== Ambil data media ===== //
+        $media = $this->db->get_where('csi_content_media', ['content_id' => $highlightid])->row();
+
+        $highlightmediaid = (int) $media->id;
+
+        if ($media && !empty($media->file_path)) {
+            $filename = basename($media->file_path);
+
+            // Hapus file fisik
+            if (file_exists('./' . $media->file_path)) {
+                unlink('./' . $media->file_path);
+            }
+        }
+
+        // ===== Hapus dari table csi_content_media ===== //
+        $this->db->where('id', $highlightmediaid);
+        $this->db->delete('csi_content_media');
+
+        // ===== Hapus dari table csi_contents ===== //
+        $this->db->where('id', $highlightid);
+        $this->db->delete('csi_contents');
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Highlight successfully deleted.'
+        ]);
+    }
+
 
     public function conference_banner_add(){
         // print_r($this->input->post());

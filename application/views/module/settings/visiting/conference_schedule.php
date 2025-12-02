@@ -698,6 +698,8 @@
         responsive: true,
         processing: true,
         serverSide: true,
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
         ajax: {
           url: base_url + "visiting/conference-datatable",
           type: "POST",
@@ -1211,6 +1213,8 @@
         responsive: true,
         processing: true,
         serverSide: true,
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
         ajax: {
           url: base_url + "visiting/conference-highlight-datatable",
           type: "POST",
@@ -1249,7 +1253,7 @@
                         data-id="${row.id}" title="Edit">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-sm btn-danger deleteSection_conference" 
+                <button class="btn btn-sm btn-danger deleteHighlight" 
                         data-id="${row.id}" title="Delete">
                   <i class="bi bi-trash"></i>
                 </button>`;
@@ -1340,7 +1344,41 @@
               error:function(){ Swal.fire("Error!","Server error","error"); }
           });
       });
-      // END
+      
+      $(document).on('click', '.deleteHighlight', function () {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'This section will be permanently deleted!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        }).then(result => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: base_url + 'visiting/conference-highlight-delete/' + id,
+              type: 'POST',
+              dataType: 'json',
+              success: function (res) {
+                Swal.fire({
+                    icon: res.success ? 'success' : 'error',
+                    title: res.success ? 'Deleted!' : 'Error',
+                    text: res.message
+                });
+
+                if (res.success) {
+                    highlightTable.ajax.reload(null, false);
+                }
+              },
+              error: function () {
+                Swal.fire('Error', 'Failed to connect to server', 'error');
+              }
+            });
+          }
+        });
+      });
 
       // ========================================
       // ACTIVATE TAB BASED ON URL HASH
