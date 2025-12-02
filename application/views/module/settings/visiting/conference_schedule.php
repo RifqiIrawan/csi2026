@@ -267,9 +267,9 @@
         <a class="nav-link" id="tab-titleconferences" data-bs-toggle="tab" href="#titleconferences" role="tab">
           <i class="fa fa-heading"></i> Title Conferences
         </a>
-        <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
+        <!-- <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
           <i class="fa fa-list"></i> Banner
-        </a>
+        </a> -->
         <a class="nav-link" id="tab-showhighlights" data-bs-toggle="tab" href="#showhighlights" role="tab">
           <i class="fa fa-star"></i> Highlights
         </a>

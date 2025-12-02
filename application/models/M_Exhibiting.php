@@ -78,7 +78,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -93,40 +94,6 @@ class M_Exhibiting extends CI_Model{
 		$type   = $this->session->userdata('usertype');
 		$nik    = $this->session->userdata('nik');
 		
-
-		// if ($this->input->post('order')) {
-		// 	$sortCount = sizeof($this->input->post('order'));
-		// 	for ($i = 0; $i <pre $sortCount; $i++) {
-		// 		if ($i > 0) {
-		// 			$orderq .= ",";
-		// 		}
-		// 		$orderq .= $this->input->post('columns')[$this->input->post('order')[$i]['column']]['data'] 
-		// 					. " " . $this->input->post('order')[$i]['dir'];
-		// 	}
-		// }
-
-		// $where .= "WHERE csi_contents.content_year = 'banner' AND csi_contents.content_year = 2026 ";
-		
-		// if ( $search !== "" ) {
-		// 	$where .= " where id = ? OR start_date LIKE ? OR end_date LIKE ? OR nama_karyawan LIKE ? ";
-		// 	array_push($qWhere, $search, "%".$search."%", "%".$search."%", "%".$search."%");
-		// }
-		
-		// $q = "SELECT csi_contentsid
-		// 	, csi_contents.menu_id
-		// 	, csi_contents.content_year
-		// 	, csi_contents.content_type
-		// 	, csi_contents.title
-		// 	, csi_contents.subtitle
-		// 	, csi_contents.body_text
-		// 	FROM csi_contents 
-		// 	LEFT JOIN csi_content_media on csi_contents.id = csi_content_media.content_id
-		// 	$where 
-		// 	ORDER BY $orderq LIMIT $limit OFFSET $start";
-		
-		// $query 	= $this->db>query($q, $qWhere);
-        
-            // -- csi_content_media.id as id,
         $this->db->select('
             csi_contents.id,
             csi_contents.menu_id,
@@ -150,6 +117,7 @@ class M_Exhibiting extends CI_Model{
         $query = $this->db->get();
         // $result = $query->result();
         // print_r($query->row);
+        // echo $this->db->last_query();
 		// echo "<pre> RESULT:";
         // print_r($query->result());
         // echo "</pre>";
@@ -358,7 +326,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -477,7 +446,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -596,7 +566,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -726,7 +697,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -860,7 +832,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -956,7 +929,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -1071,7 +1045,8 @@ class M_Exhibiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+        $limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';

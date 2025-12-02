@@ -1037,6 +1037,11 @@
     // ============================
     $('#addSection1VisaForm').on('submit', function(e) {
       e.preventDefault();
+
+      if ($(this).attr('id') === 'addSection1VisaForm') {
+          $('#visa_description').val(visainformationEditor.getData());
+      }
+
       const formData = new FormData(this);
 
       $.ajax({
@@ -1074,6 +1079,11 @@
     // ============================
     $('#editSection1VisaForm').on('submit', function(e) {
       e.preventDefault();
+
+      if ($(this).attr('id') === 'editSection1VisaForm') {
+          $('#editSection1VisaDescription').val(sectionEditor.getData());
+      }
+
       const formData = new FormData(this);
 
       $.ajax({

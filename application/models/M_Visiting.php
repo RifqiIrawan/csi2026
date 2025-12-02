@@ -74,7 +74,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -182,7 +183,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -319,7 +321,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -428,7 +431,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -544,7 +548,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -659,7 +664,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -769,7 +775,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -880,7 +887,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
@@ -1005,7 +1013,8 @@ class M_Visiting extends CI_Model{
 		
 		$filter = $this->input->post('filter') ?? "";
 		$start  = $this->input->post('start');
-		$limit  = $this->input->post('length');
+		// $limit  = $this->input->post('length');
+		$limit = 100;
 		$search = strtolower($this->input->post('search')['value'] ?? '');
 		$order  = $this->input->post('columns')[$this->input->post('order')[0]['column']]['data'] ?? '';
 		$sort   = $this->input->post('order')[0]['dir'] ?? 'asc';
