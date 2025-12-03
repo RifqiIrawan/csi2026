@@ -35,6 +35,7 @@
 /* Bagian atas footer (pembatas dari konten utama) */
 .footer .footer-top {
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+      padding: 15px;
 }
 
 /* Link di dalam footer */
@@ -114,11 +115,6 @@
 /* Responsif untuk layar kecil */
 @media (max-width: 600px) {
   .footer .footer-links {
-    margin-bottom: 0px;
-    text-align: left;
-  }
-
-  .footer .footer-about {
     margin-bottom: 0px;
     text-align: left;
   }
@@ -218,89 +214,89 @@ a {
 </footer> -->
 
 <footer id="footer" class="footer dark-background mt-3" style="background-image: url('<?php echo base_url('Website/assets/img/ftr.jpg'); ?>');">
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-3 footer-about mb-1">
-          <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
-          <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_organizer[0]->folder_name.$data_organizer[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
-          <!-- <div class="social-links d-flex mt-3">
-            <?php 
-              foreach($data_sosmed as $row_sosmed){ 
-            ?> 
-            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
-            <?php } ?>
-          </div> -->
-        </div>
-        <div class="col-lg-3 footer-about mb-1">
-          <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
-          <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_member[0]->folder_name.$data_member[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
-        </div>
-        <div class="col-lg-3 footer-about mb-1">
-          <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
+  <div class="container footer-top">
+    <div class="row gy-4">
+      <div class="col-lg-3 footer-about mb-1">
+        <p style="font-size: 24px; color:white; font-weight:800">ORGANISED BY</p>
+        <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_organizer[0]->folder_name.$data_organizer[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
+        <!-- <div class="social-links d-flex mt-3">
           <?php 
-            foreach($data_qlink as $row_qlink){ 
-              if($row_qlink->flag == 1){
-                $link = "Exhibiting";
-              }else{
-                $link = $row_qlink->url;
-              }
+            foreach($data_sosmed as $row_sosmed){ 
           ?> 
-            <p style="">
-              <a style="color:white;font-weight:600;font-size:16px" href="<?php echo $link ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a>
-            </p>
+          <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->nama)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
+          <?php } ?>
+        </div> -->
+      </div>
+      <div class="col-lg-3 footer-about mb-1">
+        <p style="font-size: 24px; color:white; font-weight:800">MEMBER OF</p>
+        <img width="175px" height="160px" style="border-radius: 50%;" data-src="<?php echo base_url($data_member[0]->folder_name.$data_member[0]->file_upload);?>" class="attachment-full size-full lazyload" alt="">
+      </div>
+      <div class="col-lg-3 footer-about mb-1">
+        <p style="font-size: 24px; color:white; font-weight:800">QUICK LINKS</p>
+        <?php 
+          foreach($data_qlink as $row_qlink){ 
+            if($row_qlink->flag == 1){
+              $link = "Exhibiting";
+            }else{
+              $link = $row_qlink->url;
+            }
+        ?> 
+          <p style="">
+            <a style="color:white;font-weight:600;font-size:16px" href="<?php echo $link ?>" title="<?php echo ucwords($row_qlink->title)?>"><?php echo ucwords($row_qlink->title)?></a>
+          </p>
+        <?php } ?>
+      </div>
+      <div class="col-lg-3 footer-about mb-1">
+        <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
+        <?php 
+          foreach($data_contact as $row_contact){ 
+        ?> 
+          <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
+          <p style="font-size: 16px; color:white; font-weight:600;margin-top:-10px"><?php echo ucwords($row_contact->position)?></p>
+          <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-10px;margin-bottom: 15px;">
+            <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
+              <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            </a>
+            <a href="mailto:<?php echo $row_contact->mail?>" style="margin-top: 5px !important;color:#AEFF4BFF" target="_blank" rel="noopener">
+              <i class="bi bi-envelope-paper" aria-hidden="true"></i>
+            </a>
+          </p>
+        <?php } ?>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 text-center">          
+        <div style="color:#AEFF4BFF;font-size:24px;"><b>Connect <span style="color:white;">With</span> Us</b></div>
+      </div>
+      <div class="col-lg-4 text-center">
+      </div>
+      <div class="col-lg-4 text-center">
+        <div class="social-links d-flex mb-2 mt-1">
+          <?php 
+            foreach($data_sosmed as $row_sosmed){ 
+          ?> 
+          <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->name)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
           <?php } ?>
         </div>
-        <div class="col-lg-3 footer-about mb-1">
-          <p style="font-size: 24px; color:white; font-weight:800">CONTACT US</p>
-          <?php 
-            foreach($data_contact as $row_contact){ 
-          ?> 
-            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
-            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-10px"><?php echo ucwords($row_contact->position)?></p>
-            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-10px;margin-bottom: 15px;">
-              <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
-                <i class="bi bi-whatsapp" aria-hidden="true"></i>
-              </a>
-              <a href="mailto:<?php echo $row_contact->mail?>" style="margin-top: 5px !important;color:#AEFF4BFF" target="_blank" rel="noopener">
-                <i class="bi bi-envelope-paper" aria-hidden="true"></i>
-              </a>
-            </p>
-          <?php } ?>
-        </div>
       </div>
-      <div class="row">
-        <div class="col-lg-12 text-center">          
-          <div style="color:#AEFF4BFF;font-size:24px;"><b>Connect <span style="color:white;">With</span> Us</b></div>
-        </div>
-        <div class="col-lg-4 text-center">
-        </div>
-        <div class="col-lg-4 text-center">
-          <div class="social-links d-flex mb-2 mt-1">
-            <?php 
-              foreach($data_sosmed as $row_sosmed){ 
-            ?> 
-            <a href="<?php echo $row_sosmed->url ?>" title="<?php echo ucwords($row_sosmed->name)?>"><i class="<?php echo "bi bi-".$row_sosmed->icon;?>"></i></a>
-            <?php } ?>
-          </div>
-        </div>
-        <div class="col-lg-4 text-center">
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12">          
-          <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visitors under age 18 will not be permitted.</b></div>
-        </div>
-      </div>
-
-      <div class="row">
+      <div class="col-lg-4 text-center">
       </div>
     </div>
 
-    <div class="container copyright text-center mt-2">      
-      <div><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
+    <div class="row">
+      <div class="col-lg-12">          
+        <div class="text-center" style="color:white;"><b>Note: Admision is free for trade and industry professionals. Visitors under age 18 will not be permitted.</b></div>
+      </div>
     </div>
-  </footer>
+
+    <div class="row">
+    </div>
+  </div>
+
+  <div class="container copyright text-center mt-2">      
+    <div style="margin-top: -20px;"><b>©Copyright <?php echo ucwords($data_profile->company_name)?> <?php echo date('Y');?></b></div>
+  </div>
+</footer>
 
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <!-- <div id="preloader"></div> -->
@@ -352,4 +348,21 @@ a {
 <script src="<?php echo base_url();?>assets/coatingshow/flickity.pkgd.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/bs-filestyle.js"></script>
 <script type="<?php echo base_url();?>assets/coatingshow/owl.carousel.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>       
+<script>
+    document.querySelectorAll(".navmenu .dropdown .chevron").forEach(function(icon) {
+    icon.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let parent = this.closest(".dropdown");
+      let submenu = parent.querySelector("ul");
+
+      submenu.classList.toggle("show");
+      this.classList.toggle("rotate");
+    });
+  });
+ </script>
 </html>

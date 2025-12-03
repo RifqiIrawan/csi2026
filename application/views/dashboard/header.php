@@ -249,13 +249,6 @@
         position: relative;
       }
     }
-
-    .footer {
-      color: var(--default-color);
-      background-color: black;
-      font-size: 14px;
-      position: relative;
-    }
     
     .section-title { 
       font-size: 1.75rem;
@@ -745,7 +738,7 @@
     .footer {
       color: black;
       /* background-color: black; */
-      font-size: 15px;
+      font-size: 14px;
       position: relative;
       background: url('<?php echo $data_footer; ?>');
       /* background: url(./Website/assets/img/ftr.jpg); */
@@ -1306,7 +1299,7 @@
   .overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.2));
+    /* background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.2)); */
     z-index: 1;
   }
 
@@ -1388,25 +1381,81 @@
         cursor: pointer;
         transition: color 0.3s;
     }
-  }
 
-  @media (max-width: 1199px) {
     .navmenu {
       padding: 0;
       z-index: 9997;
       margin-top: -15px;
     }
+
+    
+    .navmenu .dropdown ul {
+      display: none !important;
+      padding-left: 0px;
+      border: 1px solid transparent;
+      margin-top: -5px;
+    }
+
+    .navmenu .dropdown ul.show {
+      display: block !important;
+    }
+
+    .chevron {
+      transition: transform .3s ease;
+    }
+
+    .chevron.rotate {
+      transform: rotate(180deg);
+    }
   }
 
+  
+</style>
+
+<style>
+  @media (max-width: 1199px) {
+    /* Untuk edit image agar ke cover semua */
+    /*ini untuk cove image swipper */   
+    .swiper {
+        height: 250px;   /* tinggi slider untuk hp */
+    }
+
+    .swiper-slide img {
+        object-fit: cover;
+    }
+
+    .portfolio .portfolio-content img {
+      /* transition: 0.3s; */
+      height: fit-content;
+      object-fit: cover;
+    }
+
+    .owl-carousel .owl-item img {
+      padding: inherit;
+      height: auto;
+    }
+
+    .container p {
+      text-align: left;
+    }
+
+    .footer p {
+      text-align: center;
+      /* margin-left: 10px; */
+    }
+
+    .down{
+      margin-bottom: 20px;
+    }
+  }
 </style>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>                   
 
 <body class="index-page">
   <div class="row">
     <div class="col-lg-12">
-      <header id="header" class="header d-flex align-items-center sticky-top">
+      <!-- <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
           <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
               <img width="190" height="70" src="<?php echo base_url($data_profile->folder."".$data_profile->logo);?>" alt="<?php echo base_url($data_profile->nick_name);?>">
@@ -1438,6 +1487,45 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
           </nav>
         </div>
+      </header> -->
+
+      <header id="header" class="header d-flex align-items-center sticky-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+          <a href="<?= base_url("dashboard"); ?>" class="logo d-flex align-items-center">
+            <img src="<?= base_url($data_profile->folder . $data_profile->logo); ?>" alt="<?= $data_profile->nick_name; ?>" />
+          </a>
+          <div id="nav-overlay" class="nav-overlay"></div>
+          <nav id="navmenu" class="navmenu">
+            <ul class="menu-root">
+              <?php foreach ($data_menu as $row): 
+                $submenu = $this->db->query("SELECT * FROM submenu WHERE menu_id = '".$row->id."'")->result();
+                $has_sub = count($submenu) > 0;
+              ?>
+              <li class="dropdown">
+                <a href="<?= base_url($row->url) ?>">
+                  <span><?= $row->name ?></span>
+                  <?php if(count($submenu) > 0): ?>
+                    <i class="bi bi-chevron-down chevron"></i>
+                  <?php endif; ?>
+                </a>
+
+                <ul>
+                  <?php foreach ($submenu as $rw): ?>
+                    <li><a href="<?= base_url($rw->url); ?>"><?= strtoupper($rw->sub_name) ?></a></li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+
+
+              <?php endforeach; ?>
+            </ul>
+
+            <!-- hamburger -->
+            <!-- <button id="mobile-toggle" class="mobile-nav-toggle d-xl-none" aria-label="Toggle navigation"> -->
+              <i id="mobile-toggle" class="mobile-nav-toggle d-xl-none bi bi-list" aria-hidden="true"></i>
+            <!-- </button> -->
+          </nav>
+        </div>
       </header>
     </div>
     <!-- <div class="col-lg-4 mt-3 text-center" style="font-family: Montserrat, sans-serif;">
@@ -1451,5 +1539,5 @@
       <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
     </div> -->
   </div>
-
-  
+ 
+  <main class="main">

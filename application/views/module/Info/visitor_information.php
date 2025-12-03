@@ -35,6 +35,12 @@
     section{
         margin-top: 150px;
     }
+
+    @media (max-width: 1199px) {
+        .container p {
+            text-align: left;
+        }
+    }
 </style>
 
 <section id="event_date" class="portfolio section">

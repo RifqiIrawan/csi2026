@@ -804,6 +804,22 @@
     });
   </script>
 
+<script>
+  $(function(){
+    // Tutup semua collapse saat load
+    if (typeof $.fn.collapse === 'function') {
+      $('.collapse').each(function(){
+        $(this).collapse('hide');
+      });
+    }
+    // Pastikan atribut aria-expanded false pada semua toggles
+    $('.nav-link[data-toggle="collapse"]').attr('aria-expanded', 'false');
+    // Hapus/biarkan class 'open/active' pada li jika mau
+    $('.menu-items').removeClass('active');
+  });
+</script>
+
+
   <body>
     <div class="container-scroller">
       

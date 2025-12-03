@@ -332,9 +332,9 @@
     }
 </style>
 
-<section class="inner-banner hero-section" style="background-image: url('<?php echo base_url("./assets/images/upload/contact_us/".$data_contact_us[0]->file_upload."");?>'); padding: 7.5rem 0 !important; background-size: cover; background-position: center;" data-desktop_image="https://coatingshow.com/bg-header.jpg" data-mobile_image="https://coatingshow.com/bg-header.jpg">
+<section class="inner-banner hero-section" style="background-image: url('<?php echo base_url("./assets/images/upload/contact_us/".$data_contact_us[0]->file_upload."");?>'); padding: 7.5rem 0 !important; background-size: cover; background-position: center;">
     <div class="container">
-        <h2 class="text-light"><?php echo ucwords($data_contact_us[0]->title);?></h2>
+        <h2 class="text-light title"><?php echo strtoupper($data_contact_us[0]->title);?></h2>
     </div>
 </section>
 

@@ -26,7 +26,7 @@ Hero Section
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 190px;
+  padding-left: 20px;
   margin-top: 150px;
 }
 
@@ -41,7 +41,7 @@ Hero Section
   color: white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1199px) {
   .hero-title {
     font-size: 1.6rem;
   }
@@ -149,7 +149,7 @@ Horizontal Scroll
   background: #f0f0f0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1199px) {
   .show-feature-item {
     width: 200px;
   }

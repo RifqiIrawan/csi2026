@@ -162,9 +162,9 @@ section,
         color: white;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1199px) {
         .hero-title {
-            font-size: 1.6rem;
+            font-size: 28px;
         }
     }
     

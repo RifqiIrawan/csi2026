@@ -145,7 +145,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 7);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -394,7 +394,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 7);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -513,7 +513,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 7);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -635,7 +635,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 8);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -758,7 +758,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.content_type', 'section');
         $this->db->where('csi_contents.menu_id', 9);
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -884,7 +884,7 @@ class M_Exhibiting extends CI_Model{
         // $this->db->where('testimonial_status', 1);
         $this->db->order_by('testimonial_order', 'ASC');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -990,7 +990,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 8);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -1105,7 +1105,7 @@ class M_Exhibiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 9);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();

@@ -38,9 +38,9 @@
           <?php 
             foreach($data_contact as $row_contact){ 
           ?> 
-            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
-            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
-            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
+            <p class="down" style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
+            <p class="down" style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
+            <p class="down" style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
               <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
                 <i class="bi bi-whatsapp" aria-hidden="true"></i>
               </a>
@@ -222,9 +222,26 @@
 
 <script src="<?php echo base_url();?>assets/coatingshow/plugins.min.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/functions.js"></script>
-
+      
 
 <script src="<?php echo base_url();?>assets/coatingshow/flickity.pkgd.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/bs-filestyle.js"></script>
 <script type="<?php echo base_url();?>assets/coatingshow/owl.carousel.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>       
+<script>
+    document.querySelectorAll(".navmenu .dropdown .chevron").forEach(function(icon) {
+    icon.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let parent = this.closest(".dropdown");
+      let submenu = parent.querySelector("ul");
+
+      submenu.classList.toggle("show");
+      this.classList.toggle("rotate");
+    });
+  });
+ </script>
 </html>

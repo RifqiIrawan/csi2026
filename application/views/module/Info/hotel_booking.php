@@ -42,15 +42,16 @@
 
     .title-hotel{
         color: #fff;
-        font-size: 1.2em;
+        font-size: 1em;
         align-self: center;
         position: absolute;
         z-index: 10;
         text-align: center;        
         font-weight: 600;
+        margin-top: 50px;
     }
     .thumbnails {
-        width: calc(100% / 3);
+        /* width: calc(100% / 3); */
         margin: 0px;
         display: flex;
         justify-content: center;
@@ -58,12 +59,15 @@
         overflow: hidden;
         transition: transform .3s;
         margin-bottom: 20px;
+        object-fit: cover;
     }
 
     @media (min-width: 992px) {
         .modal-lg, .modal-xl {
             --bs-modal-width: 1000px;
         }
+
+       
     }
     .modal-body img {
         object-fit: contain;

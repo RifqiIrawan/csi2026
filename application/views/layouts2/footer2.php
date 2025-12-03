@@ -78,7 +78,58 @@
   </div>
 </footer> -->
 
-<footer id="footer" class="footer dark-background mt-3">
+<style>
+  .footer .footer-top {
+      padding-top: 15px;
+  }
+</style>
+
+
+<style>
+  @media (max-width: 1199px) {
+    /* Untuk edit image agar ke cover semua */
+    /*ini untuk cove image swipper */   
+    .swiper {
+        height: 250px;   /* tinggi slider untuk hp */
+    }
+
+    .swiper-slide img {
+        object-fit: cover;
+    }
+
+    .portfolio .portfolio-content img {
+      /* transition: 0.3s; */
+      height: fit-content;
+      object-fit: cover;
+    }
+
+    .owl-carousel .owl-item img {
+      padding: inherit;
+      height: auto;
+    }
+
+    /* .container p {
+      text-align: center;
+    } */
+
+    .footer p {
+      text-align: center;
+      /* margin-left: 10px; */
+    }
+
+    .down{
+      margin-bottom: 20px;
+    }
+
+    .footer .footer-about {
+      margin-bottom: 0px;
+      text-align: center;
+    }
+  }
+</style>
+
+
+  <footer id="footer" class="footer dark-background mt-3">
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-3 footer-about mb-1">
@@ -116,9 +167,9 @@
           <?php 
             foreach($data_contact as $row_contact){ 
           ?> 
-            <p style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
-            <p style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
-            <p style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
+            <p class="down" style="font-size: 16px; color:#AEFF4BFF; font-weight:600"><?php echo ucwords($row_contact->name)?></p>
+            <p class="down" style="font-size: 16px; color:white; font-weight:600;margin-top:-20px"><?php echo ucwords($row_contact->position)?></p>
+            <p class="down" style="font-size: 20px; color:#AEFF4BFF;font-weight:600;margin-top:-20px">
               <a style="margin-right: 10px !important; margin-top: 5px !important;color:#AEFF4BFF" href="https://wa.me/<?php echo $row_contact->hp?>" target="_blank" rel="noopener">                                   
                 <i class="bi bi-whatsapp" aria-hidden="true"></i>
               </a>
@@ -214,4 +265,21 @@
 <script src="<?php echo base_url();?>assets/coatingshow/flickity.pkgd.js"></script>
 <script src="<?php echo base_url();?>assets/coatingshow/bs-filestyle.js"></script>
 <script type="<?php echo base_url();?>assets/coatingshow/owl.carousel.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>       
+<script>
+    document.querySelectorAll(".navmenu .dropdown .chevron").forEach(function(icon) {
+    icon.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let parent = this.closest(".dropdown");
+      let submenu = parent.querySelector("ul");
+
+      submenu.classList.toggle("show");
+      this.classList.toggle("rotate");
+    });
+  });
+ </script>
 </html>

@@ -226,6 +226,10 @@ class Visiting extends CI_Controller {
             case "conference-title-highlight-update":
                 $this->conference_title_highlight_update();
                 break;
+                
+            case "delete_highlight":
+                $this->delete_highlight();
+                break;
             /* Part Post Show Report */
             case "post-show-report-settings":
                 $this->post_show_report_settings();
@@ -1263,6 +1267,42 @@ class Visiting extends CI_Controller {
         ]);
     }
 
+    public function delete_highlight()
+    {
+        $post = $this->input->post();
+
+        $id = (int) ($post['id'] ?? 0);
+        $get = $this->M_Exhibiting->get('csi_content_media', ['content_id' => $id]);
+        // print_r($get->row()->file_path);die();
+        if(file_exists("./".$get->row()->file_path)) {
+            unlink("./".$get->row()->file_path);
+        }
+        try {
+            if (!$id) {
+                throw new Exception('Invalid ID');
+            }
+
+            $deleted = $this->M_Exhibiting->delete('csi_content_media', ['content_id' => $id]);
+
+            if (!$deleted) {
+                throw new Exception('Failed to delete conference schedule');
+            }
+            $this->M_Exhibiting->delete('csi_contents', ['id' => $id]);
+
+            $response = [
+                'success' => true,
+                'message' => 'Delete Conference Schedule Successfully'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
     public function conference_banner_add(){
         // print_r($this->input->post());
         // print_r($_FILES);
@@ -2224,7 +2264,9 @@ class Visiting extends CI_Controller {
 
         $id = (int) ($post['id'] ?? 0);
         $get = $this->M_Exhibiting->get('csi_conference_schedule', ['id' => $id]);
-        unlink("./".$get->row()->conference_path);
+        if(file_exists("./".$get->row()->conference_path)) {
+            unlink("./".$get->row()->conference_path);
+        }
         try {
             if (!$id) {
                 throw new Exception('Invalid ID');
@@ -2249,6 +2291,8 @@ class Visiting extends CI_Controller {
 
         echo json_encode($response);
     }
+
+    
 
     public function conference_title(){
         $titleHeader = $this->M_Exhibiting->fetchData(

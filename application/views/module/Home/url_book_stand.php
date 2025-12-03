@@ -18,6 +18,10 @@
         height: auto;   /* jaga proporsi */
         display: block; /* hilangkan whitespace bawah pada inline images */
     }
+
+    section{
+        margin-top: 150px;
+    }
 </style>
 
 <section id="event_date" class="portfolio section">
@@ -32,7 +36,7 @@
                         </p>
                     </div>
                     <div class="col-lg-12 mb-3">
-                        <a href="https://coatingshow.com/file/CSI_2026_Contract_Form.docx" download="" class="btn btn-primary" style="padding: 10px 40px;border-radius: 20px;width: fit-content;margin-top:-10px"><b>Download Contract Form</b></a>
+                        <a href="<?php echo base_url();?>assets/images/upload/book_stand/<?php echo $data_book_stand[0]->upload_file?>" download="" class="btn btn-primary" style="padding: 10px 40px;border-radius: 20px;width: fit-content;margin-top:-10px"><b>Download Contract Form</b></a>
                     </div>
                     <div class="col-lg-12">
                         <?php echo $data_book_stand[0]->description?>
