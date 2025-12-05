@@ -239,6 +239,7 @@ class Visiting extends CI_Controller {
             case "delete_highlight":
                 $this->delete_highlight();
                 break;
+            
             /* Part Post Show Report */
             case "post-show-report-settings":
                 $this->post_show_report_settings();
@@ -1221,7 +1222,6 @@ class Visiting extends CI_Controller {
         ]);
     }
 
-<<<<<<< HEAD
     public function delete_highlight()
     {
         $post = $this->input->post();
@@ -1258,7 +1258,6 @@ class Visiting extends CI_Controller {
         echo json_encode($response);
     }
 
-=======
     public function conference_highlight_delete($id){
         
         $highlightid      = (int) $id;
@@ -1273,7 +1272,7 @@ class Visiting extends CI_Controller {
 
         $file_path = './assets/uploads/conference_schedule/';
         
-        // ===== Ambil data media ===== //
+        // ===== Ambil media ===== //
         $media = $this->db->get_where('csi_content_media', ['content_id' => $highlightid])->row();
 
         $highlightmediaid = (int) $media->id;
@@ -1281,7 +1280,7 @@ class Visiting extends CI_Controller {
         if ($media && !empty($media->file_path)) {
             $filename = basename($media->file_path);
 
-            // Hapus file fisik
+            // Hapus file
             if (file_exists('./' . $media->file_path)) {
                 unlink('./' . $media->file_path);
             }
@@ -1302,7 +1301,6 @@ class Visiting extends CI_Controller {
     }
 
 
->>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
     public function conference_banner_add(){
         // print_r($this->input->post());
         // print_r($_FILES);

@@ -1403,7 +1403,7 @@
         }).then(result => {
           if (result.isConfirmed) {
             $.ajax({
-              url: base_url + 'visiting/delete_highlight/' + id,
+              url: base_url + 'visiting/conference-highlight-delete/' + id,
               type: 'POST',
               dataType: 'json',
               success: function (res) {
