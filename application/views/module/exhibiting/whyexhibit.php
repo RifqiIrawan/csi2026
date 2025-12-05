@@ -29,11 +29,6 @@
     padding: 0;
     }
 
-    @media (max-width: 1199px) {
-    .hero .carousel {
-        min-height: 30vh;
-    }
-    }
 
     /* ======================
     Sections
@@ -57,13 +52,8 @@
     z-index: 2;
     }
 
-    @media (max-width: 600px) {
-    .section-title h2,
-    .heading_style4 h2 span {
-        font-size: 30px;
-        font-weight: 500;
-    }
-    }
+   
+
 
     /* ======================
     Heading Styles
@@ -190,7 +180,7 @@
     .footer {
       color: black;
       /* background-color: black; */
-      font-size: 15px;
+      font-size: 14px;
       position: relative;
       background: url(../Website/assets/img/footer.jpg);
       /* background-repeat: no-repeat; */
@@ -211,24 +201,6 @@
 
     .footer .copyright p {
     margin: 0 10px;
-    }
-
-    @media (max-width: 600px) {
-    .footer .footer-links,
-    .footer .footer-about {
-        margin-bottom: 0;
-        text-align: left;
-    }
-
-    .footer .social-links {
-        left: 0;
-    }
-
-    iframe {
-        width: 100%;
-        padding: 0;
-        position: static;
-    }
     }
 
     /* ======================
@@ -279,18 +251,10 @@
     }
 
     /* Responsif: 2 kolom di tablet */
-    @media (max-width: 992px) {
-    .column {
-        flex: 0 0 50%;
-    }
-    }
+   
 
     /* Responsif: 1 kolom di HP */
-    @media (max-width: 600px) {
-        .column {
-            flex: 0 0 100%;
-        }
-    }
+   
     /* Here */
     .hero-section {
         position: relative;
@@ -300,7 +264,7 @@
         display: flex;
         justify-content: flex-start; /* horizontal ke kiri */
         align-items: center;         /* vertical tetap di tengah */
-        padding-left: 190px;  
+        padding-left: 20px;  
         margin-top: 150px;    
     }
 
@@ -417,12 +381,6 @@
   flex: 0 0 auto;
   width: 250px; /* default size */
   scroll-snap-align: center;
-}
-
-@media (max-width: 768px) {
-  .show-feature-item {
-    width: 200px; /* smaller on mobile */
-  }
 }
 
 /* Arrow buttons */

@@ -1144,6 +1144,7 @@
     // ====== DELETE SECTION ======
     $(document).on('click', '.deleteSection_conference', function () {
       const id = $(this).data('id');
+      alert(id);
 
       Swal.fire({
         title: 'Are you sure?',
@@ -1173,6 +1174,50 @@
         }
       });
     });
+
+    $(document).on("click", ".deleteSection_highlight", function () {
+          let id = $(this).data("id");
+          // alert(id);
+          Swal.fire({
+              title: "Are you sure?",
+              text: "This item will be permanently deleted!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+              if (result.isConfirmed) {
+
+                  $.ajax({
+                      url: base_url + "visiting/delete_highlight",
+                      type: "POST",
+                      data: { id: id },
+                      dataType: "json",
+                      success: function (response) {
+                          if (response.success) {
+                              Swal.fire({
+                                  title: "Success!",
+                                  text: response.message,
+                                  icon: "success",
+                                  timer: 1200,
+                                  showConfirmButton: false
+                              }).then(() => {
+                                  window.location.reload();
+                              });
+                              
+                          } else {
+                              Swal.fire("Failed!", response.message, "error");
+                          }
+                      },
+                      error: function () {
+                          Swal.fire("Error!", "Something went wrong", "error");
+                      }
+                  });
+
+              }
+          });
+      });
 
     // ====== IMAGE PREVIEW HANDLERS ======
     $("#addSection1Image_conference").on("change", function () {
@@ -1213,8 +1258,12 @@
         responsive: true,
         processing: true,
         serverSide: true,
+<<<<<<< HEAD
+        pageLength: 10,
+=======
         pageLength: 50,
         lengthMenu: [10, 25, 50, 100],
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
         ajax: {
           url: base_url + "visiting/conference-highlight-datatable",
           type: "POST",
@@ -1253,7 +1302,11 @@
                         data-id="${row.id}" title="Edit">
                   <i class="bi bi-pencil-square"></i>
                 </button>
+<<<<<<< HEAD
+                <button class="btn btn-sm btn-danger deleteSection_highlight" 
+=======
                 <button class="btn btn-sm btn-danger deleteHighlight" 
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
                         data-id="${row.id}" title="Delete">
                   <i class="bi bi-trash"></i>
                 </button>`;

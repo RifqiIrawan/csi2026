@@ -249,13 +249,6 @@
         position: relative;
       }
     }
-
-    .footer {
-      color: var(--default-color);
-      background-color: black;
-      font-size: 14px;
-      position: relative;
-    }
     
     .section-title { 
       font-size: 1.75rem;
@@ -574,12 +567,6 @@
         /* margin-left: 10px; */
       }
 
-      .footer .footer-about {
-        margin-bottom: 0px;
-        text-align: left;
-        /* margin-left: 10px; */
-      }
-
       .footer .social-links{
         position: relative;
         left:0%;
@@ -740,7 +727,7 @@
     .footer {
       color: black;
       /* background-color: black; */
-      font-size: 15px;
+      font-size: 14px;
       position: relative;
       background: url(./Website/assets/img/ftr.jpg); 
       /* background-repeat: no-repeat; */
@@ -1219,7 +1206,7 @@
     color: white;
   }
   .footer .copyright {
-    padding: 0px 0px 20px;
+    padding: 0px 0px 10px;
     border-top: 0px solid color-mix(in srgb, var(--default-color), transparent 0%);
   }
 
@@ -1253,14 +1240,6 @@
       align-items: center;
     }
   }
-
-  @media (max-width: 600px) {
-    .footer .footer-about {
-        margin-bottom: 0px;
-        text-align: center;
-        /* margin-left: 10px; */
-    }
-  }
   
   .border-gradient {
     border: 2px solid transparent;
@@ -1271,9 +1250,96 @@
     
 </style>
 
+<style>
+   @media (max-width: 1199px) {
+    .mobile-nav-toggle {
+        color: var(--nav-color);
+        font-size: 28px;
+        line-height: 0;
+        margin-right: 0px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
 
+    .navmenu {
+      padding: 0;
+      z-index: 9997;
+      margin-top: -15px;
+    }
+
+    
+    .navmenu .dropdown ul {
+      display: none !important;
+      padding-left: 0px;
+      border: 1px solid transparent;
+      margin-top: -5px;
+    }
+
+    .navmenu .dropdown ul.show {
+      display: block !important;
+    }
+
+    .chevron {
+      transition: transform .3s ease;
+    }
+
+    .chevron.rotate {
+      transform: rotate(180deg);
+    }
+
+    .footer .copyright {
+      padding: 0px 0px 10px;
+    }
+  }
+</style>
+
+
+<style>
+  @media (max-width: 1199px) {
+    /* Untuk edit image agar ke cover semua */
+    /*ini untuk cove image swipper */   
+    .swiper {
+        height: 250px;   /* tinggi slider untuk hp */
+    }
+
+    .swiper-slide img {
+        object-fit: cover;
+    }
+
+    .portfolio .portfolio-content img {
+      /* transition: 0.3s; */
+      height: fit-content;
+      object-fit: cover;
+    }
+
+    .owl-carousel .owl-item img {
+      padding: inherit;
+      height: auto;
+    }
+
+    .container p {
+      text-align: center;
+    }
+
+    .footer p {
+      text-align: center;
+      /* margin-left: 10px; */
+    }
+
+    .down{
+      margin-bottom: 20px;
+    }
+
+    .footer .footer-about {
+      margin-bottom: 0px;
+      text-align: center;
+    }
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <body class="index-page">
-    <header id="header" class="header d-flex align-items-center sticky-top">
+    <!-- <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
         <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
             <img width="190" height="70" src="<?php echo base_url("./Website/assets/img/logo-2.png");?>" >
@@ -1313,7 +1379,94 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
         </div>
-    </header>
+    </header> -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- <header id="header" class="header d-flex align-items-center sticky-top">
+          <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <a href="<?php echo base_url("dashboard");?>" class="logo d-flex align-items-center">
+                <img width="190" height="70" src="<?php echo base_url($data_profile->folder."".$data_profile->logo);?>" alt="<?php echo base_url($data_profile->nick_name);?>">
+            </a>
+            <nav id="navmenu" class="navmenu">
+              <ul>
+                <?php foreach ($data_menu as $row): ?>
+                  <li class="dropdown">
+                    <a href="<?= base_url($row->url) ?>"><span><?= $row->name ?></span></a>
+                    <ul>
+                      <?php
+                        $submenu = $this->db->query("SELECT *
+                                                      FROM submenu
+                                                      WHERE menu_id = '".$row->id."'
+                                                    ")->result();
+                        
+                        foreach ($submenu as $rw):
+                      ?>
+                        <li>
+                          <a href="<?php echo base_url($rw->url); ?>">
+                            <?= strtoupper($rw->sub_name) ?>
+                          </a>
+                        </li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+              <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+          </div>
+        </header> -->
+
+        <header id="header" class="header d-flex align-items-center sticky-top">
+          <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+            <a href="<?= base_url("dashboard"); ?>" class="logo d-flex align-items-center">
+              <img src="<?= base_url($data_profile->folder . $data_profile->logo); ?>" alt="<?= $data_profile->nick_name; ?>" />
+            </a>
+            <div id="nav-overlay" class="nav-overlay"></div>
+            <nav id="navmenu" class="navmenu">
+              <ul class="menu-root">
+                <?php foreach ($data_menu as $row): 
+                  $submenu = $this->db->query("SELECT * FROM submenu WHERE menu_id = '".$row->id."'")->result();
+                  $has_sub = count($submenu) > 0;
+                ?>
+                <li class="dropdown">
+                  <a href="<?= base_url($row->url) ?>">
+                    <span><?= $row->name ?></span>
+                    <?php if(count($submenu) > 0): ?>
+                      <i class="bi bi-chevron-down chevron"></i>
+                    <?php endif; ?>
+                  </a>
+
+                  <ul>
+                    <?php foreach ($submenu as $rw): ?>
+                      <li><a href="<?= base_url($rw->url); ?>"><?= strtoupper($rw->sub_name) ?></a></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </li>
+
+
+                <?php endforeach; ?>
+              </ul>
+
+              <!-- hamburger -->
+              <!-- <button id="mobile-toggle" class="mobile-nav-toggle d-xl-none" aria-label="Toggle navigation"> -->
+                <i id="mobile-toggle" class="mobile-nav-toggle d-xl-none bi bi-list" aria-hidden="true"></i>
+              <!-- </button> -->
+            </nav>
+          </div>
+        </header>
+      </div>
+      <!-- <div class="col-lg-4 mt-3 text-center" style="font-family: Montserrat, sans-serif;">
+        <h5><b><?php echo $data_event->name?></b></h5>
+      </div> -->
+      <!-- <div class="col-lg-4 text-end">
+      </div>
+      <div class="col-lg-8 text-end" style="margin-top: -20px !important;">
+        <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a>
+        <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
+        <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
+      </div> -->
+    </div>
 
   <main class="main">
 

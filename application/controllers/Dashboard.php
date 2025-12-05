@@ -40,6 +40,10 @@ class Dashboard extends CI_Controller {
     $this->template->load('dashboard/role','dashboard',$data);
 	}
 
+  public function dashboard_sample(){
+    $this->load->view('module/dashboard_sample');
+  }
+
   public function Login(){   
     $username = $this->input->post('username');
 		$password = md5($this->input->post('password'));	

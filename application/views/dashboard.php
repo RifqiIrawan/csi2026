@@ -1,18 +1,18 @@
-<section id="event_date" class="portfolio section" style="margin-top: 130px;">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 mt-3" style="font-family: Montserrat, sans-serif;">
-              <h5><b><?php echo strtoupper($data_event->name); ?></b></h5>
-            </div>
-            <div class="col-lg-8 mt-3" style="text-align: right;">
-            <button type="button" class="btn btn-warning" style="font-weight: 600;" onclick="registrasi('<?= $start_event;?>','<?= $end_event;?>','<?= date('Y-m-d');?>','<?= $data_event->link_event;?>');">VISITOR REGISTRATION</button>
-            <!-- <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a> -->
-            <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning" style="font-weight: 600;">BOOK A STAND</a>
-            <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">FLOOR PLAN</a>
-            </div>
+  <section id="event_date" class="portfolio section" style="margin-top: 130px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mt-3" style="font-family: Montserrat, sans-serif;">
+            <h5><b><?php echo strtoupper($data_event->name); ?></b></h5>
+          </div>
+          <div class="col-lg-8 mt-3" style="text-align: right;">
+          <button type="button" class="btn btn-warning mb-2" style="font-weight: 600;" onclick="registrasi('<?= $start_event;?>','<?= $end_event;?>','<?= date('Y-m-d');?>','<?= $data_event->link_event;?>');">VISITOR REGISTRATION</button>
+          <!-- <a href="<?php echo $data_event->link_event?>" target="blank_" class="btn btn-warning" style="font-weight: 600;">VISITOR REGISTRATION</a> -->
+          <a href="<?php echo base_url('Home/Url_Book_Stand');?>" class="btn btn-warning mb-2" style="font-weight: 600;">BOOK A STAND</a>
+          <a href="<?php echo base_url('Home/download_floor/'.$data_event->floor_file);?>" target="blank_" class="btn btn-warning mb-2" style="font-weight: 600;">FLOOR PLAN</a>
           </div>
         </div>
-    </section>   
+      </div>
+  </section>   
   <section id="banner_swiper">
     <div class="swiper heroSwiper">
       <div class="swiper-wrapper" id="dynamic-slides">

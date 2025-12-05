@@ -235,7 +235,10 @@ public function delete_sub_menu(){
       $_FILES['file1']['size'];  
       $type = explode(".",$_FILES['file1']['name']);
       $typ = $type;
-      unlink("".$folder1."".$get_file1."");
+      
+      if(file_exists("".$folder1."".$get_file1."")) {  
+        unlink("".$folder1."".$get_file1."");
+      } 
 
       $config['upload_path']          = $folder1;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -262,7 +265,9 @@ public function delete_sub_menu(){
       $_FILES['file2']['size'];      
       $type2 = explode(".",$_FILES['file2']['name']);
       $typ2 = $type2;
-      unlink("".$folder2."".$get_file2."");
+      if(file_exists("".$folder2."".$get_file2."")) {  
+        unlink("".$folder2."".$get_file2."");
+      } 
       $config['upload_path']          = $folder2;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("image2".date('Ymdhis'));
@@ -584,7 +589,10 @@ public function delete_sub_menu(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");
+      
+      if(file_exists("".$folder."".$file_edit."")) {  
+        unlink("".$folder."".$file_edit."");
+      } 
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("logo_com".date("Ymdhis")).".".$exp[1];
@@ -711,7 +719,9 @@ public function delete_sub_menu(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");
+      if(file_exists("".$folder."".$file_edit."")) {  
+        unlink("".$folder."".$file_edit."");
+      } 
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
@@ -750,7 +760,9 @@ public function delete_sub_menu(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
     $folder = './assets/images/upload/product/';
-    unlink("".$folder."".$img."");
+    if(file_exists("".$folder."".$img."")) {  
+      unlink("".$folder."".$img."");
+    } 
     $cek_data = $this->M_Home->delete_organizer($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -1027,7 +1039,7 @@ public function delete_sub_menu(){
       $exp = explode(".",$_FILES['file2']['name']);
       $exp = $exp;	
       $config['upload_path']          = $folder;
-      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|docx|pdf';
       $config['file_name']     		= md5("pdf".date("Ymdhis")).".".$exp[1];
       $file_2 = $config['file_name'];
       $this->load->library('upload', $config);
@@ -1080,8 +1092,11 @@ public function delete_sub_menu(){
     $_FILES['file']['size']; 
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
-      $exp = $exp;	      
-      unlink("".$folder."".$file_edit."");
+      $exp = $exp;	     
+      
+      if(file_exists("".$folder."".$file_edit."")) {  
+        unlink("".$folder."".$file_edit."");
+      }  
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
       $config['file_name']     		= md5("img".date("Ymdhis")).".".$exp[1];
@@ -1115,9 +1130,12 @@ public function delete_sub_menu(){
     if($_FILES['file2']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file2']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit2."");
+      if(file_exists($folder."".$file_edit2."")) {
+        unlink("".$folder."".$file_edit2."");
+      }
+      
       $config['upload_path']          = $folder;
-      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
+      $config['allowed_types'] 		= 'jpg|jpeg|png|gif|docx|pdf';
       $config['file_name']     		= md5("pdf".date("Ymdhis")).".".$exp[1];
       $file_2 = $config['file_name'];
       $this->load->library('upload', $config);
@@ -1459,7 +1477,10 @@ public function delete_sub_menu(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");
+      if(file_exists($folder."".$file_edit."")) {
+        unlink("".$folder."".$file_edit."");
+      }
+     
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif|pdf';
@@ -1593,7 +1614,9 @@ public function delete_sub_menu(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");
+      if(file_exists($folder."".$file_edit."")) {       
+        unlink("".$folder."".$file_edit."");
+      }
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -1802,7 +1825,10 @@ public function add_highlights(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");   
+      if(file_exists($folder."".$file_edit."")) {       
+        unlink("".$folder."".$file_edit."");  
+      }
+       
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -1842,7 +1868,10 @@ public function add_highlights(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
     $folder = './assets/images/upload/organizer/';
-    unlink("".$folder."".$img."");
+    if(file_exists($folder."".$img."")) {       
+      unlink("".$folder."".$img."");
+    }
+    
     $cek_data = $this->M_Home->delete_organizer($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -1925,7 +1954,10 @@ public function add_highlights(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");  
+      
+      if(file_exists($folder."".$file_edit."")) {
+        unlink("".$folder."".$file_edit."");  
+      }
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -1965,7 +1997,9 @@ public function add_highlights(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
     $folder = './assets/images/upload/member/';
-    unlink("".$folder."".$img."");
+    if(file_exists($folder."".$img."")) {
+      unlink("".$folder."".$img."");
+    }
     $cek_data = $this->M_Home->delete_member($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -2057,7 +2091,10 @@ public function add_highlights(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){   
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");   
+
+      if(file_exists($folder."".$file_edit."")) {        
+        unlink("".$folder."".$file_edit."");   
+      }
 
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -2100,7 +2137,9 @@ public function add_highlights(){
                               where id = '".$code."'
                             ");
     $r = $sql->row();	      
-    unlink("".$r->folder_name."".$r->file_name."");      
+    if(file_exists("".$r->folder_name."".$r->file_name."")) {  
+      unlink("".$r->folder_name."".$r->file_name."");     
+    } 
     $cek_data = $this->M_Home->delete_sponsors($code);
     if($cek_data == TRUE){           
       echo "OK";     
@@ -2183,7 +2222,10 @@ public function add_highlights(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");  
+      if(file_exists("".$folder."".$file_edit."")) {  
+        unlink("".$folder."".$file_edit."");  
+      } 
+      
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -2223,7 +2265,9 @@ public function add_highlights(){
     $code = $this->input->post("code");
     $img = $this->input->post("img");
     $folder = './assets/images/upload/coperation/';
-    unlink("".$folder."".$img."");
+    if(file_exists("".$folder."".$img."")) {  
+      unlink("".$folder."".$img."");
+    } 
     $cek_data = $this->M_Home->delete_coperation($code);
     if ($this->db->affected_rows()) {
       echo "OK";
@@ -2306,7 +2350,10 @@ public function add_highlights(){
     if($_FILES['file']['name'] != "" || !empty($_FILES['file']['name'])){
       $exp = explode(".",$_FILES['file']['name']);
       $exp = $exp;	
-      unlink("".$folder."".$file_edit."");  
+      
+      if(file_exists("".$folder."".$file_edit."")) {  
+        unlink("".$folder."".$file_edit."");  
+      } 
       // print_r($exp[1]);die();
       $config['upload_path']          = $folder;
       $config['allowed_types'] 		= 'jpg|jpeg|png|gif';
@@ -2347,7 +2394,9 @@ public function add_highlights(){
     $cek_data = $this->M_Home->delete_banner($code);
     if ($this->db->affected_rows()) {
       $folder = './assets/images/upload/swiper/';
-      unlink("".$folder."".$img."");
+      if(file_exists("".$folder."".$img."")) {  
+        unlink("".$folder."".$img."");
+      } 
       echo "OK";
     }
     else{

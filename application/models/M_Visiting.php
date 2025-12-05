@@ -101,7 +101,7 @@ class M_Visiting extends CI_Model{
         $this->db->from('csi_events e');
         
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -212,7 +212,7 @@ class M_Visiting extends CI_Model{
         $this->db->from('csi_report_files rf');
         
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -350,7 +350,7 @@ class M_Visiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 10);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -465,7 +465,7 @@ class M_Visiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 10);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -582,7 +582,7 @@ class M_Visiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 11);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -690,10 +690,10 @@ class M_Visiting extends CI_Model{
         $this->db->join('csi_content_media', 'csi_contents.id = csi_content_media.content_id', 'left');
         // where conditions
         $this->db->where('csi_contents.content_type', 'show-feature');
-        $this->db->where('csi_contents.menu_id', 11);
+        // $this->db->where('csi_contents.menu_id', 11);
         // $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        // //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -805,7 +805,7 @@ class M_Visiting extends CI_Model{
         $this->db->where('csi_contents.menu_id', 10);
         $this->db->where('csi_content_media.media_type', 'image');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -903,7 +903,7 @@ class M_Visiting extends CI_Model{
         ');
         $this->db->from('csi_conferences');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();
@@ -1032,7 +1032,7 @@ class M_Visiting extends CI_Model{
         // order by
 		$this->db->order_by('conference_order', 'ASC');
         // limit & offset
-        $this->db->limit($limit, $start);
+        //$this->db->limit($limit, $start);
 
         $query = $this->db->get();
         // $result = $query->result();

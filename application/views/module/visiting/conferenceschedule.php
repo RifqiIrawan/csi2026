@@ -30,7 +30,7 @@
             color: white;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1199px) {
             .hero-title {
                 font-size: 1.6rem;
             }
@@ -171,10 +171,10 @@
         }
 
         .feature-card img {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-        border-radius: 14px;
+            /* width: 100%; */
+            height: 160px;
+            object-fit: cover;
+            border-radius: 14px;
         }
 
         .feature-card:hover {
@@ -213,6 +213,12 @@
         } */
         
         .modern-carousel {
+<<<<<<< HEAD
+            /* width: 100%; */
+            /* overflow: hidden; */
+            width: -webkit-fill-available;
+            /* position: relative; */
+=======
             width: 100%;
             overflow: hidden;
             /* width: max-content; */
@@ -236,6 +242,7 @@
             height: 160px;
             object-fit: cover;
             border-radius: 14px;
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
         }
 
     </style>

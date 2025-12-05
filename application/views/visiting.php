@@ -64,7 +64,7 @@
     z-index: 2;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 1199px) {
     .section-title h2,
     .heading_style4 h2 span {
         font-size: 30px;
@@ -217,11 +217,27 @@
     margin: 0 10px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 1199px) {
+      .scroll-btn.left {
+        left: -5px;
+      }
+
+      .scroll-wrapper {
+        gap: 0rem;
+      }
+
+      .show-feature-item {
+        width: 200px; 
+        flex: 0;
+      }
+
+      .scroll-btn.right {
+        right: 0%;
+      }
     .footer .footer-links,
     .footer .footer-about {
         margin-bottom: 0;
-        text-align: left;
+        text-align: center;
     }
 
     .footer .social-links {
@@ -290,7 +306,7 @@
     }
 
     /* Responsif: 1 kolom di HP */
-    @media (max-width: 600px) {
+    @media (max-width: 1199px) {
         .column {
             flex: 0 0 100%;
         }
@@ -304,7 +320,7 @@
         display: flex;
         justify-content: flex-start; /* horizontal ke kiri */
         align-items: center;         /* vertical tetap di tengah */
-        padding-left: 190px;  
+        padding-left: 20px;  
         margin-top: 150px;    
     }
 
@@ -379,7 +395,7 @@
     }
     .show-feature-item img {
         width: 100%;
-        height: 250px;
+        /* height: 250px; */
         object-fit: cover;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -420,11 +436,6 @@
   scroll-snap-align: center;
 }
 
-@media (max-width: 768px) {
-  .show-feature-item {
-    width: 200px; /* smaller on mobile */
-  }
-}
 
 /* Arrow buttons */
 .scroll-btn {
@@ -449,10 +460,10 @@
   background: #1b5e20;
 }
 .scroll-btn.left {
-  left: -20px;
+  left: -5px;
 }
 .scroll-btn.right {
-  right: -20px;
+  right: -5px;
 }
 
 /* Keep parent container relative for positioning arrows */
@@ -470,11 +481,11 @@
 }
 
 .scroll-btn.right {
-  right: -5%;
+  right: 5px;
 }
 
 .scroll-btn.left {
-    left: -36px;
+    left: 0px;
 }
 
 
