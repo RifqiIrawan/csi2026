@@ -1258,12 +1258,8 @@
         responsive: true,
         processing: true,
         serverSide: true,
-<<<<<<< HEAD
-        pageLength: 10,
-=======
         pageLength: 50,
         lengthMenu: [10, 25, 50, 100],
->>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
         ajax: {
           url: base_url + "visiting/conference-highlight-datatable",
           type: "POST",
@@ -1302,11 +1298,7 @@
                         data-id="${row.id}" title="Edit">
                   <i class="bi bi-pencil-square"></i>
                 </button>
-<<<<<<< HEAD
-                <button class="btn btn-sm btn-danger deleteSection_highlight" 
-=======
                 <button class="btn btn-sm btn-danger deleteHighlight" 
->>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
                         data-id="${row.id}" title="Delete">
                   <i class="bi bi-trash"></i>
                 </button>`;

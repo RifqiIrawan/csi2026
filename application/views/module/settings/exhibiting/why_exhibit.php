@@ -659,9 +659,9 @@
                   </div>
 
                   <div class="mb-3 d-flex gap-3 align-items-center">
-                    <input type="radio" name="sectionStatus" id="editSection1Active" value="active">
+                    <input type="radio" name="sectionstatus" id="editSection1Active" value="active">
                     <label for="editSection1Active" class="mb-0">Active</label>
-                    <input type="radio" name="sectionStatus" id="editSection1Inactive" value="inactive">
+                    <input type="radio" name="sectionstatus" id="editSection1Inactive" value="inactive">
                     <label for="editSection1Inactive" class="mb-0">Inactive</label>
                   </div>
 

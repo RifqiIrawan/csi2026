@@ -487,6 +487,7 @@ class Exhibiting extends CI_Controller {
             'content_year' => 2026,
             'content_type' => 'section'
         ]);
+        
 
         // $section_background = (!empty($sectionDataContents)) ? $base_url . $sectionDataContents[0]['file_path'] : '';
         
@@ -949,7 +950,7 @@ class Exhibiting extends CI_Controller {
                 $sectionyear        = $this->input->post('sectionyear');
                 $sectiontitle       = $this->input->post('sectiontitle');
                 $sectiondescription = $this->input->post('sectiondescription');
-                $sectionStatus      = $this->input->post('sectionStatus'); // active / inactive
+                $sectionstatus      = $this->input->post('sectionstatus'); // active / inactive
 
                 $modified_date  = date('Y-m-d H:i:s');
                 // validasi ID
@@ -983,7 +984,7 @@ class Exhibiting extends CI_Controller {
                     $sectionyear        
                     $sectiontitle       
                     $sectiondescription 
-                    $sectionStatus      
+                    $sectionstatus      
 
                 */
                 
@@ -992,7 +993,7 @@ class Exhibiting extends CI_Controller {
                     'content_year' => $sectionyear,
                     'title'        => $sectiontitle,
                     'body_text'    => $sectiondescription,
-                    'status'       => $sectionStatus,
+                    'status'       => $sectionstatus,
                     'modified_date'=> $modified_date
                 ];
 
