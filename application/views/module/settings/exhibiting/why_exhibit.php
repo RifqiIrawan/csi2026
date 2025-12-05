@@ -1245,8 +1245,7 @@
                         text: res.message
                     });
                     if (res.status === 'success') {
-                        // $('#bannerTable').DataTable().ajax.reload(null, false);
-                        bannerTable.ajax.reload(null, false); 
+                        $('#bannerTable').DataTable().ajax.reload();
                     }
                 },
                 error: function() {
