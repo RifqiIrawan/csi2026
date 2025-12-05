@@ -213,10 +213,36 @@
         } */
         
         .modern-carousel {
+<<<<<<< HEAD
             /* width: 100%; */
             /* overflow: hidden; */
             width: -webkit-fill-available;
             /* position: relative; */
+=======
+            width: 100%;
+            overflow: hidden;
+            /* width: max-content; */
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 25px;
+            width: max-content;
+            animation: autoScroll 20s linear infinite;
+        }
+
+        /* tambahkan min-width agar card tidak mengecil */
+        .carousel-item {
+            min-width: 260px; /* ubah sesuai ukuran yang kamu ingin */
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 14px;
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
         }
 
     </style>

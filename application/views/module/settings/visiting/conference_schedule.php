@@ -267,9 +267,9 @@
         <a class="nav-link" id="tab-titleconferences" data-bs-toggle="tab" href="#titleconferences" role="tab">
           <i class="fa fa-heading"></i> Title Conferences
         </a>
-        <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
+        <!-- <a class="nav-link" id="tab-content-whyvisit" data-bs-toggle="tab" href="#content-content-whyvisit" role="tab">
           <i class="fa fa-list"></i> Banner
-        </a>
+        </a> -->
         <a class="nav-link" id="tab-showhighlights" data-bs-toggle="tab" href="#showhighlights" role="tab">
           <i class="fa fa-star"></i> Highlights
         </a>
@@ -698,6 +698,8 @@
         responsive: true,
         processing: true,
         serverSide: true,
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
         ajax: {
           url: base_url + "visiting/conference-datatable",
           type: "POST",
@@ -1256,7 +1258,12 @@
         responsive: true,
         processing: true,
         serverSide: true,
+<<<<<<< HEAD
         pageLength: 10,
+=======
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
         ajax: {
           url: base_url + "visiting/conference-highlight-datatable",
           type: "POST",
@@ -1295,7 +1302,11 @@
                         data-id="${row.id}" title="Edit">
                   <i class="bi bi-pencil-square"></i>
                 </button>
+<<<<<<< HEAD
                 <button class="btn btn-sm btn-danger deleteSection_highlight" 
+=======
+                <button class="btn btn-sm btn-danger deleteHighlight" 
+>>>>>>> 12b65fee52797b1c372489bb496ec4637f94955d
                         data-id="${row.id}" title="Delete">
                   <i class="bi bi-trash"></i>
                 </button>`;
@@ -1386,7 +1397,41 @@
               error:function(){ Swal.fire("Error!","Server error","error"); }
           });
       });
-      // END
+      
+      $(document).on('click', '.deleteHighlight', function () {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'This section will be permanently deleted!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'Cancel'
+        }).then(result => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: base_url + 'visiting/conference-highlight-delete/' + id,
+              type: 'POST',
+              dataType: 'json',
+              success: function (res) {
+                Swal.fire({
+                    icon: res.success ? 'success' : 'error',
+                    title: res.success ? 'Deleted!' : 'Error',
+                    text: res.message
+                });
+
+                if (res.success) {
+                    highlightTable.ajax.reload(null, false);
+                }
+              },
+              error: function () {
+                Swal.fire('Error', 'Failed to connect to server', 'error');
+              }
+            });
+          }
+        });
+      });
 
       // ========================================
       // ACTIVATE TAB BASED ON URL HASH

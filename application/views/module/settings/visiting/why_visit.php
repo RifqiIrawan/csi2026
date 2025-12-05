@@ -441,47 +441,47 @@
                 <div class="card-body">
                     <h5 class="mb-3 text-success">Content Why Visit Configuration</h5>
                     <form id="addSection1Form_whyvisit" action="<?= base_url('exhibiting/why-exhibit-section-add') ?>" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label class="form-label">Section Year</label>
-                        <select class="form-control" name="addsectionyear" id="addSection1Year_whyvisit" required>
-                        <option value="">-- Select Section Year --</option>
-                        <?php for($y = $startYear; $y <= $endYear; $y++): ?>
-                            <option value="<?= $y; ?>"><?= $y; ?></option>
-                        <?php endfor; ?>
-                        </select>
-                    </div>
+                      <div class="mb-3">
+                          <label class="form-label">Section Year</label>
+                          <select class="form-control" name="addsectionyear" id="addSection1Year_whyvisit" required>
+                          <option value="">-- Select Section Year --</option>
+                          <?php for($y = $startYear; $y <= $endYear; $y++): ?>
+                              <option value="<?= $y; ?>"><?= $y; ?></option>
+                          <?php endfor; ?>
+                          </select>
+                      </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Section Title</label>
-                        <input type="text" class="form-control" name="addsectiontitle" id="addSection1Title_whyvisit" placeholder="Enter Section Title" required style="text-transform:capitalize">
-                    </div>
+                      <div class="mb-3">
+                          <label class="form-label">Section Title</label>
+                          <input type="text" class="form-control" name="addsectiontitle" id="addSection1Title_whyvisit" placeholder="Enter Section Title" required style="text-transform:capitalize">
+                      </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Section Description</label>
-                        <textarea class="form-control" rows="4"
-                        name="addsectiondescription"
-                        id="addSection1Description_whyvisit"
-                        placeholder="Enter Section Description"></textarea>
-                    </div>
+                      <div class="mb-3">
+                          <label class="form-label">Section Description</label>
+                          <textarea class="form-control" rows="4"
+                          name="addsectiondescription"
+                          id="addSection1Description_whyvisit"
+                          placeholder="Enter Section Description"></textarea>
+                      </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Section Image</label>
-                        <input type="file" class="form-control" name="addsectionimage" id="addSection1Image_whyvisit" accept="image/*">
-                        <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
-                        <div class="mt-2">
-                        <img id="addSection1Preview_whyvisit" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
-                        </div>
-                    </div>
+                      <div class="mb-3">
+                          <label class="form-label">Section Image</label>
+                          <input type="file" class="form-control" name="addsectionimage" id="addSection1Image_whyvisit" accept="image/*">
+                          <small class="form-text text-muted">Max 2MB, only JPG/PNG/GIF</small>
+                          <div class="mt-2">
+                          <img id="addSection1Preview_whyvisit" src="" alt="Preview" class="img-thumbnail" style="max-height:120px; display:none;">
+                          </div>
+                      </div>
 
-                    <div class="mb-3 d-flex gap-3 align-items-center">
-                        <input type="radio" name="addsectionStatus" id="addSection1Active_whyvisit" value="active" checked>
-                        <label for="addSection1Active_whyvisit" class="mb-0">Active</label>
-                        <input type="radio" name="addsectionStatus" id="addSection1Inactive_whyvisit" value="inactive">
-                        <label for="addSection1Inactive_whyvisit" class="mb-0">Inactive</label>
-                    </div>
+                      <div class="mb-3 d-flex gap-3 align-items-center">
+                          <input type="radio" name="addsectionStatus" id="addSection1Active_whyvisit" value="active" checked>
+                          <label for="addSection1Active_whyvisit" class="mb-0">Active</label>
+                          <input type="radio" name="addsectionStatus" id="addSection1Inactive_whyvisit" value="inactive">
+                          <label for="addSection1Inactive_whyvisit" class="mb-0">Inactive</label>
+                      </div>
 
-                    <button type="submit" class="btn btn-success me-2">Add</button>
-                    <button type="button" id="backSection1Btn_whyvisit" class="btn btn-outline-danger">Cancel</button>
+                      <button type="submit" class="btn btn-success me-2">Add</button>
+                      <button type="button" id="backSection1Btn_whyvisit" class="btn btn-outline-danger">Cancel</button>
                     </form>
                 </div>
                 </div>
@@ -528,9 +528,9 @@
                     </div>
 
                     <div class="mb-3 d-flex gap-3 align-items-center">
-                        <input type="radio" name="sectionStatus" id="editSection1Active_whyvisit" value="active">
+                        <input type="radio" name="sectionstatus" id="editSection1Active_whyvisit" value="active">
                         <label for="editSection1Active_whyvisit" class="mb-0">Active</label>
-                        <input type="radio" name="sectionStatus" id="editSection1Inactive_whyvisit" value="inactive">
+                        <input type="radio" name="sectionstatus" id="editSection1Inactive_whyvisit" value="inactive">
                         <label for="editSection1Inactive_whyvisit" class="mb-0">Inactive</label>
                     </div>
 
@@ -743,6 +743,8 @@
         responsive: true,
         processing: true,
         serverSide: true,
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
         ajax: {
             url: base_url + "visiting/why-visit-datatable",
             type: "POST"
@@ -938,8 +940,9 @@
   $('#editBannerWhyvisitForm').on('submit', function(e) {
     e.preventDefault();
 
-    // WAJIB: update textarea dengan data CKEditor 5
-    $('#editBannerWhyvisitsubtitle').val(edit_whyvisitsubtitle.getData());
+    if ($(this).attr('id') === 'editBannerWhyvisitForm') {
+      $('#editBannerWhyvisitsubtitle').val(edit_whyvisitsubtitle.getData());
+    }
 
     var formData = new FormData(this);
 
@@ -1027,6 +1030,8 @@ $(document).ready(function () {
     responsive: true,
     processing: true,
     serverSide: true,
+    pageLength: 50,
+    lengthMenu: [10, 25, 50, 100],
     ajax: {
       url: base_url + "visiting/why-visit-section-datatable",
       type: "POST",
@@ -1130,7 +1135,7 @@ $(document).ready(function () {
 
     const formData = new FormData(this);
     $.ajax({
-      url: base_url + "exhibiting/why-exhibit-section-add",
+      url: base_url + "visiting/why-visit-section-add",
       type: "POST",
       data: formData,
       processData: false,
@@ -1209,6 +1214,11 @@ $(document).ready(function () {
   // ====== EDIT FORM SUBMIT ======
   $('#editSection1Form_whyvisit').on('submit', function (e) {
     e.preventDefault();
+
+    if ($(this).attr('id') === 'editSection1Form_whyvisit') {
+        $('#editSection1Description_whyvisit').val(sectionEditorWhyVisit.getData());
+    }
+
     const formData = new FormData(this);
 
     $.ajax({
@@ -1248,7 +1258,7 @@ $(document).ready(function () {
     }).then(result => {
       if (result.isConfirmed) {
         $.ajax({
-          url: base_url + 'exhibiting/why-exhibit-section-delete/' + id,
+          url: base_url + 'visiting/why-visit-section-delete/' + id,
           type: 'POST',
           dataType: 'json',
           success: function (res) {
@@ -1306,6 +1316,8 @@ $(document).ready(function () {
         responsive: true,
         processing: true,
         serverSide: true,
+        pageLength: 50,
+        lengthMenu: [10, 25, 50, 100],
         ajax: {
           url: base_url + "visiting/show-feature-datatable",
           type: "POST",
@@ -1419,13 +1431,14 @@ $(document).ready(function () {
       // ====== CANCEL EDIT FORM ======
       $("#cancelButtonShowFeature").click(function(){
           // Hide the Edit Exhibitor form
-          $("#highlightEditFormContainer").slideUp(200, function(){
-              $("#highlightEditFormContainer").addClass('d-none');
-          });
+          // $("#showfeatureEditFormContainer").slideDown(300).removeClass('d-none');
 
+          $("#showfeatureEditFormContainer").slideUp(200, function () {
+              $("#showfeatureEditFormContainer").addClass('d-none');
+          });
           // Show the DataTable and Add button again
-          $('#highlightTable_wrapper').show();
-          $('#highlightTable').show();
+          $('#showfeatureTable_wrapper').show();
+          $('#showfeatureTable').show();
           $addShowFeatureBtn.fadeIn(300);
       });
 

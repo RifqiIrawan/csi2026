@@ -950,10 +950,10 @@
 
           // --- Sync CKEditor ke textarea --- //
           if ($(this).attr('id') === 'addExhibitor1Form') {
-              $('#description').val(addDescEditor.getData());
+              $('#description').val(exhibitorAdd.getData());
           }
           if ($(this).attr('id') === 'editExhibitor1Form') {
-              $('#editExDescription').val(editDescEditor.getData());
+              $('#editExDescription').val(exhibitorEditor.getData());
           }
           
           var formData = new FormData(this);
