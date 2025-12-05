@@ -1222,7 +1222,7 @@ $(document).ready(function () {
     const formData = new FormData(this);
 
     $.ajax({
-      url: base_url + "exhibiting/why-exhibit-section-update",
+      url: base_url + "visiting/why-visit-section-update",
       type: "POST",
       data: formData,
       processData: false,

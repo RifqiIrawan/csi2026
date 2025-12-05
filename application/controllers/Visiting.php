@@ -153,6 +153,9 @@ class Visiting extends CI_Controller {
             case "why-visit-section-delete":
                 $this->why_visit_section_delete($id);
                 break;
+            case "why-visit-section-update":
+                $this->why_visit_section_update();
+                break;
             case "show-feature-datatable":
                 echo $this->M_Visiting->show_feature_datatable();
                 break;
@@ -2485,4 +2488,130 @@ class Visiting extends CI_Controller {
 
         echo json_encode($response);
     }
+
+    public function why_visit_section_update()
+    {
+
+        // print_r($this->input->post());
+        // print_r($_FILES);
+        // die();
+
+        $updated_date = date('Y-m-d H:i:s');
+        $updated_by   = 'sysadmin';
+
+        try {
+            $id          = $this->input->post('id');
+            $sectionyear         = $this->input->post('sectionyear');
+            $sectiontitle        = $this->input->post('sectiontitle');
+            $sectiondescription  = $this->input->post('sectiondescription');
+            $sectionstatus       = $this->input->post('sectionstatus'); // active / inactive
+
+            if (!$id) {
+                throw new Exception('ID section tidak ditemukan.');
+            }
+
+            // Ambil data lama
+            $oldContent = $this->db->get_where('csi_contents', ['id' => $id])->row();
+            if (!$oldContent) {
+                throw new Exception('Data section tidak ditemukan.');
+            }
+
+            // Ambil media lama
+            $oldMedia = $this->db->get_where('csi_content_media', [
+                'content_id' => $id
+            ])->row();
+
+            $file_path      = './assets/uploads/why_visit/';
+            $file_path_save = 'assets/uploads/why_visit/';
+            $new_image      = null;
+
+            /** Upload Image Jika Ada */
+            if (!empty($_FILES['sectionimage']['name'])) {
+
+                $config = [
+                    'upload_path'   => $file_path,
+                    'allowed_types' => 'jpg|jpeg|png|gif',
+                    'max_size'      => 2048,
+                    'encrypt_name'  => true
+                ];
+                $this->upload->initialize($config);
+
+                if (!$this->upload->do_upload('sectionimage')) {
+                    throw new Exception($this->upload->display_errors());
+                }
+
+                $uploadData = $this->upload->data();
+
+                if ($uploadData['file_size'] > 2048) {
+                    unlink($uploadData['full_path']);
+                    throw new Exception('Ukuran file melebihi batas 2MB.');
+                }
+
+                $new_image = $uploadData['file_name'];
+
+                // Hapus gambar lama jika ada
+                if ($oldMedia && file_exists("./" . $oldMedia->file_path)) {
+                    unlink("./" . $oldMedia->file_path);
+                }
+            }
+
+            $clean_description = str_replace(['<p>', '</p>'], '', $sectiondescription);
+
+            /** Update Table csi_contents */
+            $dataUpdate = [
+                'content_year'  => $sectionyear,
+                'title'         => $sectiontitle,
+                'body_text'     => $clean_description,
+                'status'        => $sectionstatus,
+                'modified_date' => $updated_date,
+                'modified_by'   => $updated_by
+            ];
+
+            $this->db->where('id', $id);
+            $this->db->update('csi_contents', $dataUpdate);
+
+            /** Update Media Jika Upload Baru */
+            if ($new_image) {
+
+                if ($oldMedia) {
+                    // Update Media Lama
+                    $this->db->where('id', $oldMedia->id);
+                    $this->db->update('csi_content_media', [
+                        'file_path'     => $file_path_save . $new_image,
+                        'modified_date' => $updated_date,
+                        'modified_by'   => $updated_by
+                    ]);
+                } else {
+                    // Insert Media Baru
+                    $this->db->insert('csi_content_media', [
+                        'content_id'    => $id,
+                        'media_type'    => 'image',
+                        'file_path'     => $file_path_save . $new_image,
+                        'sort_order'    => 1,
+                        'is_main'       => 1,
+                        'created_date'  => $updated_date,
+                        'created_by'    => $updated_by,
+                        'modified_date' => $updated_date,
+                        'modified_by'   => $updated_by
+                    ]);
+                }
+            }
+
+            $response = [
+                'success' => true,
+                'message' => 'Section berhasil diperbarui'
+            ];
+
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+
 }
