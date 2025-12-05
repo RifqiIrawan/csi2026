@@ -392,9 +392,11 @@
         <a class="nav-link" id="tab-content" data-bs-toggle="tab" href="#content-content" role="tab">
           <i class="fa fa-tags"></i> Content
         </a>
+        <!--
         <a class="nav-link" id="tab-visainformation" data-bs-toggle="tab" href="#content-visainformation" role="tab">
           <i class="fa fa-ellipsis-h"></i> Visa Information
         </a>
+        -->
         <a class="nav-link" id="tab-testimonial" data-bs-toggle="tab" href="#content-testimonial" role="tab">
           <i class="fa fa-comment-dots me-1"></i> Testimonial
         </a>
