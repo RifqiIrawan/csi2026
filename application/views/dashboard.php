@@ -117,7 +117,7 @@
       ?>
         <div class="col-lg-3 col-md-6">            
           <div class="card">
-            <div class="card-body border-gradient mb-2">
+            <div class="card-body border-gradient">
               <div class="row">
                 <div class="col-9">
                   <div class="d-flex align-items-center align-self-start">
