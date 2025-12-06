@@ -242,7 +242,15 @@
     margin-left: 10px;
   }
 </style>
+<style>
+  table.dataTable td.dtr-control {
+      padding-left: 35px !important; /* tambah jarak */
+  }
 
+  table.dataTable td.dtr-control::before {
+      left: 10px !important;  /* posisi ikon plus */
+  }
+</style>
 </head>
 <body>
 
@@ -774,6 +782,10 @@
             }
         ],
         columnDefs: [
+          {
+              targets: 0,        // kolom No
+              responsivePriority: 1 // paling penting, selalu tampil
+          },
           {
             targets: 3,
             render: function(data, type, row) {

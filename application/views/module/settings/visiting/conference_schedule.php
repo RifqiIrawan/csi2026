@@ -248,6 +248,15 @@
         letter-spacing: .5px;      /* opsional */
     }
 </style>
+<style>
+  table.dataTable td.dtr-control {
+      padding-left: 35px !important; /* tambah jarak */
+  }
+
+  table.dataTable td.dtr-control::before {
+      left: 10px !important;  /* posisi ikon plus */
+  }
+</style>
 </head>
 <body>
 

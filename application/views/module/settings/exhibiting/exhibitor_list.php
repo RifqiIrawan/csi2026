@@ -224,7 +224,15 @@ table.dataTable td:last-child {
 }
 
 </style>
+<style>
+  table.dataTable td.dtr-control {
+      padding-left: 35px !important; /* tambah jarak */
+  }
 
+  table.dataTable td.dtr-control::before {
+      left: 10px !important;  /* posisi ikon plus */
+  }
+</style>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
