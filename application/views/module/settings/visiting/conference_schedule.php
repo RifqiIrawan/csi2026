@@ -931,12 +931,6 @@
           }, 150);
       });
 
-      let activeTab = $('#formTabs a.active').attr('id');
-
-      if (activeTab === "tab-titleconferences") {
-          loadTitleConferences();
-      }
-
   });
 </script>
 <script>
@@ -1461,20 +1455,19 @@
 
         $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-            // Update URL (hash)
-            history.replaceState(null, null, e.target.getAttribute('href'));
+            const targetTab = $(e.target).attr("href"); // #titleconferences, #conference, dll
 
-            // Adjust DataTables after animation
-            setTimeout(function () {
+            // Update URL Hash
+            history.replaceState(null, null, targetTab);
+
+            // Fix Datatable kolom
+            setTimeout(() => {
                 $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
             }, 150);
 
-            // Detect tab ID
-            var target = $(e.target).attr("id");
-
-            // Call AJAX when tab Title Highlights activated
-            if (target === "tab-titlehighlights") {
-                loadTitleHighlights();
+            // Load Title Conference ketika tab dibuka
+            if (targetTab === "#titleconferences") {
+                loadTitleConferences();
             }
         });
         // =========================
@@ -1489,6 +1482,7 @@
   });
 </script>
 <script>
+  loadTitleHighlights();
   function loadTitleHighlights() {
     $.ajax({
         url: "<?= base_url('visiting/conference-title-highlight') ?>",
