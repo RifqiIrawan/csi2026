@@ -392,7 +392,7 @@ table.dataTable td:last-child {
                 <th>Email</th>
                 <th>Phone</th>
                 <th>Address</th>
-                <th>Website</th>
+                <th>Image</th>
                 <th>Actions</th>
               </tr>
             </thead>
