@@ -154,6 +154,9 @@ class Exhibiting extends CI_Controller {
             case "why-exhibit-section-add":
                 $this->why_exhibit_section_add();
                 break;
+            case "why-exhibit-section-delete":
+                $this->why_exhibit_section_delete($id);
+                break;
             /* Part Visa Information */
             case "why-exhibit-visa-datatable":
                 echo $this->M_Exhibiting->why_exhibit_visa_datatable();
@@ -548,10 +551,7 @@ class Exhibiting extends CI_Controller {
     
     public function banner_add_data(){
         
-        // Ambil input form
-        // print_r($_FILES);
-        // print_r($this->input->post());
-        // die();
+        // Not used
         /*
         Array
             (
@@ -1141,6 +1141,60 @@ class Exhibiting extends CI_Controller {
         redirect('exhibiting/why-exhibit-settings');
         
     }
+
+    public function why_exhibit_section_delete($id)
+    {
+
+        try {
+
+            $idsection = (int) $id;
+
+            if (empty($idsection)) {
+                throw new Exception("ID tidak ditemukan.");
+            }
+
+            // Cek apakah media ada
+            $media = $this->M_Exhibiting->get('csi_content_media', [
+                'content_id' => $idsection
+            ]);
+
+            if ($media->num_rows() > 0) {
+
+                $mediaRow = $media->row();
+                $file_path = '/' . $mediaRow->file_path;
+
+                // Hapus file gambar dari folder
+                if (file_exists($file_path)) {
+                    unlink($file_path);
+                }
+
+                // Hapus record media dari DB
+                $this->M_Exhibiting->delete('csi_content_media', ['content_id' => $idsection]);
+            }
+
+            // Hapus data utama (content)
+            $delete = $this->M_Exhibiting->delete('csi_contents', ['id' => $idsection]);
+
+            if (!$delete) {
+                throw new Exception("Gagal menghapus section.");
+            }
+
+            $response = [
+                'status'  => 'success',
+                'message' => 'Section berhasil dihapus.'
+            ];
+
+        } catch (Exception $e) {
+            $response = [
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+        return;
+    }
+
 
     public function why_exhibit_visa_get_data($id){
 
