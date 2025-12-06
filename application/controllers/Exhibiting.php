@@ -1062,12 +1062,13 @@ class Exhibiting extends CI_Controller {
                 $sectiondescription = $this->input->post('addsectiondescription');
                 $sectionStatus      = $this->input->post('addsectionStatus'); // active / inactive
 
-                $file_path = 'assets/uploads/why_exhibit/';
+                $file_path      = './assets/uploads/why_exhibit/';
+                $file_path_save = 'assets/uploads/why_exhibit/';
 
                 $image_path = null;
                 
                 if (!empty($_FILES['addsectionimage']['name'])) {
-                    $config['upload_path']   = FCPATH . $file_path;
+                    $config['upload_path']   = $file_path;
                     $config['allowed_types'] = 'jpg|jpeg|png|gif';
                     $config['max_size']      = 2048;
                     $config['encrypt_name']  = TRUE;
@@ -1080,7 +1081,7 @@ class Exhibiting extends CI_Controller {
                             unlink($uploadData['full_path']); // delete if oversized
                             $this->session->set_flashdata('error', 'File size exceeds the 2MB limit.');
                         }
-                        $image_path = $file_path . $uploadData['file_name'];
+                        $image_path = $file_path_save . $uploadData['file_name'];
                     }
                 }
                 /*
@@ -1115,7 +1116,7 @@ class Exhibiting extends CI_Controller {
                     $datasectionMedia = [
                         'content_id'      => $content_id,     // the related content ID
                         'media_type'      => 'image',     // e.g., 'image', 'video', etc.
-                        'file_path'       => $file_path . $image,      // path on server
+                        'file_path'       => $image_path,      // path on server
                         'sort_order'      => $sort_order,     // integer
                         'is_main'         => $is_main,        // 0 or 1
                         'created_date'    => $created_date,   // usually date('Y-m-d H:i:s')

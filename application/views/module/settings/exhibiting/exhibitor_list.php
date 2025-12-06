@@ -174,6 +174,55 @@
 .tab-content {
   border: 0px !important;
 }
+
+/* FIX DataTable header & row not aligned */
+table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+/* Hapus efek Bootstrap table-bordered */
+table.dataTable.table-bordered > thead > tr > th,
+table.dataTable.table-bordered > tbody > tr > td {
+    border-width: 1px !important;
+    border-color: #dee2e6 !important;
+    border-style: solid !important;
+}
+
+/* Samakan padding TH dan TD */
+/* table.dataTable thead th {
+    padding: 8px 10px !important;
+    background: #f8f9fa;
+    font-weight: 600;
+    vertical-align: middle !important;
+} */
+
+table.dataTable tbody td {
+    padding: 8px 10px !important;
+    vertical-align: middle !important;
+}
+
+/* Pastikan semua tetap table-cell */
+table.dataTable th,
+table.dataTable td {
+    display: table-cell !important;
+    box-sizing: border-box !important;
+    white-space: nowrap;
+}
+
+/* Hilangkan border-right extra */
+table.dataTable th:last-child,
+table.dataTable td:last-child {
+    border-right: 1px solid #dee2e6 !important;
+}
+
+#previewImage {
+    max-width: 100%;
+    width: auto;
+    max-height: 70vh; /* agar tidak lebih tinggi dari layar */
+    object-fit: contain;
+}
+
 </style>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
@@ -852,14 +901,38 @@
               { data: "contact_email" },
               { data: "contact_phone" },
               { data: "address" },
-              { data: "website_url" },
+              { data: "file_path" },
               { data: null, orderable: false, render: function(data,type,row){
                   return `
                   <button class="btn btn-sm btn-primary editExhibitor" data-id="${row.id}"><i class="bi bi-pencil-square"></i></button>
                   <button class="btn btn-sm btn-danger deleteExhibitor" data-id="${row.id}"><i class="bi bi-trash"></i></button>`;
               }}
           ],
-          columnDefs:[{ targets:3, render:function(data,type,row){ return type==='display'?'<span class="ellipsis" title="'+data+'">'+data+'</span>':data; }}]
+          columnDefs: [
+          {
+            targets: 3, // index kolom Subtitle (0 = No, 1 = Year, 2 = Title, 3 = Subtitle)
+            render: function(data, type, row) {
+              if (type === 'display') {
+                return '<span class="ellipsis" title="'+data+'">'+data+'</span>';
+              }
+              return data;
+            }
+          },
+          {
+            targets: 7, // Image column
+            render: function (data) {
+              if (!data) return "-";
+              const imageUrl = data.startsWith("http") ? data : base_url + data;
+              return `
+                <img src="${imageUrl}" 
+                    class="img-thumbnail preview-img" 
+                    alt="Thumbnail"
+                    style="max-height:60px; cursor:pointer; object-fit:cover;"
+                    data-full="${imageUrl}">
+              `;
+            }
+          }
+        ]
       });
 
       $addExhibitorBtn.on('click', function(){
@@ -1000,10 +1073,10 @@
     // =============================================
     // FIX DATATABLE BERANTAKAN SAAT PINDAH TAB
     // =============================================
-    $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
-        setTimeout(function(){
-            $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
-        }, 150);
-    });
+    // $('#formTabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function () {
+    //     setTimeout(function(){
+    //         $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    //     }, 150);
+    // });
   });
 </script>

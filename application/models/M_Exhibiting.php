@@ -589,6 +589,7 @@ class M_Exhibiting extends CI_Model{
             csi_contents.content_type,
             csi_contents.title,
             csi_contents.status,
+            csi_content_media.file_path,
             csi_content_company_profile.id as company_profile_id,
             csi_content_company_profile.company_name,
             csi_content_company_profile.stand_no,
@@ -601,6 +602,7 @@ class M_Exhibiting extends CI_Model{
         ');
         $this->db->from('csi_contents');
         $this->db->join('csi_content_company_profile', 'csi_contents.id = csi_content_company_profile.content_id', 'left');
+        $this->db->join('csi_content_media', 'csi_content_company_profile.content_media_id = csi_content_media.id', 'left');
         // where conditions
         $this->db->where('csi_contents.content_type', 'company-profile');
         $this->db->where('csi_contents.menu_id', 8);
@@ -660,7 +662,8 @@ class M_Exhibiting extends CI_Model{
                 "contact_email"      => $row->contact_email,
                 "contact_phone"      => $row->contact_phone,
                 "address"            => $row->address,
-                "website_url"        => $row->website_url
+                "website_url"        => $row->website_url,
+                "file_path"          => $row->file_path
 			);
 			array_push($obj , $data);
 			$i++;
