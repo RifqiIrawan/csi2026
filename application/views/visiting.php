@@ -488,6 +488,44 @@
     left: 0px;
 }
 
+.sf-horizontal-container {
+  width: 100%;
+}
+
+.sf-horizontal-wrapper {
+  display: flex;
+  gap: 20px;
+
+  overflow-x: auto;    /* scroll ke samping */
+  overflow-y: hidden;
+
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+.sf-horizontal-item {
+  min-width: 250px;    /* penting untuk horizontal scroll */
+  flex-shrink: 0;
+}
+
+.sf-horizontal-item img {
+  width: 250px;        /* ukuran aman, tidak besar */
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+/* Optional scrollbar */
+.sf-horizontal-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.sf-horizontal-wrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+
 
 </style>
 
@@ -586,26 +624,17 @@
       <div class="container">
         <h2 class="text-center mb-4">Show Features</h2>
 
-        <div class="scroll-container">
-          <!-- Left Button -->
-          <button class="scroll-btn left" onclick="scrollFeatures(-1)">
-            <i class="bi bi-chevron-left"></i>
-          </button>
-
-          <div class="scroll-wrapper" id="scrollWrapper">
+        <div class="sf-horizontal-container">
+          <div class="sf-horizontal-wrapper">
             <?php foreach ($show_features as $sf): ?>
-              <div class="show-feature-item text-center">
+              <div class="sf-horizontal-item text-center">
                 <img src="<?= $sf['image'] ?>" alt="<?= $sf['title'] ?>" class="img-fluid rounded shadow">
                 <h5 class="mt-3"><?= $sf['title'] ?></h5>
               </div>
             <?php endforeach; ?>
           </div>
-
-          <!-- Right Button -->
-          <button class="scroll-btn right" onclick="scrollFeatures(1)">
-            <i class="bi bi-chevron-right"></i>
-          </button>
         </div>
+
       </div>
     </section>
 
